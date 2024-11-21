@@ -10,10 +10,9 @@ const VideoPlayer = ({ src, id }) => {
   useEffect(() => {
     const fetchVideo = async () => {
       try {
-        const response = await axios.get(
-          `https://localhost:7124/api/video/data/${id}`
-        );
+        const response = await axios.get(`api/video/data/${id}`);
         setData(response.data);
+        console.log(response.data);
       } catch (err) {
         setError(err);
       } finally {
@@ -27,7 +26,7 @@ const VideoPlayer = ({ src, id }) => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const { title, thumbnailPath, created } = data;
+  const { title, thumbnailId, created, user } = data;
 
   return (
     <div>
@@ -38,9 +37,11 @@ const VideoPlayer = ({ src, id }) => {
         url={src}
         pip={true}
         stopOnUnmount={false}
-        light={`https://localhost:7124/api/video/thumbnail/${thumbnailPath}`}
+        light={`https://localhost:7124/api/video/thumbnail/${thumbnailId}`}
       />
       <p>Feltöltve: {created}</p>
+      <p>Felhasználó: {user.userName}</p>
+      <p>A felhasználó követőinek száma: {user.followers}</p>
     </div>
   );
 };

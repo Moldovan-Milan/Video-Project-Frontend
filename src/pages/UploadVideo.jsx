@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useMutation, QueryClient } from "react-query";
+import { jwtDecode } from "jwt-decode";
 
 const CHUNK_SIZE = 10 * 1024 * 1024; // 10 MB
 
@@ -8,6 +9,7 @@ const queryClient = new QueryClient();
 
 const UploadVideo = () => {
   const [file, setFile] = useState();
+  const [fileName, setFileName] = useState();
   const [image, setImage] = useState();
   const [isUploaded, setIsUploaded] = useState(false);
   const [uploading, setUploading] = useState(false); // Ez azért kell, hogy az uploading ne jelenjen meg az elején
@@ -15,35 +17,38 @@ const UploadVideo = () => {
   const titleRef = useRef();
 
   // Chunkokat küld a szerver felé
-  const uploadChunk = async ({ chunk, fileName, chunkNumber }) => {
+  const uploadChunk = async ({ chunk, fileName, chunkNumber, token }) => {
     const formData = new FormData();
     formData.append("chunk", chunk);
     formData.append("fileName", fileName);
     formData.append("chunkNumber", chunkNumber);
 
-    const response = await axios.post(
-      "https://localhost:7124/api/video/upload",
-      formData
-    );
+    const response = await axios.post("api/video/upload", formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   };
 
   // Ez fogja elküldeni azt, hogy a fájl készen áll az összeállításra
-  const assembleFile = async ({ fileName, totalChunks, image }) => {
+  const assembleFile = async ({
+    fileName,
+    totalChunks,
+    image,
+    userId,
+    token,
+    extension,
+  }) => {
     const formData = new FormData();
-    const extension = fileName
-      .substring(fileName.lastIndexOf("."))
-      .replace(".", "");
     formData.append("fileName", fileName);
     formData.append("extension", extension);
     formData.append("totalChunks", totalChunks);
     formData.append("image", image);
     formData.append("title", titleRef.current.value);
+    formData.append("userId", userId);
 
-    const response = await axios.post(
-      "https://localhost:7124/api/video/assemble",
-      formData
-    );
+    const response = await axios.post("api/video/assemble", formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   };
 
@@ -72,78 +77,99 @@ const UploadVideo = () => {
   const handleUpload = async () => {
     // Nem csinálunk semmit, ha nincs megadva minden
     if (!file || !image || !titleRef.current.value) return;
-
     setUploading(true);
     setIsUploaded(false);
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE); // Összesen mennyi 10 MB-os chunk lesz
-    const fileName = file.name;
-
+    setFileName(Date.now() + "-" + totalChunks); // User adatai
+    const token = localStorage.getItem("jwtToken");
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id;
+    const extension = file.name.split(".").pop(); // Helyesen meghatározza a fájl kiterjesztését
     for (let i = 0; i < totalChunks; i++) {
       // A feltöltendő chunkot kiveszi a fájlból
       const chunk = file.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
-      await uploadMutation.mutateAsync({ chunk, fileName, chunkNumber: i });
+      await uploadMutation.mutateAsync({
+        chunk,
+        fileName: fileName,
+        chunkNumber: i,
+        token: token,
+      });
       setUploadPercent(Math.round(((i + 1) / totalChunks) * 100));
     }
-
-    await assembleMutation.mutateAsync({ fileName, totalChunks, image });
+    await assembleMutation.mutateAsync({
+      fileName: fileName,
+      totalChunks,
+      image,
+      userId,
+      token,
+      extension: extension,
+    });
     setIsUploaded(true);
   };
-
-  return (
-    <div className="container mt-5">
-      <h1 className="text-center mb-4">Videó feltöltése</h1>
-      <div className="form-group">
-        <label htmlFor="video">Videó:</label>
-        <input
-          className="form-control"
-          name="video"
-          type="file"
-          onChange={handleFileChange}
-          accept="video/*"
-        />
+  if (localStorage.getItem("jwtToken") === null) {
+    return (
+      <div>
+        <h1>Nem vagy bejelentkezve!</h1>
+        <p>A feltöltéshez be kell jelentkezned.</p>
+        <a href="/login" className="btn btn-primary btn-block">
+          Bejelentkezés
+        </a>
       </div>
-      <div className="form-group">
-        <label htmlFor="thumbnail">Indexkép:</label>
-        <input
-          className="form-control"
-          name="thumbnail"
-          type="file"
-          onChange={handleImageChange}
-          accept=".png"
-        />
+    );
+  } else {
+    return (
+      <div className="container mt-5">
+        <h1 className="text-center mb-4">Videó feltöltése</h1>
+        <div className="form-group">
+          <label htmlFor="video">Videó:</label>
+          <input
+            className="form-control"
+            name="video"
+            type="file"
+            onChange={handleFileChange}
+            accept="video/*"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="thumbnail">Indexkép:</label>
+          <input
+            className="form-control"
+            name="thumbnail"
+            type="file"
+            onChange={handleImageChange}
+            accept=".png"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="title">Cím:</label>
+          <input
+            className="form-control"
+            name="title"
+            type="text"
+            ref={titleRef}
+          />
+        </div>
+        {!uploading && !isUploaded && (
+          <button onClick={handleUpload} className="btn btn-success btn-block">
+            Feltöltés
+          </button>
+        )}
+        {isUploaded && <h1 style={{ color: "green" }}>Videó feltöltve!</h1>}
+        {!isUploaded && uploading ? (
+          <button className="btn btn-primary" type="button" disabled>
+            <span
+              className="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Uploading {uploadPercent} %
+          </button>
+        ) : (
+          <div></div>
+        )}
       </div>
-      <div className="form-group">
-        <label htmlFor="title">Cím:</label>
-        <input
-          className="form-control"
-          name="title"
-          type="text"
-          ref={titleRef}
-        />
-      </div>
-      {!uploading && !isUploaded && (
-        <button onClick={handleUpload} className="btn btn-success btn-block">
-          Feltöltés
-        </button>
-      )}
-      {isUploaded && <h1 style={{ color: "green" }}>Videó feltöltve!</h1>}
-      {/* Spinner, a videó feltöltésének állapotát jelzi
-          Meg kell csinálni úgy, hogy csak akkor jelenjen meg
-          hogyha a feltöltés elindult */}
-      {!isUploaded && uploading ? (
-        <button class="btn btn-primary" type="button" disabled>
-          <span
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true"
-          ></span>
-          Uploading {uploadPercent} %
-        </button>
-      ) : (
-        <div></div>
-      )}
-    </div>
-  );
+    );
+  }
 };
 
 export default UploadVideo;
