@@ -40,7 +40,7 @@ const UploadVideo = () => {
   }) => {
     const formData = new FormData();
     formData.append("fileName", fileName);
-    formData.append("extension", extension);
+    formData.append("extension", extension); // A videó kiterjesztése
     formData.append("totalChunks", totalChunks);
     formData.append("image", image);
     formData.append("title", titleRef.current.value);
@@ -79,6 +79,7 @@ const UploadVideo = () => {
     if (!file || !image || !titleRef.current.value) return;
     setUploading(true);
     setIsUploaded(false);
+
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE); // Összesen mennyi 10 MB-os chunk lesz
     setFileName(Date.now() + "-" + totalChunks); // User adatai
     const token = localStorage.getItem("jwtToken");

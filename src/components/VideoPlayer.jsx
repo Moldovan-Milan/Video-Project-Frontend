@@ -1,48 +1,37 @@
-import React, { useEffect, useState } from "react";
-import ReactPlayer from "react-player/lazy";
-import axios from "axios";
+import React, { useRef, useEffect } from "react";
+import Hls from "hls.js";
 
-const VideoPlayer = ({ src, id }) => {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+const VideoPlayer = ({ src }) => {
+  const videoRef = useRef(null);
 
   useEffect(() => {
-    const fetchVideo = async () => {
-      try {
-        const response = await axios.get(`api/video/data/${id}`);
-        setData(response.data);
-        console.log(response.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(src);
+      hls.attachMedia(videoRef.current);
 
-    fetchVideo();
-  }, [id]);
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        console.error(`HLS error: ${data.details}`);
+      });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
-  const { title, thumbnailId, created, user } = data;
+      return () => {
+        hls.destroy();
+      };
+    } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
+      // Natív HLS támogatás (pl. Safari)
+      videoRef.current.src = src;
+    } else {
+      console.error("HLS nem támogatott ebben a böngészőben.");
+    }
+  }, [src]);
 
   return (
-    <div>
-      <h2>{title}</h2>
-      <ReactPlayer
-        style={{ width: "500px", height: "500px" }}
-        controls={true}
-        url={src}
-        pip={true}
-        stopOnUnmount={false}
-        light={`https://localhost:7124/api/video/thumbnail/${thumbnailId}`}
-      />
-      <p>Feltöltve: {created}</p>
-      <p>Felhasználó: {user.userName}</p>
-      <p>A felhasználó követőinek száma: {user.followers}</p>
-    </div>
+    <video
+      ref={videoRef}
+      //poster={`https://localhost:7124/api/video/thumbnail/${thumbnailId}`}
+      controls
+      style={{ width: "100%" }}
+    />
   );
 };
 
