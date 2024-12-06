@@ -1,0 +1,24 @@
+@media screen and (min-width:992px)
+{
+    .navbar .container-fluid, .navbar-expand-lg .navbar-collapse, .navbar-expand-lg .navbar-nav{
+        flex-direction: column;
+    }
+
+    .navbar{
+        width: 100%;
+        height: 100%;
+        align-items: flex-start;
+        color: white;
+    }
+
+    .navbar-brand{
+        margin-left: 0px;
+    }
+}
+
+img{
+    width:100px;
+    display: block;
+    margin: auto;
+}
+

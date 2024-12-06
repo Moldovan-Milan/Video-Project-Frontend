@@ -3,7 +3,8 @@ import "../components/VideoItem.scss";
 import { Link } from "react-router-dom";
 
 const VideoItem = ({ video }) => {
-  const { id, title, duration, thumbnailId } = video;
+  const { id, title, duration, created, thumbnailId } = video;
+
   return (
     <div className="col-md-4 border-animacio">
       <div className="video-item">
@@ -15,6 +16,9 @@ const VideoItem = ({ video }) => {
           ></img>
           <div className="video-length">{duration}</div>
           <h4>{title}</h4>
+          <div>
+            <p>Created: {created.split("T")[0]}</p>
+          </div>
         </Link>
       </div>
     </div>

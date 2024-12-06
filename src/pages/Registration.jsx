@@ -13,7 +13,7 @@ const Registration = () => {
     setAvatar(e.target.files[0]);
   };
 
-  const handleRegistration = (e) => {
+  const handleRegistration = async (e) => {
     e.preventDefault();
 
     // Megnézi, hogy minden mezőt kitöltött-e
@@ -32,32 +32,24 @@ const Registration = () => {
         setErrorMessage("A jelszó nem egyezik!");
         return;
       } else {
-        let succes = registrateUser();
-        if (succes) {
-          setErrorMessage("Sikeres regisztráció!");
-        } else {
-          setErrorMessage("Hiba a regisztráció során!");
+        try {
+          const formData = new FormData();
+          formData.append("username", userNameRef.current.value);
+          formData.append("email", emailRef.current.value);
+          formData.append("password", passwordRef.current.value);
+          formData.append("avatar", avatar);
+          const response = await axios.post("api/user/register", formData);
+          if (response.status === 200) {
+            setErrorMessage("Regisztráció sikeres");
+          } else {
+            setErrorMessage(response.data);
+            console.log(response.data);
+          }
+        } catch (err) {
+          console.error(err);
         }
       }
     }
-  };
-
-  const registrateUser = async () => {
-    let success = false;
-    try {
-      const formData = new FormData();
-      formData.append("username", userNameRef.current.value);
-      formData.append("email", emailRef.current.value);
-      formData.append("password", passwordRef.current.value);
-      formData.append("avatar", avatar);
-      const response = await axios.post("api/user/register", formData);
-      if (response.status === 200) {
-        success = true;
-      }
-    } catch (err) {
-      console.error(err);
-    }
-    return success;
   };
 
   return (
@@ -112,6 +104,8 @@ const Registration = () => {
             className="form-control-file"
             id="avatar"
           />
+          {/*TODO: Canvas*/}
+          {avatar && <img src={avatar} />}
         </div>
         <button type="submit" className="btn btn-primary">
           Regisztrálás
