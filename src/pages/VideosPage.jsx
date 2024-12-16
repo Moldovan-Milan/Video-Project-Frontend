@@ -20,9 +20,6 @@ const VideosPage = () => {
 
   return (
     <div className="row">
-      <Link className="text-center btn btn-primary" to="/video/upload">
-        Videó feltöltése
-      </Link>
       <h1 className="text-center">Videók</h1>
       {data.map((video, id) => (
         <VideoItem key={id} video={video} />

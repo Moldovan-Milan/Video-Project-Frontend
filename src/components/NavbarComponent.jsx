@@ -1,4 +1,5 @@
 import "../components/NavbarComponent.scss";
+import "../components/VideoItem.scss"
 import logo from "../assets/omega_stream_v1.png";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
@@ -35,11 +36,11 @@ export default function NavbarComponent() {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg bg-dark text-white">
+    <nav className="navbar navbar-expand-lg text-white">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <img src={logo} />
-          Navbar
+          Omega Stream
         </Link>
         <button
           className="navbar-toggler"
@@ -57,10 +58,10 @@ export default function NavbarComponent() {
             {!token && (
               <>
                 <li className="nav-item" id="login">
-                  <Link to="/Login">Log in</Link>
+                  <Link  className="nav-link" to="/Login">Log in</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/Register">
+                  <Link className="nav-link" to="/Registration">
                     Register
                   </Link>
                 </li>
@@ -72,12 +73,18 @@ export default function NavbarComponent() {
                   Kijelentkezés
                 </button>
                 <li className="nav-item">
-                  <Link to="/profile">Your Profile</Link>
+                  <Link to="/profile" className="nav-link">Your Profile</Link>
                 </li>
               </>
             )}
+            <Link to="/video/upload" id="upload-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus-circle" viewBox="0 0 17 17">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+            </svg>
+            </Link>
 
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
                 href="#"
@@ -107,7 +114,7 @@ export default function NavbarComponent() {
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

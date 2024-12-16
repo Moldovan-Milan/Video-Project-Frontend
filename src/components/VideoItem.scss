@@ -9,17 +9,25 @@
 
 /*a videó hosszát megjelenítő div*/
 .video-length{
+  // color: white;
+  // background-color: rgba($color: #000000, $alpha: 1.0);
+  // padding: 1px;
+  // font-size: 15px;
+  // border-bottom-left-radius: 10px;
+  // border-bottom-right-radius: 10px;
+  // text-align: right;
+  // padding-right: 5px;
+  // border-left: 1px solid lime;
+  // border-right: 1px solid lime;
+  // border-bottom: 1px solid lime;
+  position: absolute;
+  bottom: 90px;
+  right: 9px;
+  background-color: rgba(0,0,0,0.8);
   color: white;
-  background-color: rgba($color: #000000, $alpha: 1.0);
-  padding: 1px;
-  font-size: 15px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  text-align: right;
-  padding-right: 5px;
-  border-left: 1px solid lime;
-  border-right: 1px solid lime;
-  border-bottom: 1px solid lime;
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-size: 12px;
 }
 
 /*a videó címét megjelenítő h4*/ 
@@ -32,12 +40,9 @@ h4{
 .thumbnail{
     display: block;
     width: 100%;
-    height: auto;
+    height: 170px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    border-left: 1px solid lime;
-    border-right: 1px solid lime;
-    border-top: 1px solid lime;
     text-align: center;
   }
 
@@ -67,7 +72,7 @@ h4{
   position: absolute;
   height: 100%;
   width: 100%;
-  background-image: conic-gradient(from var(--angle), #4CFF00,#B200FF);
+  background-image: conic-gradient(from var(--angle), lime,#B200FF);
   top: 50%;
   left: 50%;
   translate: -50% -50%;
@@ -111,4 +116,56 @@ h4{
 }.border-animacio:hover::before{
   filter: blur(1.5rem);
   opacity: 0.5;
+}
+
+.video-card {
+  margin: 20px;
+}
+.video-thumbnail {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background-color: #000;
+}
+.video-thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.video-info {
+  display: flex;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 3px;
+}
+.video-avatar {
+  margin-right: 10px;
+}
+.video-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.video-details {
+  flex: 1;
+}
+.video-title, .video-title:visited {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-decoration: none;
+  color: lime;
+}
+.video-channel, .video-channel:visited {
+  font-size: 14px;
+  color: lime;
+  text-decoration: none;
+}
+.video-views, .video-views:visited {
+  font-size: 14px;
+  color: lime;
+  text-decoration: none;
 }

@@ -4,12 +4,14 @@ import { useMutation, QueryClient } from "react-query";
 import { jwtDecode } from "jwt-decode";
 
 const CHUNK_SIZE = 10 * 1024 * 1024; // 10 MB
+const MAX_VIDEO_SIZE = 256 * 1024 * 1024; // 256 MB
 
 const queryClient = new QueryClient();
 
 const UploadVideo = () => {
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState();
+  const [error, setError] = useState(null)
   const [image, setImage] = useState();
   const [isUploaded, setIsUploaded] = useState(false);
   const [uploading, setUploading] = useState(false); // Ez azért kell, hogy az uploading ne jelenjen meg az elején
@@ -77,6 +79,11 @@ const UploadVideo = () => {
   const handleUpload = async () => {
     // Nem csinálunk semmit, ha nincs megadva minden
     if (!file || !image || !titleRef.current.value) return;
+    if (file.size > MAX_VIDEO_SIZE) {
+      setError("Nem lehet nagyobb a videó mérete 256 MB-nál")
+      return;
+    }
+
     setUploading(true);
     setIsUploaded(false);
 
@@ -150,6 +157,7 @@ const UploadVideo = () => {
             ref={titleRef}
           />
         </div>
+        {error && <p className="alert alert-danger">{error}</p>}
         {!uploading && !isUploaded && (
           <button onClick={handleUpload} className="btn btn-success btn-block">
             Feltöltés

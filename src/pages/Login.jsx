@@ -1,4 +1,6 @@
 import axios from "axios";
+import "../pages/Login.scss";
+import "../components/VideoItem.scss";
 import React, { useRef, useState } from "react";
 
 const Login = () => {
@@ -34,6 +36,8 @@ const Login = () => {
   };
 
   return (
+    <div className="border-animacio loginMainDiv">
+    <div className="loginForm">
     <div className="container">
       <h2>Bejelentkezés</h2>
       <form onSubmit={handleSubmit}>
@@ -62,6 +66,8 @@ const Login = () => {
         </button>
         {errorMessage && <div className="text-danger">{errorMessage}</div>}
       </form>
+    </div>
+    </div>
     </div>
   );
 };

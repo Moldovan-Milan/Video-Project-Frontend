@@ -1,10 +1,13 @@
 import React from "react";
 import "../components/VideoItem.scss";
+import avatarkep from "../assets/defa_pfp.png";
 import { Link } from "react-router-dom";
 
-const VideoItem = ({ video }) => {
-  const { id, title, duration, created, thumbnailId } = video;
 
+const VideoItem = ({ video }) => {
+  const { id, title, duration, created, thumbnailId, user} = video;
+  console.log(user);
+  //console.log(user.userName);
   return (
     <div className="col-md-4 border-animacio">
       <div className="video-item">
@@ -15,9 +18,15 @@ const VideoItem = ({ video }) => {
             className="thumbnail"
           ></img>
           <div className="video-length">{duration}</div>
-          <h4>{title}</h4>
-          <div>
-            <p>Created: {created.split("T")[0]}</p>
+          <div className="video-info">
+            <div className="video-avatar">
+              <img src={avatarkep}></img>
+            </div>
+            <div className="video-details"> 
+            <div className="video-title">{title}</div>
+            <div className="video-channel">Csóka Csaba</div>
+            <div className="video-views">10 views ● Created: {created.split("T")[0]}</div>
+            </div>
           </div>
         </Link>
       </div>

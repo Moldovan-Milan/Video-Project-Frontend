@@ -31,7 +31,7 @@ function App() {
         style={{ marginLeft: "0px", padding: "0px", marginBottom: "0px" }}
       >
         <div className="row" style={{ width: "100%", paddingBottom: "0px" }}>
-          <div className="col-md-3">
+          <div className="col-md-3 navbar-fixed">
             <NavbarComponent />
           </div>
           <div className="col-md-9">
