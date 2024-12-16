@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import avatarimg from "../assets/defa_pfp.png";
+import ImageEditor from "../components/ImageEditor";
 
 const UserAccount = () => {
   //TODO: Legyen más a profil, ha vendégként nézzük, bejelentkezett felhasználóként nézzük, vagy a saját profilunkat nézzük
@@ -40,6 +42,7 @@ const UserAccount = () => {
   return (
     <>
       <h1>{username}</h1>
+      <ImageEditor img={avatarimg}></ImageEditor>
     </>
   );
 };
