@@ -1,0 +1,50 @@
+.container {
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .video-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .video-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .video-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .username {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .video-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .video-views,
+  .video-likes {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+  

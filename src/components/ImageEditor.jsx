@@ -1,11 +1,17 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { FaUndo, FaRedo, FaArrowsAltH, FaAdjust, FaFileImport } from 'react-icons/fa';
+import React, { useRef, useEffect, useState } from "react";
+import {
+  FaUndo,
+  FaRedo,
+  FaArrowsAltH,
+  FaAdjust,
+  FaFileImport,
+} from "react-icons/fa";
 
 const ImageEditor = ({ img }) => {
   const canvasRef = useRef(null);
   const [context, setContext] = useState(null);
   const [drawing, setDrawing] = useState(false);
-  const [color, setColor] = useState('#000000');
+  const [color, setColor] = useState("#000000");
   const [brushSize, setBrushSize] = useState(5);
   const [image, setImage] = useState(null);
   const [rotation, setRotation] = useState(0);
@@ -14,7 +20,7 @@ const ImageEditor = ({ img }) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     setContext(ctx);
     if (img) {
       const imgElement = new Image();
@@ -42,11 +48,16 @@ const ImageEditor = ({ img }) => {
   };
 
   const applyGrayscale = (ctx) => {
-    const imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+    const imageData = ctx.getImageData(
+      0,
+      0,
+      ctx.canvas.width,
+      ctx.canvas.height
+    );
     const data = imageData.data;
     for (let i = 0; i < data.length; i += 4) {
       const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-      data[i] = avg;     // Red
+      data[i] = avg; // Red
       data[i + 1] = avg; // Green
       data[i + 2] = avg; // Blue
     }
@@ -69,15 +80,15 @@ const ImageEditor = ({ img }) => {
     context.beginPath();
   };
 
-  const handleMouseLeave = () =>{
+  const handleMouseLeave = () => {
     setDrawing(false);
     context.beginPath();
-  }
+  };
 
   const draw = (e) => {
     if (!context) return;
     context.lineWidth = brushSize;
-    context.lineCap = 'round';
+    context.lineCap = "round";
     context.strokeStyle = color;
 
     context.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
@@ -118,12 +129,12 @@ const ImageEditor = ({ img }) => {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
-        style={{ border: '1px solid black' }}
+        style={{ border: "1px solid black" }}
       />
       <div>
         <input
           type="color"
-          value ={color}
+          value={color}
           onChange={(e) => setColor(e.target.value)}
         />
         <input
@@ -137,13 +148,13 @@ const ImageEditor = ({ img }) => {
           <FaUndo></FaUndo> Rotate Left
         </button>
         <button onClick={rotateRight}>
-            <FaRedo /> Rotate Right
+          <FaRedo /> Rotate Right
         </button>
         <button onClick={mirrorImage}>
-            <FaArrowsAltH /> Mirror
+          <FaArrowsAltH /> Mirror
         </button>
         <button onClick={toggleGrayscale}>
-            <FaAdjust /> Grayscale
+          <FaAdjust /> Grayscale
         </button>
       </div>
     </div>
