@@ -10,6 +10,7 @@ import axios from "axios";
 import NavbarComponent from "./components/NavbarComponent";
 import SearchBar from "./components/SearchBar";
 import UserAccount from "./pages/UserAccount";
+import "./output.css";
 
 axios.defaults.baseURL = "https://localhost:7124";
 function App() {
@@ -26,24 +27,19 @@ function App() {
         crossOrigin="anonymous"
       ></script>
       <SearchBar />
-      <div
-        className="container"
-        style={{ marginLeft: "0px", padding: "0px", marginBottom: "0px" }}
-      >
-        <div className="row" style={{ width: "100%", paddingBottom: "0px" }}>
-          <div className="col-md-3 navbar-fixed">
-            <NavbarComponent />
-          </div>
-          <div className="col-md-9">
-            <Routes>
-              <Route index path="/" Component={VideosPage} />
-              <Route path="/video/:id" Component={SingleVideo} />
-              <Route path="/video/upload" Component={UploadVideo} />
-              <Route path="/registration" Component={Registration} />
-              <Route path="/login" Component={Login} />
-              <Route path="/profile" Component={UserAccount} />
-            </Routes>
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12">
+        <div className="lg:col-span-2">
+          <NavbarComponent />
+        </div>
+        <div className="lg:col-span-10">
+          <Routes>
+            <Route index path="/" Component={VideosPage} />
+            <Route path="/video/:id" Component={SingleVideo} />
+            <Route path="/video/upload" Component={UploadVideo} />
+            <Route path="/registration" Component={Registration} />
+            <Route path="/login" Component={Login} />
+            <Route path="/profile" Component={UserAccount} />
+          </Routes>
         </div>
       </div>
     </BrowserRouter>

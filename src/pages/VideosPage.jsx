@@ -19,11 +19,21 @@ const VideosPage = () => {
   console.log(data);
 
   return (
-    <div className="row">
-      <h1 className="text-center">Videók</h1>
-      {data.map((video, id) => (
-        <VideoItem key={id} video={video} />
-      ))}
+    <div className="container mx-auto p-4">
+      <h1 className="text-center text-2xl font-bold mb-4">Videók</h1>
+      <div className="flex flex-wrap -mx-2">
+        {data.map((video, id) => (
+          <VideoItem key={id} video={video} />
+        ))}
+        {/* <VideoItem />
+        <VideoItem />
+        <VideoItem />
+        <VideoItem />
+        <VideoItem />
+        <VideoItem />
+        <VideoItem /> */}
+
+      </div>
     </div>
   );
 };

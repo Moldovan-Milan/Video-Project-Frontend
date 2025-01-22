@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 const UploadVideo = () => {
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState();
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
   const [image, setImage] = useState();
   const [isUploaded, setIsUploaded] = useState(false);
   const [uploading, setUploading] = useState(false); // Ez azért kell, hogy az uploading ne jelenjen meg az elején
@@ -80,7 +80,7 @@ const UploadVideo = () => {
     // Nem csinálunk semmit, ha nincs megadva minden
     if (!file || !image || !titleRef.current.value) return;
     if (file.size > MAX_VIDEO_SIZE) {
-      setError("Nem lehet nagyobb a videó mérete 256 MB-nál")
+      setError("Nem lehet nagyobb a videó mérete 256 MB-nál");
       return;
     }
 
@@ -91,7 +91,7 @@ const UploadVideo = () => {
     setFileName(Date.now() + "-" + totalChunks); // User adatai
     const token = localStorage.getItem("jwtToken");
     const decodedToken = jwtDecode(token);
-    const userId = decodedToken.id;
+    const userId = decodedToken.sub;
     const extension = file.name.split(".").pop(); // Helyesen meghatározza a fájl kiterjesztését
     for (let i = 0; i < totalChunks; i++) {
       // A feltöltendő chunkot kiveszi a fájlból
@@ -114,63 +114,104 @@ const UploadVideo = () => {
     });
     setIsUploaded(true);
   };
+
   if (localStorage.getItem("jwtToken") === null) {
     return (
-      <div>
-        <h1>Nem vagy bejelentkezve!</h1>
-        <p>A feltöltéshez be kell jelentkezned.</p>
-        <a href="/login" className="btn btn-primary btn-block">
+      <div className="container mx-auto p-4">
+        <h1 className="text-center text-2xl font-bold mb-4">
+          Nem vagy bejelentkezve!
+        </h1>
+        <p className="text-center mb-4">A feltöltéshez be kell jelentkezned.</p>
+        <a
+          href="/login"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 block text-center"
+        >
           Bejelentkezés
         </a>
       </div>
     );
   } else {
     return (
-      <div className="container mt-5">
-        <h1 className="text-center mb-4">Videó feltöltése</h1>
-        <div className="form-group">
-          <label htmlFor="video">Videó:</label>
+      <div className="container mx-auto p-4">
+        <h1 className="text-center text-2xl font-bold mb-4">
+          Videó feltöltése
+        </h1>
+        <div className="mb-4">
+          <label htmlFor="video" className="block text-white font-bold mb-2">
+            Videó:
+          </label>
           <input
-            className="form-control"
+            className="form-input w-full px-4 py-2 border rounded-md"
             name="video"
             type="file"
             onChange={handleFileChange}
             accept="video/*"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="thumbnail">Indexkép:</label>
+        <div className="mb-4">
+          <label
+            htmlFor="thumbnail"
+            className="block text-white font-bold mb-2"
+          >
+            Indexkép:
+          </label>
           <input
-            className="form-control"
+            className="form-input w-full px-4 py-2 border rounded-md"
             name="thumbnail"
             type="file"
             onChange={handleImageChange}
             accept=".png"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="title">Cím:</label>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-white font-bold mb-2">
+            Cím:
+          </label>
           <input
-            className="form-control"
+            className="form-input text-black w-full px-4 py-2 border rounded-md"
             name="title"
             type="text"
             ref={titleRef}
           />
         </div>
-        {error && <p className="alert alert-danger">{error}</p>}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         {!uploading && !isUploaded && (
-          <button onClick={handleUpload} className="btn btn-success btn-block">
+          <button
+            onClick={handleUpload}
+            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700"
+          >
             Feltöltés
           </button>
         )}
-        {isUploaded && <h1 style={{ color: "green" }}>Videó feltöltve!</h1>}
+        {isUploaded && (
+          <h1 className="text-green-500 text-center mt-4">Videó feltöltve!</h1>
+        )}
         {!isUploaded && uploading ? (
-          <button className="btn btn-primary" type="button" disabled>
-            <span
-              className="spinner-border spinner-border-sm"
-              role="status"
-              aria-hidden="true"
-            ></span>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center"
+            type="button"
+            disabled
+          >
+            <svg
+              className="animate-spin mr-2 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v8H4z"
+              ></path>
+            </svg>
             Uploading {uploadPercent} %
           </button>
         ) : (

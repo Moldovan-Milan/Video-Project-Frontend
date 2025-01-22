@@ -36,38 +36,36 @@ const Login = () => {
   };
 
   return (
-    <div className="border-animacio loginMainDiv">
-    <div className="loginForm">
-    <div className="container">
-      <h2>Bejelentkezés</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email-cím:</label>
-          <input
-            ref={emailRef}
-            type="email"
-            className="form-control"
-            id="email"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Jelszó:</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            required
-            ref={passwordRef}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Bejelentkezés
-        </button>
-        {errorMessage && <div className="text-danger">{errorMessage}</div>}
-      </form>
-    </div>
-    </div>
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="bg-green-600 p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Bejelentkezés</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-white font-bold mb-2">Email-cím:</label>
+            <input
+              ref={emailRef}
+              type="email"
+              className="text-black form-input w-full px-4 py-2 border rounded-md"
+              id="email"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-white font-bold mb-2">Jelszó:</label>
+            <input
+              type="password"
+              className="text-black form-input w-full px-4 py-2 border rounded-md"
+              id="password"
+              required
+              ref={passwordRef}
+            />
+          </div>
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full">
+            Bejelentkezés
+          </button>
+          {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
+        </form>
+      </div>
     </div>
   );
 };

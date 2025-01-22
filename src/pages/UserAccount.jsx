@@ -21,7 +21,7 @@ const UserAccount = () => {
     const fetchUser = async () => {
       const token = localStorage.getItem("jwtToken");
       if (token) {
-        const userId = jwtDecode(token).id;
+        const userId = jwtDecode(token).sub;
 
         try {
           const { data } = await axios.get(`/api/user/profile/${userId}`, {

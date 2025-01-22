@@ -1,8 +1,6 @@
-#root{
-  height: 100%;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body{
   color: white;
