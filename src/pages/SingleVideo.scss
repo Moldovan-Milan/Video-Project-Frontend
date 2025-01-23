@@ -11,6 +11,41 @@
     align-items: center;
     text-align: center;
   }
+
+  .likes{
+    display: flex;
+    align-items:center;
+    margin: 2px;
+    background-color: rgba(122,122,122,0.5);
+    padding: 4px;
+    border-radius: 10px;
+  }
+
+  .eye-icon{
+    color:white;
+    margin-right: 3px;
+  }
+
+  #like-button{
+    border-radius: 15px 0px 0px 15px;
+  }
+
+  #dislike-button{
+    border-radius: 0px 15px 15px 0px;
+  }
+
+  #like-button :hover{
+    color: rgb(26, 165, 26);
+
+  }
+
+  #dislike-button :hover{
+    color:red;
+  }
+
+  .symbol{
+    margin-right: 3px;
+  }
   
   .video-title {
     font-size: 24px;
@@ -46,5 +81,12 @@
   .video-likes {
     margin-top: 10px;
     font-size: 16px;
+    display: flex;
+  }
+
+  .video-views{
+    
+    display: flex;
+    align-items: center;
   }
   

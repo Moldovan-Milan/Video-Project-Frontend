@@ -10,8 +10,11 @@ const fetchVideos = async () => {
   return data;
 };
 
-const VideosPage = () => {
+const VideosPage = (search) => {
   const { data, error, isLoading } = useQuery(["videos"], fetchVideos);
+  if(search){
+    const [filteredVideos, setFilteredVideos] = useState([]);
+  }
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -21,7 +24,7 @@ const VideosPage = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-center text-2xl font-bold mb-4">Videók</h1>
-      <div className="flex flex-wrap -mx-2">
+      <div className="flex flex-wrap justify-center -mx-2">
         {data.map((video, id) => (
           <VideoItem key={id} video={video} />
         ))}

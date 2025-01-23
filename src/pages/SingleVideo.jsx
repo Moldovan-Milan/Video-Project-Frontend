@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import timeAgo from "../functions/timeAgo";
 import "./SingleVideo.scss";
+import { FaEye, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 
 const SingleVideo = () => {
   const { id } = useParams();
@@ -48,10 +49,17 @@ const SingleVideo = () => {
         </div>
         <div className="video-details">
           <div className="video-views">
-            10 views ● Created: {timeAgo(new Date(videoData.created))}
+            <FaEye className="eye-icon"/>10 views ● Created: {timeAgo(new Date(videoData.created))}
           </div>
           <div className="video-likes">
-            Likes: {videoData.likes} Dislikes: {videoData.dislikes}
+            <button className="likes" id="like-button">
+              <FaThumbsUp className="symbol"/>
+              {videoData.likes} 
+            </button>
+            <button className="likes" id="dislike-button">
+              <FaThumbsDown className="symbol"/>
+              {videoData.dislikes}
+            </button>
           </div>
         </div>
       </div>

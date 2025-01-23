@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { FaPlusCircle, FaSignInAlt, FaSignOutAlt, FaUserPlus } from "react-icons/fa";
 
 export default function NavbarComponent() {
   const [username, setUsername] = useState(null);
@@ -39,7 +40,7 @@ export default function NavbarComponent() {
 
   return (
     <nav className=" text-white h-full">
-      <div className="flex flex-col items-start p-4">
+      <div className="flex flex-col items-center p-4">
         <Link className="flex items-center mb-4" to="/">
           <img src={logo} className="h-8 w-8 mr-2" alt="Omega Stream Logo" />
           <span className="text-xl font-bold">Omega Stream</span>
@@ -68,12 +69,14 @@ export default function NavbarComponent() {
             {!token && (
               <>
                 <li className="nav-item mb-2" id="login">
-                  <Link className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/Login">
+                  <Link className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn" to="/Login">
+                    <FaSignInAlt className="symbol"/>
                     Log in
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
-                  <Link className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/Registration">
+                  <Link className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn" to="/Registration">
+                    <FaUserPlus className="symbol"/>
                     Register
                   </Link>
                 </li>
@@ -81,8 +84,9 @@ export default function NavbarComponent() {
             )}
             {token && (
               <>
-                <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2">
-                  Kijelentkezés
+                <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 navbar-btn">
+                  <FaSignOutAlt className="symbol"/>
+                  Log out
                 </button>
                 <li className="nav-item mb-2">
                   <Link to="/profile" className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
@@ -93,17 +97,7 @@ export default function NavbarComponent() {
             )}
             <li className="nav-item mb-2">
               <Link to="/video/upload" id="upload-button" className="text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="currentColor"
-                  className="bi bi-plus-circle"
-                  viewBox="0 0 17 17"
-                >
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                </svg>
+                <FaPlusCircle/>
               </Link>
             </li>
           </ul>

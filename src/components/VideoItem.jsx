@@ -2,6 +2,7 @@ import React from "react";
 import "../components/VideoItem.scss";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
+import { FaEye } from "react-icons/fa";
 
 const VideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
@@ -18,7 +19,7 @@ const VideoItem = ({ video }) => {
             className="w-full h-48 object-cover"
           ></img>
           {/* <div className="video-length">10</div> */}
-          <div className=" absolute bottom-2 right-2 bg-black text-white text-xs px-1 py-0.5 rounded">
+          <div className="bg-black text-white text-xs px-1 py-0.5 rounded video-duration">
             {duration}
           </div>
 
@@ -31,14 +32,14 @@ const VideoItem = ({ video }) => {
               ></img>
               <div className="text-sm">
                 {/* <div className="video-title">Teszt</div> */}
-                <div className="video-title font-bold text-gray-900">
+                <div className="video-title font-bold">
                   {title}
                 </div>
                 <div className="video-info text-gray-600">Csóka Csaba</div>
               </div>
             </div>
-            <div className="text-gray-600 text-xs">
-              10 views ● Created: {timeAgo(new Date(created))}
+            <div className="text-gray-600 text-xs views">
+              <FaEye className="eye-icon"/>10 views ● Created: {timeAgo(new Date(created))}
             </div>
           </div>
         </Link>
