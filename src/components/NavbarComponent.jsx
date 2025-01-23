@@ -41,7 +41,7 @@ export default function NavbarComponent() {
   return (
     <nav className=" text-white h-full">
       <div className="flex flex-col items-center p-4">
-        <Link className="flex items-center mb-4" to="/">
+        <Link className="flex items-center mb-4 main-logo" to="/">
           <img src={logo} className="h-8 w-8 mr-2" alt="Omega Stream Logo" />
           <span className="text-xl font-bold">Omega Stream</span>
         </Link>

@@ -36,7 +36,7 @@ const SingleVideo = () => {
 
   return (
     <div className="container">
-      <VideoPlayer src={`https://localhost:7124/api/video/${id}`} id={id} />
+      <VideoPlayer src={`https://localhost:7124/api/video/${id}`} id={id} className={"vplayer"}/>
       <div className="video-info">
         <div className="video-title">{videoData.title}</div>
         <div className="video-user">

@@ -22,21 +22,37 @@ const VideoItem = ({ video }) => {
           <div className="bg-black text-white text-xs px-1 py-0.5 rounded video-duration">
             {duration}
           </div>
-
-          <div className="p-4">
-            <div className="flex items-center mb-2">
-              <img
+          <div className="p-4 video-details">
+          <table className={"vid-info-table"}>
+            <tbody>
+          <tr>
+            <td rowSpan={2} className={"uploader-avt"}>
+            <img
                 src={`https://localhost:7124/api/User/avatar/${user.avatarId}`}
                 // src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
-                className="w-10 h-10 rounded-full mr-2"
+                className="w-10 h-10 rounded-full mr-2 "
               ></img>
-              <div className="text-sm">
+            </td>
+            <td>
+            <div className="video-title font-bold">
+              {title}
+            </div>
+            </td>
+          </tr>
+          <tr>
+            <td> <div className="text-sm">
                 {/* <div className="video-title">Teszt</div> */}
-                <div className="video-title font-bold">
-                  {title}
-                </div>
-                <div className="video-info text-gray-600">Csóka Csaba</div>
-              </div>
+                
+                <div className="video-info text-gray-600 uploader-name">Csóka Csaba</div>
+              </div></td>
+          </tr>
+          </tbody>
+        </table>
+          
+            
+            <div className="flex items-center mb-2">
+              
+             
             </div>
             <div className="text-gray-600 text-xs views">
               <FaEye className="eye-icon"/>10 views ● Created: {timeAgo(new Date(created))}
