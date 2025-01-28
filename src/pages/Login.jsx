@@ -43,13 +43,9 @@ const Login = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Bejelentkezés</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-<<<<<<< HEAD
             <label htmlFor="email" className="block text-white font-bold mb-2">
               Email-cím:
             </label>
-=======
-            <label htmlFor="email" className="block text-white font-bold mb-2">Email-cím:</label>
->>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
             <input
               ref={emailRef}
               type="email"
@@ -59,16 +55,12 @@ const Login = () => {
             />
           </div>
           <div className="mb-4">
-<<<<<<< HEAD
             <label
               htmlFor="password"
               className="block text-white font-bold mb-2"
             >
               Jelszó:
             </label>
-=======
-            <label htmlFor="password" className="block text-white font-bold mb-2">Jelszó:</label>
->>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
             <input
               type="password"
               className="text-black form-input w-full px-4 py-2 border rounded-md"
@@ -77,7 +69,6 @@ const Login = () => {
               ref={passwordRef}
             />
           </div>
-<<<<<<< HEAD
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full"
@@ -87,12 +78,6 @@ const Login = () => {
           {errorMessage && (
             <div className="text-red-500 mt-4">{errorMessage}</div>
           )}
-=======
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full">
-            Bejelentkezés
-          </button>
-          {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
->>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
         </form>
       </div>
     </div>

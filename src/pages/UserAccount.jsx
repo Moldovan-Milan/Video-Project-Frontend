@@ -39,10 +39,6 @@ const UserAccount = () => {
             followers: data.followers,
             created: formattedDate,
           });
-<<<<<<< HEAD
-=======
-          console.log(userData);
->>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
         } catch (error) {
           console.error("Error fetching user data:", error);
         }

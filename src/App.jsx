@@ -26,11 +26,7 @@ function App() {
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossOrigin="anonymous"
       ></script>
-<<<<<<< HEAD
-      <SearchBar/>
-=======
       <SearchBar />
->>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
       <div className="grid grid-cols-1 lg:grid-cols-12">
         <div className="lg:col-span-2">
           <NavbarComponent />
