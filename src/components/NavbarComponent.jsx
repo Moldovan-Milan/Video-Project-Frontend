@@ -1,14 +1,16 @@
 import "../components/NavbarComponent.scss";
-import "../components/VideoItem.scss"
+import "../components/VideoItem.scss";
 import logo from "../assets/omega_stream_v1.png";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { FaPlusCircle, FaSignInAlt, FaSignOutAlt, FaUserPlus } from "react-icons/fa";
 
 export default function NavbarComponent() {
   const [username, setUsername] = useState(null);
   const [token, setToken] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -22,10 +24,12 @@ export default function NavbarComponent() {
       localStorage.removeItem("jwtToken"); // Token törlése a localStorage-ból
       setToken(null);
       setUsername(null);
+      window.location.href = "/";
     } catch (error) {
       console.error("Logout failed", error);
     }
   };
+
   useEffect(() => {
     let token = localStorage.getItem("jwtToken");
     if (token) {
@@ -36,32 +40,44 @@ export default function NavbarComponent() {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg text-white">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          <img src={logo} />
-          Omega Stream
+    <nav className=" text-white h-full">
+      <div className="flex flex-col items-center p-4">
+        <Link className="flex items-center mb-4 main-logo" to="/">
+          <img src={logo} className="h-8 w-8 mr-2" alt="Omega Stream Logo" />
+          <span className="text-xl font-bold">Omega Stream</span>
         </Link>
         <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          className="lg:hidden px-2 py-1 border rounded text-gray-200 border-gray-200 hover:text-white hover:border-white"
+          onClick={() => setIsOpen(!isOpen)}
         >
-          <span className="navbar-toggler-icon"></span>
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        <div className={`lg:flex flex-col w-full ${isOpen ? "block" : "hidden"}`}>
+          <ul className="flex flex-col w-full">
             {!token && (
               <>
-                <li className="nav-item" id="login">
-                  <Link  className="nav-link" to="/Login">Log in</Link>
+                <li className="nav-item mb-2" id="login">
+                  <Link className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn" to="/Login">
+                    <FaSignInAlt className="symbol"/>
+                    Log in
+                  </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/Registration">
+                <li className="nav-item mb-2">
+                  <Link className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn" to="/Registration">
+                    <FaUserPlus className="symbol"/>
                     Register
                   </Link>
                 </li>
@@ -69,52 +85,22 @@ export default function NavbarComponent() {
             )}
             {token && (
               <>
-                <button onClick={handleLogout} className="btn btn-danger">
-                  Kijelentkezés
+                <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 navbar-btn">
+                  <FaSignOutAlt className="symbol"/>
+                  Log out
                 </button>
-                <li className="nav-item">
-                  <Link to="/profile" className="nav-link">Your Profile</Link>
+                <li className="nav-item mb-2">
+                  <Link to="/profile" className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    Your Profile
+                  </Link>
                 </li>
               </>
             )}
-            <Link to="/video/upload" id="upload-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus-circle" viewBox="0 0 17 17">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-            </svg>
-            </Link>
-
-            {/* <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li> */}
+            <li className="nav-item mb-2">
+              <Link to="/video/upload" id="upload-button" className="text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                <FaPlusCircle/>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

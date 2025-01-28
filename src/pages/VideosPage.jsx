@@ -6,24 +6,26 @@ import { Link } from "react-router-dom";
 
 const fetchVideos = async () => {
   const { data } = await axios.get("api/video");
-  console.log("Fetched videos:", data);
   return data;
 };
 
-const VideosPage = () => {
+const VideosPage = (search) => {
   const { data, error, isLoading } = useQuery(["videos"], fetchVideos);
+  if(search){
+    const [filteredVideos, setFilteredVideos] = useState([]);
+  }
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  console.log(data);
-
   return (
-    <div className="row">
-      <h1 className="text-center">Videók</h1>
-      {data.map((video, id) => (
-        <VideoItem key={id} video={video} />
-      ))}
+    <div className="container mx-auto p-4">
+      <h1 className="text-center text-2xl font-bold mb-4">Videók</h1>
+      <div className="flex flex-wrap justify-center -mx-2">
+        {data.map((video, id) => (
+          <VideoItem key={id} video={video} />
+        ))}
+      </div>
     </div>
   );
 };

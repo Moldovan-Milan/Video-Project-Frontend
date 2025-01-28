@@ -4,16 +4,27 @@
         flex-direction: column;
     }
 
+    .navbar-btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-logo :hover{
+        color: #B200FF;
+    }
+
     .navbar{
         width: 100%;
         height: 100%;
         display: flex;
         flex-direction: column;
-        color: white;
     }
     
     .nav-link{
         font-size: 15px;
+        display: flex;
+        justify-content: center;
     }
 
     .nav-link, .nav-link:visited{
@@ -59,7 +70,8 @@
         border-radius: 10px;
         width: 100px;
         text-align: center;
-        display: block;
+        display: flex;
+        justify-content: center;
         margin: auto;
         border: 1px solid black;
     }

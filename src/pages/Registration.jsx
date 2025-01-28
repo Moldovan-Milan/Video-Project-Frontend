@@ -53,65 +53,66 @@ const Registration = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Regisztráció</h2>
-      <form onSubmit={(e) => handleRegistration(e)}>
-        <div className="form-group">
-          <label htmlFor="username">Felhasználónév:</label>
-          <input
-            ref={userNameRef}
-            type="text"
-            className="form-control"
-            id="username"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">E-mail cím:</label>
-          <input
-            ref={emailRef}
-            type="email"
-            className="form-control"
-            id="email"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Jelszó:</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            required
-            ref={passwordRef}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Jelszó újra:</label>
-          <input
-            type="password"
-            className="form-control"
-            id="confirmPassword"
-            required
-            ref={confirmPasswordRef}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="avatar">Profilkép:</label>
-          <input
-            onChange={handleAvatarChange}
-            type="file"
-            className="form-control-file"
-            id="avatar"
-          />
-          {/*TODO: Canvas*/}
-          {avatar && <img src={avatar} />}
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Regisztrálás
-        </button>
-        {errorMessage && <div className="text-danger">{errorMessage}</div>}
-      </form>
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="bg-green-600 p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Regisztráció</h2>
+        <form onSubmit={(e) => handleRegistration(e)}>
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-white font-bold mb-2">Felhasználónév:</label>
+            <input
+              ref={userNameRef}
+              type="text"
+              className="text-black form-input w-full px-4 py-2 border rounded-md"
+              id="username"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-white font-bold mb-2">E-mail cím:</label>
+            <input
+              ref={emailRef}
+              type="email"
+              className="text-black form-input w-full px-4 py-2 border rounded-md"
+              id="email"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-white font-bold mb-2">Jelszó:</label>
+            <input
+              type="password"
+              className="text-black form-input w-full px-4 py-2 border rounded-md"
+              id="password"
+              required
+              ref={passwordRef}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="confirmPassword" className="block text-gray-white font-bold mb-2">Jelszó újra:</label>
+            <input
+              type="password"
+              className="text-black form-input w-full px-4 py-2 border rounded-md"
+              id="confirmPassword"
+              required
+              ref={confirmPasswordRef}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="avatar" className="block text-gray-white font-bold mb-2">Profilkép:</label>
+            <input
+              onChange={handleAvatarChange}
+              type="file"
+              className="text-black form-input w-full px-4 py-2 border rounded-md"
+              id="avatar"
+            />
+            {avatar && <img src={URL.createObjectURL(avatar)} alt="Avatar" className="mt-4 w-32 h-32 rounded-full object-cover" />}
+          </div>
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full">
+            Regisztrálás
+          </button>
+          {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
+        </form>
+      </div>
     </div>
   );
 };

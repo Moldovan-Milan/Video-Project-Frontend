@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState } from "react";
 import Hls from "hls.js";
 import axios from "axios";
 
-const VideoPlayer = ({ src, id}) => {
+const VideoPlayer = ({ src, id }) => {
   const videoRef = useRef(null);
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (Hls.isSupported()) {
@@ -27,28 +27,25 @@ const VideoPlayer = ({ src, id}) => {
     }
   }, [src]);
 
-  useEffect(() =>  {
-       // User adatainak lekérése
-       const fetchData = async () =>{
-        console.log(id)
-          const result = await (await axios.get(`api/video/data/${id}`))
-          const {user} = result.data
-          setUser(user)
-          console.log(user.avatarId)
-       }
-       fetchData();
-       
-  }, [src])
+  useEffect(() => {
+    // User adatainak lekérése
+    const fetchData = async () => {
+      const result = await await axios.get(`api/video/data/${id}`);
+      const { user } = result.data;
+      setUser(user);
+    };
+    fetchData();
+  }, [src]);
 
   return (
     <>
-    <video
-      ref={videoRef}
-      //poster={`https://localhost:7124/api/video/thumbnail/${thumbnailId}`}
-      controls
-      style={{ width: "100%" }}
-    />
-    {/* <img src={`https://localhost:7124/api/user/avatar/${user.avatarId}`} width="100" height="100"></img> */}
+      <video
+        ref={videoRef}
+        //poster={`https://localhost:7124/api/video/thumbnail/${thumbnailId}`}
+        controls
+        style={{ width: "100%" }}
+      />
+      {/* <img src={`https://localhost:7124/api/user/avatar/${user.avatarId}`} width="100" height="100"></img> */}
     </>
   );
 };
