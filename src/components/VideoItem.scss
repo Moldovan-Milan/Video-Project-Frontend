@@ -30,6 +30,21 @@
   font-size: 12px;
 }
 
+<<<<<<< HEAD
+=======
+
+.views{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*a videó címét megjelenítő h4*/ 
+h4{
+    font-size: 20px;
+    color: lime;
+  }
+>>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
 
 .views{
   display: flex;
@@ -171,6 +186,7 @@
   text-align: center;
 }
 
+<<<<<<< HEAD
 .thumbnail-div {
   display: flex;
   justify-content: flex-end;
@@ -194,3 +210,11 @@
 }
 
 
+=======
+.video-duration {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+
+>>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3

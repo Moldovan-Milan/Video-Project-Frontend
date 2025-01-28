@@ -25,6 +25,17 @@ const VideosPage = (search) => {
         {data.map((video, id) => (
           <VideoItem key={id} video={video} />
         ))}
+<<<<<<< HEAD
+=======
+        {/* <VideoItem />
+        <VideoItem />
+        <VideoItem />
+        <VideoItem />
+        <VideoItem />
+        <VideoItem />
+        <VideoItem /> */}
+
+>>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
       </div>
     </div>
   );

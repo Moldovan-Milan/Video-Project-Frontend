@@ -3,7 +3,10 @@ import VideoPlayer from "../components/VideoPlayer";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import timeAgo from "../functions/timeAgo";
+<<<<<<< HEAD
 import isTokenExpired from "../functions/isTokenExpired";
+=======
+>>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
 import "./SingleVideo.scss";
 import { FaEye, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 
@@ -18,6 +21,7 @@ const SingleVideo = () => {
     likes: 0,
     dislikes: 0,
   });
+<<<<<<< HEAD
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [likeValue, setLikeValue] = useState("none");
   const [token, setToken] = useState(null);
@@ -102,6 +106,28 @@ const SingleVideo = () => {
         id={id}
         className={"vplayer"}
       />
+=======
+
+  useEffect(() => {
+    const fetchVideo = async () => {
+      const { data } = await axios.get(`/api/video/data/${id}`);
+      setVideoData({
+        video: data,
+        user: data.user.userName,
+        userAvatar: `https://localhost:7124/api/User/avatar/${data.user.avatarId}`,
+        title: data.title,
+        created: data.created,
+        likes: data.likes,
+        dislikes: data.dislikes,
+      });
+    };
+    fetchVideo();
+  }, [id]);
+
+  return (
+    <div className="container">
+      <VideoPlayer src={`https://localhost:7124/api/video/${id}`} id={id} className={"vplayer"}/>
+>>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
       <div className="video-info">
         <div className="video-title">{videoData.title}</div>
         <div className="video-user">
@@ -114,6 +140,7 @@ const SingleVideo = () => {
         </div>
         <div className="video-details">
           <div className="video-views">
+<<<<<<< HEAD
             <FaEye className="eye-icon" />
             10 views ● Created: {timeAgo(new Date(videoData.created))}
           </div>
@@ -124,6 +151,17 @@ const SingleVideo = () => {
             </button>
             <button className="likes" id="dislike-button">
               <FaThumbsDown style={likeValue === "dislike" && {color: "red"}} onClick={handleDislikeClick} className="symbol" />
+=======
+            <FaEye className="eye-icon"/>10 views ● Created: {timeAgo(new Date(videoData.created))}
+          </div>
+          <div className="video-likes">
+            <button className="likes" id="like-button">
+              <FaThumbsUp className="symbol"/>
+              {videoData.likes} 
+            </button>
+            <button className="likes" id="dislike-button">
+              <FaThumbsDown className="symbol"/>
+>>>>>>> 17d53ae5269d819db41dd90c1cc1908aa8f121c3
               {videoData.dislikes}
             </button>
           </div>
