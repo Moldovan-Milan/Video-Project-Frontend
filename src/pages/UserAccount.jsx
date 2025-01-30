@@ -24,7 +24,7 @@ const UserAccount = () => {
         const userId = jwtDecode(token).sub;
 
         try {
-          const { data } = await axios.get(`/api/user/profile/${userId}`, {
+          const { data } = await axios.get(`/api/user/profile`, {
             headers: { Authorization: `Bearer ${token}` },
           });
 

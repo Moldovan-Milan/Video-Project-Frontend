@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useMutation, QueryClient } from "react-query";
-import { jwtDecode } from "jwt-decode";
 
 const CHUNK_SIZE = 10 * 1024 * 1024; // 10 MB
 const MAX_VIDEO_SIZE = 256 * 1024 * 1024; // 256 MB
@@ -36,7 +35,6 @@ const UploadVideo = () => {
     fileName,
     totalChunks,
     image,
-    userId,
     token,
     extension,
   }) => {
@@ -46,7 +44,6 @@ const UploadVideo = () => {
     formData.append("totalChunks", totalChunks);
     formData.append("image", image);
     formData.append("title", titleRef.current.value);
-    formData.append("userId", userId);
 
     const response = await axios.post("api/video/assemble", formData, {
       headers: { Authorization: `Bearer ${token}` },
@@ -90,8 +87,6 @@ const UploadVideo = () => {
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE); // Összesen mennyi 10 MB-os chunk lesz
     setFileName(Date.now() + "-" + totalChunks); // User adatai
     const token = localStorage.getItem("jwtToken");
-    const decodedToken = jwtDecode(token);
-    const userId = decodedToken.sub;
     const extension = file.name.split(".").pop(); // Helyesen meghatározza a fájl kiterjesztését
     for (let i = 0; i < totalChunks; i++) {
       // A feltöltendő chunkot kiveszi a fájlból
@@ -108,7 +103,6 @@ const UploadVideo = () => {
       fileName: fileName,
       totalChunks,
       image,
-      userId,
       token,
       extension: extension,
     });

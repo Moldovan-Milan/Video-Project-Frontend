@@ -49,8 +49,8 @@ const VideoItem = ({ video }) => {
                       <div className="text-sm">
                         {/* <div className="video-title">Teszt</div> */}
 
-                        <div className="video-info text-gray-600 uploader-name">
-                          Csóka Csaba
+                        <div className="video-info text-gray-600 text-2xl uploader-name">
+                          {user.userName}
                         </div>
                       </div>
                     </td>

@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react"
-import CommentItem from "./CommentItem"
+import { useEffect, useState } from "react";
+import CommentItem from "./CommentItem";
 
-export default function CommentSection({comments}){
-
-    return(
-        <div>
-          {/* TODO: comment beíró mező */}
-            <CommentItem comment={{
+export default function CommentSection({ comments }) {
+  return (
+    <div>
+      {/* TODO: comment beíró mező */}
+      {/* <CommentItem comment={{
         user:{
             name: "Teszt",
             avatar: "https://erdosprogram.hu/wp-content/uploads/2024/04/hegyhati.jpg"
@@ -33,8 +32,11 @@ export default function CommentSection({comments}){
         content: "Hinnye",
         created:"2025-01-03"
 
-    }} />
-            {/* {comments.map(comment => <CommentItem/>) } */}
-        </div>
-    )
+    }} /> */}
+      {comments &&
+        comments.map((comment, id) => (
+          <CommentItem key={id} comment={comment} />
+        ))}
+    </div>
+  );
 }
