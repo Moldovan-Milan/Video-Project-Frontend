@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Hls from "hls.js";
 import axios from "axios";
+import "../components/VideoPlayer.scss";
 
 const VideoPlayer = ({ src, id }) => {
   const videoRef = useRef(null);

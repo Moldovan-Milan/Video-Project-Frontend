@@ -9,7 +9,7 @@ const VideoItem = ({ video }) => {
 
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
-      <div className="shadow-md rounded-lg overflow-hidden border-2 border-animacio">
+      <div className="shadow-md rounded-lg overflow-hidden border-animacio">
         <div className="video-item">
           <Link to={`/video/${id}`}>
             <div

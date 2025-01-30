@@ -6,6 +6,7 @@ import timeAgo from "../functions/timeAgo";
 import isTokenExpired from "../functions/isTokenExpired";
 import "./SingleVideo.scss";
 import { FaEye, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
+import CommentSection from "../components/CommentSection";
 
 const SingleVideo = () => {
   const { id } = useParams();
@@ -17,6 +18,7 @@ const SingleVideo = () => {
     created: "",
     likes: 0,
     dislikes: 0,
+    comments: []
   });
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [likeValue, setLikeValue] = useState("none");
@@ -32,6 +34,7 @@ const SingleVideo = () => {
       created: data.created,
       likes: data.likes,
       dislikes: data.dislikes,
+      comments: data.comments
     });
   };
 
@@ -136,6 +139,9 @@ const SingleVideo = () => {
             </button>
           </div>
         </div>
+      </div>
+      <div>
+        <CommentSection comments={videoData.comments}></CommentSection>
       </div>
     </div>
   );
