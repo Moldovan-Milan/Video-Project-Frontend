@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import CommentItem from "./CommentItem";
+import CommentTextBox from "./CommentTextBox";
 
 export default function CommentSection({ comments }) {
   return (
     <div>
+      <CommentTextBox/>
       {/* TODO: comment beíró mező */}
       {/* <CommentItem comment={{
         user:{

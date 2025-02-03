@@ -1,0 +1,51 @@
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+.tb-comm {
+    width: 50%;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow-y: auto;
+    outline: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: black;
+    border-radius:30px;
+    border: 1px solid lime;
+    height: 46px;
+}
+
+.comm-tb-cont{
+    text-align: center;
+}
+
+table{
+    width: 100%;
+}
+
+.btn-send{
+    border: 1px solid lime;
+    width: 20px;
+}
+
+.btn-td{
+    width: 25px;
+}
+
+.td-comm-tb{
+width: 80%;
+}
+
+
+
+
+
