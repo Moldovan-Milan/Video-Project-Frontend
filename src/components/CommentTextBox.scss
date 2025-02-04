@@ -1,14 +1,10 @@
 .container {
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+
 }
 
 
 .tb-comm {
-    width: 50%;
+    width: 100%;
     padding: 10px;
     box-sizing: border-box;
     font-size: 16px;
@@ -22,23 +18,36 @@
     border-radius:30px;
     border: 1px solid lime;
     height: 46px;
+    margin-top: 8px;
 }
 
 .comm-tb-cont{
     text-align: center;
+    background-color: #B200FF;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: auto;
 }
 
-table{
-    width: 100%;
+.comment-table{
+    width: 80%;
+    margin: auto;
 }
 
 .btn-send{
     border: 1px solid lime;
-    width: 20px;
+    font-size: 150%;
+    float: left;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: black;
 }
 
 .btn-td{
-    width: 25px;
+    text-align: left;
 }
 
 .td-comm-tb{

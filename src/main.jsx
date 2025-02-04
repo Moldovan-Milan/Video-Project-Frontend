@@ -4,13 +4,14 @@ import App from "./App.jsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import ContextProvider from "./components/contexts/ContextProvider.jsx";
+import ThemeProvider from "./components/contexts/ThemeProvider.jsx";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <ContextProvider>
-      <App />
+        <App />
     </ContextProvider>
   </QueryClientProvider>
 );

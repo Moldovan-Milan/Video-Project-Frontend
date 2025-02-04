@@ -102,7 +102,15 @@ export default function NavbarComponent() {
               </Link>
             </li>
           </ul>
+          <div className="switch">
+            <input type="checkbox" className="switch__input" id="Switch"/>
+            <label className="switch__label" htmlFor="Switch">
+                <span className="switch__indicator"></span>
+                <span className="switch__decoration"></span>
+            </label>
+          </div>
         </div>
+        
       </div>
     </nav>
   );
