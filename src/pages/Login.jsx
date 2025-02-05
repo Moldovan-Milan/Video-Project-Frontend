@@ -9,6 +9,25 @@ const Login = () => {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [errorMessage, setErrorMessage] = useState("");
+  const user = useContext(UserContext);
+
+  const setUserData = async (token) => {
+    const { data } = await axios.post(
+      "/api/user/profile",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setUser({
+      userName: data.userName,
+      email: data.email,
+      avatarId: data.avatarId,
+      followers: 0,
+    });
+  };
 
   // Felhasználó bejelentkezésének kezelése
   const handleSubmit = async (e) => {
@@ -25,7 +44,8 @@ const Login = () => {
     if (response.status === 200) {
       console.log(response);
       // TODO: Save the JWT token for authenticated user
-      localStorage.setItem("jwtToken", response.data); // Ez fogja azonosítani a felhasználót
+      sessionStorage.setItem("jwtToken", response.data); // Ez fogja azonosítani a felhasználót
+      setUserData(response.data);
       // Vissza a főoldalra
       window.location.href = "/";
     } else {

@@ -86,7 +86,7 @@ const UploadVideo = () => {
 
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE); // Összesen mennyi 10 MB-os chunk lesz
     setFileName(Date.now() + "-" + totalChunks); // User adatai
-    const token = localStorage.getItem("jwtToken");
+    const token = sessionStorage.getItem("jwtToken");
     const extension = file.name.split(".").pop(); // Helyesen meghatározza a fájl kiterjesztését
     for (let i = 0; i < totalChunks; i++) {
       // A feltöltendő chunkot kiveszi a fájlból
@@ -109,7 +109,7 @@ const UploadVideo = () => {
     setIsUploaded(true);
   };
 
-  if (localStorage.getItem("jwtToken") === null) {
+  if (sessionStorage.getItem("jwtToken") === null) {
     return (
       <div className="container mx-auto p-4">
         <h1 className="text-center text-2xl font-bold mb-4">

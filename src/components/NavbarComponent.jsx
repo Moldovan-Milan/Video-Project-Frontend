@@ -5,12 +5,18 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { FaPlusCircle, FaSignInAlt, FaSignOutAlt, FaUserPlus } from "react-icons/fa";
+import {
+  FaPlusCircle,
+  FaSignInAlt,
+  FaSignOutAlt,
+  FaUserPlus,
+} from "react-icons/fa";
 
 export default function NavbarComponent() {
   const [username, setUsername] = useState(null);
   const [token, setToken] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [theme, setTheme] = useState("light");
 
   const handleLogout = async () => {
     try {
@@ -21,7 +27,7 @@ export default function NavbarComponent() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      localStorage.removeItem("jwtToken"); // Token törlése a localStorage-ból
+      sessionStorage.removeItem("jwtToken"); // Token törlése a localStorage-ból
       setToken(null);
       setUsername(null);
       window.location.href = "/";
@@ -30,8 +36,18 @@ export default function NavbarComponent() {
     }
   };
 
+  const handleThemeChange = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    localStorage.setItem("theme", newTheme);
+  };
+
   useEffect(() => {
-    let token = localStorage.getItem("jwtToken");
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    document.documentElement.classList.toggle("dark", savedTheme === "dark");
+    let token = sessionStorage.getItem("jwtToken");
     if (token) {
       const decodedToken = jwtDecode(token);
       setUsername(decodedToken.sub);
@@ -40,7 +56,7 @@ export default function NavbarComponent() {
   }, []);
 
   return (
-    <nav className=" text-white h-full">
+    <nav className="text-white h-full">
       <div className="flex flex-col items-center p-4">
         <Link className="flex items-center mb-4 main-logo" to="/">
           <img src={logo} className="h-8 w-8 mr-2" alt="Omega Stream Logo" />
@@ -65,19 +81,27 @@ export default function NavbarComponent() {
             ></path>
           </svg>
         </button>
-        <div className={`lg:flex flex-col w-full ${isOpen ? "block" : "hidden"}`}>
+        <div
+          className={`lg:flex flex-col w-full ${isOpen ? "block" : "hidden"}`}
+        >
           <ul className="flex flex-col w-full">
             {!token && (
               <>
                 <li className="nav-item mb-2" id="login">
-                  <Link className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn" to="/Login">
-                    <FaSignInAlt className="symbol"/>
+                  <Link
+                    className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn"
+                    to="/Login"
+                  >
+                    <FaSignInAlt className="symbol" />
                     Log in
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
-                  <Link className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn" to="/Registration">
-                    <FaUserPlus className="symbol"/>
+                  <Link
+                    className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn"
+                    to="/Registration"
+                  >
+                    <FaUserPlus className="symbol" />
                     Register
                   </Link>
                 </li>
@@ -85,32 +109,47 @@ export default function NavbarComponent() {
             )}
             {token && (
               <>
-                <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 navbar-btn">
-                  <FaSignOutAlt className="symbol"/>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 navbar-btn"
+                >
+                  <FaSignOutAlt className="symbol" />
                   Log out
                 </button>
                 <li className="nav-item mb-2">
-                  <Link to="/profile" className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  <Link
+                    to="/profile"
+                    className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
                     Your Profile
                   </Link>
                 </li>
               </>
             )}
             <li className="nav-item mb-2">
-              <Link to="/video/upload" id="upload-button" className="text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                <FaPlusCircle/>
+              <Link
+                to="/video/upload"
+                id="upload-button"
+                className="text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                <FaPlusCircle />
               </Link>
             </li>
           </ul>
           <div className="switch">
-            <input type="checkbox" className="switch__input" id="Switch"/>
+            <input
+              type="checkbox"
+              onChange={() => handleThemeChange()}
+              className="switch__input"
+              id="Switch"
+              checked={theme === "dark"}
+            />
             <label className="switch__label" htmlFor="Switch">
-                <span className="switch__indicator"></span>
-                <span className="switch__decoration"></span>
+              <span className="switch__decoration"></span>
+              <span className="switch__indicator"></span>
             </label>
           </div>
         </div>
-        
       </div>
     </nav>
   );

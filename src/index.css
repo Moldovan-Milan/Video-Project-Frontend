@@ -1,9 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@custom-variant dark (&:where(.dark, .dark *));
 
-body{
+body {
   color: white;
   background-color: black;
+}
+
+.dark body {
+  color: black;
+  background-color: white;
 }
 

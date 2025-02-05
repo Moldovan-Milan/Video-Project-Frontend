@@ -10,6 +10,7 @@ import CommentSection from "../components/CommentSection";
 
 const SingleVideo = () => {
   const { id } = useParams();
+  const [comments, setComments] = useState([]);
   const [videoData, setVideoData] = useState({
     video: null,
     user: null,
@@ -18,7 +19,6 @@ const SingleVideo = () => {
     created: "",
     likes: 0,
     dislikes: 0,
-    comments: []
   });
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [likeValue, setLikeValue] = useState("none");
@@ -34,13 +34,13 @@ const SingleVideo = () => {
       created: data.created,
       likes: data.likes,
       dislikes: data.dislikes,
-      comments: data.comments
     });
+    setComments(data.comments);
   };
 
   useEffect(() => {
     const checkToken = async () => {
-      const token = localStorage.getItem("jwtToken");
+      const token = sessionStorage.getItem("jwtToken");
       if (!token || isTokenExpired(token)) {
         return;
       }
@@ -89,12 +89,9 @@ const SingleVideo = () => {
     if (!value) return;
     const formData = new FormData();
     formData.append("value", value);
-    const { data } = await axios.post(
-      `/api/video/set-user-like/${id}`,
-      formData,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    console.log(data);
+    await axios.post(`/api/video/set-user-like/${id}`, formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     fetchVideo();
   };
 
@@ -141,7 +138,11 @@ const SingleVideo = () => {
         </div>
       </div>
       <div>
-        <CommentSection comments={videoData.comments}></CommentSection>
+        <CommentSection
+          comments={comments}
+          videoId={id}
+          setComments={setComments}
+        ></CommentSection>
       </div>
     </div>
   );
