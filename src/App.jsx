@@ -11,6 +11,7 @@ import NavbarComponent from "./components/NavbarComponent";
 import SearchBar from "./components/SearchBar";
 import UserAccount from "./pages/UserAccount";
 import "./output.css";
+import OtherUsersProfile from "./pages/OtherUsersProfile";
 
 axios.defaults.baseURL = "https://localhost:7124";
 function App() {
@@ -39,6 +40,7 @@ function App() {
             <Route path="/registration" Component={Registration} />
             <Route path="/login" Component={Login} />
             <Route path="/profile" Component={UserAccount} />
+            <Route path="/profile/:id" Component={OtherUsersProfile} />
           </Routes>
         </div>
       </div>

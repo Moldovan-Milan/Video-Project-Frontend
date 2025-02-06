@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import VideoPlayer from "../components/VideoPlayer";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import timeAgo from "../functions/timeAgo";
 import isTokenExpired from "../functions/isTokenExpired";
@@ -14,6 +14,7 @@ const SingleVideo = () => {
   const [videoData, setVideoData] = useState({
     video: null,
     user: null,
+    userId: null,
     userAvatar: null,
     title: "",
     created: "",
@@ -29,6 +30,7 @@ const SingleVideo = () => {
     setVideoData({
       video: data,
       user: data.user.userName,
+      userId: data.userId,
       userAvatar: `https://localhost:7124/api/User/avatar/${data.user.avatarId}`,
       title: data.title,
       created: data.created,
@@ -104,14 +106,16 @@ const SingleVideo = () => {
       />
       <div className="video-info">
         <div className="video-title">{videoData.title}</div>
-        <div className="video-user">
-          <img
-            src={videoData.userAvatar}
-            alt="User Avatar"
-            className="avatar"
-          />
-          <h5 className="username">{videoData.user}</h5>
-        </div>
+        <Link to={`/profile/${videoData.userId}`}>
+          <div className="video-user">
+            <img
+              src={videoData.userAvatar}
+              alt="User Avatar"
+              className="avatar"
+            />
+            <h5 className="username">{videoData.user}</h5>
+          </div>
+        </Link>
         <div className="video-details">
           <div className="video-views">
             <FaEye className="eye-icon" />
