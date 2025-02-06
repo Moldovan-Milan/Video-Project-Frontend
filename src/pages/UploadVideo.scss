@@ -1,0 +1,45 @@
+.uploadBtn{
+ background-color: black;
+ color: lime;
+ border: 1px solid #B200FF;
+ border-radius: 10px;
+ padding-left: 5px;
+ padding-right: 5px;
+ padding-top: 2px;
+ padding-bottom: 2px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.uploadBtn:hover{
+    background-color: lime;
+    color: black;
+    border: 2px solid white;
+    font-size: 20px;
+}
+
+.upload-icn{
+    margin-right: 7px;
+}
+
+.uploadLabel{
+    text-align: center;
+}
+
+.uplTitle{
+    color: lime;
+    font-size: 30px;
+}
+
+.inputTitle{
+    background-color: lime;
+    border: 1px solid white;
+    border-radius: 35px;
+}
+
+
+.sendVid{
+    display: block;
+    margin: auto;
+}

@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useMutation, QueryClient } from "react-query";
+import "./UploadVideo.scss"
+import { FaUpload } from "react-icons/fa";
 
 const CHUNK_SIZE = 10 * 1024 * 1024; // 10 MB
 const MAX_VIDEO_SIZE = 256 * 1024 * 1024; // 256 MB
@@ -127,42 +129,46 @@ const UploadVideo = () => {
   } else {
     return (
       <div className="container mx-auto p-4">
-        <h1 className="text-center text-2xl font-bold mb-4">
-          Videó feltöltése
+        <h1 className="text-center text-2xl font-bold mb-4 uplTitle">
+          Upload a video
         </h1>
         <div className="mb-4">
-          <label htmlFor="video" className="block text-white font-bold mb-2">
-            Videó:
+          <label htmlFor="video" className="block font-bold mb-2 uploadLabel">
+            Video
           </label>
           <input
             className="form-input w-full px-4 py-2 border rounded-md"
+            id="uploadVideo"
             name="video"
             type="file"
             onChange={handleFileChange}
             accept="video/*"
-          />
+          hidden/>
+          <label htmlFor="uploadVideo" className="uploadBtn"> <FaUpload className="upload-icn"></FaUpload>Choose a video</label>
         </div>
         <div className="mb-4">
           <label
             htmlFor="thumbnail"
-            className="block text-white font-bold mb-2"
+            className="block font-bold mb-2 uploadLabel"
           >
-            Indexkép:
+           Thumbnail
           </label>
           <input
             className="form-input w-full px-4 py-2 border rounded-md"
+            id="uploadThumbnail"
             name="thumbnail"
             type="file"
             onChange={handleImageChange}
             accept=".png"
-          />
+          hidden/>
+          <label htmlFor="uploadThumbnail" className="uploadBtn"> <FaUpload className="upload-icn"></FaUpload>Choose a thumbnail</label>
         </div>
         <div className="mb-4">
-          <label htmlFor="title" className="block text-white font-bold mb-2">
-            Cím:
+          <label htmlFor="title" className="block font-bold mb-2 uploadLabel">
+            Title
           </label>
           <input
-            className="form-input text-black w-full px-4 py-2 border rounded-md"
+            className="form-input text-black w-full px-4 py-2 inputTitle"
             name="title"
             type="text"
             ref={titleRef}
@@ -172,13 +178,13 @@ const UploadVideo = () => {
         {!uploading && !isUploaded && (
           <button
             onClick={handleUpload}
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700"
+            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 m-auto sendVid"
           >
-            Feltöltés
+            Upload
           </button>
         )}
         {isUploaded && (
-          <h1 className="text-green-500 text-center mt-4">Videó feltöltve!</h1>
+          <h1 className="text-green-500 text-center mt-4">Video succesfully uploaded!</h1>
         )}
         {!isUploaded && uploading ? (
           <button
