@@ -57,7 +57,6 @@ const VideoItem = ({ video }) => {
                   </tr>
                 </tbody>
               </table>
-              <div className="flex items-center mb-2"></div>
               <div className="text-xs views">
                 <FaEye className="eye-icon" />
                 10 views ● Created: {timeAgo(new Date(created))}
