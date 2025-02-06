@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
 
 body {
   color: white;

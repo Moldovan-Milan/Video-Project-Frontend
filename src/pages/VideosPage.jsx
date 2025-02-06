@@ -20,12 +20,9 @@ const VideosPage = (search) => {
   if (search) {
     const [filteredVideos, setFilteredVideos] = useState([]);
   }
-
-  //if (!data) return <div>Loading...</div>;
-
+  
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-center text-2xl font-bold mb-4">Videók</h1>
       <div className="flex flex-wrap justify-center -mx-2">
         {data && data.map((video, id) => <VideoItem key={id} video={video} />)}
       </div>

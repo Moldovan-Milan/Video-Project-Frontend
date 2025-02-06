@@ -41,6 +41,7 @@ const VideoPlayer = ({ src, id }) => {
   return (
     <>
       <video
+        autoPlay
         ref={videoRef}
         //poster={`https://localhost:7124/api/video/thumbnail/${thumbnailId}`}
         controls

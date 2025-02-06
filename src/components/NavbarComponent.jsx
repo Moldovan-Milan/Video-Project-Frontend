@@ -10,6 +10,7 @@ import {
   FaSignInAlt,
   FaSignOutAlt,
   FaUserPlus,
+  FaBars
 } from "react-icons/fa";
 
 export default function NavbarComponent() {
@@ -56,30 +57,18 @@ export default function NavbarComponent() {
   }, []);
 
   return (
-    <nav className="text-white h-full">
+    <nav className="h-full">
       <div className="flex flex-col items-center p-4">
         <Link className="flex items-center mb-4 main-logo" to="/">
           <img src={logo} className="h-8 w-8 mr-2" alt="Omega Stream Logo" />
           <span className="text-xl font-bold">Omega Stream</span>
         </Link>
         <button
-          className="lg:hidden px-2 py-1 border rounded text-gray-200 border-gray-200 hover:text-white hover:border-white"
+          className="lg:hidden px-2 py-1 border rounded"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            ></path>
-          </svg>
+          <FaBars/>
+          
         </button>
         <div
           className={`lg:flex flex-col w-full ${isOpen ? "block" : "hidden"}`}
@@ -89,7 +78,7 @@ export default function NavbarComponent() {
               <>
                 <li className="nav-item mb-2" id="login">
                   <Link
-                    className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn"
+                    className="nav-link px-3 py-2 rounded-md text-sm font-medium navbar-btn"
                     to="/Login"
                   >
                     <FaSignInAlt className="symbol" />
@@ -98,7 +87,7 @@ export default function NavbarComponent() {
                 </li>
                 <li className="nav-item mb-2">
                   <Link
-                    className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium navbar-btn"
+                    className="nav-link px-3 py-2 rounded-md text-sm font-medium navbar-btn"
                     to="/Registration"
                   >
                     <FaUserPlus className="symbol" />
@@ -119,7 +108,7 @@ export default function NavbarComponent() {
                 <li className="nav-item mb-2">
                   <Link
                     to="/profile"
-                    className="nav-link text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Your Profile
                   </Link>
@@ -130,13 +119,13 @@ export default function NavbarComponent() {
               <Link
                 to="/video/upload"
                 id="upload-button"
-                className="text-gray-200 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                className="px-3 py-2 rounded-md text-sm font-medium"
               >
                 <FaPlusCircle />
               </Link>
             </li>
-          </ul>
-          <div className="switch">
+            <li className="nav-item mb-2">
+            <div className="switch">
             <input
               type="checkbox"
               onChange={() => handleThemeChange()}
@@ -149,6 +138,9 @@ export default function NavbarComponent() {
               <span className="switch__indicator"></span>
             </label>
           </div>
+            </li>
+          </ul>
+          
         </div>
       </div>
     </nav>

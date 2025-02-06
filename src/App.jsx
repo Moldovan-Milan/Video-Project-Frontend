@@ -29,7 +29,7 @@ function App() {
       <SearchBar />
       <div className="grid grid-cols-1 lg:grid-cols-12">
         <div className="lg:col-span-2">
-          <NavbarComponent />
+          <NavbarComponent className="sticky" />
         </div>
         <div className="lg:col-span-10">
           <Routes>

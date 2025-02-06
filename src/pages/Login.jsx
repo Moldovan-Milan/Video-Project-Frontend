@@ -63,7 +63,7 @@ const Login = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Bejelentkezés</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-white font-bold mb-2">
+            <label htmlFor="email" className="block font-bold mb-2">
               Email-cím:
             </label>
             <input
@@ -77,7 +77,7 @@ const Login = () => {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-white font-bold mb-2"
+              className="block font-bold mb-2"
             >
               Jelszó:
             </label>

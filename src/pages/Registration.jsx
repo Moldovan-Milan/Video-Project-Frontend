@@ -58,7 +58,7 @@ const Registration = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Regisztráció</h2>
         <form onSubmit={(e) => handleRegistration(e)}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-white font-bold mb-2">Felhasználónév:</label>
+            <label htmlFor="username" className="block font-bold mb-2">Felhasználónév:</label>
             <input
               ref={userNameRef}
               type="text"
@@ -68,7 +68,7 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-white font-bold mb-2">E-mail cím:</label>
+            <label htmlFor="email" className="block font-bold mb-2">E-mail cím:</label>
             <input
               ref={emailRef}
               type="email"
@@ -78,7 +78,7 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-white font-bold mb-2">Jelszó:</label>
+            <label htmlFor="password" className="block font-bold mb-2">Jelszó:</label>
             <input
               type="password"
               className="text-black form-input w-full px-4 py-2 border rounded-md"

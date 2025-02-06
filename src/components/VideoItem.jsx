@@ -49,7 +49,7 @@ const VideoItem = ({ video }) => {
                       <div className="text-sm">
                         {/* <div className="video-title">Teszt</div> */}
 
-                        <div className="video-info text-gray-600 text-2xl uploader-name">
+                        <div className="video-info text-2xl uploader-name">
                           {user.userName}
                         </div>
                       </div>
@@ -58,7 +58,7 @@ const VideoItem = ({ video }) => {
                 </tbody>
               </table>
               <div className="flex items-center mb-2"></div>
-              <div className="text-gray-600 text-xs views">
+              <div className="text-xs views">
                 <FaEye className="eye-icon" />
                 10 views ● Created: {timeAgo(new Date(created))}
               </div>
