@@ -4,38 +4,18 @@ import logo from "../assets/omega_stream_v1.png";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import {
   FaPlusCircle,
   FaSignInAlt,
   FaSignOutAlt,
   FaUserPlus,
-  FaBars
+  FaBars,
 } from "react-icons/fa";
+import logOutUser from "../functions/logOutUser";
 
-export default function NavbarComponent() {
-  const [username, setUsername] = useState(null);
-  const [token, setToken] = useState(null);
+export default function NavbarComponent({ token, setToken }) {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState("light");
-
-  const handleLogout = async () => {
-    try {
-      await axios.post(
-        "api/user/logout",
-        {},
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      sessionStorage.removeItem("jwtToken"); // Token törlése a localStorage-ból
-      setToken(null);
-      setUsername(null);
-      window.location.href = "/";
-    } catch (error) {
-      console.error("Logout failed", error);
-    }
-  };
 
   const handleThemeChange = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -48,12 +28,6 @@ export default function NavbarComponent() {
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     document.documentElement.classList.toggle("dark", savedTheme === "dark");
-    let token = sessionStorage.getItem("jwtToken");
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      setUsername(decodedToken.sub);
-      setToken(token);
-    }
   }, []);
 
   return (
@@ -67,8 +41,7 @@ export default function NavbarComponent() {
           className="lg:hidden px-2 py-1 border rounded"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <FaBars/>
-          
+          <FaBars />
         </button>
         <div
           className={`lg:flex flex-col w-full ${isOpen ? "block" : "hidden"}`}
@@ -99,7 +72,7 @@ export default function NavbarComponent() {
             {token && (
               <>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => logOutUser(setToken)}
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 navbar-btn"
                 >
                   <FaSignOutAlt className="symbol" />
@@ -125,22 +98,21 @@ export default function NavbarComponent() {
               </Link>
             </li>
             <li className="nav-item mb-2">
-            <div className="switch">
-            <input
-              type="checkbox"
-              onChange={() => handleThemeChange()}
-              className="switch__input"
-              id="Switch"
-              checked={theme === "dark"}
-            />
-            <label className="switch__label" htmlFor="Switch">
-              <span className="switch__decoration"></span>
-              <span className="switch__indicator"></span>
-            </label>
-          </div>
+              <div className="switch">
+                <input
+                  type="checkbox"
+                  onChange={() => handleThemeChange()}
+                  className="switch__input"
+                  id="Switch"
+                  checked={theme === "dark"}
+                />
+                <label className="switch__label" htmlFor="Switch">
+                  <span className="switch__decoration"></span>
+                  <span className="switch__indicator"></span>
+                </label>
+              </div>
             </li>
           </ul>
-          
         </div>
       </div>
     </nav>

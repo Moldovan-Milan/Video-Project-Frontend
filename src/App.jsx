@@ -12,9 +12,23 @@ import SearchBar from "./components/SearchBar";
 import UserAccount from "./pages/UserAccount";
 import "./output.css";
 import OtherUsersProfile from "./pages/OtherUsersProfile";
+import { useEffect, useState } from "react";
+import tryLoginUser from "./functions/tryLoginUser";
 
 axios.defaults.baseURL = "https://localhost:7124";
 function App() {
+  // Ez fog lefutni az oldal első betöltésekor
+  const [token, setToken] = useState();
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await tryLoginUser();
+      setToken(token);
+    };
+
+    fetchToken();
+  }, []);
+
   return (
     <BrowserRouter>
       <script
@@ -30,7 +44,11 @@ function App() {
       <SearchBar />
       <div className="grid grid-cols-1 lg:grid-cols-12">
         <div className="lg:col-span-2">
-          <NavbarComponent className="sticky" />
+          <NavbarComponent
+            setToken={setToken}
+            token={token}
+            className="sticky"
+          />
         </div>
         <div className="lg:col-span-10">
           <Routes>
