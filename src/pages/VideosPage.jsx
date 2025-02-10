@@ -10,7 +10,6 @@ const VideosPage = (search) => {
   useEffect(() => {
     const fetchVideos = async () => {
       const { data } = await axios.get("api/video");
-      console.log(data);
       setData(data);
     };
 
@@ -20,7 +19,7 @@ const VideosPage = (search) => {
   if (search) {
     const [filteredVideos, setFilteredVideos] = useState([]);
   }
-  
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap justify-center -mx-2">

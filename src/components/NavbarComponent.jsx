@@ -2,7 +2,7 @@ import "../components/NavbarComponent.scss";
 import "../components/VideoItem.scss";
 import logo from "../assets/omega_stream_v1.png";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   FaPlusCircle,
@@ -12,10 +12,13 @@ import {
   FaBars,
 } from "react-icons/fa";
 import logOutUser from "../functions/logOutUser";
+import { UserContext } from "./contexts/UserProvider";
 
 export default function NavbarComponent({ token, setToken }) {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState("light");
+  const user = useContext(UserContext);
+  console.log(user);
 
   const handleThemeChange = () => {
     const newTheme = theme === "light" ? "dark" : "light";

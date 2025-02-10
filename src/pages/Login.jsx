@@ -3,6 +3,7 @@ import "../pages/Login.scss";
 import "../components/VideoItem.scss";
 import React, { useRef, useState, useContext } from "react";
 import { UserContext } from "../components/contexts/UserProvider";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   //const [user, setUser] = useContext(UserContext);
@@ -11,6 +12,7 @@ const Login = () => {
   const rememberMeRef = useRef();
   const [errorMessage, setErrorMessage] = useState("");
   const setUser = useContext(UserContext);
+  // const navigate = useNavigate();
 
   const setUserData = async (token) => {
     const { data } = await axios.post(
@@ -54,10 +56,9 @@ const Login = () => {
       sessionStorage.setItem("jwtToken", token);
       setUserData(token);
       // Vissza a főoldalra
-      window.location.href = "/";
+      window.location = "/";
     } else {
       setErrorMessage("Hibás felhasználónév vagy jelszó!");
-      console.log(response);
       // A form mezők kiürítése
       emailRef.current.value = "";
       passwordRef.current.value = "";
