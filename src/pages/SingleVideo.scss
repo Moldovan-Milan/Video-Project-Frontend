@@ -1,91 +1,103 @@
 .container {
-    padding: 20px;
-    margin: 0 auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .video-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+  padding: 20px;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-  .likes{
-    display: flex;
-    align-items:center;
-    margin: 2px;
-    background-color: rgba(122,122,122,0.5);
-    padding: 4px;
-    border-radius: 10px;
-  }
+.video-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
 
-  .eye-icon{
-    margin-right: 3px;
-  }
+.likes {
+  display: flex;
+  align-items: center;
+  margin: 2px;
+  background-color: rgba(122, 122, 122, 0.5);
+  padding: 4px;
+  border-radius: 10px;
+}
 
-  #like-button{
-    border-radius: 15px 0px 0px 15px;
-  }
+.lil-sub-btn {
+  background-color: lime;
+  color: black;
+  border-radius: 30px;
+  padding: 7px;
+  display: flex;
+  align-items: center;
+}
 
-  #dislike-button{
-    border-radius: 0px 15px 15px 0px;
-  }
+.lil-sub-btn:hover {
+  background-color: green;
+  color: white;
+}
 
-  #like-button :hover, .liked-button{
-    color: rgb(26, 165, 26);
+.eye-icon {
+  margin-right: 3px;
+}
 
-  }
+#like-button {
+  border-radius: 15px 0px 0px 15px;
+}
 
-  #dislike-button :hover, .disliked-button{
-    color:red;
-  }
+#dislike-button {
+  border-radius: 0px 15px 15px 0px;
+}
 
-  .symbol{
-    margin-right: 3px;
-  }
-  
-  .video-title {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .video-user {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .username {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .video-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .video-views,
-  .video-likes {
-    margin-top: 10px;
-    font-size: 16px;
-    display: flex;
-  }
+#like-button:hover, .liked-button {
+  color: rgb(26, 165, 26);
+}
 
-  .video-views{
-    
-    display: flex;
-    align-items: center;
-  }
+#dislike-button:hover, .disliked-button {
+  color: red;
+}
 
-  
+.symbol {
+  margin-right: 3px;
+}
+
+.video-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.video-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.username {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.video-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-views,
+.video-likes {
+  margin-top: 10px;
+  font-size: 16px;
+  display: flex;
+}
+
+.video-views {
+  display: flex;
+  align-items: center;
+}

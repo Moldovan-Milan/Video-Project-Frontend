@@ -47,17 +47,23 @@ const Login = () => {
     const response = await axios.post("api/user/login", formData);
 
     if (response.status === 200) {
-      console.log(response);
-      const { token, refreshToken } = response.data;
+      if (rememberMe) {
+        const { token, refreshToken } = response.data;
 
-      if (refreshToken) {
-        localStorage.setItem("refreshToken", refreshToken);
+        if (refreshToken) {
+          localStorage.setItem("refreshToken", refreshToken);
+        }
+        sessionStorage.setItem("jwtToken", token);
+        setUserData(token);
       }
-      sessionStorage.setItem("jwtToken", token);
-      setUserData(token);
-      // Vissza a főoldalra
+      else {
+        const token = response.data;
+        sessionStorage.setItem("jwtToken", token)
+        setUserData(token)
+      }
       window.location = "/";
-    } else {
+    }
+    else {
       setErrorMessage("Hibás felhasználónév vagy jelszó!");
       // A form mezők kiürítése
       emailRef.current.value = "";

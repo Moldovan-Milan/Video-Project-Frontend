@@ -5,7 +5,7 @@ import axios from "axios";
 import timeAgo from "../functions/timeAgo";
 import isTokenExpired from "../functions/isTokenExpired";
 import "./SingleVideo.scss";
-import { FaEye, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
+import { FaEye, FaThumbsDown, FaThumbsUp, FaUserPlus } from "react-icons/fa";
 import CommentSection from "../components/CommentSection";
 
 const SingleVideo = () => {
@@ -115,7 +115,12 @@ const SingleVideo = () => {
             />
             <h5 className="username">{videoData.user}</h5>
           </div>
-        </Link>
+          </Link>
+          <div>
+            <button className="lil-sub-btn m-2">
+              Subscribe <FaUserPlus className="m-1" />
+            </button>
+          </div>
         <div className="video-details">
           <div className="video-views">
             <FaEye className="eye-icon" />
@@ -124,7 +129,7 @@ const SingleVideo = () => {
           <div className="video-likes">
             <button className="likes" id="like-button">
               <FaThumbsUp
-                style={likeValue === "like" && { color: "rgb(26, 165, 26)" }}
+                style={likeValue === "like" ? { color: "rgb(26, 165, 26)" } : {}}
                 onClick={handleLikeClick}
                 className="symbol"
               />
@@ -132,7 +137,7 @@ const SingleVideo = () => {
             </button>
             <button className="likes" id="dislike-button">
               <FaThumbsDown
-                style={likeValue === "dislike" && { color: "red" }}
+                style={likeValue === "dislike" ? { color: "red" } : {}}
                 onClick={handleDislikeClick}
                 className="symbol"
               />
@@ -146,7 +151,7 @@ const SingleVideo = () => {
           comments={comments}
           videoId={id}
           setComments={setComments}
-        ></CommentSection>
+        />
       </div>
     </div>
   );

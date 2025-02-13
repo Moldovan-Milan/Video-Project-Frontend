@@ -1,0 +1,37 @@
+.avatar-picture{
+    border-radius: 100%;
+    width: 130px;
+    height: 130px;
+}
+
+.user-properties-table{
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.user-username{
+    font-size: 76px;
+    font-weight: bold;
+    color: lime;
+}
+
+.send-message-btn{
+    text-align: center;
+    background-color: #B200FF;
+}
+
+.send-message-btn:hover{
+    background-color: #7b00b0;
+}
+
+.subscribe-btn{
+    text-align: center;
+    background-color: lime;
+    color: black;
+}
+
+.subscribe-btn:hover{
+    background-color: green;
+    color:white;
+}

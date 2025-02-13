@@ -21,14 +21,14 @@
     background-color: #B200FF;
     width: 80%;
     max-width: 600px;
-    padding: 20px;
+    padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 35px;
     margin: auto;
 }
 
 .comment-table{
-    width: 80%;
+    width: 100%;
     margin: auto;
 }
 
@@ -36,8 +36,9 @@
     border: 1px solid lime;
     font-size: 150%;
     float: left;
-    padding: 5px;
-    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 30px;
     background-color: black;
 }
 
@@ -47,13 +48,27 @@
 
 .btn-td{
     text-align: left;
+    width: 10%;
 }
 
 .td-comm-tb{
-width: 80%;
+    width: 75%;
 }
 
+.comment-write-avatar{
+    height: 60px;
+    width: 60px;
+    border-radius: 100%;
+    border: 3px solid rgba(0, 0, 0, 0.3);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
+.avatar-td{
+    width: 15%;
+    
+}
 
 
 

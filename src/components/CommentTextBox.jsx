@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import "./CommentTextBox.scss";
 import { UserContext } from "./contexts/UserProvider";
 import axios from "axios";
+import dummy from "../assets/defa_pfp.png";
 
 const CommentTextBox = ({ videoid, setComments }) => {
   const textAreaRef = useRef();
@@ -51,6 +52,9 @@ const CommentTextBox = ({ videoid, setComments }) => {
       <table className="comment-table">
         <tbody>
           <tr>
+            <td className="avatar-td">
+              <img src={dummy} className="comment-write-avatar"/>
+            </td>
             <td className="td-comm-tb">
               <textarea
                 ref={textAreaRef}
