@@ -16,6 +16,7 @@ import { useContext, useEffect, useState } from "react";
 import tryLoginUser from "./functions/tryLoginUser";
 import ContextProvider from "./components/contexts/ContextProvider";
 import { UserContext } from "./components/contexts/UserProvider";
+import AppRoutes from "./AppRoutes";
 
 axios.defaults.baseURL = "https://localhost:7124";
 function App() {
@@ -35,7 +36,7 @@ function App() {
   return (
     <ContextProvider>
       <BrowserRouter>
-        <script
+        {/* <script
           src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
           integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
           crossOrigin="anonymous"
@@ -44,7 +45,7 @@ function App() {
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
           integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
           crossOrigin="anonymous"
-        ></script>
+        ></script> */}
         <SearchBar />
         <div className="grid grid-cols-1 lg:grid-cols-12">
           <div className="lg:col-span-2">
@@ -55,15 +56,7 @@ function App() {
             />
           </div>
           <div className="lg:col-span-10">
-            <Routes>
-              <Route index path="/" Component={VideosPage} />
-              <Route path="/video/:id" Component={SingleVideo} />
-              <Route path="/video/upload" Component={UploadVideo} />
-              <Route path="/registration" Component={Registration} />
-              <Route path="/login" Component={Login} />
-              <Route path="/profile" Component={UserAccount} />
-              <Route path="/profile/:id" Component={OtherUsersProfile} />
-            </Routes>
+            <AppRoutes />
           </div>
         </div>
       </BrowserRouter>

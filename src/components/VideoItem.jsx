@@ -20,14 +20,6 @@ const VideoItem = ({ video }) => {
             >
               <div className="video-duration">{duration}</div>
             </div>
-            {/* <img
-            src={"https://localhost:7124/api/Video/thumbnail/${thumbnailId}"}
-            //src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
-            alt={id}
-            className="w-full h-48 object-cover"
-          ></img> */}
-            {/* <div className="video-length">10</div> */}
-
             <div className="p-4 video-details">
               <table className={"vid-info-table"}>
                 <tbody>
@@ -35,7 +27,6 @@ const VideoItem = ({ video }) => {
                     <td rowSpan={2} className={"uploader-avt"}>
                       <img
                         src={`https://localhost:7124/api/User/avatar/${user.avatarId}`}
-                        // src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
                         className="w-10 h-10 rounded-full mr-2 "
                       ></img>
                     </td>
@@ -45,10 +36,7 @@ const VideoItem = ({ video }) => {
                   </tr>
                   <tr>
                     <td>
-                      {" "}
                       <div className="text-sm">
-                        {/* <div className="video-title">Teszt</div> */}
-
                         <div className="video-info text-2xl uploader-name">
                           {user.userName}
                         </div>
