@@ -8,7 +8,7 @@ const VideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
 
   return (
-    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" title={title}>
       <div className="shadow-md rounded-lg overflow-hidden border-animacio">
         <div className="video-item">
           <Link to={`/video/${id}`}>
@@ -31,7 +31,8 @@ const VideoItem = ({ video }) => {
                       ></img>
                     </td>
                     <td>
-                      <div className="video-title font-bold">{title}</div>
+                      
+                      <div className="video-title font-bold">{title.length > 11 ? title.substring(0, 11) + "..." : title}</div>
                     </td>
                   </tr>
                   <tr>

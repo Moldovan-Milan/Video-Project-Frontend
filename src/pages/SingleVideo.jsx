@@ -146,6 +146,7 @@ const SingleVideo = () => {
           </div>
         </div>
       </div>
+
       <div>
         <CommentSection
           comments={comments}

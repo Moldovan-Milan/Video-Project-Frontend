@@ -1,5 +1,6 @@
 import { FaEye, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 import "./CommentItem.scss";
+import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 export default function CommentItem({ comment }) {
   console.log(comment);
@@ -8,14 +9,18 @@ export default function CommentItem({ comment }) {
       <tbody>
         <tr className="comment-row">
           <td rowSpan={3} className="comment-col avatar-col">
-            <img
-              src={`https://localhost:7124/api/user/avatar/${comment.user.avatarId}`}
-              className="comment-avatar"
-            ></img>
+            <Link to={`/profile/${comment.user.id}`}>
+              <img
+                src={`https://localhost:7124/api/user/avatar/${comment.user.avatarId}`}
+                className="comment-avatar"
+              ></img>
+            </Link>
           </td>
           <td className="comment-col">
             <span>
-              <span className="commenter-name">{comment.user.userName}</span> -{" "}
+              <Link to={`/profile/${comment.user.id}`}>
+                <span className="commenter-name">{comment.user.userName}</span> -{" "}
+              </Link>
               {timeAgo(new Date(comment.created))}
             </span>
           </td>
