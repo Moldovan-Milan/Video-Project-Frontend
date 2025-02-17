@@ -3,15 +3,14 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-import ContextProvider from "./components/contexts/ContextProvider.jsx";
-import ThemeProvider from "./components/contexts/ThemeProvider.jsx";
+import { UserProvider } from "./components/contexts/UserProvider.jsx";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
-    <ContextProvider>
-        <App />
-    </ContextProvider>
+    <UserProvider>
+      <App />
+    </UserProvider>
   </QueryClientProvider>
 );

@@ -11,20 +11,17 @@ const Login = () => {
   const passwordRef = useRef("");
   const rememberMeRef = useRef();
   const [errorMessage, setErrorMessage] = useState("");
-  const setUser = useContext(UserContext);
-  // const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const setUserData = async (token) => {
-    const { data } = await axios.post(
-      "/api/user/profile",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const { data } = await axios.get("/api/user/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setUser({
+      id: data.id,
       userName: data.userName,
       email: data.email,
       avatarId: data.avatarId,
@@ -55,15 +52,15 @@ const Login = () => {
         }
         sessionStorage.setItem("jwtToken", token);
         setUserData(token);
-      }
-      else {
+      } else {
         const token = response.data;
-        sessionStorage.setItem("jwtToken", token)
-        setUserData(token)
+        sessionStorage.setItem("jwtToken", token);
+        await setUserData(sessionStorage.getItem("jwtToken"));
       }
+      console.log(user);
+      //navigate("/");
       window.location = "/";
-    }
-    else {
+    } else {
       setErrorMessage("Hibás felhasználónév vagy jelszó!");
       // A form mezők kiürítése
       emailRef.current.value = "";

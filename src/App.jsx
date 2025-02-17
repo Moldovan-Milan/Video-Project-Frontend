@@ -1,28 +1,20 @@
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import VideosPage from "./pages/VideosPage";
-import SingleVideo from "./pages/SingleVideo";
-import UploadVideo from "./pages/UploadVideo";
-import Registration from "./pages/Registration";
-import Login from "./pages/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import NavbarComponent from "./components/NavbarComponent";
 import SearchBar from "./components/SearchBar";
-import UserAccount from "./pages/UserAccount";
 import "./output.css";
-import OtherUsersProfile from "./pages/OtherUsersProfile";
 import { useContext, useEffect, useState } from "react";
 import tryLoginUser from "./functions/tryLoginUser";
-import ContextProvider from "./components/contexts/ContextProvider";
-import { UserContext } from "./components/contexts/UserProvider";
+import { UserContext, UserProvider } from "./components/contexts/UserProvider";
 import AppRoutes from "./AppRoutes";
+import { WebSocketProvider } from "./components/contexts/WebSocketProvider";
 
 axios.defaults.baseURL = "https://localhost:7124";
 function App() {
   // Ez fog lefutni az oldal első betöltésekor
   const [token, setToken] = useState();
-  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -34,7 +26,7 @@ function App() {
   }, []);
 
   return (
-    <ContextProvider>
+    <WebSocketProvider>
       <BrowserRouter>
         {/* <script
           src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -60,7 +52,7 @@ function App() {
           </div>
         </div>
       </BrowserRouter>
-    </ContextProvider>
+    </WebSocketProvider>
   );
 }
 

@@ -7,6 +7,8 @@ import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import UserAccount from "./pages/UserAccount";
 import OtherUsersProfile from "./pages/OtherUsersProfile";
+import ChatPage from "./pages/ChatPage";
+import MessagePage from "./pages/MessagePage";
 
 const AppRoutes = () => {
   return (
@@ -18,6 +20,8 @@ const AppRoutes = () => {
       <Route path="/login" Component={Login} />
       <Route path="/profile" Component={UserAccount} />
       <Route path="/profile/:id" Component={OtherUsersProfile} />
+      <Route path="/chats" Component={ChatPage} />
+      <Route path="/chat/:id" Component={MessagePage} />
     </Routes>
   );
 };

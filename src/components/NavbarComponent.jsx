@@ -17,8 +17,7 @@ import { UserContext } from "./contexts/UserProvider";
 export default function NavbarComponent({ token, setToken }) {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState("light");
-  const user = useContext(UserContext);
-  console.log(user);
+  const { user, setUser } = useContext(UserContext);
 
   const handleThemeChange = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -87,6 +86,14 @@ export default function NavbarComponent({ token, setToken }) {
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Your Profile
+                  </Link>
+                </li>
+                <li className="nav-item mb-2">
+                  <Link
+                    to="/chats"
+                    className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Chats
                   </Link>
                 </li>
               </>
