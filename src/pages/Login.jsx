@@ -1,12 +1,12 @@
 import axios from "axios";
 import "../pages/Login.scss";
 import "../components/VideoItem.scss";
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
+import { useWebSocket } from "../components/contexts/WebSocketProvider";
 
 const Login = () => {
-  //const [user, setUser] = useContext(UserContext);
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const rememberMeRef = useRef();
@@ -14,20 +14,7 @@ const Login = () => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const setUserData = async (token) => {
-    const { data } = await axios.get("/api/user/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setUser({
-      id: data.id,
-      userName: data.userName,
-      email: data.email,
-      avatarId: data.avatarId,
-      followers: 0,
-    });
-  };
+  const { connectToServer } = useWebSocket();
 
   // Felhasználó bejelentkezésének kezelése
   const handleSubmit = async (e) => {
@@ -45,21 +32,26 @@ const Login = () => {
 
     if (response.status === 200) {
       if (rememberMe) {
-        const { token, refreshToken } = response.data;
+        const { refreshToken } = response.data;
 
         if (refreshToken) {
           localStorage.setItem("refreshToken", refreshToken);
         }
-        sessionStorage.setItem("jwtToken", token);
-        setUserData(token);
-      } else {
-        const token = response.data;
-        sessionStorage.setItem("jwtToken", token);
-        await setUserData(sessionStorage.getItem("jwtToken"));
       }
-      console.log(user);
-      //navigate("/");
-      window.location = "/";
+      const { token, userDto } = response.data;
+      sessionStorage.setItem("jwtToken", token);
+      console.log(userDto);
+      setUser({
+        id: userDto.id,
+        email: userDto.email,
+        userName: userDto.userName,
+        followers: userDto.followers,
+        avatarId: userDto.avatarId,
+        created: userDto.created,
+      });
+      connectToServer();
+      navigate("/");
+      //window.location = "/";
     } else {
       setErrorMessage("Hibás felhasználónév vagy jelszó!");
       // A form mezők kiürítése

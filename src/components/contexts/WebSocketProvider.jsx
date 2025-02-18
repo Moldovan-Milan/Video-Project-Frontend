@@ -6,7 +6,7 @@ export const WebSocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
+  const connectToServer = () => {
     const token = sessionStorage.getItem("jwtToken");
     if (!token) {
       return;
@@ -27,20 +27,33 @@ export const WebSocketProvider = ({ children }) => {
 
     ws.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
+      console.log("Fogadott üzenet:", message);
+
       if (message.Type === "debug") {
         console.log(message);
-      } else if (message.Type === "message" || message.Type === "history") {
-        setMessages((prev) => [...prev, JSON.parse(message.Content)]);
+      } else if (message.Type === "message") {
+        // Az újonnan kapott üzenetet azonnal hozzáadjuk a messages tömbhöz
+        const parsedMessage = JSON.parse(message.Content);
+        setMessages((prev) => [...prev, parsedMessage]);
+      } else if (message.Type === "history") {
+        const parsedHistory = JSON.parse(message.Content);
+        setMessages(parsedHistory);
       }
     });
 
     ws.addEventListener("close", () => {
       console.log("Websocket zárva");
     });
+  };
+
+  useEffect(() => {
+    connectToServer();
   }, []);
 
   return (
-    <WebSocketContext.Provider value={{ socket, messages, setMessages }}>
+    <WebSocketContext.Provider
+      value={{ socket, messages, setMessages, connectToServer }}
+    >
       {children}
     </WebSocketContext.Provider>
   );

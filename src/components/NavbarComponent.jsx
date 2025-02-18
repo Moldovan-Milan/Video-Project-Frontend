@@ -49,7 +49,7 @@ export default function NavbarComponent({ token, setToken }) {
           className={`lg:flex flex-col w-full ${isOpen ? "block" : "hidden"}`}
         >
           <ul className="flex flex-col w-full">
-            {!token && (
+            {!user && (
               <>
                 <li className="nav-item mb-2" id="login">
                   <Link
@@ -71,7 +71,7 @@ export default function NavbarComponent({ token, setToken }) {
                 </li>
               </>
             )}
-            {token && (
+            {user && (
               <>
                 <button
                   onClick={() => logOutUser(setToken)}
