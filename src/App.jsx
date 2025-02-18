@@ -1,26 +1,25 @@
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import NavbarComponent from "./components/NavbarComponent";
 import SearchBar from "./components/SearchBar";
 import "./output.css";
 import { useContext, useEffect, useState } from "react";
-import tryLoginUser from "./functions/tryLoginUser";
-import { UserContext, UserProvider } from "./components/contexts/UserProvider";
+import { tryLoginUser } from "./functions/tryLoginUser";
+import { UserContext } from "./components/contexts/UserProvider";
 import AppRoutes from "./AppRoutes";
-import { WebSocketProvider } from "./components/contexts/WebSocketProvider";
+import { useWebSocket } from "./components/contexts/WebSocketProvider";
 
 axios.defaults.baseURL = "https://localhost:7124";
 function App() {
   // Ez fog lefutni az oldal első betöltésekor
-  const [token, setToken] = useState();
   const { user, setUser } = useContext(UserContext);
+  const { connectToServer } = useWebSocket();
 
   useEffect(() => {
     const fetchToken = async () => {
-      const token = await tryLoginUser();
-      setToken(token);
+      await tryLoginUser(setUser, connectToServer);
     };
 
     fetchToken();
@@ -32,23 +31,17 @@ function App() {
   }, [user]);
 
   return (
-    <WebSocketProvider>
-      <BrowserRouter>
-        <SearchBar />
-        <div className="grid grid-cols-1 lg:grid-cols-12">
-          <div className="lg:col-span-2">
-            <NavbarComponent
-              setToken={setToken}
-              token={token}
-              className="sticky"
-            />
-          </div>
-          <div className="lg:col-span-10">
-            <AppRoutes />
-          </div>
+    <BrowserRouter>
+      <SearchBar />
+      <div className="grid grid-cols-1 lg:grid-cols-12">
+        <div className="lg:col-span-2">
+          <NavbarComponent className="sticky" />
         </div>
-      </BrowserRouter>
-    </WebSocketProvider>
+        <div className="lg:col-span-10">
+          <AppRoutes />
+        </div>
+      </div>
+    </BrowserRouter>
   );
 }
 

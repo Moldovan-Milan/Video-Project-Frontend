@@ -1,12 +1,7 @@
 import axios from "axios";
 import isTokenExpired from "./isTokenExpired";
-import { useContext } from "react";
-import { UserContext } from "../components/contexts/UserProvider";
 
-const tryLoginUser = async () => {
-  //console.log("Try login user");
-  //const { user, setUser } = useContext(UserContext);
-
+export const tryLoginUser = async (setUser, connectToServer) => {
   const refreshToken = localStorage.getItem("refreshToken");
   const token = sessionStorage.getItem("jwtToken");
 
@@ -28,13 +23,19 @@ const tryLoginUser = async () => {
     const response = await axios.post("/api/user/refresh-jwt-token", formData);
 
     if (response.status === 200) {
-      const newToken = response.data;
+      const { newToken, userDto } = response.data;
       sessionStorage.setItem("jwtToken", newToken);
-      //await setUserData(newToken, setUser);
-      return newToken;
+      setUser({
+        id: userDto.id,
+        email: userDto.email,
+        userName: userDto.userName,
+        followers: userDto.followers,
+        avatarId: userDto.avatarId,
+        created: userDto.created,
+      });
+      connectToServer();
     } else {
       localStorage.removeItem("refreshToken");
-      return null;
     }
   } catch (error) {
     console.error("Error refreshing token:", error);
@@ -42,23 +43,3 @@ const tryLoginUser = async () => {
     return null;
   }
 };
-
-const setUserData = async (token, setUser) => {
-  try {
-    const { data } = await axios.get("/api/user/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setUser({
-      userName: data.userName,
-      email: data.email,
-      avatarId: data.avatarId,
-      followers: data.followers || 0,
-    });
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
-
-export default tryLoginUser;

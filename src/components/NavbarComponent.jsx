@@ -13,11 +13,14 @@ import {
 } from "react-icons/fa";
 import logOutUser from "../functions/logOutUser";
 import { UserContext } from "./contexts/UserProvider";
+import { useWebSocket } from "./contexts/WebSocketProvider";
 
-export default function NavbarComponent({ token, setToken }) {
+export default function NavbarComponent() {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState("light");
   const { user, setUser } = useContext(UserContext);
+  const { socket } = useWebSocket();
+  const navigate = useNavigate();
 
   const handleThemeChange = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -74,7 +77,7 @@ export default function NavbarComponent({ token, setToken }) {
             {user && (
               <>
                 <button
-                  onClick={() => logOutUser(setToken)}
+                  onClick={() => logOutUser(setUser, socket, navigate)}
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 navbar-btn"
                 >
                   <FaSignOutAlt className="symbol" />

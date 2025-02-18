@@ -26,18 +26,21 @@ export const WebSocketProvider = ({ children }) => {
     });
 
     ws.addEventListener("message", (event) => {
-      const message = JSON.parse(event.data);
-      console.log("Fogadott üzenet:", message);
+      try {
+        const message = JSON.parse(event.data);
+        console.log("Fogadott üzenet:", message);
 
-      if (message.Type === "debug") {
-        console.log(message);
-      } else if (message.Type === "message") {
-        // Az újonnan kapott üzenetet azonnal hozzáadjuk a messages tömbhöz
-        const parsedMessage = JSON.parse(message.Content);
-        setMessages((prev) => [...prev, parsedMessage]);
-      } else if (message.Type === "history") {
-        const parsedHistory = JSON.parse(message.Content);
-        setMessages(parsedHistory);
+        if (message.Type === "debug") {
+          console.log(message);
+        } else if (message.Type === "message") {
+          const parsedMessage = JSON.parse(message.Content);
+          setMessages((prev) => [...prev, parsedMessage]);
+        } else if (message.Type === "history") {
+          const parsedHistory = JSON.parse(message.Content);
+          setMessages(parsedHistory);
+        }
+      } catch {
+        console.log(event.data);
       }
     });
 

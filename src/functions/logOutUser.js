@@ -1,6 +1,9 @@
 import axios from "axios";
+import React, { useContext } from "react";
+import { UserContext } from "../components/contexts/UserProvider";
+import { useNavigate } from "react-router-dom";
 
-const logOutUser = async (setToken) => {
+const logOutUser = async (setUser, socket, navigate) => {
   const refreshToken = localStorage.getItem("refreshToken");
   const formData = new FormData();
   formData.append("refreshToken", refreshToken);
@@ -10,8 +13,11 @@ const logOutUser = async (setToken) => {
     });
     sessionStorage.removeItem("jwtToken"); // Token törlése a localStorage-ból
     localStorage.removeItem("refreshToken"); // Már nem kell többet
-    setToken(null);
-    window.location.href = "/";
+    //setToken(null);
+    setUser(null);
+    socket.close();
+
+    navigate("/");
   } catch (error) {
     console.error("Logout failed", error);
   }

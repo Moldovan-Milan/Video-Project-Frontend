@@ -13,7 +13,7 @@ const MessagePage = () => {
   const newMessageRef = useRef("");
   const [error, setError] = useState(null);
 
-  // URL query paraméterek kinyerése
+  // URL query paraméter a névhez (talán használjuk majd?)
   const searchParams = new URLSearchParams(location.search);
   const senderName = searchParams.get("name");
 
@@ -29,9 +29,9 @@ const MessagePage = () => {
     }
   }, [socket, id, setMessages]);
 
-  useEffect(() => {
-    console.log("Üzenetek frissültek:", messages);
-  }, [messages]);
+  // useEffect(() => {
+  //   console.log("Üzenetek frissültek:", messages);
+  // }, [messages]);
 
   const handleSendMessage = () => {
     const content = newMessageRef.current.value;
@@ -74,7 +74,7 @@ const MessagePage = () => {
             >
               <div className="message-content">{msg.Content}</div>
               <div className="message-info">
-                Sent at: {timeAgo(new Date(msg.SentAt))}
+                Sent {timeAgo(new Date(msg.SentAt))}
               </div>
             </li>
           ))}
