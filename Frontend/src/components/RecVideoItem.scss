@@ -1,0 +1,67 @@
+.recVideoItemContainer {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+  }
+  
+  .recVideoItem {
+    display: flex;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s; //a hover animáció simábbá tétele
+  }
+  
+  .recVideoItem:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px lime;
+  }
+  
+  .recItemTable {
+    width: 100%;
+  }
+  
+  .recItemThumbnail {
+    width: 200px;
+  }
+  
+  .recItemDetails {
+    width: 500px;
+    padding-left: 10px;
+  }
+  
+  .recItemThumbnailDiv {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 100%;
+    height: 150px;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 10px;
+  }
+  
+  
+  .recItemTitle {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: lime;
+  }
+  
+  .recItemUploader {
+    margin-bottom: 5px;
+  }
+  
+  .recItemViews {
+    display: flex;
+    font-size: 15px;
+  }
+  
+  .recEye {
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-top: 3px;
+  }
+  

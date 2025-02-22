@@ -7,6 +7,7 @@ import isTokenExpired from "../functions/isTokenExpired";
 import "./SingleVideo.scss";
 import { FaEye, FaThumbsDown, FaThumbsUp, FaUserPlus } from "react-icons/fa";
 import CommentSection from "../components/CommentSection";
+import RecommendedVideos from "../components/RecommendedVideos";
 
 const SingleVideo = () => {
   const { id } = useParams();
@@ -24,6 +25,7 @@ const SingleVideo = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [likeValue, setLikeValue] = useState("none");
   const [token, setToken] = useState(null);
+  const [bottomPanel,setBottomPanel]=useState("Comments");
 
   const fetchVideo = async () => {
     const { data } = await axios.get(`/api/video/data/${id}`);
@@ -146,13 +148,16 @@ const SingleVideo = () => {
           </div>
         </div>
       </div>
-
+      <div className="divBottomPanelSwitch">
+        <button className={bottomPanel==="Comments"?"btnBottomPanelActive":"btnSwitchBottomPanel"} onClick={()=>setBottomPanel("Comments")}>Comments</button>
+        <button className={bottomPanel==="Recommended"?"btnBottomPanelActive":"btnSwitchBottomPanel"} onClick={()=>setBottomPanel("Recommended")}>Recommended videos</button>
+      </div>
       <div>
-        <CommentSection
+        {bottomPanel==="Comments"?<CommentSection
           comments={comments}
           videoId={id}
           setComments={setComments}
-        />
+        />:<RecommendedVideos/>}
       </div>
     </div>
   );
