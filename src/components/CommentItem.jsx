@@ -3,7 +3,6 @@ import "./CommentItem.scss";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 export default function CommentItem({ comment }) {
-  console.log(comment);
   return (
     <table className="comment-item-body">
       <tbody>
@@ -19,7 +18,8 @@ export default function CommentItem({ comment }) {
           <td className="comment-col">
             <span>
               <Link to={`/profile/${comment.user.id}`}>
-                <span className="commenter-name">{comment.user.userName}</span> -{" "}
+                <span className="commenter-name">{comment.user.userName}</span>{" "}
+                -{" "}
               </Link>
               {timeAgo(new Date(comment.created))}
             </span>

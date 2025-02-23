@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import ImageEditor from "../components/ImageEditor";
 import InputAndLabel from "../components/InputAndLabel";
 
@@ -21,8 +20,6 @@ const UserAccount = () => {
     const fetchUser = async () => {
       const token = sessionStorage.getItem("jwtToken");
       if (token) {
-        const userId = jwtDecode(token).sub;
-
         try {
           const { data } = await axios.get(`/api/user/profile`, {
             headers: { Authorization: `Bearer ${token}` },
@@ -36,7 +33,7 @@ const UserAccount = () => {
             username: data.userName,
             email: data.email,
             avatar: `https://localhost:7124/api/User/avatar/${data.avatarId}`,
-            followers: data.followers,
+            followers: data.followersCount,
             created: formattedDate,
           });
         } catch (error) {
