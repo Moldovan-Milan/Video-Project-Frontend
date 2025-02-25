@@ -1,7 +1,7 @@
 import React from "react";
 import { FaUpload } from "react-icons/fa";
 import { useVideoUpload } from "../hooks/useVideoUpload";
-import "./UploadVideo.scss";
+import "../styles/UploadVideo.scss";
 
 const UploadVideo = () => {
   const {

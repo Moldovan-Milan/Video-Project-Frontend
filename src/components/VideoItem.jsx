@@ -1,5 +1,5 @@
 import React from "react";
-import "../components/VideoItem.scss";
+import "../styles/VideoItem.scss";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
@@ -31,8 +31,11 @@ const VideoItem = ({ video }) => {
                       ></img>
                     </td>
                     <td>
-                      
-                      <div className="video-title font-bold">{title.length > 11 ? title.substring(0, 11) + "..." : title}</div>
+                      <div className="video-title font-bold">
+                        {title.length > 11
+                          ? title.substring(0, 11) + "..."
+                          : title}
+                      </div>
                     </td>
                   </tr>
                   <tr>

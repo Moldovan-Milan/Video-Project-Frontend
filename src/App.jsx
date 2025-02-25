@@ -10,12 +10,13 @@ import { tryLoginUser } from "./functions/tryLoginUser";
 import { UserContext } from "./components/contexts/UserProvider";
 import AppRoutes from "./AppRoutes";
 import { useWebSocket } from "./components/contexts/WebSocketProvider";
+import { useSignalR } from "./components/contexts/SignalRProvider";
 
 axios.defaults.baseURL = "https://localhost:7124";
 function App() {
   // Ez fog lefutni az oldal első betöltésekor
   const { user, setUser } = useContext(UserContext);
-  const { connectToServer } = useWebSocket();
+  const { connectToServer } = useSignalR();
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -27,6 +28,7 @@ function App() {
 
   useEffect(() => {
     // Figyeljük a user állapot változásait
+    connectToServer();
     console.log(user);
   }, [user]);
 

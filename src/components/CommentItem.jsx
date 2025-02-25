@@ -1,5 +1,5 @@
 import { FaEye, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
-import "./CommentItem.scss";
+import "../styles/CommentItem.scss";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 export default function CommentItem({ comment }) {

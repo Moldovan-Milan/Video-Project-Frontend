@@ -1,9 +1,8 @@
-import "../components/NavbarComponent.scss";
-import "../components/VideoItem.scss";
+import "../styles/NavbarComponent.scss";
+import "../styles/VideoItem.scss";
 import logo from "../assets/omega_stream_v1.png";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import {
   FaPlusCircle,
   FaSignInAlt,
@@ -13,14 +12,15 @@ import {
 } from "react-icons/fa";
 import logOutUser from "../functions/logOutUser";
 import { UserContext } from "./contexts/UserProvider";
-import { useWebSocket } from "./contexts/WebSocketProvider";
+import { useSignalR } from "./contexts/SignalRProvider";
 
 export default function NavbarComponent() {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState("light");
   const { user, setUser } = useContext(UserContext);
-  const { socket } = useWebSocket();
+  //const { socket } = useWebSocket();
   const navigate = useNavigate();
+  const { connection } = useSignalR();
 
   const handleThemeChange = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -77,7 +77,7 @@ export default function NavbarComponent() {
             {user && (
               <>
                 <button
-                  onClick={() => logOutUser(setUser, socket, navigate)}
+                  onClick={() => logOutUser(setUser, navigate, connection)}
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 navbar-btn"
                 >
                   <FaSignOutAlt className="symbol" />

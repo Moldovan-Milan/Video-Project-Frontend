@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import "./CommentTextBox.scss";
+import "../styles/CommentTextBox.scss";
 import { UserContext } from "./contexts/UserProvider";
 import axios from "axios";
 import dummy from "../assets/defa_pfp.png";
@@ -53,7 +53,7 @@ const CommentTextBox = ({ videoid, setComments }) => {
         <tbody>
           <tr>
             <td className="avatar-td">
-              <img src={dummy} className="comment-write-avatar"/>
+              <img src={dummy} className="comment-write-avatar" />
             </td>
             <td className="td-comm-tb">
               <textarea

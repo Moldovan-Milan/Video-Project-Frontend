@@ -1,10 +1,11 @@
 import axios from "axios";
-import "../pages/Login.scss";
-import "../components/VideoItem.scss";
+import "../styles/Login.scss";
+import "../styles/VideoItem.scss";
 import React, { useRef, useState, useContext, useEffect } from "react";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
 import { useWebSocket } from "../components/contexts/WebSocketProvider";
+import { useSignalR } from "../components/contexts/SignalRProvider";
 
 const Login = () => {
   const emailRef = useRef("");
@@ -14,7 +15,8 @@ const Login = () => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const { connectToServer } = useWebSocket();
+  //const { connectToServer } = useWebSocket();
+  const { connectToServer } = useSignalR();
 
   // Felhasználó bejelentkezésének kezelése
   const handleSubmit = async (e) => {
@@ -49,8 +51,9 @@ const Login = () => {
         avatarId: userDto.avatarId,
         created: userDto.created,
       });
-      connectToServer();
+
       navigate("/");
+      connectToServer();
       //window.location = "/";
     } else {
       setErrorMessage("Hibás felhasználónév vagy jelszó!");

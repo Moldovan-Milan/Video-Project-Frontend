@@ -1,7 +1,7 @@
 import React from "react";
-import "../components/NavbarComponent.scss";
+import "../styles/NavbarComponent.scss";
 import { FaSearch } from "react-icons/fa";
-import "../components/SearchBar.scss";
+import "../styles/SearchBar.scss";
 
 const SearchBar = ({ searchButtonDownFunction }) => {
   return (

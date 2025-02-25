@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const logOutUser = async (setUser, socket, navigate) => {
+const logOutUser = async (setUser, navigate, connection) => {
   try {
     await axios.post("api/user/logout", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -9,7 +9,8 @@ const logOutUser = async (setUser, socket, navigate) => {
     localStorage.removeItem("refreshToken"); // Már nem kell többet
     //setToken(null);
     setUser(null);
-    socket.close();
+    connection.stop();
+    //socket.close();
 
     navigate("/");
   } catch (error) {

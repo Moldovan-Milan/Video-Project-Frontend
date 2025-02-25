@@ -17,7 +17,7 @@ const ChatPage = () => {
           },
         });
         setChats(data);
-        console.log("Beszélgetések: " + chats);
+        //console.log("Beszélgetések: " + chats);
       } catch (error) {
         console.log(error);
       }
@@ -31,17 +31,14 @@ const ChatPage = () => {
         {chats &&
           chats.map((chat, id) => (
             <li key={id}>
-              <Link
-                to={`/chat/${chat.id}?name=${
-                  user.id === chat.user1.id
-                    ? chat.user2.userName
-                    : chat.user1.username
-                }`}
-              >
-                {user.id === chat.user1.id
-                  ? chat.user2.userName
-                  : chat.user1.userName}
+              {console.log(chat)}
+              <Link to={`/chat/${chat.id}?name=${chat.user.userName}`}>
+                {chat.user.userName}
               </Link>
+              <img
+                src={`https://localhost:7124/api/User/avatar/${chat.user.avatarId}`}
+              ></img>
+              <p>{chat.lastMessage}</p>
             </li>
           ))}
       </ul>

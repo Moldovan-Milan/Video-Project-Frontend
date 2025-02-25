@@ -5,15 +5,16 @@ import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { UserProvider } from "./components/contexts/UserProvider.jsx";
 import { WebSocketProvider } from "./components/contexts/WebSocketProvider.jsx";
+import { SignalRProvider } from "./components/contexts/SignalRProvider.jsx";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <UserProvider>
-      <WebSocketProvider>
+      <SignalRProvider>
         <App />
-      </WebSocketProvider>
+      </SignalRProvider>
     </UserProvider>
   </QueryClientProvider>
 );

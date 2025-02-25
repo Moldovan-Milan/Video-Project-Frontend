@@ -1,80 +1,56 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useWebSocket } from "../components/contexts/WebSocketProvider";
+import { useSignalR } from "../components/contexts/SignalRProvider";
 import timeAgo from "../functions/timeAgo";
-import "./MessagePage.scss";
+import "../styles/MessagePage.scss";
 import { UserContext } from "../components/contexts/UserProvider";
 
 const MessagePage = () => {
   const { id } = useParams();
-  const { socket, messages, setMessages } = useWebSocket();
+  const { connection, messages, setMessages, requestHistory, sendMessage } =
+    useSignalR();
   const { user } = useContext(UserContext);
 
   const newMessageRef = useRef("");
   const [error, setError] = useState(null);
 
-  // URL query paraméter a névhez (talán használjuk majd?)
-  const searchParams = new URLSearchParams(location.search);
-  const senderName = searchParams.get("name");
-
   useEffect(() => {
-    if (socket) {
-      setMessages([]);
-      socket.send(
-        JSON.stringify({
-          type: "get_history",
-          chatId: id,
-        })
-      );
-    }
-  }, [socket, id, setMessages]);
+    if (!connection || connection.state !== "Connected") return;
 
-  // useEffect(() => {
-  //   console.log("Üzenetek frissültek:", messages);
-  // }, [messages]);
+    console.log(`📥 Requesting chat history for chat ID: ${id}`);
+    setMessages([]);
+    requestHistory(Number(id));
+  }, [id, connection]);
 
   const handleSendMessage = () => {
-    const content = newMessageRef.current.value;
+    const content = newMessageRef.current.value.trim();
     if (!content) {
-      setError("Message can not be empty!");
+      setError("⚠️ Message cannot be empty!");
       return;
     }
-
-    try {
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(
-          JSON.stringify({
-            type: "message",
-            senderId: user.id,
-            chatId: id,
-            content: content,
-          })
-        );
-        setError(null);
-        newMessageRef.current.value = "";
-      }
-    } catch (error) {
-      setError(error);
-    }
+    setError(null);
+    sendMessage(Number(id), content);
+    newMessageRef.current.value = "";
   };
 
   return (
     <div>
       <h1>Messages</h1>
       {messages.length === 0 ? (
-        <p>There are no Messages</p>
+        <p>📭 No messages yet</p>
       ) : (
         <ul className="message-list">
           {messages.map((msg) => (
             <li
-              key={msg.Id}
+              key={msg.id}
               className={
-                msg.SenderId === user.id ? "message sent" : "message received"
+                msg.senderId === user.id ? "message sent" : "message received"
               }
             >
-              <div className="message-content">{msg.Content}</div>
+              {console.log(msg)}
+              <div className="message-content">{msg.content}</div>
               <div className="message-info">
-                Sent {timeAgo(new Date(msg.SentAt))}
+                Sent {timeAgo(new Date(msg.sentAt))}
               </div>
             </li>
           ))}
@@ -83,9 +59,10 @@ const MessagePage = () => {
       <div className="message-input-container">
         <input
           type="text"
-          placeholder="Write message..."
+          placeholder="Write a message..."
           className="message-input"
           ref={newMessageRef}
+          onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
         />
         <button className="send-button" onClick={handleSendMessage}>
           Send

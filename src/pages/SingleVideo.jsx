@@ -12,7 +12,7 @@ import {
   FaUserMinus,
 } from "react-icons/fa";
 import { UserContext } from "../components/contexts/UserProvider";
-import "./SingleVideo.scss";
+import "../styles/SingleVideo.scss";
 import CommentSection from "../components/CommentSection";
 import RecommendedVideos from "../components/RecommendedVideos";
 

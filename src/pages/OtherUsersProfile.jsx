@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./OtherUsersProfile.scss";
+import "../styles/OtherUsersProfile.scss";
 import { FaMailBulk, FaUserPlus } from "react-icons/fa";
 import UserPageVideoItem from "../components/UserPageVideoItem";
 import isTokenExpired from "../functions/isTokenExpired";

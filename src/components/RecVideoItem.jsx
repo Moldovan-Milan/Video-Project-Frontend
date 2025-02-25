@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
-import "./RecVideoItem.scss";
+import "../styles/RecVideoItem.scss";
 
 const RecVideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
