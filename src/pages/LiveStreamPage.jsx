@@ -1,21 +1,18 @@
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import React, { useEffect, useState, useRef } from "react";;
+import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";import { useParams } from "react-router-dom"
 
 const LiveStreamPage = () => {
-    const {id} = useParams();    const { id } = useParams();
+    const { id } = useParams();
     const [liveStream, setLiveStream] = useState(null);
     const remoteVideoRef = useRef(null);
 
     useEffect(() => {
         const fetchLiveStream = async () => {
             try {
-                const token = sessionStorage.getItem("jwtToken"); // Retrieve the JWT token
-                const { data } = await axios.get(`/api/livestream/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Attach the token to the headers
-                    },
-                });
+                const { data } = await axios.get(`/api/livestream/${id}`);
                 setLiveStream(data);
             } catch (error) {
                 console.log(error);
@@ -29,7 +26,7 @@ const LiveStreamPage = () => {
             const startWebRTC = async () => {
                 const peerConnection = new RTCPeerConnection();
 
-                peerConnection.ontrack = (event) => {
+                peerConnection.ontrack = event => {
                     remoteVideoRef.current.srcObject = event.streams[0];
                 };
 
