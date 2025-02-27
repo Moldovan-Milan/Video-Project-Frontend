@@ -1,0 +1,58 @@
+.chatUserItemContainer {
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    margin-left: 20px;
+  }
+  
+  .chatUserItem {
+    display: flex;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s; //a hover animáció simábbá tétele
+  }
+  
+  .chatUserItem:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px lime;
+  }
+  
+  .chatUserItemTable {
+    width: 100%;
+  }
+  
+  .chatUserItemAvatar {
+    width: 100px;
+    border-radius: 100%;
+  }
+  
+  .chatUserItemDetails {
+    width: 500px;
+    padding-left: 10px;
+  }
+  
+  
+  .chatUserItemTitle {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: lime;
+  }
+  
+  .chatUserItemUploader {
+    margin-bottom: 5px;
+  }
+  
+  .chatUserItemViews {
+    display: flex;
+    font-size: 15px;
+  }
+  
+  .chatUserEye {
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-top: 3px;
+  }
+  
+  .chatAvatartd{
+    padding:10px;
+  }
