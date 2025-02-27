@@ -27,7 +27,6 @@ const AppRoutes = () => {
       <Route path="/chats" Component={ChatPage} />
       <Route path="/chat/:id" Component={MessagePage} />
       <Route path="/livestream/:id" Component={LiveStreamPage}/>
-      
       <Route path="/go-live" Component={GoLivePage} />
     </Routes>
   );
