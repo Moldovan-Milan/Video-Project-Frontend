@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";import { useParams } from "react-router-dom"
 
 const LiveStreamPage = () => {
-    const { id } = useParams();
+    const {id} = useParams();    const { id } = useParams();
     const [liveStream, setLiveStream] = useState(null);
     const remoteVideoRef = useRef(null);
 
