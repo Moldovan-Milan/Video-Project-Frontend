@@ -10,6 +10,7 @@ import OtherUsersProfile from "./pages/OtherUsersProfile";
 import ChatPage from "./pages/ChatPage";
 import MessagePage from "./pages/MessagePage";
 import LiveStreamPage from "./pages/LiveStreamPage"
+import GoLivePage from "./pages/GoLivePage";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes = () => {
       <Route path="/chats" Component={ChatPage} />
       <Route path="/chat/:id" Component={MessagePage} />
       <Route path="/livestream/:id" Component={LiveStreamPage}/>
+      <Route path="/go-live" Component={GoLivePage} />
     </Routes>
   );
 };
