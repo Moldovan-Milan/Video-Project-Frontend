@@ -1,38 +1,3 @@
-.message-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.message {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    max-width: 60%;
-}
-
-.sent {
-    background-color: #5a2d82; // Sötétebb lila a küldött üzenetekhez
-    align-self: flex-end;
-    text-align: right;
-    color: #32cd32; // Lime színű szöveg
-}
-
-.received {
-    background-color: #3b3b3b; // Sötétebb szürke a kapott üzenetekhez
-    align-self: flex-start;
-    text-align: left;
-    color: #add8e6; // Világosabb szöveg a kontraszt érdekében
-}
-
-.message-content {
-    font-size: 16px;
-}
-
-.message-info {
-    font-size: 12px;
-    color: #888;
-}
-
 .message-input-container {
     display: flex;
     align-items: center;
@@ -44,10 +9,11 @@
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 30px;
     margin-right: 10px;
     background-color: #1c1c1c; // Sötétebb háttér a beviteli mezőhöz
     color: #fff;
+    margin-bottom:10px;
 }
 
 .send-button {
@@ -56,10 +22,17 @@
     background-color: #32cd32; // Lime színű gomb
     color: #000; // Fekete szöveg a kontraszt érdekében
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
+    margin-bottom:10px;
+    margin-right:10px;
 }
 
 .send-button:hover {
     background-color: #28a428; // Sötétebb lime szín hover állapotban
+}
+
+.msg-container{
+    display: flex;
+    flex-direction: column;
 }

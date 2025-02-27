@@ -1,0 +1,42 @@
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.message-content {
+    font-size: 16px;
+}
+
+
+
+.sent {
+    background-color: #B200FF;
+    align-self: flex-end;
+    text-align: right;
+    color: white;
+    margin-right: 10%;
+    width: 50%;
+
+    .message-info {
+        font-size: 12px;
+        color: lime;
+    }
+}
+
+.received {
+    background-color: lime;
+    align-self: flex-start;
+    text-align: left;
+    color: black;
+    margin-left: 10%;
+    width: 50%;
+
+    .message-info {
+        font-size: 12px;
+        color: #B200FF;
+    }
+}

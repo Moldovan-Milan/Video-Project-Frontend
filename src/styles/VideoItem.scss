@@ -3,15 +3,15 @@
 .video-item{
   background-color: black;
   border-radius: 10px;
-  border: 1px solid lime;
+  transition: transform 0.2s, box-shadow 0.2s;
+  
 }
 
 .dark .video-item {
   background-color: white;
   border-radius: 10px;
-  border: 1px solid lime;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-
 
 /*a videó hosszát megjelenítő div*/
 .video-length{

@@ -1,14 +1,5 @@
 @media screen and (min-width:992px)
 {
-    @keyframes glow {
-        from {
-          text-shadow: 0 0 5px #B200FF, 0 0 10px #B200FF, 0 0 15px lime, 0 0 20px lime, 0 0 25px lime, 0 0 30px lime, 0 0 35px lime;
-        }
-        
-        to {
-          text-shadow: 0 0 10px #B200FF, 0 0 15px lime, 0 0 20px lime, 0 0 25px lime, 0 0 30px lime, 0 0 35px lime, 0 0 40px lime;
-        }
-      }
 }
 
 .navbar .container-fluid, .navbar-expand-lg .navbar-collapse, .navbar-expand-lg .navbar-nav{
@@ -36,6 +27,7 @@
     font-size: 15px;
     display: flex;
     justify-content: center;
+    transition: transform 0.1s, text-shadow 0.1s;
 }
 
 .nav-link:active{
@@ -72,10 +64,9 @@
 
 .nav-link:hover
 {
-    margin-left: 15px;
-    font-size: 20px;
-    color: lime;
-    animation: glow 1s ease-in-out infinite alternate;
+    transform: scale(1.5);
+    text-shadow: 0 0 10px Lime;
+    -webkit-text-stroke: 0.3px lime;
 }
 
 img{

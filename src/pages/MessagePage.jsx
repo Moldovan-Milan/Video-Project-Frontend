@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSignalR } from "../components/contexts/SignalRProvider";
-import timeAgo from "../functions/timeAgo";
 import "../styles/MessagePage.scss";
 import { UserContext } from "../components/contexts/UserProvider";
+import MessageItem from "../components/MessageItem";
+import { use } from "react";
 
 const MessagePage = () => {
   const { id } = useParams();
@@ -39,22 +40,11 @@ const MessagePage = () => {
       {messages.length === 0 ? (
         <p>📭 No messages yet</p>
       ) : (
-        <ul className="message-list">
+        <div className="msg-container">
           {messages.map((msg) => (
-            <li
-              key={msg.id}
-              className={
-                msg.senderId === user.id ? "message sent" : "message received"
-              }
-            >
-              {console.log(msg)}
-              <div className="message-content">{msg.content}</div>
-              <div className="message-info">
-                Sent {timeAgo(new Date(msg.sentAt))}
-              </div>
-            </li>
+            <MessageItem msg={msg} user={user} key={msg.id}></MessageItem>
           ))}
-        </ul>
+        </div>
       )}
       <div className="message-input-container">
         <input
