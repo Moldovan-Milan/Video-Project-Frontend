@@ -12,7 +12,12 @@ const LiveStreamPage = () => {
     useEffect(() => {
         const fetchLiveStream = async () => {
             try {
-                const { data } = await axios.get(`/api/livestream/${id}`);
+                const token = sessionStorage.getItem("jwtToken"); // Retrieve the JWT token
+                const { data } = await axios.get(`/api/livestream/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Attach the token to the headers
+                    },
+                });
                 setLiveStream(data);
             } catch (error) {
                 console.log(error);
@@ -26,7 +31,7 @@ const LiveStreamPage = () => {
             const startWebRTC = async () => {
                 const peerConnection = new RTCPeerConnection();
 
-                peerConnection.ontrack = event => {
+                peerConnection.ontrack = (event) => {
                     remoteVideoRef.current.srcObject = event.streams[0];
                 };
 
