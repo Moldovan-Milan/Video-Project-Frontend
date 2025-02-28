@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaUpload } from "react-icons/fa";
 import { useVideoUpload } from "../hooks/useVideoUpload";
 import "../styles/UploadVideo.scss";
+import { useContext } from "react";
+import { UserContext } from "../components/contexts/UserProvider";
 
 const UploadVideo = () => {
   const {
@@ -17,7 +19,13 @@ const UploadVideo = () => {
     handleUpload,
   } = useVideoUpload();
 
-  if (sessionStorage.getItem("jwtToken") === null) {
+  useEffect(() => {
+    document.title = "Upload video"
+  }, [])
+
+  const { user } = useContext(UserContext)
+
+  if (sessionStorage.getItem("jwtToken") === null || !user) {
     return (
       <div className="container mx-auto p-4">
         <h1 className="text-center text-2xl font-bold mb-4">
