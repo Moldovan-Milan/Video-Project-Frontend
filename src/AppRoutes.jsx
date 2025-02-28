@@ -9,12 +9,14 @@ import UserAccount from "./pages/UserAccount";
 import OtherUsersProfile from "./pages/OtherUsersProfile";
 import ChatPage from "./pages/ChatPage";
 import MessagePage from "./pages/MessagePage";
+import EditVideoPage from "./pages/EditVideoPage";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route index path="/" Component={VideosPage} />
       <Route path="/video/:id" Component={SingleVideo} />
+      <Route path="/video/:id/edit" Component={EditVideoPage}/> 
       <Route path="/video/upload" Component={UploadVideo} />
       <Route path="/registration" Component={Registration} />
       <Route path="/login" Component={Login} />
@@ -22,6 +24,7 @@ const AppRoutes = () => {
       <Route path="/profile/:id" Component={OtherUsersProfile} />
       <Route path="/chats" Component={ChatPage} />
       <Route path="/chat/:id" Component={MessagePage} />
+      
     </Routes>
   );
 };
