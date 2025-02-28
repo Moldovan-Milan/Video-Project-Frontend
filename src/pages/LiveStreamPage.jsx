@@ -1,8 +1,6 @@
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import React, { useEffect, useState, useRef } from "react";;
-import axios from "axios";
-import React, { useEffect, useState, useRef } from "react";import { useParams } from "react-router-dom"
+import React, { useEffect, useState, useRef } from "react";
 
 const LiveStreamPage = () => {
     const { id } = useParams();
