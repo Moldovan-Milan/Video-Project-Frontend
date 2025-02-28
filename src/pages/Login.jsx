@@ -70,7 +70,7 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block font-bold mb-2">
-              Email-addres:
+              Email-address:
             </label>
             <input
               ref={emailRef}

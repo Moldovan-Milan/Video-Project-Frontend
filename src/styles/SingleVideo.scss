@@ -5,6 +5,20 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.editBtn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #B200FF;
+  border-radius: 30px;
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  width: fit-content;
+  min-width: 100px;
+}
+
 .video-info {
   display: flex;
   flex-direction: column;
