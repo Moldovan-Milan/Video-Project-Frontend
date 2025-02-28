@@ -71,6 +71,12 @@ const SingleVideo = () => {
     fetchData();
   }, [id]);
 
+  useEffect(() => {
+    if(videoData){
+      document.title = videoData.title
+    }
+  }, [videoData])
+
   const handleReactionClick = async (newValue) => {
     if (!token || isTokenExpired(token) || !videoData) return;
 

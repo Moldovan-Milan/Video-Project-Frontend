@@ -7,40 +7,53 @@ import UserPageVideoItem from "../components/UserPageVideoItem";
 import isTokenExpired from "../functions/isTokenExpired";
 import { UserContext } from "../components/contexts/UserProvider";
 
+//TODO: check if this page belongs to the user who is logged in
 const OtherUsersProfile = () => {
   const { id } = useParams();
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(null);  // Initialize as null instead of undefined
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
-  const [isSubscribed, setisSubscribed] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     setToken(sessionStorage.getItem("jwtToken"));
     const fetchUser = async () => {
-      const { data } = await axios.get(`/api/user/profile/${id}`);
-      setUserData({
-        id: data.id,
-        username: data.userName,
-        avatarId: data.avatarId,
-        followers: data.followersCount,
-      });
-      setVideos(data.videos);
-      setLoading(false);
+      try {
+        const { data } = await axios.get(`/api/user/profile/${id}`);
+        setUserData({
+          id: data.id,
+          username: data.userName,
+          avatarId: data.avatarId,
+          followers: data.followersCount,
+        });
+        setVideos(data.videos);
+        setLoading(false);
 
-      token
-        ? setisSubscribed(
-            (
-              await axios.get(`api/video/is-user-subscribed/${userData.id}`, {
-                headers: { Authorization: `Bearer ${token}` },
-              })
-            ).data
-          )
-        : null;
+        // Check if there's a token and fetch subscription status
+        if (token) {
+          const subscriptionStatus = await axios.get(
+            `api/video/is-user-subscribed/${data.id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          setIsSubscribed(subscriptionStatus.data);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setLoading(false);
+      }
     };
     fetchUser();
-    console.log(isSubscribed);
-  }, [id]);
+  }, [id, token]);  // Dependency array includes id and token to re-fetch if these change
+
+  // Handle document title update
+  useEffect(() => {
+    if (userData) {
+      document.title = `Profile of ${userData.username}`;
+    }
+  }, [userData]);  // Runs when userData is updated
 
   const handleSubscribeClick = async () => {
     if (!token || isTokenExpired(token)) return;
@@ -53,15 +66,15 @@ const OtherUsersProfile = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (status === 200) {
-        setisSubscribed(!isSubscribed);
-        isSubscribed === false ? userData.followers++ : userData.followers--;
+        setIsSubscribed(!isSubscribed);
+        userData.followers += isSubscribed ? -1 : 1;  // Adjust follower count
       }
     } catch (error) {
       console.error("Error subscribing:", error);
     }
   };
 
-  if (loading) return <div>Loading ...</div>;
+  if (loading || !userData) return <div>Loading...</div>;  // Show loading state until data is available
 
   return (
     <>
@@ -73,6 +86,7 @@ const OtherUsersProfile = () => {
                 <img
                   className="avatar-picture"
                   src={`https://localhost:7124/api/User/avatar/${userData.avatarId}`}
+                  alt={userData.username}
                 />
               </td>
               <td colSpan={2}>
@@ -113,10 +127,9 @@ const OtherUsersProfile = () => {
 
       <div className="container mx-auto p-4">
         <div className="flex flex-wrap justify-center -mx-2">
-          {videos &&
-            videos.map((video, id) => (
-              <UserPageVideoItem key={id} video={video} />
-            ))}
+          {videos.map((video, id) => (
+            <UserPageVideoItem key={id} video={video} />
+          ))}
         </div>
       </div>
     </>

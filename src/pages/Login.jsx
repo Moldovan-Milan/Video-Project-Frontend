@@ -15,6 +15,10 @@ const Login = () => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = "Login"
+  }, [])
+
   //const { connectToServer } = useWebSocket();
   const { connectToServer } = useSignalR();
 

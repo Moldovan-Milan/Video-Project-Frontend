@@ -44,6 +44,12 @@ const UserAccount = () => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    if(userData){
+      document.title = `Page for ${userData.username}`
+    }
+  }, [userData])
+
   return (
     <div className="container">
       <h1>{userData.username}</h1>

@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useSignalR } from "../components/contexts/SignalRProvider";
 import "../styles/MessagePage.scss";
 import { UserContext } from "../components/contexts/UserProvider";
 import MessageItem from "../components/MessageItem";
-import { use } from "react";
 
 const MessagePage = () => {
   const { id } = useParams();
@@ -22,6 +21,14 @@ const MessagePage = () => {
     setMessages([]);
     requestHistory(Number(id));
   }, [id, connection]);
+
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  useEffect(() => {
+    const name = queryParams.get('name');
+    document.title = `Private chat with ${name}`
+  }, [])
 
   const handleSendMessage = () => {
     const content = newMessageRef.current.value.trim();

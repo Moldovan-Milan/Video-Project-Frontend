@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import axios from "axios";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,10 @@ const Registration = () => {
   const handleAvatarChange = (e) => {
     setAvatar(e.target.files[0]);
   };
+
+  useEffect(() => {
+    document.title = "Register"
+  }, [])
 
   const handleRegistration = async (e) => {
     e.preventDefault();

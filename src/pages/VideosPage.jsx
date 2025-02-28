@@ -12,7 +12,7 @@ const VideosPage = (search) => {
       const { data } = await axios.get("api/video");
       setData(data);
     };
-
+    document.title = "Omega Stream"
     fetchVideos();
   }, []);
 
