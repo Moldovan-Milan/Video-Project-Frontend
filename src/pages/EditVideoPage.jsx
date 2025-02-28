@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../components/contexts/UserProvider";
 
 const EditVideoPage = () => {
-  // Id alapján lekérni a videó adatait
   const [videoData, setVideoData] = useState({});
   const id = useParams().id;
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,6 +19,14 @@ const EditVideoPage = () => {
         const [videoResponse] = await Promise.all([videoPromise]);
 
         setVideoData(videoResponse.data);
+
+        if(!user){
+          navigate("/login")
+        }
+        else if(user.id !== videoData.userId){
+          navigate(`/video/${id}`)
+        }
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
