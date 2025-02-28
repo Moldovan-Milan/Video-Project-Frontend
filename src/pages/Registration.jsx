@@ -1,5 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import axios from "axios";
+import { UserContext } from "../components/contexts/UserProvider";
+import { useNavigate } from "react-router-dom";
 
 const Registration = () => {
   const userNameRef = useRef("");
@@ -8,6 +10,8 @@ const Registration = () => {
   const emailRef = useRef("");
   const [avatar, setAvatar] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const { user } = useContext(UserContext)
+  const navigate = useNavigate();
 
   const handleAvatarChange = (e) => {
     setAvatar(e.target.files[0]);
@@ -51,6 +55,10 @@ const Registration = () => {
       }
     }
   };
+
+  if(user){
+    navigate("/")
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen">
