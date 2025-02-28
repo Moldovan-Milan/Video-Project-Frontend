@@ -149,8 +149,15 @@ const SingleVideo = () => {
           />
           <h5 className="username">{videoData.user.userName}</h5>
         </Link>
+        
+        {user && user.id === videoData.user.id && (
+          <Link to={`/video/${id}/edit`}>
+            <button className="editBtn">
+              Edit <FaPencilAlt className="m-2" />
+            </button>
+          </Link>
+        )}
 
-        {user.id === videoData.user.id && <Link to={`/video/${id}/edit`}><button className="editBtn">Edit<FaPencilAlt className="m-2"/></button></Link>}
 
         <button className="lil-sub-btn m-2" onClick={handleSubscribeClick}>
           {isFollowedByUser ? "Subscribed ✅" : "Subscribe"}{" "}
