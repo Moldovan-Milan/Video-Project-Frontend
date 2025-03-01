@@ -16,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Login"
+    document.title = "Login | Omega Stream"
   }, [])
 
   //const { connectToServer } = useWebSocket();

@@ -27,7 +27,7 @@ const MessagePage = () => {
   const queryParams = new URLSearchParams(location.search);
   useEffect(() => {
     const name = queryParams.get('name');
-    document.title = `Private chat with ${name}`
+    document.title = `Private chat with ${name} | Omega Stream`
   }, [])
 
   const handleSendMessage = () => {

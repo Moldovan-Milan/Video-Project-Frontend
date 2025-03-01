@@ -18,7 +18,7 @@ const Registration = () => {
   };
 
   useEffect(() => {
-    document.title = "Register"
+    document.title = "Register | Omega Stream"
   }, [])
 
   const handleRegistration = async (e) => {

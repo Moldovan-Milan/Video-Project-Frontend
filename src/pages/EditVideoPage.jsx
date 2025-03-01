@@ -40,7 +40,7 @@ const EditVideoPage = () => {
     }
 
     if (videoData.title) {
-      document.title = `Edit ${videoData.title}`;
+      document.title = `Edit ${videoData.title} | Omega Stream`;
     }
 
   }, [user, videoData, navigate, id]);

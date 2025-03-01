@@ -20,7 +20,7 @@ const UploadVideo = () => {
   } = useVideoUpload();
 
   useEffect(() => {
-    document.title = "Upload video"
+    document.title = "Upload video | Omega Stream"
   }, [])
 
   const { user } = useContext(UserContext)

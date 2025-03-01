@@ -46,7 +46,7 @@ const UserAccount = () => {
 
   useEffect(() => {
     if(userData){
-      document.title = `Page for ${userData.username}`
+      document.title = `Page for ${userData.username} | Omega Stream`
     }
   }, [userData])
 

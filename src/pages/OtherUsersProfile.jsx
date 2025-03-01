@@ -51,7 +51,7 @@ const OtherUsersProfile = () => {
   // Handle document title update
   useEffect(() => {
     if (userData) {
-      document.title = `Profile of ${userData.username}`;
+      document.title = `Profile of ${userData.username} | Omega Stream`;
     }
   }, [userData]);  // Runs when userData is updated
 
