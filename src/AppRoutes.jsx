@@ -10,6 +10,7 @@ import OtherUsersProfile from "./pages/OtherUsersProfile";
 import ChatPage from "./pages/ChatPage";
 import MessagePage from "./pages/MessagePage";
 import EditVideoPage from "./pages/EditVideoPage";
+import SearchResultPage from "./pages/SearchResultPage";
 
 const AppRoutes = () => {
   return (
@@ -24,7 +25,7 @@ const AppRoutes = () => {
       <Route path="/profile/:id" Component={OtherUsersProfile} />
       <Route path="/chats" Component={ChatPage} />
       <Route path="/chat/:id" Component={MessagePage} />
-      
+      <Route path="/search" Component={SearchResultPage}/>
     </Routes>
   );
 };
