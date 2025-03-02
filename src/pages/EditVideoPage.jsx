@@ -62,7 +62,9 @@ const EditVideoPage = () => {
 
   return (
     <div className="editContainer">
-      <button className="goBack">
+      <button className="goBack" onClick={
+        navigate(`/video/${id}`)
+      }>
         <FaArrowLeft className="m-1"/>{goBackText} 
       </button>
       <h1 className="text-2xl font-bold mb-4 flex items-center editTitle">
