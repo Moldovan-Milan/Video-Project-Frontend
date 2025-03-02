@@ -19,7 +19,6 @@ export const SignalRProvider = ({ children }) => {
         accessTokenFactory: () => token,
       })
       .withAutomaticReconnect()
-      .configureLogging(signalR.LogLevel.Information)
       .build();
 
     newConnection.on("ReceiveMessage", (message) => {
@@ -34,7 +33,6 @@ export const SignalRProvider = ({ children }) => {
 
     try {
       await newConnection.start();
-      console.log("✅ SignalR connection established");
       setConnection(newConnection);
     } catch (err) {
       console.error("❌ Error while starting the SignalR connection", err);
@@ -46,7 +44,6 @@ export const SignalRProvider = ({ children }) => {
       !connection ||
       connection.state !== signalR.HubConnectionState.Connected
     ) {
-      console.warn("⚠️ Cannot request history: SignalR is not connected.");
       return;
     }
     connection.invoke("RequestChatHistory", chatId).catch((err) => {
