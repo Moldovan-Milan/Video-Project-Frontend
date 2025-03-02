@@ -63,7 +63,7 @@ const EditVideoPage = () => {
   return (
     <div className="editContainer">
       <button className="goBack" onClick={
-        navigate(`/video/${id}`)
+        () => {navigate(`/video/${id}`)}
       }>
         <FaArrowLeft className="m-1"/>{goBackText} 
       </button>
