@@ -12,6 +12,7 @@ const WatchTogetherMainPage = () => {
   const [selectedVideos, setSelectedVideos] = useState(); // Most még csak 1 megy
   const navigate = useNavigate();
   const roomIdRef = useRef();
+  const videoIdRef = useRef();
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -23,8 +24,11 @@ const WatchTogetherMainPage = () => {
   }, []);
 
   const createRoom = () => {
-    const roomId = generateId(ROOM_ID_LENGTH);
-    navigate(`/watch-together/${roomId}`);
+    const videoId = videoIdRef.current.value;
+    if (videoId) {
+      const roomId = generateId(ROOM_ID_LENGTH);
+      navigate(`/watch-together/${roomId}?videoId=${videoId}`);
+    }
   };
 
   const joinRoom = () => {
@@ -67,7 +71,13 @@ const WatchTogetherMainPage = () => {
           </div> */}
           <label htmlFor="videoId"></label>
           {/* Csak teszteléshez kell az id */}
-          <input id="videoId" placeholder="Enter video id"></input>
+          <input
+            type="number"
+            className="text-black"
+            ref={videoIdRef}
+            id="videoId"
+            placeholder="Enter video id"
+          ></input>
           <button
             onClick={createRoom}
             className="mt-4 bg-purple-500 px-4 py-2 rounded-lg hover:bg-purple-700 transition"

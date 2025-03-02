@@ -7,9 +7,29 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl }) => {
   const connection = useWTSignalR();
   const [isSyncing, setIsSyncing] = useState(false); // Ezt használjuk a ciklusok elkerülésére
 
+  // Sync video state on first connection
   useEffect(() => {
     if (connection) {
-      // Ha más küldi az eseményt, itt dolgozzuk fel
+      connection.on("SyncVideoState", (timestamp, isPlaying) => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = timestamp;
+          if (isPlaying) {
+            videoRef.current.play();
+          } else {
+            videoRef.current.pause();
+          }
+        }
+      });
+
+      return () => {
+        connection.off("SyncVideoState");
+      };
+    }
+  }, [connection]);
+
+  // Create methods for Hub events
+  useEffect(() => {
+    if (connection) {
       connection.on("ReceivePlay", (timestamp) => {
         if (videoRef.current) {
           setIsSyncing(true);
@@ -44,6 +64,7 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl }) => {
     }
   }, [connection]);
 
+  // Enable HLS for streaming
   useEffect(() => {
     if (Hls.isSupported()) {
       const hls = new Hls();
