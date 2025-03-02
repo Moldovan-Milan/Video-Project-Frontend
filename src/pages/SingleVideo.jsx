@@ -73,7 +73,7 @@ const SingleVideo = () => {
 
   useEffect(() => {
     if(videoData){
-      document.title = videoData.title
+      document.title = videoData.title + " | Omega Stream"
     }
   }, [videoData])
 

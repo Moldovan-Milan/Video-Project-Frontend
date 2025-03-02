@@ -6,6 +6,7 @@ import { FaEye } from "react-icons/fa";
 
 const VideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 item-outer" title={title}>
@@ -14,7 +15,7 @@ const VideoItem = ({ video }) => {
           <Link to={`/video/${id}`}>
             <div
               style={{
-                backgroundImage: `url("https://localhost:7124/api/Video/thumbnail/${thumbnailId}")`,
+                backgroundImage: `url("${BASE_URL}/Video/thumbnail/${thumbnailId}")`,
               }}
               className="thumbnail-div"
             >
@@ -26,7 +27,7 @@ const VideoItem = ({ video }) => {
                   <tr>
                     <td rowSpan={2} className={"uploader-avt"}>
                       <img
-                        src={`https://localhost:7124/api/User/avatar/${user.avatarId}`}
+                        src={`${BASE_URL}/User/avatar/${user.avatarId}`}
                         className="w-10 h-10 rounded-full mr-2 "
                       ></img>
                     </td>
