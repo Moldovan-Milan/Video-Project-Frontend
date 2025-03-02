@@ -55,10 +55,20 @@ const EditVideoPage = () => {
     setVideoData({ ...videoData, [e.target.name]: e.target.value });
     setGoBackText("Go Back (Discard Changes)")
   };
+
+  useEffect(() => {
+    return () => {
+      if (thumbnail) {
+        URL.revokeObjectURL(thumbnail);
+      }
+    };
+  }, [thumbnail]);
+  
   //TODO: for some reason the backend gets terminated due to some signalR errors, whenever the thumbnail gets changed
   const handleUpload = (e) => {
-    setThumbnail(URL.createObjectURL(e.target.files[0]))
-  }
+    const newThumbnail = URL.createObjectURL(e.target.files[0]);
+    setThumbnail(newThumbnail);
+  };
 
   return (
     <div className="editContainer">
