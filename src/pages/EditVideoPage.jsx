@@ -68,6 +68,7 @@ const EditVideoPage = () => {
   const handleUpload = (e) => {
     const newThumbnail = URL.createObjectURL(e.target.files[0]);
     setThumbnail(newThumbnail);
+    setGoBackText("Go Back (Discard Changes)");
   };
 
   return (
