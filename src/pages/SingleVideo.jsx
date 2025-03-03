@@ -159,17 +159,25 @@ const SingleVideo = () => {
         {user && user.id === videoData.user.id && (
           <Link to={`/video/${id}/edit`}>
             <button className="editBtn">
-              Edit <FaPencilAlt className="m-2" />
+              Edit Video <FaPencilAlt className="m-2" />
             </button>
           </Link>
         )}
 
+        {user && user.id === videoData.user.id && (
+          <div className="subCountLabel m-2">
+            <FaUserPlus className="m-1"/><p>Subscribers: {videoData.user.followersCount}</p>
+          </div>
+        )}
 
-        <button className="lil-sub-btn m-2" onClick={handleSubscribeClick}>
-          {isFollowedByUser ? "Subscribed ✅" : "Subscribe"}{" "}
-          {isFollowedByUser ? <span></span> : <FaUserPlus className="m-1" />}
-          <span>{videoData.user.followersCount}</span>
-        </button>
+        {!(user && user.id === videoData.user.id) && (
+          <button className="lil-sub-btn m-2" onClick={handleSubscribeClick}>
+            {isFollowedByUser ? "Subscribed ✅" : "Subscribe"}{" "}
+            {isFollowedByUser ? <span></span> : <FaUserPlus className="m-1" />}
+            <span>{videoData.user.followersCount}</span>
+          </button>
+        )}
+        
 
         <div className="video-details">
           <div className="video-views">
