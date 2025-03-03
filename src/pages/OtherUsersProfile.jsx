@@ -6,6 +6,7 @@ import { FaMailBulk, FaUserPlus, FaPencilAlt } from "react-icons/fa";
 import UserPageVideoItem from "../components/UserPageVideoItem";
 import isTokenExpired from "../functions/isTokenExpired";
 import { UserContext } from "../components/contexts/UserProvider";
+import { useNavigate } from "react-router-dom";
 
 //TODO: check if this page belongs to the user who is logged in
 const OtherUsersProfile = () => {
@@ -16,6 +17,7 @@ const OtherUsersProfile = () => {
   const [token, setToken] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const {user} = useContext(UserContext)
+  const navigate = useNavigate();
 
   useEffect(() => {
     setToken(sessionStorage.getItem("jwtToken"));
@@ -55,6 +57,11 @@ const OtherUsersProfile = () => {
       document.title = `Profile of ${userData.username} | Omega Stream`;
     }
   }, [userData]);  // Runs when userData is updated
+
+  //TODO: new chat if it doesn't exist
+  const handleMessageSend = () => {
+
+  }
 
   const handleSubscribeClick = async () => {
     if (!token || isTokenExpired(token)) return;
@@ -99,7 +106,7 @@ const OtherUsersProfile = () => {
             {!(user && user.id === userData.id) ? (
               <tr>
                 <td>
-                  <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1">
+                  <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1" onClick={handleMessageSend}>
                     Send Message
                     <FaMailBulk className="m-1" />
                   </button>

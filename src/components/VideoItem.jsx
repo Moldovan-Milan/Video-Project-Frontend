@@ -19,7 +19,11 @@ const VideoItem = ({ video }) => {
               }}
               className="thumbnail-div"
             >
-              <div className="video-duration">{duration}</div>
+              <div className="video-duration">
+                {duration.split(":").length === 2 ?
+                 (<span>{duration}</span>) :
+                 (<span>{duration.substring(3,8)}</span>)}
+              </div>
             </div>
             <div className="p-4 video-details">
               <table className={"vid-info-table"}>
