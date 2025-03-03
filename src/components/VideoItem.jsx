@@ -2,11 +2,14 @@ import React from "react";
 import "../styles/VideoItem.scss";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
+import formatDuration from "../functions/formatDuration";
 import { FaEye } from "react-icons/fa";
 
 const VideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+
 
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 item-outer" title={title}>
@@ -20,9 +23,7 @@ const VideoItem = ({ video }) => {
               className="thumbnail-div"
             >
               <div className="video-duration">
-                {duration.split(":").length === 2 ?
-                 (<span>{duration}</span>) :
-                 (<span>{duration.substring(3,8)}</span>)}
+                {formatDuration(duration)}
               </div>
             </div>
             <div className="p-4 video-details">
