@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/OtherUsersProfile.scss";
-import { FaMailBulk, FaUserPlus } from "react-icons/fa";
+import { FaMailBulk, FaUserPlus, FaPencilAlt } from "react-icons/fa";
 import UserPageVideoItem from "../components/UserPageVideoItem";
 import isTokenExpired from "../functions/isTokenExpired";
 import { UserContext } from "../components/contexts/UserProvider";
@@ -96,7 +96,7 @@ const OtherUsersProfile = () => {
                 </h1>
               </td>
             </tr>
-            {!(user && user.id === userData.id) && (
+            {!(user && user.id === userData.id) ? (
               <tr>
                 <td>
                   <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1">
@@ -121,6 +121,14 @@ const OtherUsersProfile = () => {
                       Subscribed | {userData.followers}
                     </button>
                   )}
+                </td>
+              </tr>
+            ) : (
+              <tr>
+                <td colSpan={2}>
+                  <button className="editVideosBtn">
+                    <FaPencilAlt className="m-1"/><p>Edit Your Videos</p>
+                  </button>
                 </td>
               </tr>
             )}
