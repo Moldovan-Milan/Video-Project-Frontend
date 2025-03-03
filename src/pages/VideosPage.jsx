@@ -4,7 +4,7 @@ import axios from "axios";
 import VideoItem from "../components/VideoItem";
 import { Link } from "react-router-dom";
 
-const VideosPage = (search) => {
+const VideosPage = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -15,10 +15,6 @@ const VideosPage = (search) => {
     document.title = "Omega Stream"
     fetchVideos();
   }, []);
-
-  if (search) {
-    const [filteredVideos, setFilteredVideos] = useState([]);
-  }
 
   return (
     <div className="container mx-auto p-4">
