@@ -125,10 +125,15 @@ const OtherUsersProfile = () => {
               </tr>
             ) : (
               <tr>
-                <td colSpan={2}>
+                <td>
                   <button className="editVideosBtn">
                     <FaPencilAlt className="m-1"/><p>Edit Your Videos</p>
                   </button>
+                </td>
+                <td>
+                  <div className="subscribersLabel">
+                    <FaUserPlus className="m-1"/><p>Your subscribers: {userData.followers}</p>
+                  </div>
                 </td>
               </tr>
             )}
