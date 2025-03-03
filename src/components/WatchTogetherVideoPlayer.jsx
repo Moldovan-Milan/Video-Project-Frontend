@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useWTSignalR } from "./contexts/WatchTogetherSingalRProvider";
 import Hls from "hls.js";
 
-const WatchTogetherVideoPlayer = ({ roomId, videoUrl }) => {
+const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
   const videoRef = useRef(null);
   const connection = useWTSignalR();
   const [isSyncing, setIsSyncing] = useState(false); // Ezt használjuk a ciklusok elkerülésére
@@ -33,6 +33,7 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl }) => {
       connection.on("ReceivePlay", (timestamp) => {
         if (videoRef.current) {
           setIsSyncing(true);
+          console.log("Play");
           videoRef.current.currentTime = timestamp;
           videoRef.current.play();
           setTimeout(() => setIsSyncing(false), 500);
@@ -42,6 +43,7 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl }) => {
       connection.on("ReceivePause", (timestamp) => {
         if (videoRef.current) {
           setIsSyncing(true);
+          console.log("Pause");
           videoRef.current.currentTime = timestamp;
           videoRef.current.pause();
           setTimeout(() => setIsSyncing(false), 500);
@@ -51,6 +53,7 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl }) => {
       connection.on("ReceiveSeek", (timestamp) => {
         if (videoRef.current) {
           setIsSyncing(true);
+          console.log("Seek");
           videoRef.current.currentTime = timestamp;
           setTimeout(() => setIsSyncing(false), 500);
         }
@@ -86,24 +89,25 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl }) => {
     }
   }, [videoUrl]);
 
-  const handlePlay = () => {
-    if (connection && !isSyncing) {
+  const handlePlay = (event) => {
+    if (connection && !isSyncing && isHost) {
       const timestamp = videoRef.current.currentTime;
       connection.invoke("Play", roomId, timestamp);
     }
   };
 
-  const handlePause = () => {
-    if (connection && !isSyncing) {
+  const handlePause = (event) => {
+    if (connection && !isSyncing && isHost) {
       const timestamp = videoRef.current.currentTime;
       connection.invoke("Pause", roomId, timestamp);
     }
   };
 
   const handleSeek = () => {
-    if (connection && !isSyncing) {
+    if (connection && !isSyncing && isHost) {
       const timestamp = videoRef.current.currentTime;
       connection.invoke("Seek", roomId, timestamp);
+      videoRef.current.play();
     }
   };
 
@@ -111,11 +115,11 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl }) => {
     <div>
       <video
         ref={videoRef}
+        controls={isHost}
         width="640"
         height="360"
-        controls
-        onPlay={handlePlay}
-        onPause={handlePause}
+        onPlay={(e) => handlePlay(e)}
+        onPause={(e) => handlePause(e)}
         onSeeked={handleSeek}
       >
         <source src={videoUrl} type="video/mp4" />
