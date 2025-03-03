@@ -15,6 +15,7 @@ const OtherUsersProfile = () => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const {user} = useContext(UserContext)
 
   useEffect(() => {
     setToken(sessionStorage.getItem("jwtToken"));
@@ -95,32 +96,35 @@ const OtherUsersProfile = () => {
                 </h1>
               </td>
             </tr>
-            <tr>
-              <td>
-                <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1">
-                  Send Message
-                  <FaMailBulk className="m-1" />
-                </button>
-              </td>
-              <td>
-                {!isSubscribed ? (
-                  <button
-                    onClick={handleSubscribeClick}
-                    className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
-                  >
-                    Subscribe | {userData.followers}
-                    <FaUserPlus className="m-1" />
+            {!(user && user.id === userData.id) && (
+              <tr>
+                <td>
+                  <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1">
+                    Send Message
+                    <FaMailBulk className="m-1" />
                   </button>
-                ) : (
-                  <button
-                    onClick={handleSubscribeClick}
-                    className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
-                  >
-                    Subscribed | {userData.followers}
-                  </button>
-                )}
-              </td>
-            </tr>
+                </td>
+                <td>
+                  {!isSubscribed ? (
+                    <button
+                      onClick={handleSubscribeClick}
+                      className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
+                    >
+                      Subscribe | {userData.followers}
+                      <FaUserPlus className="m-1" />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSubscribeClick}
+                      className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
+                    >
+                      Subscribed | {userData.followers}
+                    </button>
+                  )}
+                </td>
+              </tr>
+            )}
+              
           </tbody>
         </table>
       </div>
