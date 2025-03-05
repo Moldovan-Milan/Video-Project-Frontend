@@ -2,22 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import { useWTSignalR } from "./contexts/WatchTogetherSingalRProvider";
 import Hls from "hls.js";
 
+const SYNC_TIME = 2000; // 2 sec
+
 const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
   const videoRef = useRef(null);
   const connection = useWTSignalR();
-  const [isSyncing, setIsSyncing] = useState(false); // Ezt használjuk a ciklusok elkerülésére
+  const [isSyncing, setIsSyncing] = useState(false);
 
-  // Sync video state on first connection
   useEffect(() => {
     if (connection) {
       connection.on("SyncVideoState", (timestamp, isPlaying) => {
         if (videoRef.current) {
           videoRef.current.currentTime = timestamp;
-          if (isPlaying) {
-            videoRef.current.play();
-          } else {
-            videoRef.current.pause();
-          }
+          isPlaying ? videoRef.current.play() : videoRef.current.pause();
         }
       });
 
@@ -27,13 +24,11 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
     }
   }, [connection]);
 
-  // Create methods for Hub events
   useEffect(() => {
     if (connection) {
       connection.on("ReceivePlay", (timestamp) => {
         if (videoRef.current) {
           setIsSyncing(true);
-          console.log("Play");
           videoRef.current.currentTime = timestamp;
           videoRef.current.play();
           setTimeout(() => setIsSyncing(false), 500);
@@ -43,7 +38,6 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
       connection.on("ReceivePause", (timestamp) => {
         if (videoRef.current) {
           setIsSyncing(true);
-          console.log("Pause");
           videoRef.current.currentTime = timestamp;
           videoRef.current.pause();
           setTimeout(() => setIsSyncing(false), 500);
@@ -53,9 +47,15 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
       connection.on("ReceiveSeek", (timestamp) => {
         if (videoRef.current) {
           setIsSyncing(true);
-          console.log("Seek");
           videoRef.current.currentTime = timestamp;
           setTimeout(() => setIsSyncing(false), 500);
+        }
+      });
+
+      connection.on("HostTimeSync", (hostTime) => {
+        if (!isHost) {
+          console.log("Sync time by host");
+          synchronizeGuestTime(hostTime, videoRef.current.currentTime);
         }
       });
 
@@ -67,7 +67,27 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
     }
   }, [connection]);
 
-  // Enable HLS for streaming
+  useEffect(() => {
+    let sendCurrentVideoTime = null;
+    if (isHost) {
+      sendCurrentVideoTime = setInterval(() => {
+        console.log("Host sync time");
+        if (videoRef.current) {
+          const currentTime = videoRef.current.currentTime;
+          connection
+            .invoke("SyncTime", roomId, currentTime)
+            .catch((err) => console.log("Failed to sync time: ", err));
+        }
+      }, SYNC_TIME);
+    }
+
+    return () => {
+      if (sendCurrentVideoTime) {
+        clearInterval(sendCurrentVideoTime);
+      }
+    };
+  }, [isHost]);
+
   useEffect(() => {
     if (Hls.isSupported()) {
       const hls = new Hls();
@@ -82,33 +102,46 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
         hls.destroy();
       };
     } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-      // Natív HLS támogatás (pl. Safari)
       videoRef.current.src = videoUrl;
     } else {
       console.error("HLS nem támogatott ebben a böngészőben.");
     }
   }, [videoUrl]);
 
-  const handlePlay = (event) => {
+  const handlePlay = () => {
     if (connection && !isSyncing && isHost) {
-      const timestamp = videoRef.current.currentTime;
-      connection.invoke("Play", roomId, timestamp);
+      connection.invoke("Play", roomId, videoRef.current.currentTime);
     }
   };
 
-  const handlePause = (event) => {
+  const handlePause = () => {
     if (connection && !isSyncing && isHost) {
-      const timestamp = videoRef.current.currentTime;
-      connection.invoke("Pause", roomId, timestamp);
+      connection.invoke("Pause", roomId, videoRef.current.currentTime);
     }
   };
 
   const handleSeek = () => {
     if (connection && !isSyncing && isHost) {
-      const timestamp = videoRef.current.currentTime;
-      connection.invoke("Seek", roomId, timestamp);
+      connection.invoke("Seek", roomId, videoRef.current.currentTime);
       videoRef.current.play();
     }
+  };
+
+  const synchronizeGuestTime = (hostTime, currentTime) => {
+    let timeDifference = hostTime - currentTime;
+
+    if (Math.abs(timeDifference) > 1) {
+      videoRef.current.currentTime = hostTime;
+      videoRef.current.playbackRate = 1;
+      return;
+    }
+
+    // let correctionSpeed = timeDifference > 0 ? 1.05 : 0.95;
+    // videoRef.current.playbackRate = correctionSpeed;
+
+    // requestAnimationFrame(() =>
+    //   synchronizeGuestTime(hostTime, videoRef.current.currentTime)
+    // );
   };
 
   return (
@@ -118,12 +151,10 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
         controls={isHost}
         width="640"
         height="360"
-        onPlay={(e) => handlePlay(e)}
-        onPause={(e) => handlePause(e)}
+        onPlay={handlePlay}
+        onPause={handlePause}
         onSeeked={handleSeek}
-      >
-        <source src={videoUrl} type="video/mp4" />
-      </video>
+      ></video>
     </div>
   );
 };

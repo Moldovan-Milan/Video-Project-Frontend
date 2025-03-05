@@ -74,7 +74,7 @@ const WatchTogetherRoom = () => {
         <WatchTogetherVideoPlayer
           roomId={id}
           isHost={isHost}
-          videoUrl={`https://localhost:7124/api/video/${3}`}
+          videoUrl={`https://localhost:7124/api/video/1`}
         />
       </div>
     </div>
