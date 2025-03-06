@@ -10,9 +10,21 @@ const VideoPlayer = ({ src, id }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [watchTime, setWatchTime] = useState(0);
-  const watchThreshold = 10;
+  const [watchThreshold, setWatchThreshold ] = useState(10);
   const timerRef = useRef(null);
   const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const duration = video.duration;
+      if (duration <= 10) {
+        setWatchThreshold(duration);
+      } else {
+        setWatchThreshold(10);
+      }
+    }
+  }, [src]);
 
   useEffect(() => {
     if (Hls.isSupported()) {
@@ -39,19 +51,16 @@ const VideoPlayer = ({ src, id }) => {
     if (!video) return;
 
     const handlePlay = () => {
-      console.log("Video started playing");
       setIsPlaying(true);
       startTimer();
     };
 
     const handlePause = () => {
-      console.log("Video paused");
       setIsPlaying(false);
       stopTimer();
     };
 
     const handleEnded = () => {
-      console.log("Video ended");
       setIsPlaying(false);
       stopTimer();
     };
@@ -73,7 +82,6 @@ const VideoPlayer = ({ src, id }) => {
         setWatchTime((prev) => {
           const newTime = prev + 1;
           if (newTime >= watchThreshold) {
-            //todo only send this once
             validateView();
             stopTimer();
           }
@@ -93,13 +101,10 @@ const VideoPlayer = ({ src, id }) => {
   const validateView = async () => {
     try {
         if(user){
-          
           const response = await axios.post(`api/Video/add-video-view?videoId=${params.id}&userId=${user.id}`);
-          console.log(response)
         }
         else{
           const response = await axios.post(`api/Video/add-video-view?videoId=${params.id}`);
-          console.log(response);
         }
     } catch (error) {
       console.error("Error sending view to backend:", error);
@@ -109,7 +114,6 @@ const VideoPlayer = ({ src, id }) => {
   return (
     <>
       <video autoPlay ref={videoRef} controls style={{ width: "100%" }} />
-      <p>Watch Time: {watchTime}s</p>
     </>
   );
 };
