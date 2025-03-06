@@ -1,0 +1,68 @@
+.followedVideoItemContainer {
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    margin-left: 20px;
+  }
+  
+  .followedVideoItem {
+    display: flex;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s; //a hover animáció simábbá tétele
+  }
+  
+  .followedVideoItem:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px lime;
+  }
+  
+  .followedVideoItemTable {
+    width: 100%;
+  }
+  
+  .followedVideoItemThumbnail {
+    width: 200px;
+  }
+  
+  .followedVideoItemDetails {
+    width: 500px;
+    padding-left: 10px;
+  }
+  
+  .followedVideoItemThumbnailDiv {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 100%;
+    height: 150px;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 10px;
+  }
+  
+  
+  .followedVideoItemTitle {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: lime;
+  }
+  
+  .followedVideoItemUploader {
+    margin-bottom: 5px;
+  }
+  
+  .followedVideoItemViews {
+    display: flex;
+    font-size: 15px;
+  }
+  
+  .followedVideoEye {
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-top: 3px;
+  }
+  
