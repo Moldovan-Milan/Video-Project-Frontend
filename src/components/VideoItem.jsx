@@ -6,7 +6,7 @@ import formatDuration from "../functions/formatDuration";
 import { FaEye } from "react-icons/fa";
 
 const VideoItem = ({ video }) => {
-  const { id, title, duration, created, thumbnailId, user } = video;
+  const { id, title, duration, created, thumbnailId, user, views } = video;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
@@ -57,7 +57,7 @@ const VideoItem = ({ video }) => {
               </table>
               <div className="text-xs views">
                 <FaEye className="eye-icon" />
-                10 views ● Created: {timeAgo(new Date(created))}
+                {views} views ● Created: {timeAgo(new Date(created))}
               </div>
             </div>
           </Link>
