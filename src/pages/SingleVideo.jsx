@@ -16,6 +16,7 @@ import { UserContext } from "../components/contexts/UserProvider";
 import "../styles/SingleVideo.scss";
 import CommentSection from "../components/CommentSection";
 import RecommendedVideos from "../components/RecommendedVideos";
+import getViewText from "../functions/getViewText";
 
 const SingleVideo = () => {
   const { id } = useParams();
@@ -181,7 +182,7 @@ const SingleVideo = () => {
 
         <div className="video-details">
           <div className="video-views">
-            <FaEye className="eye-icon" /> {videoData.views} views ● Created:{" "}
+            <FaEye className="eye-icon" /> {getViewText(videoData.views)} ● Created:{" "}
             {timeAgo(new Date(videoData.created))}
           </div>
           <div className="video-likes">
