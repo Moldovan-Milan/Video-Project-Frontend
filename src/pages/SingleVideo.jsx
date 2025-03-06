@@ -181,7 +181,7 @@ const SingleVideo = () => {
 
         <div className="video-details">
           <div className="video-views">
-            <FaEye className="eye-icon" /> 10 views ● Created:{" "}
+            <FaEye className="eye-icon" /> {videoData.views} views ● Created:{" "}
             {timeAgo(new Date(videoData.created))}
           </div>
           <div className="video-likes">

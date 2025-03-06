@@ -5,7 +5,7 @@ import { FaEye } from "react-icons/fa";
 import "../styles/UserPageVideoItem.scss";
 
 const UserPageVideoItem = ({ video }) => {
-  const { id, title, duration, created, thumbnailId, user } = video;
+  const { id, title, duration, created, thumbnailId, user, views } = video;
 
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" title={title}>
@@ -25,7 +25,7 @@ const UserPageVideoItem = ({ video }) => {
             </div>
             <div className="text-xs views">
               <FaEye className="eye-icon" />
-              10 views ● Created: {timeAgo(new Date(created))}
+              {views} views ● Created: {timeAgo(new Date(created))}
             </div>
           </div>
         </Link>
