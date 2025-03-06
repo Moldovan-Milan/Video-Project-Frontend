@@ -4,7 +4,13 @@ import Hls from "hls.js";
 
 const SYNC_TIME = 2000; // 2 sec
 
-const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
+const WatchTogetherVideoPlayer = ({
+  roomId,
+  videoUrl,
+  isHost,
+  time,
+  isPlaying,
+}) => {
   const videoRef = useRef(null);
   const connection = useWTSignalR();
   const [isSyncing, setIsSyncing] = useState(false);
@@ -21,6 +27,10 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
       return () => {
         connection.off("SyncVideoState");
       };
+    }
+
+    if (!isHost) {
+      videoRef.current.currentTime = time;
     }
   }, [connection]);
 
@@ -150,6 +160,7 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost }) => {
         ref={videoRef}
         controls={isHost}
         width="640"
+        autoPlay={isPlaying}
         height="360"
         onPlay={handlePlay}
         onPause={handlePause}
