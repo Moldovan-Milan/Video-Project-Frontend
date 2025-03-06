@@ -1,15 +1,18 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext, } from "react";
 import Hls from "hls.js";
 import axios from "axios";
 import "../styles/VideoPlayer.scss";
+import { UserContext } from "./contexts/UserProvider";
+import { useParams } from "react-router-dom";
+
 
 const VideoPlayer = ({ src, id }) => {
   const videoRef = useRef(null);
-  const [user, setUser] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [watchTime, setWatchTime] = useState(0);
   const watchThreshold = 10;
   const timerRef = useRef(null);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (Hls.isSupported()) {
@@ -30,18 +33,6 @@ const VideoPlayer = ({ src, id }) => {
       console.error("HLS is not supported in this browser.");
     }
   }, [src]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(`api/video/data/${id}`);
-        setUser(result.data.user);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-    fetchData();
-  }, [id]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -82,6 +73,7 @@ const VideoPlayer = ({ src, id }) => {
         setWatchTime((prev) => {
           const newTime = prev + 1;
           if (newTime >= watchThreshold) {
+            //todo only send this once
             validateView();
             stopTimer();
           }
@@ -97,10 +89,18 @@ const VideoPlayer = ({ src, id }) => {
       timerRef.current = null;
     }
   };
-
+  const params = useParams()
   const validateView = async () => {
     try {
-        //TODO: Check if user is logged in and send request to backend
+        if(user){
+          
+          const response = await axios.post(`api/Video/add-video-view?videoId=${params.id}&userId=${user.id}`);
+          console.log(response)
+        }
+        else{
+          const response = await axios.post(`api/Video/add-video-view?videoId=${params.id}`);
+          console.log(response);
+        }
     } catch (error) {
       console.error("Error sending view to backend:", error);
     }
