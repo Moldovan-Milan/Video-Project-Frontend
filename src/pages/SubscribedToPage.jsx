@@ -27,19 +27,7 @@ export default function SubscribedToPage()
       <div className="subList">
       {userFollowed.map((u, id) => (
         <FollowedChannelItem key={id} user={u}/>
-      ))}
-      {userFollowed.map((u, id) => (
-        <FollowedChannelItem key={id} user={u} />
-      ))}
-      {userFollowed.map((u, id) => (
-        <FollowedChannelItem key={id} user={u} />
-      ))}
-      {userFollowed.map((u, id) => (
-        <FollowedChannelItem key={id} user={u} />
-      ))}
-      {userFollowed.map((u, id) => (
-        <FollowedChannelItem key={id} user={u} />
-      ))}
+      ))}     
     </div>
     <h2 className="subVideosTitle">Latest uploads by your favourites</h2>
     <div>
