@@ -99,14 +99,6 @@ export default function NavbarComponent() {
                     Chats
                   </Link>
                 </li>
-                <li className="nav-item mb-2">
-                  <Link
-                    to="/following"
-                    className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Subscriptions
-                  </Link>
-                </li>
               </>
             )}
             <li className="nav-item mb-2">
