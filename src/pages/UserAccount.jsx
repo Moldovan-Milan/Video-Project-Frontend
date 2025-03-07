@@ -45,10 +45,10 @@ const UserAccount = () => {
   }, []);
 
   useEffect(() => {
-    if(userData){
-      document.title = `Page for ${userData.username}`
+    if (userData) {
+      document.title = `Page for ${userData.username}`;
     }
-  }, [userData])
+  }, [userData]);
 
   return (
     <div className="container">
