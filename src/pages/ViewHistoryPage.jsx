@@ -9,6 +9,8 @@ const ViewHistoryPage = () => {
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
 
+    //TODO: Add filtering
+
     useEffect(() => {
         if (!user) {
             navigate("/login");
@@ -29,7 +31,7 @@ const ViewHistoryPage = () => {
                     return;
                 }
 
-                console.log(response.data);
+                //Change this for filters
                 setVideoViews(response.data.reverse());
             } catch (error) {
                 console.log(error);
