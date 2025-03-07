@@ -30,7 +30,7 @@ const ViewHistoryPage = () => {
                 }
 
                 console.log(response.data);
-                setVideoViews(response.data);
+                setVideoViews(response.data.reverse());
             } catch (error) {
                 console.log(error);
             }
