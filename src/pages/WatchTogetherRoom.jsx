@@ -17,6 +17,7 @@ const WatchTogetherRoom = () => {
   const [userRequest, setUserRequest] = useState([]);
   const [time, setTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showUsers, setShowUsers] = useState(false);
 
   useEffect(() => {
     if (connection && connection.state === "Connected" && user) {
@@ -33,7 +34,10 @@ const WatchTogetherRoom = () => {
       connection.on("LeavedRoom", setUsers);
       connection.on("HostLeftRoom", () => setIsHostLeft(true));
       connection.on("HostInRoom", () => setIsHostLeft(false));
-      connection.on("YouAreHost", () => setIsHost(true));
+      connection.on("YouAreHost", () => {
+        setIsHost(true);
+        setIsInRoom(true);
+      });
       connection.on("JoinRequest", (u) =>
         setUserRequest((prev) => [...prev, u])
       );
@@ -70,57 +74,72 @@ const WatchTogetherRoom = () => {
         Watch Together - Room ID: {id}
       </h2>
 
-      <div className="flex flex-col md:flex-row justify-between w-full max-w-4xl bg-gray-900 p-6 rounded-lg shadow-lg">
-        <div className="flex flex-wrap gap-4">
-          {users.length > 0 ? (
-            users.map((u) => (
-              <div
-                key={u.id}
-                className="flex items-center space-x-2 bg-gray-800 p-3 rounded-lg"
+      {isHost && userRequest.length > 0 && (
+        <div className="mb-4 w-full max-w-4xl bg-gray-900 p-4 rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-lime-400 mb-2">
+            Join Requests
+          </h3>
+          {userRequest.map((u) => (
+            <div
+              key={u.id}
+              className="flex items-center space-x-3 bg-gray-800 p-3 rounded-lg mb-2"
+            >
+              <img
+                src={`https://localhost:7124/api/User/avatar/${u.avatarId}`}
+                alt={u.userName}
+                className="w-12 h-12 rounded-full border border-purple-400"
+              />
+              <span className="text-purple-300">{u.userName}</span>
+              <button
+                className="bg-lime-500 hover:bg-lime-600 px-3 py-1 rounded-lg"
+                onClick={() => acceptUser(u.id)}
               >
-                <img
-                  src={`https://localhost:7124/api/User/avatar/${u.avatarId}`}
-                  alt={u.userName}
-                  className="w-12 h-12 rounded-full border border-lime-400"
-                />
-                <span className="text-lime-300">{u.userName}</span>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-400">No users in the room yet.</p>
-          )}
+                Accept
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg"
+                onClick={() => rejectUser(u.id)}
+              >
+                Reject
+              </button>
+            </div>
+          ))}
         </div>
+      )}
 
-        {userRequest.length > 0 && isHost && (
-          <div className="mt-4 md:mt-0">
-            {userRequest.map((u) => (
-              <div
-                key={u.id}
-                className="flex items-center space-x-3 bg-gray-800 p-3 rounded-lg"
-              >
-                <img
-                  src={`https://localhost:7124/api/User/avatar/${u.avatarId}`}
-                  alt={u.userName}
-                  className="w-12 h-12 rounded-full border border-purple-400"
-                />
-                <span className="text-purple-300">{u.userName}</span>
-                <button
-                  className="bg-lime-500 hover:bg-lime-600 px-3 py-1 rounded-lg"
-                  onClick={() => acceptUser(u.id)}
+      <button
+        className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg mb-4"
+        onClick={() => setShowUsers(!showUsers)}
+      >
+        {showUsers ? "Hide Users" : "Show Users"}
+      </button>
+
+      {showUsers && (
+        <div className="w-full max-w-4xl bg-gray-900 p-6 rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-lime-400 mb-2">
+            Users in Room
+          </h3>
+          <div className="flex flex-wrap gap-4">
+            {users.length > 0 ? (
+              users.map((u) => (
+                <div
+                  key={u.id}
+                  className="flex items-center space-x-2 bg-gray-800 p-3 rounded-lg"
                 >
-                  Accept
-                </button>
-                <button
-                  className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg"
-                  onClick={() => rejectUser(u.id)}
-                >
-                  Reject
-                </button>
-              </div>
-            ))}
+                  <img
+                    src={`https://localhost:7124/api/User/avatar/${u.avatarId}`}
+                    alt={u.userName}
+                    className="w-12 h-12 rounded-full border border-lime-400"
+                  />
+                  <span className="text-lime-300">{u.userName}</span>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400">No users in the room yet.</p>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {isHostLeft && (
         <span className="mt-4 text-red-400 font-semibold">
@@ -129,13 +148,18 @@ const WatchTogetherRoom = () => {
       )}
 
       <div className="mt-6 w-full max-w-4xl">
-        <WatchTogetherVideoPlayer
-          roomId={id}
-          time={time}
-          isPlaying={isPlaying}
-          isHost={isHost}
-          videoUrl={`https://localhost:7124/api/video/1`}
-        />
+        {isInRoom ? (
+          <WatchTogetherVideoPlayer
+            roomId={id}
+            isPlaying={isPlaying}
+            isHost={isHost}
+            videoUrl={`https://localhost:7124/api/video/1`}
+          />
+        ) : (
+          <div className="text-center text-gray-400 text-xl">
+            Waiting for the host to accept your request...
+          </div>
+        )}
       </div>
     </div>
   );
