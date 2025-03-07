@@ -25,9 +25,11 @@ const WatchHistoryVideoItem = ({ videoView }) => {
         {/* Video Details */}
         <div className="video-details">
           <div className="title">{video.title.length > 50 ? video.title.substring(0, 50) + "..." : video.title}</div>
-          <Link to={`/profile/${video.user.id}`} className="user-link" onClick={(e) => e.stopPropagation()}>
-                {video.user.userName}
-            </Link>
+            <object className="user-link">
+                <Link to={`/profile/${video.user.id}`} onClick={(e) => e.stopPropagation()}>
+                    {video.user.userName}
+                </Link>
+            </object>
           <div className="meta-info">
             
             <FaEye className="eye-icon" /> {getViewText(video.views)} ● {timeAgo(new Date(video.created))}
@@ -40,8 +42,6 @@ const WatchHistoryVideoItem = ({ videoView }) => {
           </div>
         </div>
       </Link>
-
-      {/* Uploader's name (this remains separate) */}
 
     </div>
   );
