@@ -27,6 +27,13 @@ const VideoPlayer = ({ src, id }) => {
   };
 
   useEffect(() => {
+    if(watchTime >= watchThreshold){
+      validateView()
+    }
+  }, [watchTime])
+
+
+  useEffect(() => {
     if (Hls.isSupported()) {
       const hls = new Hls();
       hls.loadSource(src);
@@ -53,12 +60,7 @@ const VideoPlayer = ({ src, id }) => {
     const handlePlay = () => {
       setIsPlaying(true);
       startTimer();
-      const video = videoRef.current;
-      if (video && video.duration <= 10) {
-        setWatchTime(video.duration);
-      }
     };
-    
 
     const handlePause = () => {
       setIsPlaying(false);
@@ -82,14 +84,6 @@ const VideoPlayer = ({ src, id }) => {
   }, []);
 
   const startTimer = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (video.duration <= 10 && watchTime >= video.duration) {
-      validateView();
-      return;
-    }
-  
     if (!timerRef.current) {
       timerRef.current = setInterval(() => {
         setWatchTime((prev) => {
@@ -103,7 +97,6 @@ const VideoPlayer = ({ src, id }) => {
       }, 1000);
     }
   };
-  
 
   const stopTimer = () => {
     if (timerRef.current) {
