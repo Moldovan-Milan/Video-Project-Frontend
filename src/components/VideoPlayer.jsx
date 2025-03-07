@@ -5,7 +5,6 @@ import "../styles/VideoPlayer.scss";
 import { UserContext } from "./contexts/UserProvider";
 import { useParams } from "react-router-dom";
 
-
 const VideoPlayer = ({ src, id }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -14,17 +13,18 @@ const VideoPlayer = ({ src, id }) => {
   const timerRef = useRef(null);
   const { user } = useContext(UserContext);
 
-  useEffect(() => {
+  const handleLoadedMetadata = () => {
     const video = videoRef.current;
+    console.log(video.duration)
     if (video) {
-      const duration = video.duration;
+      const duration = video.duration
       if (duration <= 10) {
-        setWatchThreshold(duration);
+        setWatchThreshold(Math.floor(duration));
       } else {
         setWatchThreshold(10);
       }
     }
-  }, [src]);
+  };
 
   useEffect(() => {
     if (Hls.isSupported()) {
@@ -53,7 +53,12 @@ const VideoPlayer = ({ src, id }) => {
     const handlePlay = () => {
       setIsPlaying(true);
       startTimer();
+      const video = videoRef.current;
+      if (video && video.duration <= 10) {
+        setWatchTime(video.duration);
+      }
     };
+    
 
     const handlePause = () => {
       setIsPlaying(false);
@@ -77,6 +82,14 @@ const VideoPlayer = ({ src, id }) => {
   }, []);
 
   const startTimer = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.duration <= 10 && watchTime >= video.duration) {
+      validateView();
+      return;
+    }
+  
     if (!timerRef.current) {
       timerRef.current = setInterval(() => {
         setWatchTime((prev) => {
@@ -90,6 +103,7 @@ const VideoPlayer = ({ src, id }) => {
       }, 1000);
     }
   };
+  
 
   const stopTimer = () => {
     if (timerRef.current) {
@@ -113,7 +127,7 @@ const VideoPlayer = ({ src, id }) => {
 
   return (
     <>
-      <video autoPlay ref={videoRef} controls style={{ width: "100%" }} />
+      <video autoPlay ref={videoRef} controls style={{ width: "100%" }} onLoadedMetadata={handleLoadedMetadata}/>
     </>
   );
 };
