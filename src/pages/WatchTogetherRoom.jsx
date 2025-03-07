@@ -1,8 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useWTSignalR } from "../components/contexts/WatchTogetherSingalRProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import WatchTogetherVideoPlayer from "../components/WatchTogetherVideoPlayer";
 import { UserContext } from "../components/contexts/UserProvider";
+import ChatPanel from "../components/ChatPanel";
+import "../output.css";
+import "../index.css";
+import "../styles/WatchTogetherRoom.scss";
 
 const WatchTogetherRoom = () => {
   const navigate = useNavigate();
@@ -10,48 +14,19 @@ const WatchTogetherRoom = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
 
+  // Host data
   const [isHost, setIsHost] = useState(false);
   const [isHostLeft, setIsHostLeft] = useState(false);
+
+  // Room and user data
   const [isInRoom, setIsInRoom] = useState(false);
   const [users, setUsers] = useState([]);
   const [userRequest, setUserRequest] = useState([]);
+  const [messages, setMessages] = useState([]);
+
+  // Video data
   const [time, setTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [showUsers, setShowUsers] = useState(false);
-
-  // Átméretezéshez szükséges állapotok
-  const [videoWidth, setVideoWidth] = useState(66); // Alapértelmezett szélesség (2/3)
-  const [isResizing, setIsResizing] = useState(false);
-
-  // Rögzítjük a pozíciót, hogy ne lépje túl a szegmenseket
-  const handleMouseDown = (e) => {
-    setIsResizing(true);
-  };
-
-  const handleMouseMove = (e) => {
-    if (isResizing) {
-      // Az egér pozíciója az ablak szélességén belül
-      const minWidth = 30; // Minimális szélesség (30%)
-      const maxWidth = window.innerWidth - 200; // Maximális szélesség, figyelembe véve az üzenetfal szélességét (max. 80%-os videó szélesség)
-
-      // Kiszámoljuk az új szélességet az egér X pozíciójából
-      let newWidth = (e.clientX / window.innerWidth) * 100;
-
-      // A szélességet korlátozzuk
-      newWidth = Math.max(minWidth, Math.min(newWidth, maxWidth));
-
-      setVideoWidth(newWidth);
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsResizing(false);
-  };
-
-  // Show all users és request kezelők
-  const toggleShowUsers = () => {
-    setShowUsers((prev) => !prev);
-  };
 
   const acceptUser = (userId) => {
     connection.invoke("AcceptUser", id, userId);
@@ -63,18 +38,24 @@ const WatchTogetherRoom = () => {
     setUserRequest((prev) => prev.filter((u) => u.id !== userId));
   };
 
-  // Avatar hiba kezelés alapértelmezett képpel
-  const handleImageError = (e) => {
-    e.target.src = "https://via.placeholder.com/32"; // Ha nem található a kép, helyette ezt a kép URL-t használjuk
+  const sendMessage = (content) => {
+    if (!content) {
+      alert("You can not send an empty message");
+      return;
+    }
+    connection.invoke("SendMessage", id, user.id, content);
   };
 
   useEffect(() => {
     if (connection && connection.state === "Connected" && user) {
       connection.on("JoinedToRoom", setUsers);
-      connection.on("RequestAccepted", (time, isPlaying) => {
+      connection.on("RequestAccepted", (time, isPlaying, messages) => {
         setIsInRoom(true);
         setTime(time);
         setIsPlaying(isPlaying);
+        if (messages) {
+          setMessages(messages);
+        }
       });
       connection.on("RequestRejected", () => {
         alert("Your request to join the room was rejected.");
@@ -83,13 +64,19 @@ const WatchTogetherRoom = () => {
       connection.on("LeavedRoom", setUsers);
       connection.on("HostLeftRoom", () => setIsHostLeft(true));
       connection.on("HostInRoom", () => setIsHostLeft(false));
-      connection.on("YouAreHost", () => {
+      connection.on("YouAreHost", (messages) => {
         setIsHost(true);
         setIsInRoom(true);
+        if (messages) {
+          setMessages(messages);
+        }
       });
       connection.on("JoinRequest", (u) =>
         setUserRequest((prev) => [...prev, u])
       );
+      connection.on("ReceiveMessage", (message) => {
+        setMessages((prev) => [...prev, message]);
+      });
 
       connection.invoke("JoinRoom", id, user.id).catch(console.error);
 
@@ -102,26 +89,19 @@ const WatchTogetherRoom = () => {
         connection.off("HostInRoom");
         connection.off("YouAreHost");
         connection.off("JoinRequest");
+        connection.off("ReceiveMessage");
         connection.invoke("LeaveRoom", id, user.id).catch(console.error);
       };
     }
   }, [connection, user, id, navigate]);
 
   return (
-    <div
-      className="min-h-screen bg-black text-white p-6 flex"
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    >
-      <div
-        className="flex-2"
-        style={{ width: `${videoWidth}%` }} // Dinamikusan változó szélesség
-      >
+    <div className="min-h-screen bg-black text-white p-6 flex">
+      <div className="flex-2 w-2/3">
         <h2 className="text-4xl font-bold text-lime-400 mb-6">
           Watch Together - Room ID: {id}
         </h2>
-
-        {/* A többi tartalom itt marad */}
+        {isHostLeft && <div>Host left and room will be closed in 30 sec</div>}
 
         <div className="mt-6 w-full max-w-4xl">
           {isInRoom ? (
@@ -139,91 +119,46 @@ const WatchTogetherRoom = () => {
         </div>
       </div>
 
-      {/* Átméretezési zóna az üzenetfal mellett */}
-      <div
-        className="w-1/3 bg-gray-800 p-4 rounded-lg shadow-lg"
-        onMouseDown={handleMouseDown}
-        style={{
-          borderLeft: "2px solid rgba(255, 255, 255, 0.2)", // Halvány vonal az üzenetfal szélén
-          cursor: isResizing ? "ew-resize" : "default", // Dinamikus kurzor változtatás
-        }}
-      >
-        <h3 className="text-xl font-semibold text-lime-400 mb-4">Messages</h3>
-        <div className="bg-gray-700 h-72 p-4 rounded-lg mb-4 overflow-auto">
-          {/* Üzenetek megjelenítése */}
-        </div>
-        <input
-          type="text"
-          className="w-full p-2 bg-gray-600 rounded-lg text-white"
-          placeholder="Type your message..."
-        />
+      {/* Üzenetfal és kezelőfelület */}
+      <ChatPanel messages={messages} onMessageSend={sendMessage} />
 
-        {/* Request kezelése */}
-        {isHost && userRequest.length > 0 && (
-          <div className="mt-4 text-lime-400">
-            <h4 className="text-lg">Join Requests</h4>
-            <ul className="space-y-2">
-              {userRequest.map((requestUser) => (
-                <li
-                  key={requestUser.id}
-                  className="flex justify-between items-center"
-                >
-                  <div className="flex items-center space-x-2">
-                    <img
-                      src={`https://localhost:7124/api/User/avatar/${requestUser.avatarId}`}
-                      alt={requestUser.username}
-                      className="w-8 h-8 rounded-full object-cover"
-                      onError={handleImageError} // Hiba kezelés
-                    />
-                    <span>{requestUser.userName}</span>
-                  </div>
-                  <div>
-                    <button
-                      className="bg-green-500 text-white px-2 py-1 rounded mr-2"
-                      onClick={() => acceptUser(requestUser.id)}
-                    >
-                      Accept
-                    </button>
-                    <button
-                      className="bg-red-500 text-white px-2 py-1 rounded"
-                      onClick={() => rejectUser(requestUser.id)}
-                    >
-                      Reject
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Show all users */}
-        <button
-          className="mt-4 w-full bg-blue-500 text-white p-2 rounded"
-          onClick={toggleShowUsers}
-        >
-          {showUsers ? "Hide Users" : "Show All Users"}
-        </button>
-
-        {showUsers && (
-          <div className="mt-4 text-lime-400">
-            <h4 className="text-lg">Users in Room</h4>
-            <ul className="space-y-2">
-              {users.map((u) => (
-                <li key={u.id} className="flex items-center space-x-2">
+      {/* Request kezelése */}
+      {isHost && userRequest.length > 0 && (
+        <div className="mt-4 text-lime-400">
+          <h4 className="text-lg">Join Requests</h4>
+          <ul className="space-y-2">
+            {userRequest.map((requestUser) => (
+              <li
+                key={requestUser.id}
+                className="flex justify-between items-center"
+              >
+                <div className="flex items-center space-x-2">
                   <img
-                    src={`https://localhost:7124/api/User/avatar/${u.avatarId}`}
-                    alt={u.userName}
+                    src={`https://localhost:7124/api/User/avatar/${requestUser.avatarId}`}
+                    alt={requestUser.username}
                     className="w-8 h-8 rounded-full object-cover"
-                    onError={handleImageError} // Hiba kezelés
                   />
-                  <span>{u.userName}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+                  <span>{requestUser.userName}</span>
+                </div>
+                <div>
+                  <button
+                    className="bg-green-500 text-white px-2 py-1 rounded mr-2"
+                    onClick={() => acceptUser(requestUser.id)}
+                  >
+                    Accept
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={() => rejectUser(requestUser.id)}
+                  >
+                    Reject
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
