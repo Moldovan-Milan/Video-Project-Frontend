@@ -1,0 +1,93 @@
+$lime: #a4de02;
+$black: #000000;
+
+.wtvideo-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid $black;
+    border-radius: 8px;
+    background-color: #111;
+    overflow: hidden;
+    width: 250px;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .thumbnail-container {
+        position: relative;
+        width: 120px;
+
+        .thumbnail {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .duration {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: $lime;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+
+            svg {
+                margin-right: 3px;
+            }
+        }
+    }
+
+    .wtvideo-info {
+        padding: 10px;
+        color: white;
+        flex-grow: 1;
+
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: $lime;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .description {
+            font-size: 12px;
+            color: #ccc;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+
+            .avatar {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-right: 8px;
+            }
+
+            .username {
+                font-size: 14px;
+                color: $lime;
+            }
+        }
+    }
+}

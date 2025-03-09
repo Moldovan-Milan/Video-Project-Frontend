@@ -7,6 +7,9 @@ import ChatPanel from "../components/ChatPanel";
 import "../output.css";
 import "../index.css";
 import "../styles/WatchTogetherRoom.scss";
+import { FaSearch } from "react-icons/fa";
+import WatchTogetherVideoItem from "../components/WatchTogetherVideoItem.jsx";
+import axios from "axios";
 
 const WatchTogetherRoom = () => {
   const navigate = useNavigate();
@@ -23,10 +26,16 @@ const WatchTogetherRoom = () => {
   const [users, setUsers] = useState([]);
   const [userRequest, setUserRequest] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [playList, setPlayList] = useState([]); // Playlist state
+  const [videos, setVideos] = useState([]);
 
   // Video data
   const [time, setTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // UI data
+  const [showUsers, setShowUsers] = useState(false);
+  const searchRef = useRef();
 
   const acceptUser = (userId) => {
     connection.invoke("AcceptUser", id, userId);
@@ -44,6 +53,28 @@ const WatchTogetherRoom = () => {
       return;
     }
     connection.invoke("SendMessage", id, user.id, content);
+  };
+
+  const banUser = (userId) => {
+    if (isHost) {
+      connection.invoke("BanUser", id, userId);
+    }
+  };
+
+  const handleSearch = async () => {
+    const searchString = searchRef.current.value;
+    if (!searchString) {
+      return;
+    }
+    const { data } = await axios.get(`/api/video/search/${searchString}`);
+    console.log(data);
+    setVideos(data);
+  };
+
+  const onVideoSelect = (video) => {
+    console.log("Selected a video!!!!");
+    console.log(video);
+    setPlayList((prev) => [...prev, video]);
   };
 
   useEffect(() => {
@@ -78,6 +109,11 @@ const WatchTogetherRoom = () => {
         setMessages((prev) => [...prev, message]);
       });
 
+      connection.on("YouAreBanned", () => {
+        alert("You are banned by host");
+        navigate("/watch-together");
+      });
+
       connection.invoke("JoinRoom", id, user.id).catch(console.error);
 
       return () => {
@@ -96,14 +132,11 @@ const WatchTogetherRoom = () => {
   }, [connection, user, id, navigate]);
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 flex">
-      <div className="flex-2 w-2/3">
-        <h2 className="text-4xl font-bold text-lime-400 mb-6">
-          Watch Together - Room ID: {id}
-        </h2>
+    <div className="wt-watch-together-room">
+      <div className="wt-video-container">
+        <h2>Watch Together - Room ID: {id}</h2>
         {isHostLeft && <div>Host left and room will be closed in 30 sec</div>}
-
-        <div className="mt-6 w-full max-w-4xl">
+        <div className="wt-video-wrapper">
           {isInRoom ? (
             <WatchTogetherVideoPlayer
               roomId={id}
@@ -112,53 +145,121 @@ const WatchTogetherRoom = () => {
               videoUrl={`https://localhost:7124/api/video/1`}
             />
           ) : (
-            <div className="text-center text-gray-400 text-xl">
-              Waiting for the host to accept your request...
-            </div>
+            <div>Waiting for the host to accept your request...</div>
           )}
         </div>
-      </div>
 
-      {/* Üzenetfal és kezelőfelület */}
-      <ChatPanel messages={messages} onMessageSend={sendMessage} />
-
-      {/* Request kezelése */}
-      {isHost && userRequest.length > 0 && (
-        <div className="mt-4 text-lime-400">
-          <h4 className="text-lg">Join Requests</h4>
-          <ul className="space-y-2">
-            {userRequest.map((requestUser) => (
-              <li
-                key={requestUser.id}
-                className="flex justify-between items-center"
-              >
-                <div className="flex items-center space-x-2">
-                  <img
-                    src={`https://localhost:7124/api/User/avatar/${requestUser.avatarId}`}
-                    alt={requestUser.username}
-                    className="w-8 h-8 rounded-full object-cover"
-                  />
-                  <span>{requestUser.userName}</span>
-                </div>
+        {/* Playlist minden esetben a videó alatt */}
+        <div className="wt-playlist">
+          <h3>{isHost ? "Playlist" : "Next Videos"}</h3>
+          <ul>
+            {playList.map((video) => (
+              <li key={video.id}>
                 <div>
-                  <button
-                    className="bg-green-500 text-white px-2 py-1 rounded mr-2"
-                    onClick={() => acceptUser(requestUser.id)}
-                  >
-                    Accept
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                    onClick={() => rejectUser(requestUser.id)}
-                  >
-                    Reject
-                  </button>
+                  <img
+                    src={`https://localhost:7124/api/video/thumbnail/${video.thumbnailId}`}
+                    alt={video.title}
+                    className="wt-thumbnail"
+                  />
                 </div>
+                <span>{video.title}</span>
               </li>
             ))}
           </ul>
         </div>
-      )}
+
+        {/* Keresési szekció a playlist alatt */}
+        {isHost && (
+          <div className="wt-search-section">
+            <div className="wt-search-bar">
+              <input
+                className="wt-search-input"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                ref={searchRef}
+              />
+              <button onClick={handleSearch} className="wt-wtsearch-btn">
+                <FaSearch />
+              </button>
+            </div>
+            <div className="wt-video-results">
+              {videos.map((video) => (
+                <WatchTogetherVideoItem
+                  onSelect={onVideoSelect}
+                  video={video}
+                  key={video.id}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="wt-sidebar">
+        <ChatPanel messages={messages} onMessageSend={sendMessage} />
+        <button
+          className="wt-toggle-users-btn"
+          onClick={() => setShowUsers(!showUsers)}
+        >
+          {showUsers ? "Hide Users" : "Show Users"}
+        </button>
+        {showUsers && (
+          <div className="wt-user-list">
+            <h4>Connected Users</h4>
+            <ul>
+              {users.map((connectedUser) => (
+                <li key={connectedUser.id}>
+                  <img
+                    src={`https://localhost:7124/api/User/avatar/${connectedUser.avatarId}`}
+                    alt={connectedUser.username}
+                  />
+                  <span>{connectedUser.userName}</span>
+                  {isHost && connectedUser.id !== user.id && (
+                    <button
+                      onClick={() => banUser(connectedUser.id)}
+                      className="wt-bg-red-500 wt-text-black wt-hover:bg-red-600"
+                    >
+                      Ban user
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {isHost && userRequest.length > 0 && (
+          <div className="wt-join-requests">
+            <h4>Join Requests</h4>
+            <ul>
+              {userRequest.map((requestUser) => (
+                <li key={requestUser.id}>
+                  <div>
+                    <img
+                      src={`https://localhost:7124/api/User/avatar/${requestUser.avatarId}`}
+                      alt={requestUser.userName}
+                    />
+                  </div>
+                  <div className="wt-action-buttons">
+                    <button
+                      className="wt-accept"
+                      onClick={() => acceptUser(requestUser.id)}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className="wt-reject"
+                      onClick={() => rejectUser(requestUser.id)}
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

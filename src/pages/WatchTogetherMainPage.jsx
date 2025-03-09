@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import WatchTogehterVideoItem from "../components/WatchTogehterVideoItem";
 import { generateId } from "../functions/generateId";
 import { useNavigate } from "react-router-dom";
 
@@ -70,7 +69,6 @@ const WatchTogetherMainPage = () => {
             ))}
           </div> */}
           <label htmlFor="videoId"></label>
-          {/* Csak teszteléshez kell az id */}
           <input
             type="number"
             className="text-black"
