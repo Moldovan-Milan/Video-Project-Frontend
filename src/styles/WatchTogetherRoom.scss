@@ -176,3 +176,121 @@
     gap: 20px;
     padding: 20px;
 }
+
+.wt-playlist {
+    width: 100%;
+    background-color: #111;
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 15px;
+    color: white;
+}
+
+.wt-playlist h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #a4de02;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.wt-playlist ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wt-playlist li {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Hover effekt */
+.wt-playlist li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+    /* Kisebb felnagyítás */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    /* Enyhe árnyék */
+}
+
+/* Kiemelés a kiválasztott videóhoz */
+.wt-playlist li.selected {
+    background-color: #a4de02;
+    /* Kiemelt háttérszín */
+    color: #111;
+    /* Fehér szöveg */
+}
+
+/* Kiemelt videó címének színe */
+.wt-playlist li.selected span {
+    color: #111;
+    /* Kiemelt szöveg színe */
+    font-weight: bold;
+    /* Erősebb betűstílus */
+}
+
+.wt-thumbnail {
+    width: 60px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.wt-playlist span {
+    font-size: 14px;
+    color: #ccc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Törlés ikon */
+.wt-playlist li .delete-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #ff4d4d;
+    /* Piros szín */
+    display: none;
+}
+
+/* Hover hatás a törlés ikonra */
+.wt-playlist li:hover .delete-icon {
+    display: block;
+}
+
+
+.wt-no-video-message {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #aaa;
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    background-color: #222;
+}
+
+.wt-search-message {
+    text-align: center;
+    font-size: 18px;
+    color: #ffcc00;
+    margin: 15px 0px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #222;
+    font-style: italic;
+    box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.5);
+}

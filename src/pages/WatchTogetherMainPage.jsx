@@ -7,11 +7,8 @@ const ROOM_ID_LENGTH = 6;
 
 const WatchTogetherMainPage = () => {
   const [method, setMethod] = useState("");
-  const [videos, setVideos] = useState([]);
-  const [selectedVideos, setSelectedVideos] = useState(); // Most még csak 1 megy
   const navigate = useNavigate();
   const roomIdRef = useRef();
-  const videoIdRef = useRef();
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -23,11 +20,8 @@ const WatchTogetherMainPage = () => {
   }, []);
 
   const createRoom = () => {
-    const videoId = videoIdRef.current.value;
-    if (videoId) {
-      const roomId = generateId(ROOM_ID_LENGTH);
-      navigate(`/watch-together/${roomId}?videoId=${videoId}`);
-    }
+    const roomId = generateId(ROOM_ID_LENGTH);
+    navigate(`/watch-together/${roomId}`);
   };
 
   const joinRoom = () => {
@@ -59,23 +53,6 @@ const WatchTogetherMainPage = () => {
       {method === "create" && (
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
           <h2 className="text-xl font-semibold mb-4">Add Video to Playlist</h2>
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {videos.map((video, id) => (
-              <WatchTogehterVideoItem
-                setSelectedVideo={setSelectedVideos}
-                key={id}
-                video={video}
-              />
-            ))}
-          </div> */}
-          <label htmlFor="videoId"></label>
-          <input
-            type="number"
-            className="text-black"
-            ref={videoIdRef}
-            id="videoId"
-            placeholder="Enter video id"
-          ></input>
           <button
             onClick={createRoom}
             className="mt-4 bg-purple-500 px-4 py-2 rounded-lg hover:bg-purple-700 transition"

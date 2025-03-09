@@ -179,7 +179,7 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost, isPlaying }) => {
         ref={videoRef}
         controls={isHost}
         width="640"
-        autoPlay={isPlaying}
+        autoPlay
         height="360"
         onPlay={handlePlay}
         onPause={handlePause}
