@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import VideoItem from "../components/VideoItem";
+import loading from "../assets/loading.gif";
 
 const VideosPage = () => {
     const [videos, setVideos] = useState([]);
@@ -56,7 +57,7 @@ const VideosPage = () => {
                     );
                     })
                 ) : (
-                    <p>No videos found.</p>
+                    <img src={loading} alt="loading"/>
                 )}
             </div>
         </div>
