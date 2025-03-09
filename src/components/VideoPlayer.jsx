@@ -89,7 +89,6 @@ const VideoPlayer = ({ src, id }) => {
         setWatchTime((prev) => {
           const newTime = prev + 1;
           if (newTime >= watchThreshold) {
-            validateView();
             stopTimer();
           }
           return newTime;
