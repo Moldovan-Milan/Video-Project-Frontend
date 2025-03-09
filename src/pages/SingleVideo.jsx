@@ -58,7 +58,7 @@ const SingleVideo = () => {
 
         setVideoData(videoResponse.data);
         setComments(videoResponse.data.comments);
-        setRecomendedVideos(recomendedVideoResponse.data);
+        setRecomendedVideos(recomendedVideoResponse.data.videos);
 
         if (userInteractionResponse) {
           setIsFollowedByUser(userInteractionResponse.data.subscribeResult);
