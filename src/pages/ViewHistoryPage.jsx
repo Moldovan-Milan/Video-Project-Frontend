@@ -32,7 +32,7 @@ const ViewHistoryPage = () => {
                 }
 
                 //Change this for filters
-                setVideoViews(response.data.reverse());
+                setVideoViews(response.data);
             } catch (error) {
                 console.log(error);
             }
