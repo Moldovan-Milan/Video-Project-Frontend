@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
 import "../styles/FollowingPageVideoItem.scss";
+import getViewText from "../functions/getViewText";
 
 const FollowingPageVideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
@@ -30,8 +31,7 @@ const FollowingPageVideoItem = ({ video }) => {
                   </div>
                   <div className="followedVideoItemUploader">{user.userName}</div>
                   <div className="followedVideoItemViews">
-                    <FaEye className="followedVideoEye" /> 10 views ● Created:{" "}
-                    {timeAgo(new Date(created))}
+                    <FaEye className="followedVideoEye" /> {getViewText(video.views)} ● {timeAgo(new Date(created))}
                   </div>
                 </td>
               </tr>

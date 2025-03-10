@@ -4,18 +4,18 @@ import { useState } from "react";
 import "../styles/SubscribedToPage.scss";
 import { UserContext } from "../components/contexts/UserProvider";
 import FollowedChannelItem from "../components/FollowedChannelItem";
-import RecVideoItem from "../components/RecVideoItem";
 import FollowingPageVideoItem from "../components/FollowingPageVideoItem";
 
 export default function SubscribedToPage()
 {
     const { user, setUser } = useContext(UserContext);
     const [userFollowed,setUserFollowed]=useState([]);
-    const [subbedVids,setSubbedVids]=useState([]);
 
     const fetchUserFollowedUsers = async () => {
-        const { data } = await axios.get(`api/User/${user.id}/following`);
-        setUserFollowed(data);
+        const token = sessionStorage.getItem("jwtToken");
+        const { data } = await axios.get(`api/User/${user.id}/following`, {
+          headers: { Authorization: `Bearer ${token}` }});
+        setUserFollowed(data.users);
       };
 
       useEffect(()=>{
