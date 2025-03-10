@@ -16,6 +16,7 @@ import { UserContext } from "../components/contexts/UserProvider";
 import "../styles/SingleVideo.scss";
 import CommentSection from "../components/CommentSection";
 import RecommendedVideos from "../components/RecommendedVideos";
+import getViewText from "../functions/getViewText";
 
 const SingleVideo = () => {
   const { id } = useParams();
@@ -57,7 +58,7 @@ const SingleVideo = () => {
 
         setVideoData(videoResponse.data);
         setComments(videoResponse.data.comments);
-        setRecomendedVideos(recomendedVideoResponse.data);
+        setRecomendedVideos(recomendedVideoResponse.data.videos);
 
         if (userInteractionResponse) {
           setIsFollowedByUser(userInteractionResponse.data.subscribeResult);
@@ -159,21 +160,29 @@ const SingleVideo = () => {
         {user && user.id === videoData.user.id && (
           <Link to={`/video/${id}/edit`}>
             <button className="editBtn">
-              Edit <FaPencilAlt className="m-2" />
+              Edit Video <FaPencilAlt className="m-2" />
             </button>
           </Link>
         )}
 
+        {user && user.id === videoData.user.id && (
+          <div className="subCountLabel m-2">
+            <FaUserPlus className="m-1"/><p>Subscribers: {videoData.user.followersCount}</p>
+          </div>
+        )}
 
-        <button className="lil-sub-btn m-2" onClick={handleSubscribeClick}>
-          {isFollowedByUser ? "Subscribed ✅" : "Subscribe"}{" "}
-          {isFollowedByUser ? <span></span> : <FaUserPlus className="m-1" />}
-          <span>{videoData.user.followersCount}</span>
-        </button>
+        {!(user && user.id === videoData.user.id) && (
+          <button className="lil-sub-btn m-2" onClick={handleSubscribeClick}>
+            {isFollowedByUser ? "Subscribed ✅" : "Subscribe"}{" "}
+            {isFollowedByUser ? <span></span> : <FaUserPlus className="m-1" />}
+            <span>{videoData.user.followersCount}</span>
+          </button>
+        )}
+        
 
         <div className="video-details">
           <div className="video-views">
-            <FaEye className="eye-icon" /> 10 views ● Created:{" "}
+            <FaEye className="eye-icon" /> {getViewText(videoData.views)} ● Created:{" "}
             {timeAgo(new Date(videoData.created))}
           </div>
           <div className="video-likes">
