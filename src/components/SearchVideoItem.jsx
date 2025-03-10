@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
 import "../styles/SearchVideoItem.scss";
+import getViewText from "../functions/getViewText";
 
 const SearchVideoItem = forwardRef(({ video }, ref) => {
   const { id, title, duration, created, thumbnailId, user } = video;
@@ -31,8 +32,7 @@ const SearchVideoItem = forwardRef(({ video }, ref) => {
                   </div>
                   <div className="searchItemUploader">{user.userName}</div>
                   <div className="searchItemViews">
-                    <FaEye className="searchEye" /> 10 views ● Created:{" "}
-                    {timeAgo(new Date(created))}
+                    <FaEye className="searchEye" /> {getViewText(video.views)} ● {timeAgo(new Date(video.created))}
                   </div>
                 </td>
               </tr>

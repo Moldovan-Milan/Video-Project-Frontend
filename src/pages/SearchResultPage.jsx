@@ -66,7 +66,6 @@ const SearchResultPage = () => {
     setLoading(false);
   };
 
-  // Infinite Scroll Handler
   const lastElementRef = useCallback(
     (node) => {
       if (loading) return;
