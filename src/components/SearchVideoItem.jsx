@@ -1,14 +1,15 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
 import "../styles/SearchVideoItem.scss";
 
-const SearchVideoItem = ({ video }) => {
+const SearchVideoItem = forwardRef(({ video }, ref) => {
   const { id, title, duration, created, thumbnailId, user } = video;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   return (
-    <div className="searchVideoItemContainer" title={title}>
+    <div className="searchVideoItemContainer" title={title} ref={ref}>
       <div className="searchVideoItem">
         <Link to={`/video/${id}`}>
           <table className="searchItemTable">
@@ -41,6 +42,6 @@ const SearchVideoItem = ({ video }) => {
       </div>
     </div>
   );
-};
+});
 
 export default SearchVideoItem;
