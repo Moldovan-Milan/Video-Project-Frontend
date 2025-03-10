@@ -8,10 +8,10 @@ import isTokenExpired from "../functions/isTokenExpired";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
 
-//TODO: check if this page belongs to the user who is logged in
 const OtherUsersProfile = () => {
+  //TODO: pagination
   const { id } = useParams();
-  const [userData, setUserData] = useState(null);  // Initialize as null instead of undefined
+  const [userData, setUserData] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
@@ -34,7 +34,6 @@ const OtherUsersProfile = () => {
         setVideos(data.videos);
         setLoading(false);
 
-        // Check if there's a token and fetch subscription status
         if (token) {
           const subscriptionStatus = await axios.get(
             `api/video/is-user-subscribed/${data.id}`,
@@ -50,14 +49,13 @@ const OtherUsersProfile = () => {
       }
     };
     fetchUser();
-  }, [id, token]);  // Dependency array includes id and token to re-fetch if these change
+  }, [id, token]);
 
-  // Handle document title update
   useEffect(() => {
     if (userData) {
       document.title = `Profile of ${userData.username} | Omega Stream`;
     }
-  }, [userData]);  // Runs when userData is updated
+  }, [userData]);
 
   //TODO: new chat if it doesn't exist
   const handleMessageSend = () => {
@@ -76,14 +74,14 @@ const OtherUsersProfile = () => {
       );
       if (status === 200) {
         setIsSubscribed(!isSubscribed);
-        userData.followers += isSubscribed ? -1 : 1;  // Adjust follower count
+        userData.followers += isSubscribed ? -1 : 1;
       }
     } catch (error) {
       console.error("Error subscribing:", error);
     }
   };
 
-  if (loading || !userData) return <div>Loading...</div>;  // Show loading state until data is available
+  if (loading || !userData) return <div>Loading...</div>;
 
   return (
     <>
