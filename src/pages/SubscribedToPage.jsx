@@ -10,33 +10,33 @@ export default function SubscribedToPage()
 {
   //TODO: Pagination
     const { user, setUser } = useContext(UserContext);
-    const [userFollowed,setUserFollowed]=useState([]);
+    const [followedUsers,setFollowedUsers]=useState([]);
 
-    const fetchUserFollowedUsers = async () => {
+    const fetchFollowedUsers = async () => {
         const token = sessionStorage.getItem("jwtToken");
         const { data } = await axios.get(`api/User/${user.id}/following`, {
           headers: { Authorization: `Bearer ${token}` }});
-        setUserFollowed(data.users);
+        setFollowedUsers(data.users);
       };
 
       useEffect(()=>{
-        fetchUserFollowedUsers()
+        fetchFollowedUsers()
       },[])
     
     return(
       <>
       <div className="subList">
-      {userFollowed.map((u, id) => (
+      {followedUsers.map((u, id) => (
         <FollowedChannelItem key={id} user={u}/>
       ))}     
     </div>
-    <h2 className="subVideosTitle">Latest uploads by your favourites</h2>
+    <h2 className="subVideosTitle">Recent Uploads from Your Favorite Channels</h2>
     <div>
-      {userFollowed.map((u,id)=>
+      {followedUsers.map((u,id)=>
         <div key={id}>
         <p className="followingUploadedText">Latest videos by {u.userName}</p>
         <hr></hr>
-        {u.videos.map((video,v_id)=><FollowingPageVideoItem key={v_id} video={video}></FollowingPageVideoItem>)}
+        {u.videos.map((video,vId)=><FollowingPageVideoItem key={vId} video={video}></FollowingPageVideoItem>)}
         </div>
       )}
     </div>
