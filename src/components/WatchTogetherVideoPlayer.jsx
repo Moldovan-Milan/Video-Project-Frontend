@@ -9,29 +9,10 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost, isPlaying }) => {
   const connection = useWTSignalR();
   const [isSyncing, setIsSyncing] = useState(false);
 
-  // useEffect(() => {
-  //   if (connection) {
-  //     connection.on("SyncVideoState", (timestamp, isPlaying) => {
-  //       if (videoRef.current) {
-  //         videoRef.current.currentTime = timestamp;
-  //         isPlaying ? videoRef.current.play() : videoRef.current.pause();
-  //       }
-  //     });
-
-  //     return () => {
-  //       connection.off("SyncVideoState");
-  //     };
-  //   }
-
-  //   if (!isHost) {
-  //     videoRef.current.currentTime = time;
-  //   }
-  // }, [connection]);
-
   useEffect(() => {
     if (connection) {
       connection.on("Play", (timestamp) => {
-        if (videoRef.current) {
+        if (videoRef.current && !isHost) {
           setIsSyncing(true);
           videoRef.current.currentTime = timestamp;
           videoRef.current.play();
@@ -40,7 +21,7 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost, isPlaying }) => {
       });
 
       connection.on("Pause", (timestamp) => {
-        if (videoRef.current) {
+        if (videoRef.current && !isHost) {
           setIsSyncing(true);
           videoRef.current.currentTime = timestamp;
           videoRef.current.pause();
@@ -49,9 +30,19 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost, isPlaying }) => {
       });
 
       connection.on("Seek", (timestamp) => {
-        if (videoRef.current) {
+        if (videoRef.current && !isHost) {
           setIsSyncing(true);
           videoRef.current.currentTime = timestamp;
+          setTimeout(() => setIsSyncing(false), 500);
+        }
+      });
+
+      connection.on("PlaybackRateChanged", (rate) => {
+        if (videoRef.current && !isHost) {
+          setIsSyncing(true);
+          if (videoRef.current.playbackRate != rate) {
+            videoRef.current.playbackRate = rate;
+          }
           setTimeout(() => setIsSyncing(false), 500);
         }
       });
@@ -70,8 +61,9 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost, isPlaying }) => {
       sendCurrentVideoTime = setInterval(() => {
         if (videoRef.current) {
           const currentTime = videoRef.current.currentTime;
+          const playbackRate = videoRef.current.playbackRate;
           connection
-            .invoke("SyncTime", roomId, currentTime)
+            .invoke("SyncTime", roomId, currentTime, playbackRate)
             .catch((err) => console.log("Failed to sync time: ", err));
         }
       }, SYNC_TIME);
@@ -141,6 +133,19 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost, isPlaying }) => {
     }
   };
 
+  const handleEnd = () => {
+    if (connection && isHost) {
+      connection.invoke("NextVideo", roomId);
+    }
+  };
+
+  const handelRateChange = () => {
+    if (videoRef.current && isHost) {
+      const playbackRate = videoRef.current.playbackRate;
+      connection.invoke("PlaybackRateChanged", roomId, playbackRate);
+    }
+  };
+
   useEffect(() => {
     if (connection) {
       connection.on("HostTimeSync", (hostTime) => {
@@ -184,6 +189,8 @@ const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost, isPlaying }) => {
         onPlay={handlePlay}
         onPause={handlePause}
         onSeeked={handleSeek}
+        onEnded={handleEnd}
+        onRateChange={handelRateChange}
       ></video>
     </div>
   );

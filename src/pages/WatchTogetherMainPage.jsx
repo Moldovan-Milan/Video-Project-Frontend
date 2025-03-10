@@ -10,15 +10,6 @@ const WatchTogetherMainPage = () => {
   const navigate = useNavigate();
   const roomIdRef = useRef();
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      const { data } = await axios.get("/api/video");
-      setVideos(data);
-    };
-
-    fetchVideos();
-  }, []);
-
   const createRoom = () => {
     const roomId = generateId(ROOM_ID_LENGTH);
     navigate(`/watch-together/${roomId}`);

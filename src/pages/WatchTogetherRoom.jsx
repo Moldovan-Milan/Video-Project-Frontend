@@ -40,7 +40,6 @@ const WatchTogetherRoom = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   // UI data
-  const [showUsers, setShowUsers] = useState(false);
   const searchRef = useRef();
   const [searchMessage, setSearchMessage] = useState(
     "🤔 Hmmm... What are we searching for? Maybe try typing something in the search bar! \n The magic doesn’t happen until you start typing! ✨"
@@ -174,6 +173,15 @@ const WatchTogetherRoom = () => {
         setCurrentVideo(video);
       });
 
+      connection.on("RoomClosed", () => {
+        alert("The host wasn't come back so the room was closed");
+        navigate("/watch-together");
+      });
+
+      connection.on("Error", (msg) => {
+        console.log(msg);
+      });
+
       connection.invoke("JoinRoom", id, user.id).catch(console.error);
 
       return () => {
@@ -186,7 +194,10 @@ const WatchTogetherRoom = () => {
         connection.off("YouAreHost");
         connection.off("JoinRequest");
         connection.off("ReceiveMessage");
-        connection.invoke("LeaveRoom", id, user.id).catch(console.error);
+
+        if (connection && connection.state === "Connected") {
+          connection.invoke("LeaveRoom", id, user.id).catch(console.error);
+        }
       };
     }
   }, [connection, user, id, navigate]);
