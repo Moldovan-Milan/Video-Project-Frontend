@@ -9,13 +9,13 @@ const FollowedChannelItem = ({ user }) => {
     avatarId,
     followersCount,
     created} = user;
-
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   return (
     <div title={userName}>
     <div className="followedUserItem">
       <Link to={`/profile/${id}`}>
         <div>
-        <img src={`https://localhost:7124/api/User/avatar/${avatarId}`} className="channelAvatar"></img>
+        <img src={`${BASE_URL}/api/User/avatar/${avatarId}`} className="channelAvatar"></img>
         
         </div>
         <div className="p-4">

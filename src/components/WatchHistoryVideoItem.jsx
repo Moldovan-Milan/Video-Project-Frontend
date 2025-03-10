@@ -16,7 +16,7 @@ const WatchHistoryVideoItem = ({ videoView }) => {
         {/* Thumbnail */}
         <div className="thumbnail">
           <img
-            src={`${BASE_URL}/Video/thumbnail/${video.thumbnailId}`}
+            src={`${BASE_URL}/api/Video/thumbnail/${video.thumbnailId}`}
             alt={video.title}
           />
           <div className="video-duration">{video.duration}</div>

@@ -17,7 +17,7 @@ const VideoItem = forwardRef(({ video }, ref) => {
           <Link to={`/video/${id}`}>
             <div
               style={{
-                backgroundImage: `url("${BASE_URL}/Video/thumbnail/${thumbnailId}")`,
+                backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
               }}
               className="thumbnail-div"
             >
@@ -29,7 +29,7 @@ const VideoItem = forwardRef(({ video }, ref) => {
                   <tr>
                     <td rowSpan={2} className="uploader-avt">
                       <img
-                        src={`${BASE_URL}/User/avatar/${user.avatarId}`}
+                        src={`${BASE_URL}/api/User/avatar/${user.avatarId}`}
                         className="w-10 h-10 rounded-full mr-2"
                         alt="Uploader Avatar"
                       />

@@ -7,14 +7,14 @@ import getViewText from "../functions/getViewText";
 
 const UserPageVideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user, views } = video;
-
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" title={title}>
       <div className="user-video-item">
         <Link to={`/video/${id}`}>
           <div
             style={{
-              backgroundImage: `url("https://localhost:7124/api/Video/thumbnail/${thumbnailId}")`,
+              backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
             }}
             className="thumbnail-div"
           >

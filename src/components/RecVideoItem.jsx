@@ -19,7 +19,7 @@ const RecVideoItem = forwardRef(({ video }, ref) => {
                 <td className="recItemThumbnail">
                   <div
                     style={{
-                      backgroundImage: `url("${BASE_URL}/Video/thumbnail/${thumbnailId}")`,
+                      backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
                     }}
                     className="recItemThumbnailDiv"
                   >

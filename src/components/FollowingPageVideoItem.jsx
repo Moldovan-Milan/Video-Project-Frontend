@@ -6,7 +6,7 @@ import "../styles/FollowingPageVideoItem.scss";
 
 const FollowingPageVideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
-
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   return (
     <div className="followedVideoItemContainer" title={title}>
       <div className="followedVideoItem">
@@ -17,7 +17,7 @@ const FollowingPageVideoItem = ({ video }) => {
                 <td className="followedVideoItemThumbnail">
                   <div
                     style={{
-                      backgroundImage: `url("https://localhost:7124/api/Video/thumbnail/${thumbnailId}")`,
+                      backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
                     }}
                     className="followedVideoItemThumbnailDiv"
                   >

@@ -6,7 +6,7 @@ import "../styles/SearchVideoItem.scss";
 
 const SearchVideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
-
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   return (
     <div className="searchVideoItemContainer" title={title}>
       <div className="searchVideoItem">
@@ -17,7 +17,7 @@ const SearchVideoItem = ({ video }) => {
                 <td className="searchItemThumbnail">
                   <div
                     style={{
-                      backgroundImage: `url("https://localhost:7124/api/Video/thumbnail/${thumbnailId}")`,
+                      backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
                     }}
                     className="searchItemThumbnailDiv"
                   >

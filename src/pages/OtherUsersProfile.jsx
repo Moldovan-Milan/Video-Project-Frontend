@@ -18,6 +18,7 @@ const OtherUsersProfile = () => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const {user} = useContext(UserContext)
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     setToken(sessionStorage.getItem("jwtToken"));
@@ -93,7 +94,7 @@ const OtherUsersProfile = () => {
               <td rowSpan={2}>
                 <img
                   className="avatar-picture"
-                  src={`https://localhost:7124/api/User/avatar/${userData.avatarId}`}
+                  src={`${BASE_URL}/api/User/avatar/${userData.avatarId}`}
                   alt={userData.username}
                 />
               </td>

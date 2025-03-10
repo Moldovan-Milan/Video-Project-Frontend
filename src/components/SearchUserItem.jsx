@@ -11,6 +11,7 @@ const SearchUserItem = ({ user }) => {
     avatarId,
     followersCount,
     created} = user;
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   return (
     <div className="searchVideoItemContainer" title={userName}>
@@ -22,7 +23,7 @@ const SearchUserItem = ({ user }) => {
                 <td className="searchItemThumbnail">
                   <div
                     style={{
-                      backgroundImage: `url("https://localhost:7124/api/User/avatar/${avatarId}")`,
+                      backgroundImage: `url("${BASE_URL}/api/User/avatar/${avatarId}")`,
                     }}
                     className="searchItemThumbnailDiv"
                   >

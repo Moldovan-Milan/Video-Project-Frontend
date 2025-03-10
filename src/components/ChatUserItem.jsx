@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function ChatUserItem({chat})
 {
-
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
 return(
     <div className="chatUserItemContainer" title={chat.user.userName}>
     <div className="chatUserItem">
@@ -13,7 +13,7 @@ return(
         <tbody>
             <tr>
             <td className="chatAvatartd">
-            <img className="chatUserItemAvatar" src={`https://localhost:7124/api/User/avatar/${chat.user.avatarId}`}></img>
+            <img className="chatUserItemAvatar" src={`${BASE_URL}/api/User/avatar/${chat.user.avatarId}`}></img>
             </td>
             <td className="chatUserItemDetails">
                 <div className="chatUserItemTitle">

@@ -45,7 +45,7 @@ const EditVideoPage = () => {
   useEffect(() => {
     if(videoData.thumbnailId){
       const setDefaultThumbnail = async () => {
-        setThumbnail(`${BASE_URL}/Video/thumbnail/${videoData.thumbnailId}`)
+        setThumbnail(`${BASE_URL}/api/Video/thumbnail/${videoData.thumbnailId}`)
       }
       setDefaultThumbnail();
     }

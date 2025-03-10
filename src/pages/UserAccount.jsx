@@ -15,6 +15,7 @@ const UserAccount = () => {
     followers: 0,
     created: "",
   });
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -32,7 +33,7 @@ const UserAccount = () => {
           setUserData({
             username: data.userName,
             email: data.email,
-            avatar: `https://localhost:7124/api/User/avatar/${data.avatarId}`,
+            avatar: `${BASE_URL}/api/User/avatar/${data.avatarId}`,
             followers: data.followersCount,
             created: formattedDate,
           });
@@ -53,7 +54,6 @@ const UserAccount = () => {
   return (
     <div className="container">
       <h1>{userData.username}</h1>
-      <form>
         <InputAndLabel
           name={"Email cím: "}
           inputId={"email"}
@@ -78,7 +78,6 @@ const UserAccount = () => {
           <label htmlFor="avatar">Profilkép:</label>
           <ImageEditor img={userData.avatar} />
         </div>
-      </form>
     </div>
   );
 };

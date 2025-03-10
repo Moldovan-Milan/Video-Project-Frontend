@@ -31,6 +31,7 @@ const SingleVideo = () => {
   const [bottomPanel, setBottomPanel] = useState("Comments");
 
   const [recomendedVideos, setRecomendedVideos] = useState(null);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -141,7 +142,7 @@ const SingleVideo = () => {
   return (
     <div className="container">
       <VideoPlayer
-        src={`https://localhost:7124/api/video/${id}`}
+        src={`${BASE_URL}/api/video/${id}`}
         id={id}
         className="vplayer"
       />
@@ -150,7 +151,7 @@ const SingleVideo = () => {
         <h2 className="video-title">{videoData.title}</h2>
         <Link to={`/profile/${videoData.userId}`} className="video-user">
           <img
-            src={`https://localhost:7124/api/User/avatar/${videoData.user.avatarId}`}
+            src={`${BASE_URL}/api/User/avatar/${videoData.user.avatarId}`}
             alt="User Avatar"
             className="avatar"
           />
