@@ -9,6 +9,11 @@ import "../index.css";
 import "../styles/WatchTogetherRoom.scss";
 import { FaSearch } from "react-icons/fa";
 import WatchTogetherVideoItem from "../components/WatchTogetherVideoItem.jsx";
+import Playlist from "../components/Playlist.jsx";
+import VideoSearch from "../components/VideoSearch.jsx";
+import UserList from "../components/UserList.jsx";
+import JoinRequests from "../components/JoinRequests.jsx";
+import VideoPlayerWrapper from "../components/VideoPlayerWrapper.jsx";
 import axios from "axios";
 
 const WatchTogetherRoom = () => {
@@ -199,160 +204,45 @@ const WatchTogetherRoom = () => {
             the fun! 🔓
           </div>
         )}
-        <div className="wt-video-wrapper">
-          {isInRoom && currentVideo ? (
-            <WatchTogetherVideoPlayer
-              roomId={id}
-              isPlaying={isPlaying}
-              isHost={isHost}
-              videoUrl={`https://localhost:7124/api/video/${currentVideo.id}`}
-            />
-          ) : !isHost ? (
-            <div>
-              Waiting... If the host doesn't respond soon, we might miss the
-              premiere! 😬
-            </div>
-          ) : (
-            <div>
-              Uh-oh! Looks like we forgot to pick a video... 📽️
-              <br />
-              Go ahead and choose one from the search – we’re all waiting! ⏳
-            </div>
-          )}
-        </div>
+        <VideoPlayerWrapper
+          isInRoom={isInRoom}
+          currentVideo={currentVideo}
+          isPlaying={isPlaying}
+          isHost={isHost}
+          id={id}
+        />
 
-        <div className="wt-playlist">
-          <h3>{isHost ? "Playlist" : "Next Videos"}</h3>
-          <ul>
-            {playList.map((video) => (
-              <li
-                onClick={() => startVideo(video)}
-                key={video.id}
-                className={currentVideo?.id === video.id ? "selected" : ""}
-              >
-                <div>
-                  <img
-                    src={`https://localhost:7124/api/video/thumbnail/${video.thumbnailId}`}
-                    alt={video.title}
-                    className="wt-thumbnail"
-                  />
-                </div>
-                <span>{video.title}</span>
-
-                {/* Törlés ikon csak admin esetén és nem a jelenlegi videónál */}
-                {isHost && currentVideo?.id !== video.id && (
-                  <span
-                    className="delete-icon"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Ne indítsa el a videó lejátszást, ha a törlés ikont kattintod
-                      deleteVideo(video.id); // Törlés logika
-                    }}
-                  >
-                    🗑️
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Playlist
+          playList={playList}
+          currentVideo={currentVideo}
+          isHost={isHost}
+          startVideo={startVideo}
+          deleteVideo={deleteVideo}
+        />
 
         {/* Keresési szekció a playlist alatt */}
         {isHost && (
-          <div className="wt-search-section">
-            <div className="wt-search-bar">
-              <input
-                className="wt-search-input"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                ref={searchRef}
-              />
-              <button onClick={handleSearch} className="wt-wtsearch-btn">
-                <FaSearch />
-              </button>
-            </div>
-            <div className="wt-video-results">
-              {searchMessage && (
-                <div className="wt-search-message">{searchMessage}</div>
-              )}
-              {videos.map(
-                (video) =>
-                  !playList.some((v) => v.id === video.id) && (
-                    <WatchTogetherVideoItem
-                      onSelect={onVideoSelect}
-                      video={video}
-                      key={video.id}
-                    />
-                  )
-              )}
-            </div>
-          </div>
+          <VideoSearch
+            searchRef={searchRef}
+            handleSearch={handleSearch}
+            searchMessage={searchMessage}
+            videos={videos}
+            playList={playList}
+            onVideoSelect={onVideoSelect}
+          />
         )}
       </div>
 
       <div className="wt-sidebar">
         <ChatPanel messages={messages} onMessageSend={sendMessage} />
-        <button
-          className="wt-toggle-users-btn"
-          onClick={() => setShowUsers(!showUsers)}
-        >
-          {showUsers ? "Hide Users" : "Show Users"}
-        </button>
-        {showUsers && (
-          <div className="wt-user-list">
-            <h4>Connected Users</h4>
-            <ul>
-              {users.map((connectedUser) => (
-                <li key={connectedUser.id}>
-                  <img
-                    src={`https://localhost:7124/api/User/avatar/${connectedUser.avatarId}`}
-                    alt={connectedUser.username}
-                  />
-                  <span>{connectedUser.userName}</span>
-                  {isHost && connectedUser.id !== user.id && (
-                    <button
-                      onClick={() => banUser(connectedUser.id)}
-                      className="wt-bg-red-500 wt-text-black wt-hover:bg-red-600"
-                    >
-                      Ban user
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {isHost && userRequest.length > 0 && (
-          <div className="wt-join-requests">
-            <h4>Join Requests</h4>
-            <ul>
-              {userRequest.map((requestUser) => (
-                <li key={requestUser.id}>
-                  <div>
-                    <img
-                      src={`https://localhost:7124/api/User/avatar/${requestUser.avatarId}`}
-                      alt={requestUser.userName}
-                    />
-                  </div>
-                  <div className="wt-action-buttons">
-                    <button
-                      className="wt-accept"
-                      onClick={() => acceptUser(requestUser.id)}
-                    >
-                      Accept
-                    </button>
-                    <button
-                      className="wt-reject"
-                      onClick={() => rejectUser(requestUser.id)}
-                    >
-                      Reject
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <UserList users={users} isHost={isHost} user={user} banUser={banUser} />
+
+        <JoinRequests
+          isHost={isHost}
+          userRequest={userRequest}
+          acceptUser={acceptUser}
+          rejectUser={rejectUser}
+        />
       </div>
     </div>
   );
