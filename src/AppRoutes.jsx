@@ -12,6 +12,7 @@ import MessagePage from "./pages/MessagePage";
 import EditVideoPage from "./pages/EditVideoPage";
 import SearchResultPage from "./pages/SearchResultPage";
 import ViewHistoryPage from "./pages/ViewHistoryPage";
+import SubscribedToPage from "./pages/SubscribedToPage";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,7 @@ const AppRoutes = () => {
       <Route path="/chat/:id" Component={MessagePage} />
       <Route path="/search" Component={SearchResultPage}/>
       <Route path="/watch-history" Component={ViewHistoryPage}/>
+      <Route path="/following" Component={SubscribedToPage}/>
     </Routes>
   );
 };

@@ -1,0 +1,38 @@
+.subList {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 0;
+  }
+  
+  .subList::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .subList::-webkit-scrollbar-thumb {
+    background: lime;
+    border-radius: 4px;
+  }
+  
+  .subList::-webkit-scrollbar-thumb:hover {
+    background: green;
+  }
+
+  .subVideosTitle
+  {
+    text-align: center;
+    color: #B200FF;
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  .followingUploadedText
+  {
+    text-align: center;
+    font-weight: bold;
+    color: lime;
+  }
+  
