@@ -46,38 +46,38 @@ const UserAccount = () => {
   }, []);
 
   useEffect(() => {
-    if(userData){
-      document.title = `Page for ${userData.username} | Omega Stream`
+    if (userData) {
+      document.title = `Page for ${userData.username} | Omega Stream`;
     }
-  }, [userData])
+  }, [userData]);
 
   return (
     <div className="container">
       <h1>{userData.username}</h1>
-        <InputAndLabel
-          name={"Email cím: "}
-          inputId={"email"}
-          type="email"
-          value={userData.email}
-          isReadOnly={true}
-        />
-        <InputAndLabel
-          name={"Követőid száma: "}
-          inputId={"followers"}
-          type="number"
-          value={userData.followers}
-          isReadOnly={true}
-        />
-        <InputAndLabel
-          name={"Fiók létrehozva: "}
-          inputId={"created"}
-          value={userData.created}
-          isReadOnly={true}
-        />
-        <div className="form-group">
-          <label htmlFor="avatar">Profilkép:</label>
-          <ImageEditor img={userData.avatar} />
-        </div>
+      <InputAndLabel
+        name={"Email cím: "}
+        inputId={"email"}
+        type="email"
+        value={userData.email}
+        isReadOnly={true}
+      />
+      <InputAndLabel
+        name={"Követőid száma: "}
+        inputId={"followers"}
+        type="number"
+        value={userData.followers}
+        isReadOnly={true}
+      />
+      <InputAndLabel
+        name={"Fiók létrehozva: "}
+        inputId={"created"}
+        value={userData.created}
+        isReadOnly={true}
+      />
+      <div className="form-group">
+        <label htmlFor="avatar">Profilkép:</label>
+        <ImageEditor img={userData.avatar} />
+      </div>
     </div>
   );
 };
