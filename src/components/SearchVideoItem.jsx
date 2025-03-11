@@ -2,38 +2,37 @@ import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
-import "../styles/RecVideoItem.scss";
+import "../styles/SearchVideoItem.scss";
 import getViewText from "../functions/getViewText";
 
-const RecVideoItem = forwardRef(({ video }, ref) => {
+const SearchVideoItem = forwardRef(({ video }, ref) => {
   const { id, title, duration, created, thumbnailId, user } = video;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   return (
-    <div ref={ref} className="recVideoItemContainer" title={title}>
-      <div className="recVideoItem">
+    <div className="searchVideoItemContainer" title={title} ref={ref}>
+      <div className="searchVideoItem">
         <Link to={`/video/${id}`}>
-          <table className="recItemTable">
+          <table className="searchItemTable">
             <tbody>
               <tr>
-                <td className="recItemThumbnail">
+                <td className="searchItemThumbnail">
                   <div
                     style={{
                       backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
                     }}
-                    className="recItemThumbnailDiv"
+                    className="searchItemThumbnailDiv"
                   >
                     <div className="video-duration">{duration}</div>
                   </div>
                 </td>
-                <td className="recItemDetails">
-                  <div className="recItemTitle">
+                <td className="searchItemDetails">
+                  <div className="searchItemTitle">
                     {title.length > 30 ? title.substring(0, 30) + "..." : title}
                   </div>
-                  <div className="recItemUploader">{user.userName}</div>
-                  <div className="recItemViews">
-                    <FaEye className="recEye" /> {getViewText(video.views)} ● Created:{" "}
-                    {timeAgo(new Date(created))}
+                  <div className="searchItemUploader">{user.userName}</div>
+                  <div className="searchItemViews">
+                    <FaEye className="searchEye" /> {getViewText(video.views)} ● {timeAgo(new Date(video.created))}
                   </div>
                 </td>
               </tr>
@@ -45,4 +44,4 @@ const RecVideoItem = forwardRef(({ video }, ref) => {
   );
 });
 
-export default RecVideoItem;
+export default SearchVideoItem;

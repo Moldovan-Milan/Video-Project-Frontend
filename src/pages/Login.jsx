@@ -16,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Login"
+    document.title = "Login | Omega Stream"
   }, [])
 
   //const { connectToServer } = useWebSocket();
@@ -101,6 +101,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-4">
+            {/*TODO: get jwtToken after user logn in via "remember me"*/}
             <label htmlFor="rememberMe" className="block font-bold mb-2">
               Remember me:
             </label>

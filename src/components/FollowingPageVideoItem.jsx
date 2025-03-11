@@ -1,39 +1,37 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
-import "../styles/RecVideoItem.scss";
+import "../styles/FollowingPageVideoItem.scss";
 import getViewText from "../functions/getViewText";
 
-const RecVideoItem = forwardRef(({ video }, ref) => {
+const FollowingPageVideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
-
   return (
-    <div ref={ref} className="recVideoItemContainer" title={title}>
-      <div className="recVideoItem">
+    <div className="followedVideoItemContainer" title={title}>
+      <div className="followedVideoItem">
         <Link to={`/video/${id}`}>
-          <table className="recItemTable">
+          <table className="followedVideoItemTable">
             <tbody>
               <tr>
-                <td className="recItemThumbnail">
+                <td className="followedVideoItemThumbnail">
                   <div
                     style={{
                       backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
                     }}
-                    className="recItemThumbnailDiv"
+                    className="followedVideoItemThumbnailDiv"
                   >
                     <div className="video-duration">{duration}</div>
                   </div>
                 </td>
-                <td className="recItemDetails">
-                  <div className="recItemTitle">
+                <td className="followedVideoItemDetails">
+                  <div className="followedVideoItemTitle">
                     {title.length > 30 ? title.substring(0, 30) + "..." : title}
                   </div>
-                  <div className="recItemUploader">{user.userName}</div>
-                  <div className="recItemViews">
-                    <FaEye className="recEye" /> {getViewText(video.views)} ● Created:{" "}
-                    {timeAgo(new Date(created))}
+                  <div className="followedVideoItemUploader">{user.userName}</div>
+                  <div className="followedVideoItemViews">
+                    <FaEye className="followedVideoEye" /> {getViewText(video.views)} ● {timeAgo(new Date(created))}
                   </div>
                 </td>
               </tr>
@@ -43,6 +41,6 @@ const RecVideoItem = forwardRef(({ video }, ref) => {
       </div>
     </div>
   );
-});
+};
 
-export default RecVideoItem;
+export default FollowingPageVideoItem;

@@ -3,6 +3,7 @@ import "../styles/CommentItem.scss";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 export default function CommentItem({ comment }) {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   return (
     <table className="comment-item-body">
       <tbody>
@@ -10,7 +11,7 @@ export default function CommentItem({ comment }) {
           <td rowSpan={3} className="comment-col avatar-col">
             <Link to={`/profile/${comment.user.id}`}>
               <img
-                src={`https://localhost:7124/api/user/avatar/${comment.user.avatarId}`}
+                src={`${BASE_URL}/api/user/avatar/${comment.user.avatarId}`}
                 className="comment-avatar"
               ></img>
             </Link>

@@ -3,17 +3,18 @@ import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
 import "../styles/UserPageVideoItem.scss";
+import getViewText from "../functions/getViewText";
 
 const UserPageVideoItem = ({ video }) => {
-  const { id, title, duration, created, thumbnailId, user } = video;
-
+  const { id, title, duration, created, thumbnailId, user, views } = video;
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" title={title}>
       <div className="user-video-item">
         <Link to={`/video/${id}`}>
           <div
             style={{
-              backgroundImage: `url("https://localhost:7124/api/Video/thumbnail/${thumbnailId}")`,
+              backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
             }}
             className="thumbnail-div"
           >
@@ -25,7 +26,7 @@ const UserPageVideoItem = ({ video }) => {
             </div>
             <div className="text-xs views">
               <FaEye className="eye-icon" />
-              10 views ● Created: {timeAgo(new Date(created))}
+              {getViewText(views)} ● Created: {timeAgo(new Date(created))}
             </div>
           </div>
         </Link>

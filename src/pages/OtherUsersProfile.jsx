@@ -2,19 +2,23 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/OtherUsersProfile.scss";
-import { FaMailBulk, FaUserPlus } from "react-icons/fa";
+import { FaMailBulk, FaUserPlus, FaPencilAlt } from "react-icons/fa";
 import UserPageVideoItem from "../components/UserPageVideoItem";
 import isTokenExpired from "../functions/isTokenExpired";
 import { UserContext } from "../components/contexts/UserProvider";
+import { useNavigate } from "react-router-dom";
 
-//TODO: check if this page belongs to the user who is logged in
 const OtherUsersProfile = () => {
+  //TODO: pagination
   const { id } = useParams();
-  const [userData, setUserData] = useState(null);  // Initialize as null instead of undefined
+  const [userData, setUserData] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const {user} = useContext(UserContext)
+  const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     setToken(sessionStorage.getItem("jwtToken"));
@@ -30,7 +34,6 @@ const OtherUsersProfile = () => {
         setVideos(data.videos);
         setLoading(false);
 
-        // Check if there's a token and fetch subscription status
         if (token) {
           const subscriptionStatus = await axios.get(
             `api/video/is-user-subscribed/${data.id}`,
@@ -46,14 +49,18 @@ const OtherUsersProfile = () => {
       }
     };
     fetchUser();
-  }, [id, token]);  // Dependency array includes id and token to re-fetch if these change
+  }, [id, token]);
 
-  // Handle document title update
   useEffect(() => {
     if (userData) {
-      document.title = `Profile of ${userData.username}`;
+      document.title = `Profile of ${userData.username} | Omega Stream`;
     }
-  }, [userData]);  // Runs when userData is updated
+  }, [userData]);
+
+  //TODO: new chat if it doesn't exist
+  const handleMessageSend = () => {
+
+  }
 
   const handleSubscribeClick = async () => {
     if (!token || isTokenExpired(token)) return;
@@ -67,14 +74,14 @@ const OtherUsersProfile = () => {
       );
       if (status === 200) {
         setIsSubscribed(!isSubscribed);
-        userData.followers += isSubscribed ? -1 : 1;  // Adjust follower count
+        userData.followers += isSubscribed ? -1 : 1;
       }
     } catch (error) {
       console.error("Error subscribing:", error);
     }
   };
 
-  if (loading || !userData) return <div>Loading...</div>;  // Show loading state until data is available
+  if (loading || !userData) return <div>Loading...</div>;
 
   return (
     <>
@@ -85,7 +92,7 @@ const OtherUsersProfile = () => {
               <td rowSpan={2}>
                 <img
                   className="avatar-picture"
-                  src={`https://localhost:7124/api/User/avatar/${userData.avatarId}`}
+                  src={`${BASE_URL}/api/User/avatar/${userData.avatarId}`}
                   alt={userData.username}
                 />
               </td>
@@ -95,32 +102,48 @@ const OtherUsersProfile = () => {
                 </h1>
               </td>
             </tr>
-            <tr>
-              <td>
-                <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1">
-                  Send Message
-                  <FaMailBulk className="m-1" />
-                </button>
-              </td>
-              <td>
-                {!isSubscribed ? (
-                  <button
-                    onClick={handleSubscribeClick}
-                    className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
-                  >
-                    Subscribe | {userData.followers}
-                    <FaUserPlus className="m-1" />
+            {!(user && user.id === userData.id) ? (
+              <tr>
+                <td>
+                  <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1" onClick={handleMessageSend}>
+                    Send Message
+                    <FaMailBulk className="m-1" />
                   </button>
-                ) : (
-                  <button
-                    onClick={handleSubscribeClick}
-                    className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
-                  >
-                    Subscribed | {userData.followers}
+                </td>
+                <td>
+                  {!isSubscribed ? (
+                    <button
+                      onClick={handleSubscribeClick}
+                      className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
+                    >
+                      Subscribe | {userData.followers}
+                      <FaUserPlus className="m-1" />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSubscribeClick}
+                      className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
+                    >
+                      Subscribed | {userData.followers}
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ) : (
+              <tr>
+                <td>
+                  <button className="editVideosBtn">
+                    <FaPencilAlt className="m-1"/><p>Edit Your Videos</p>
                   </button>
-                )}
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <div className="subscribersLabel">
+                    <FaUserPlus className="m-1"/><p>Your subscribers: {userData.followers}</p>
+                  </div>
+                </td>
+              </tr>
+            )}
+              
           </tbody>
         </table>
       </div>

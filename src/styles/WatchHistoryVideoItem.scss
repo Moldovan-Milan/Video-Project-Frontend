@@ -1,0 +1,99 @@
+.watch-history-item {
+    width: 90%;
+    padding: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 10px;
+    position: relative;
+    margin: 30px;
+  
+    .watch-history-link {
+      display: flex;
+      width: 100%;
+      text-decoration: none;
+      color: inherit;
+    }
+  
+    .thumbnail {
+      flex-shrink: 0;
+      min-width: 192px;
+      min-height: 108px;
+      width: 19.2vw;
+      height: 10.8vw;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+  
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+  
+      .video-duration {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: rgba(0, 0, 0, 0.7);
+        font-size: 12px;
+        padding: 2px 5px;
+        border-radius: 3px;
+      }
+    }
+  
+    .video-details {
+      flex: 1;
+      padding-left: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items:flex-start;
+      justify-content: flex-start;
+  
+      .title {
+        font-weight: bold;
+        font-size: 24px;
+        &:hover {
+          color: #bbb;
+        }
+        margin: 5px
+      }
+  
+      .meta-info {
+        font-size: 12px;
+        margin-top: 4px;
+        display: flex;
+        align-items: center;
+        margin: 5px;
+  
+        .eye-icon {
+          margin-right: 4px;
+        }
+      }
+    }
+  
+    .user-link {
+      font-size: 14px;
+      text-decoration: none;
+      margin: 5px;
+  
+      &:hover {
+        transform: scale(1.25);
+        color: lime;
+      }
+    }
+
+    .description{
+        margin: 5px;
+        font-size: 14px;
+    }
+
+    .last-watch{
+        justify-self: flex-end;
+        margin: 5px;
+    }
+}
+
+.watch-history-item:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 20px lime;
+}

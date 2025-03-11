@@ -23,7 +23,7 @@ const ChatPage = () => {
       }
     };
     fetchChats();
-    document.title = "Private Messages"
+    document.title = "Private Messages | Omega Stream"
   }, []);
 
   return (

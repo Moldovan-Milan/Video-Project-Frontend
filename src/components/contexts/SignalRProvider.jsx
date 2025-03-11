@@ -7,6 +7,7 @@ export const SignalRProvider = ({ children }) => {
   const [connection, setConnection] = useState(null);
   const [messages, setMessages] = useState([]);
   const token = sessionStorage.getItem("jwtToken");
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const connectToServer = async () => {
     // if (connection) {
@@ -15,7 +16,7 @@ export const SignalRProvider = ({ children }) => {
     // }
 
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7124/chatHub", {
+      .withUrl(`${BASE_URL}/chatHub`, {
         accessTokenFactory: () => token,
       })
       .withAutomaticReconnect()

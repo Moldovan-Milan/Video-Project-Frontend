@@ -19,6 +19,10 @@
   min-width: 100px;
 }
 
+.editBtn:hover{
+  background-color: #6c0a96;
+}
+
 .video-info {
   display: flex;
   flex-direction: column;
@@ -145,4 +149,16 @@
   text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.subCountLabel{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: lime;
+  color: black;
+  border-radius: 30px;
+  padding: 7px;
+  display: flex;
+  align-items: center;
 }
