@@ -103,10 +103,14 @@ const WatchTogetherRoom = () => {
       PlayListChanged: setPlayList,
       StartVideo: setCurrentVideo,
       RoomClosed: () => {
-        alert("The host didn't return, the room was closed.");
+        alert("The host disconected.");
         navigate("/watch-together");
       },
       Error: console.log,
+      ConnectFailed: () => {
+        alert("Connection failed");
+        navigate("/watch-together");
+      },
     };
 
     Object.entries(eventHandlers).forEach(([event, handler]) => {
