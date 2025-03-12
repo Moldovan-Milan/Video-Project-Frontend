@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/OtherUsersProfile.scss";
 import { FaMailBulk, FaUserPlus, FaPencilAlt } from "react-icons/fa";
@@ -19,6 +19,10 @@ const OtherUsersProfile = () => {
   const {user} = useContext(UserContext)
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
+  const pageSize = 30;
+  const observerRef = useRef(null);
 
   useEffect(() => {
     setToken(sessionStorage.getItem("jwtToken"));
@@ -26,12 +30,12 @@ const OtherUsersProfile = () => {
       try {
         const { data } = await axios.get(`/api/user/profile/${id}`);
         setUserData({
-          id: data.id,
-          username: data.userName,
-          avatarId: data.avatarId,
-          followers: data.followersCount,
+          id: data.user.id,
+          username: data.user.userName,
+          avatarId: data.user.avatarId,
+          followers: data.user.followersCount,
         });
-        setVideos(data.videos);
+        setVideos(data.user.videos);
         setLoading(false);
 
         if (token) {
