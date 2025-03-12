@@ -8,6 +8,8 @@ const VideoPlayerWrapper = ({
   isHost,
   id,
 }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   return (
     <div className="wt-video-wrapper">
       {isInRoom && currentVideo ? (
@@ -15,7 +17,7 @@ const VideoPlayerWrapper = ({
           roomId={id}
           isPlaying={isPlaying}
           isHost={isHost}
-          videoUrl={`https://localhost:7124/api/video/${currentVideo.id}`}
+          videoUrl={`${BASE_URL}/api/video/${currentVideo.id}`}
         />
       ) : !isHost ? (
         <div>

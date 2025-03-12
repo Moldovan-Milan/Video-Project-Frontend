@@ -3,11 +3,13 @@ import { FaClock } from "react-icons/fa";
 import "../styles/WatchTogetherVideoItem.scss";
 
 const WatchTogetherVideoItem = ({ video, onSelect }) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   return (
     <div className="wtvideo-item" onClick={() => onSelect(video)}>
       <div className="thumbnail-container">
         <img
-          src={`https://localhost:7124/api/video/thumbnail/${video.thumbnailId}`}
+          src={`${BASE_URL}/api/video/thumbnail/${video.thumbnailId}`}
           alt={video.title}
           className="thumbnail"
         />
@@ -20,7 +22,7 @@ const WatchTogetherVideoItem = ({ video, onSelect }) => {
         <p className="description">{video.description}</p>
         <div className="user-info">
           <img
-            src={`https://localhost:7124/api/user/avatar/${video.user.avatarId}`}
+            src={`${BASE_URL}/api/user/avatar/${video.user.avatarId}`}
             alt={video.user.userName}
             className="avatar"
           />

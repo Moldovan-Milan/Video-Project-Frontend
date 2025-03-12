@@ -7,11 +7,12 @@ const WTSignalRContext = createContext();
 export const WtSingalRProvider = ({ children }) => {
   const [connection, setConnection] = useState();
   const user = useContext(UserContext);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     if (user) {
       const newConnection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7124/watch", {
+        .withUrl(`${BASE_URL}/watch`, {
           accessTokenFactory: () => sessionStorage.getItem("jwtToken"),
         })
         .withAutomaticReconnect()

@@ -1,113 +1,75 @@
+/* Chatpanel alapstílusok */
 .messages-container {
     font-size: 1.25rem;
-    /* text-xl */
     font-weight: 600;
-    /* font-semibold */
     color: #84cc16;
-    /* text-lime-400 */
     margin-bottom: 1rem;
-    /* mb-4 */
 }
 
 .messages-box {
     background-color: #374151;
-    /* bg-gray-700 */
     height: 18rem;
-    /* h-72 */
     padding: 1rem;
-    /* p-4 */
     border-radius: 0.5rem;
-    /* rounded-lg */
     margin-bottom: 1rem;
-    /* mb-4 */
     overflow-y: auto;
-    /* overflow-auto */
 }
 
 .message-item {
     display: flex;
-    /* flex */
     align-items: flex-start;
-    /* items-start */
     gap: 0.75rem;
-    /* space-x-3 */
 }
 
 .sender-avatar {
     width: 2rem;
-    /* w-8 */
     height: 2rem;
-    /* h-8 */
     border-radius: 9999px;
-    /* rounded-full */
     object-fit: cover;
-    /* object-cover */
 }
 
 .sender-name {
     font-size: 0.875rem;
-    /* text-sm */
     font-weight: 600;
-    /* font-semibold */
     color: #bef264;
-    /* text-lime-300 */
 }
 
 .message-bubble {
     background-color: #4b5563;
-    /* bg-gray-600 */
     padding: 0.75rem;
-    /* p-3 */
     border-radius: 0.5rem;
-    /* rounded-lg */
     color: white;
-    /* text-white */
     max-width: 20rem;
-    /* max-w-xs */
 }
 
 .no-messages {
     color: #9ca3af;
-    /* text-gray-400 */
     font-size: 0.875rem;
-    /* text-sm */
     text-align: center;
-    /* text-center */
 }
 
 .new-message-container {
     display: flex;
-    /* flex */
     gap: 0.5rem;
-    /* space-x-2 */
 }
 
 .new-message-input {
     width: 100%;
-    /* w-full */
     padding: 0.5rem;
-    /* p-2 */
     background-color: #4b5563;
-    /* bg-gray-600 */
     border-radius: 0.5rem;
-    /* rounded-lg */
     color: white;
-    /* text-black */
     border: none;
 }
 
 .new-message-input::placeholder {
     color: #d1d5db;
-    /* placeholder-gray-300 */
 }
 
 .send-button {
     background-color: #84cc16;
-    /* bg-lime-500 */
     border-radius: 0.5rem;
-    /* rounded-lg */
     color: white;
-    /* text-white */
     padding: 0.5rem 1rem;
     border: none;
     cursor: pointer;
@@ -116,5 +78,44 @@
 
 .send-button:hover {
     background-color: #65a30d;
-    /* hover:bg-lime-500 */
+}
+
+/* Reszponzív kialakítás */
+@media (max-width: 639px) {
+    .wt-watch-together-room {
+        flex-direction: column;
+        /* Egymás alá helyezés kis képernyőn */
+    }
+
+    .wt-video-container,
+    .wt-sidebar {
+        width: 100%;
+        /* Teljes szélesség */
+        margin-bottom: 1rem;
+        /* Térköz az elemek között */
+    }
+
+    .messages-box {
+        height: auto;
+        /* Automatikus magasság mobilon */
+        min-height: 12rem;
+        /* Minimum magasság */
+    }
+}
+
+@media (min-width: 640px) {
+    .wt-watch-together-room {
+        flex-direction: row;
+        /* Egymás mellett nagyobb képernyőn */
+    }
+
+    .wt-video-container {
+        width: 66%;
+        /* Videó szélessége nagyobb képernyőn */
+    }
+
+    .wt-sidebar {
+        width: 33%;
+        /* Chatpanel szélessége nagyobb képernyőn */
+    }
 }
