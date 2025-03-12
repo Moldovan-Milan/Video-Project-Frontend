@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/OtherUsersProfile.scss";
 import { FaMailBulk, FaUserPlus, FaPencilAlt } from "react-icons/fa";
@@ -19,37 +19,68 @@ const OtherUsersProfile = () => {
   const {user} = useContext(UserContext)
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
+  const pageSize = 30;
+  const observerRef = useRef(null);
 
   useEffect(() => {
-    setToken(sessionStorage.getItem("jwtToken"));
     const fetchUser = async () => {
-      try {
-        const { data } = await axios.get(`/api/user/profile/${id}`);
-        setUserData({
-          id: data.id,
-          username: data.userName,
-          avatarId: data.avatarId,
-          followers: data.followersCount,
-        });
-        setVideos(data.videos);
-        setLoading(false);
-
-        if (token) {
-          const subscriptionStatus = await axios.get(
-            `api/video/is-user-subscribed/${data.id}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-          setIsSubscribed(subscriptionStatus.data);
+        try {
+            const { data } = await axios.get(`/api/user/profile/${id}`);
+            setUserData({
+                id: data.user.id,
+                username: data.user.userName,
+                avatarId: data.user.avatarId,
+                followers: data.user.followersCount,
+            });
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            setLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setLoading(false);
-      }
     };
+
     fetchUser();
-  }, [id, token]);
+  }, [id]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+        try {
+            const response = await axios.get(`/api/user/profile/${id}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+            const { hasMore } = response.data;
+            const newVideos = response.data.user.videos;
+
+            setVideos((prevVideos) => {
+              const filteredNewVideos = newVideos.filter(
+                  (newVideo) => !prevVideos.some((video) => video.id === newVideo.id)
+              );
+              return [...prevVideos, ...filteredNewVideos];
+          });
+            setHasMore(hasMore);
+        } catch (error) {
+            console.error("Error fetching videos:", error);
+        }
+    };
+
+    fetchVideos();
+  }, [pageNumber]);
+
+
+  const lastVideoRef = useCallback(
+          (node) => {
+              console.log("Observer ref active!")
+              if (!hasMore) return;
+              if (observerRef.current) observerRef.current.disconnect();
+              observerRef.current = new IntersectionObserver((entries) => {
+                  if (entries[0].isIntersecting) {
+                      setPageNumber((prevPageNumber) => prevPageNumber + 1);
+                  }
+              });
+              if (node) observerRef.current.observe(node);
+          },
+          [hasMore]
+      );
 
   useEffect(() => {
     if (userData) {
@@ -150,9 +181,10 @@ const OtherUsersProfile = () => {
 
       <div className="container mx-auto p-4">
         <div className="flex flex-wrap justify-center -mx-2">
-          {videos.map((video, id) => (
-            <UserPageVideoItem key={id} video={video} />
-          ))}
+          {videos.map((video, id) => {
+            const isLastVideo = id === videos.length - 1;
+            return(<UserPageVideoItem key={id} video={video} ref={isLastVideo ? lastVideoRef : null} />);
+          })}
         </div>
       </div>
     </>
