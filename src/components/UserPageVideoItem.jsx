@@ -1,15 +1,15 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
 import "../styles/UserPageVideoItem.scss";
 import getViewText from "../functions/getViewText";
 
-const UserPageVideoItem = ({ video }) => {
+const UserPageVideoItem = forwardRef(({ video }, ref) => {
   const { id, title, duration, created, thumbnailId, user, views } = video;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   return (
-    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" title={title}>
+    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" title={title} ref={ref}>
       <div className="user-video-item">
         <Link to={`/video/${id}`}>
           <div
@@ -33,6 +33,6 @@ const UserPageVideoItem = ({ video }) => {
       </div>
     </div>
   );
-};
+});
 
 export default UserPageVideoItem;
