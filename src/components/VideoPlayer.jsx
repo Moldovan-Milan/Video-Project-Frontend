@@ -12,11 +12,14 @@ const VideoPlayer = ({ src, id }) => {
   const [watchThreshold, setWatchThreshold ] = useState(10);
   const timerRef = useRef(null);
   const { user } = useContext(UserContext);
+  const [aspectRatio, setAspectRatio] = useState(16 / 9);
+
 
   const handleLoadedMetadata = () => {
     const video = videoRef.current;
     console.log(video.duration)
     if (video) {
+      setAspectRatio(video.videoWidth / video.videoHeight);
       const duration = video.duration
       if (duration <= 10) {
         setWatchThreshold(Math.floor(duration));
@@ -119,7 +122,13 @@ const VideoPlayer = ({ src, id }) => {
 
   return (
     <>
-      <video autoPlay ref={videoRef} controls style={{ width: "100%" }} onLoadedMetadata={handleLoadedMetadata}/>
+      <video autoPlay ref={videoRef} controls style={{
+      maxWidth: "100%",
+      maxHeight: "90vh",
+      width: "auto",
+      height: `calc(100vw / ${aspectRatio})`,
+      objectFit: "contain"
+      }} onLoadedMetadata={handleLoadedMetadata}/>
     </>
   );
 };
