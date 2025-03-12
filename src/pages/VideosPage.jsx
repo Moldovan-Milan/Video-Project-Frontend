@@ -18,7 +18,12 @@ const VideosPage = () => {
                 const response = await axios.get(`api/video?pageSize=${pageSize}&pageNumber=${pageNumber}`);
                 const { videos: newVideos, hasMore } = response.data;
 
-                setVideos((prevVideos) => [...prevVideos, ...newVideos]);
+                setVideos((prevVideos) => {
+                    const filteredNewVideos = newVideos.filter(
+                        (newVideo) => !prevVideos.some((video) => video.id === newVideo.id)
+                    );
+                    return [...prevVideos, ...filteredNewVideos];
+                });
                 setHasMore(hasMore);
             } catch (error) {
                 console.error("Error fetching videos:", error);
