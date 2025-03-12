@@ -32,6 +32,8 @@ const WatchTogetherRoom = () => {
     "🤔 Hmmm... What are we searching for? Try typing something in the search bar!"
   );
 
+  const [toggleSearch, setTogleSearch] = useState(true);
+
   const handleUserAction = (action, userId) => {
     connection.invoke(action, id, userId);
     setUserRequest((prev) => prev.filter((u) => u.id !== userId));
@@ -58,9 +60,11 @@ const WatchTogetherRoom = () => {
     }
     try {
       const { data } = await axios.get(`/api/video/search/${searchString}`);
-      setVideos(data);
+      setVideos(data.videos);
       setSearchMessage(
-        data.length ? "" : "😕 No results found. Maybe try searching for '404'?"
+        data.videos.length
+          ? ""
+          : "😕 No results found. Maybe try searching for '404'?"
       );
     } catch (error) {
       console.error("Error searching videos:", error);
@@ -128,7 +132,7 @@ const WatchTogetherRoom = () => {
   return (
     <div className="wt-watch-together-room">
       <div className="wt-video-container">
-        <h2>Watch Together - Room ID: {id}</h2>
+        <h2 className="">Watch Together - Room ID: {id}</h2>
         {isHostLeft && (
           <div>
             Uh-oh! The host just Ctrl+Z-ed their way out of here! ⌨️❌
@@ -153,6 +157,14 @@ const WatchTogetherRoom = () => {
           }}
         />
         {isHost && (
+          <button
+            className="search-button"
+            onClick={() => setTogleSearch(!toggleSearch)}
+          >
+            Search
+          </button>
+        )}
+        {isHost && toggleSearch && (
           <VideoSearch
             {...{
               searchRef,
@@ -166,6 +178,7 @@ const WatchTogetherRoom = () => {
           />
         )}
       </div>
+
       {isInRoom && (
         <div className="wt-sidebar">
           <ChatPanel {...{ messages, onMessageSend: sendMessage }} />

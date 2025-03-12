@@ -4,17 +4,20 @@
     color: white;
     padding: 1.5rem;
     display: flex;
+    flex-wrap: wrap;
 
     .wt-video-container {
         flex: 2;
-        width: 66.66%;
+        width: 100%;
+
 
         h2 {
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #84cc16;
             margin-bottom: 1.5rem;
         }
+
 
         .wt-video-wrapper {
             margin-top: 1.5rem;
@@ -24,74 +27,121 @@
             font-size: 1.25rem;
             color: #9ca3af;
         }
-    }
 
-    .wt-sidebar {
-        flex: 1;
-        width: 33.33%;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-
-        .wt-toggle-users-btn {
-            margin-top: 1rem;
+        .search-button {
             background-color: #84cc16;
+            /* Alapértelmezett háttérszín */
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
+            /* Szöveg színe */
+            padding: 0.8rem 1.5rem;
+            /* Gomb belső térköze */
+            border: none;
+            /* Keret eltüntetése */
+            border-radius: 0.5rem;
+            /* Lekerekített sarkok */
+            font-size: 1rem;
+            /* Betűméret */
+            font-weight: bold;
+            /* Félkövér szöveg */
             cursor: pointer;
-        }
+            /* Mutató változtatása */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            /* Sima animáció */
 
-        .wt-user-list,
-        .wt-join-requests {
-            margin-top: 1rem;
-            color: #84cc16;
-
-            h4 {
-                font-size: 1.125rem;
+            .search-button:hover {
+                background-color: #6aaa12;
+                /* Hover állapot háttérszíne */
+                transform: translateY(-2px);
+                /* Enyhe emelkedés */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                /* Árnyék */
             }
 
-            ul {
-                margin-top: 0.5rem;
-                list-style: none;
-                padding: 0;
+            .search-button:active {
+                background-color: #5f8e0f;
+                /* Aktív állapot színe */
+                transform: translateY(2px);
+                /* Lenyomás érzete */
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                /* Árnyék csökkentése */
+            }
 
-                li {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
+            .search-button:focus {
+                outline: 2px solid #a4de02;
+                /* Fókusz állapot kiemelése */
+                outline-offset: 2px;
+                /* Kiemelés helyzete */
+            }
 
-                    img {
-                        width: 2rem;
-                        height: 2rem;
-                        border-radius: 50%;
-                        object-fit: cover;
+        }
+
+        .wt-sidebar {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .wt-toggle-users-btn {
+                margin-top: 1rem;
+                background-color: #84cc16;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 0.25rem;
+                cursor: pointer;
+            }
+
+            .wt-user-list,
+            .wt-join-requests {
+                margin-top: 1rem;
+                color: #84cc16;
+
+                h4 {
+                    font-size: 1.125rem;
+                }
+
+                ul {
+                    margin-top: 0.5rem;
+                    list-style: none;
+                    padding: 0;
+
+                    li {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+
+                        img {
+                            width: 2rem;
+                            height: 2rem;
+                            border-radius: 50%;
+                            object-fit: cover;
+                        }
                     }
                 }
             }
-        }
 
-        .wt-join-requests {
-            ul {
-                li {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+            .wt-join-requests {
+                ul {
+                    li {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
 
-                    .wt-action-buttons {
-                        button {
-                            padding: 0.25rem 0.5rem;
-                            border-radius: 0.25rem;
-                            color: white;
-                            cursor: pointer;
+                        .wt-action-buttons {
+                            button {
+                                padding: 0.25rem 0.5rem;
+                                border-radius: 0.25rem;
+                                color: white;
+                                cursor: pointer;
 
-                            &.wt-accept {
-                                background-color: #22c55e;
-                                margin-right: 0.5rem;
-                            }
+                                &.wt-accept {
+                                    background-color: #22c55e;
+                                    margin-right: 0.5rem;
+                                }
 
-                            &.wt-reject {
-                                background-color: #ef4444;
+                                &.wt-reject {
+                                    background-color: #ef4444;
+                                }
                             }
                         }
                     }
@@ -99,198 +149,239 @@
             }
         }
     }
-}
 
-.wt-watch-together-room {
-    display: flex;
-    min-height: 100vh;
-    background-color: #000;
-    color: #fff;
-    padding: 24px;
-}
+    .wt-watch-together-room {
+        display: flex;
+        min-height: 100vh;
+        background-color: #000;
+        color: #fff;
+        padding: 24px;
+    }
 
-.wt-video-container {
-    flex: 2;
-    width: 66%;
-    padding-right: 24px;
-}
+    .wt-video-container {
+        flex: 2;
+        width: 66%;
+        padding-right: 24px;
+    }
 
-.wt-video-container h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #84cc16;
-    margin-bottom: 16px;
-}
+    .wt-video-container h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #84cc16;
+        margin-bottom: 16px;
+    }
 
-.wt-video-wrapper {
-    margin-top: 16px;
-    width: 100%;
-    max-width: 1024px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #1a1a1a;
-    padding: 16px;
-    border-radius: 8px;
-}
+    .wt-video-wrapper {
+        margin-top: 16px;
+        width: 100%;
+        max-width: 1024px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #1a1a1a;
+        padding: 16px;
+        border-radius: 8px;
+    }
 
-.wt-search-section {
-    margin-top: 20px;
-    padding: 16px;
-    background: #1a1a1a;
-    border-radius: 8px;
-}
+    .wt-search-section {
+        margin-top: 20px;
+        padding: 16px;
+        background: #1a1a1a;
+        border-radius: 8px;
+    }
 
-.wt-wtsearch-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+    .wt-wtsearch-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-.wt-search-input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    color: black;
-}
+    .wt-search-input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        color: black;
+    }
 
-.wt-search-btn {
-    background-color: #84cc16;
-    color: white;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
+    .wt-search-btn {
+        background-color: #84cc16;
+        color: white;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
 
-.wt-search-btn:hover {
-    background-color: #6aaa12;
-}
+    .wt-search-btn:hover {
+        background-color: #6aaa12;
+    }
 
-.wt-video-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); // dinamikus elrendezés
-    gap: 20px;
-    padding: 20px;
-}
+    .wt-video-results {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); // dinamikus elrendezés
+        gap: 20px;
+        padding: 20px;
+    }
 
-.wt-playlist {
-    width: 100%;
-    background-color: #111;
-    border: 1px solid #000;
-    border-radius: 8px;
-    padding: 10px;
-    margin-top: 15px;
-    color: white;
-}
+    .wt-playlist {
+        width: 100%;
+        background-color: #111;
+        border: 1px solid #000;
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 15px;
+        color: white;
+    }
 
-.wt-playlist h3 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #a4de02;
-    margin-bottom: 10px;
-    text-align: center;
-}
+    .wt-playlist h3 {
+        font-size: 18px;
+        font-weight: bold;
+        color: #a4de02;
+        margin-bottom: 10px;
+        text-align: center;
+    }
 
-.wt-playlist ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+    .wt-playlist ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
-.wt-playlist li {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    cursor: pointer;
-    position: relative;
-}
+    .wt-playlist li {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+        position: relative;
+    }
 
-/* Hover effekt */
-.wt-playlist li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: scale(1.05);
-    /* Kisebb felnagyítás */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    /* Enyhe árnyék */
-}
+    /* Hover effekt */
+    .wt-playlist li:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: scale(1.05);
+        /* Kisebb felnagyítás */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        /* Enyhe árnyék */
+    }
 
-/* Kiemelés a kiválasztott videóhoz */
-.wt-playlist li.selected {
-    background-color: #a4de02;
-    /* Kiemelt háttérszín */
-    color: #111;
-    /* Fehér szöveg */
-}
+    /* Kiemelés a kiválasztott videóhoz */
+    .wt-playlist li.selected {
+        background-color: #a4de02;
+        /* Kiemelt háttérszín */
+        color: #111;
+        /* Fehér szöveg */
+    }
 
-/* Kiemelt videó címének színe */
-.wt-playlist li.selected span {
-    color: #111;
-    /* Kiemelt szöveg színe */
-    font-weight: bold;
-    /* Erősebb betűstílus */
-}
+    /* Kiemelt videó címének színe */
+    .wt-playlist li.selected span {
+        color: #111;
+        /* Kiemelt szöveg színe */
+        font-weight: bold;
+        /* Erősebb betűstílus */
+    }
 
-.wt-thumbnail {
-    width: 60px;
-    height: 40px;
-    border-radius: 4px;
-    object-fit: cover;
-    margin-right: 10px;
-}
+    .wt-thumbnail {
+        width: 60px;
+        height: 40px;
+        border-radius: 4px;
+        object-fit: cover;
+        margin-right: 10px;
+    }
 
-.wt-playlist span {
-    font-size: 14px;
-    color: #ccc;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+    .wt-playlist span {
+        font-size: 14px;
+        color: #ccc;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-/* Törlés ikon */
-.wt-playlist li .delete-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 18px;
-    color: #ff4d4d;
-    /* Piros szín */
-    display: none;
-}
+    /* Törlés ikon */
+    .wt-playlist li .delete-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 18px;
+        color: #ff4d4d;
+        /* Piros szín */
+        display: none;
+    }
 
-/* Hover hatás a törlés ikonra */
-.wt-playlist li:hover .delete-icon {
-    display: block;
-}
+    /* Hover hatás a törlés ikonra */
+    .wt-playlist li:hover .delete-icon {
+        display: block;
+    }
 
 
-.wt-no-video-message {
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #aaa;
-    margin-top: 20px;
-    padding: 20px;
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    background-color: #222;
-}
+    .wt-no-video-message {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #aaa;
+        margin-top: 20px;
+        padding: 20px;
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        background-color: #222;
+    }
 
-.wt-search-message {
-    text-align: center;
-    font-size: 18px;
-    color: #ffcc00;
-    margin: 15px 0px;
-    padding: 15px;
-    border-radius: 10px;
-    background-color: #222;
-    font-style: italic;
-    box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.5);
+    .wt-search-message {
+        text-align: center;
+        font-size: 18px;
+        color: #ffcc00;
+        margin: 15px 0px;
+        padding: 15px;
+        border-radius: 10px;
+        background-color: #222;
+        font-style: italic;
+        box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.5);
+    }
+
+    /* Médialekérdezések */
+    @media (max-width: 639px) {
+
+        .wt-video-container,
+        .wt-sidebar {
+            width: 100%;
+            /* Teljes szélesség telefonon */
+            margin-bottom: 1rem;
+            /* Térköz a két elem között */
+        }
+
+        .wt-video-container h2 {
+            font-size: 1.5rem;
+            /* Kis képernyőkhöz igazított betűméret */
+        }
+    }
+
+    @media (min-width: 640px) and (max-width: 1023px) {
+        .wt-video-container {
+            width: 66.66%;
+            /* Közepes képernyőméret */
+        }
+
+        .wt-sidebar {
+            width: 33.33%;
+            /* Közepes képernyőméret */
+        }
+
+        .wt-video-container h2 {
+            font-size: 2rem;
+            /* Közepes képernyőméret betűméret */
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .wt-video-container h2 {
+            font-size: 2.5rem;
+            /* Nagy képernyőméret */
+        }
+    }
 }
