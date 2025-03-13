@@ -12,13 +12,18 @@ import MessagePage from "./pages/MessagePage";
 import LiveStreamPage from "./pages/LiveStreamPage"
 import GoLivePage from "./pages/GoLivePage";
 import EditVideoPage from "./pages/EditVideoPage";
+import WatchTogetherMainPage from "./pages/WatchTogetherMainPage";
+import WatchTogetherRoom from "./pages/WatchTogetherRoom";
+import SearchResultPage from "./pages/SearchResultPage";
+import ViewHistoryPage from "./pages/ViewHistoryPage";
+import SubscribedToPage from "./pages/SubscribedToPage";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route index path="/" Component={VideosPage} />
       <Route path="/video/:id" Component={SingleVideo} />
-      <Route path="/video/:id/edit" Component={EditVideoPage}/> 
+      <Route path="/video/:id/edit" Component={EditVideoPage} />
       <Route path="/video/upload" Component={UploadVideo} />
       <Route path="/registration" Component={Registration} />
       <Route path="/login" Component={Login} />
@@ -28,6 +33,11 @@ const AppRoutes = () => {
       <Route path="/chat/:id" Component={MessagePage} />
       <Route path="/livestream/:id" Component={LiveStreamPage}/>
       <Route path="/go-live" Component={GoLivePage} />
+      <Route path="/search" Component={SearchResultPage} />
+      <Route path="/watch-history" Component={ViewHistoryPage} />
+      <Route path="/following" Component={SubscribedToPage} />
+      <Route path="/watch-together" Component={WatchTogetherMainPage} />
+      <Route path="/watch-together/:id" Component={WatchTogetherRoom} />
     </Routes>
   );
 };

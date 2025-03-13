@@ -1,32 +1,72 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "react-query";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import VideoItem from "../components/VideoItem";
-import { Link } from "react-router-dom";
+import loading from "../assets/loading.gif";
 
-const VideosPage = (search) => {
-  const [data, setData] = useState([]);
+const VideosPage = () => {
+    const [videos, setVideos] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const [pageNumber, setPageNumber] = useState(1);
+    const pageSize = 30;
+    const observerRef = useRef(null);
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      const { data } = await axios.get("api/video");
-      setData(data);
-    };
+    useEffect(() => {
+        document.title = "Omega Stream";
 
-    fetchVideos();
-  }, []);
+        const fetchVideos = async () => {
+            try {
+                const response = await axios.get(`api/video?pageSize=${pageSize}&pageNumber=${pageNumber}`);
+                const { videos: newVideos, hasMore } = response.data;
 
-  if (search) {
-    const [filteredVideos, setFilteredVideos] = useState([]);
-  }
+                setVideos((prevVideos) => {
+                    const filteredNewVideos = newVideos.filter(
+                        (newVideo) => !prevVideos.some((video) => video.id === newVideo.id)
+                    );
+                    return [...prevVideos, ...filteredNewVideos];
+                });
+                setHasMore(hasMore);
+            } catch (error) {
+                console.error("Error fetching videos:", error);
+            }
+        };
 
-  return (
-    <div className="container mx-auto p-4">
-      <div className="flex flex-wrap justify-center -mx-2">
-        {data && data.map((video, id) => <VideoItem key={id} video={video} />)}
-      </div>
-    </div>
-  );
+        fetchVideos();
+    }, [pageNumber]);
+
+    const lastVideoRef = useCallback(
+        (node) => {
+            if (!hasMore) return;
+            if (observerRef.current) observerRef.current.disconnect();
+            observerRef.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    setPageNumber((prevPageNumber) => prevPageNumber + 1);
+                }
+            });
+            if (node) observerRef.current.observe(node);
+        },
+        [hasMore]
+    );
+
+    return (
+        <div className="container mx-auto p-4">
+            <div className="flex flex-wrap justify-center -mx-2">
+                {videos.length > 0 ? (
+                    videos.map((video, index) => {
+                      const isLastVideo = index === videos.length - 1;
+                      return (
+                        <VideoItem 
+                            key={video.id} 
+                            video={video} 
+                            ref={isLastVideo ? lastVideoRef : null} 
+                        />
+                    );
+                    })
+                ) : (
+                    <img src={loading} alt="loading"/>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default VideosPage;

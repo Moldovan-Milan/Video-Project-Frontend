@@ -1,14 +1,17 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
 import "../styles/RecVideoItem.scss";
+import getViewText from "../functions/getViewText";
+import formatDuration from "../functions/formatDuration";
 
-const RecVideoItem = ({ video }) => {
+const RecVideoItem = forwardRef(({ video }, ref) => {
   const { id, title, duration, created, thumbnailId, user } = video;
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   return (
-    <div className="recVideoItemContainer" title={title}>
+    <div ref={ref} className="recVideoItemContainer" title={title}>
       <div className="recVideoItem">
         <Link to={`/video/${id}`}>
           <table className="recItemTable">
@@ -17,11 +20,11 @@ const RecVideoItem = ({ video }) => {
                 <td className="recItemThumbnail">
                   <div
                     style={{
-                      backgroundImage: `url("https://localhost:7124/api/Video/thumbnail/${thumbnailId}")`,
+                      backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
                     }}
                     className="recItemThumbnailDiv"
                   >
-                    <div className="video-duration">{duration}</div>
+                    <div className="video-duration">{formatDuration(duration)}</div>
                   </div>
                 </td>
                 <td className="recItemDetails">
@@ -30,7 +33,7 @@ const RecVideoItem = ({ video }) => {
                   </div>
                   <div className="recItemUploader">{user.userName}</div>
                   <div className="recItemViews">
-                    <FaEye className="recEye" /> 10 views ● Created:{" "}
+                    <FaEye className="recEye" /> {getViewText(video.views)} ● Created:{" "}
                     {timeAgo(new Date(created))}
                   </div>
                 </td>
@@ -41,6 +44,6 @@ const RecVideoItem = ({ video }) => {
       </div>
     </div>
   );
-};
+});
 
 export default RecVideoItem;

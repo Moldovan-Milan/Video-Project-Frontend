@@ -1,0 +1,121 @@
+/* Chatpanel alapstílusok */
+.messages-container {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #84cc16;
+    margin-bottom: 1rem;
+}
+
+.messages-box {
+    background-color: #374151;
+    height: 18rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    overflow-y: auto;
+}
+
+.message-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.sender-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    object-fit: cover;
+}
+
+.sender-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #bef264;
+}
+
+.message-bubble {
+    background-color: #4b5563;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    color: white;
+    max-width: 20rem;
+}
+
+.no-messages {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.new-message-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.new-message-input {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #4b5563;
+    border-radius: 0.5rem;
+    color: white;
+    border: none;
+}
+
+.new-message-input::placeholder {
+    color: #d1d5db;
+}
+
+.send-button {
+    background-color: #84cc16;
+    border-radius: 0.5rem;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.send-button:hover {
+    background-color: #65a30d;
+}
+
+/* Reszponzív kialakítás */
+@media (max-width: 639px) {
+    .wt-watch-together-room {
+        flex-direction: column;
+        /* Egymás alá helyezés kis képernyőn */
+    }
+
+    .wt-video-container,
+    .wt-sidebar {
+        width: 100%;
+        /* Teljes szélesség */
+        margin-bottom: 1rem;
+        /* Térköz az elemek között */
+    }
+
+    .messages-box {
+        height: auto;
+        /* Automatikus magasság mobilon */
+        min-height: 12rem;
+        /* Minimum magasság */
+    }
+}
+
+@media (min-width: 640px) {
+    .wt-watch-together-room {
+        flex-direction: row;
+        /* Egymás mellett nagyobb képernyőn */
+    }
+
+    .wt-video-container {
+        width: 66%;
+        /* Videó szélessége nagyobb képernyőn */
+    }
+
+    .wt-sidebar {
+        width: 33%;
+        /* Chatpanel szélessége nagyobb képernyőn */
+    }
+}

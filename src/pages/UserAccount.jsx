@@ -15,6 +15,7 @@ const UserAccount = () => {
     followers: 0,
     created: "",
   });
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -32,7 +33,7 @@ const UserAccount = () => {
           setUserData({
             username: data.userName,
             email: data.email,
-            avatar: `https://localhost:7124/api/User/avatar/${data.avatarId}`,
+            avatar: `${BASE_URL}/api/User/avatar/${data.avatarId}`,
             followers: data.followersCount,
             created: formattedDate,
           });
@@ -44,35 +45,39 @@ const UserAccount = () => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    if (userData) {
+      document.title = `Page for ${userData.username} | Omega Stream`;
+    }
+  }, [userData]);
+
   return (
     <div className="container">
       <h1>{userData.username}</h1>
-      <form>
-        <InputAndLabel
-          name={"Email cím: "}
-          inputId={"email"}
-          type="email"
-          value={userData.email}
-          isReadOnly={true}
-        />
-        <InputAndLabel
-          name={"Követőid száma: "}
-          inputId={"followers"}
-          type="number"
-          value={userData.followers}
-          isReadOnly={true}
-        />
-        <InputAndLabel
-          name={"Fiók létrehozva: "}
-          inputId={"created"}
-          value={userData.created}
-          isReadOnly={true}
-        />
-        <div className="form-group">
-          <label htmlFor="avatar">Profilkép:</label>
-          <ImageEditor img={userData.avatar} />
-        </div>
-      </form>
+      <InputAndLabel
+        name={"Email cím: "}
+        inputId={"email"}
+        type="email"
+        value={userData.email}
+        isReadOnly={true}
+      />
+      <InputAndLabel
+        name={"Követőid száma: "}
+        inputId={"followers"}
+        type="number"
+        value={userData.followers}
+        isReadOnly={true}
+      />
+      <InputAndLabel
+        name={"Fiók létrehozva: "}
+        inputId={"created"}
+        value={userData.created}
+        isReadOnly={true}
+      />
+      <div className="form-group">
+        <label htmlFor="avatar">Profilkép:</label>
+        <ImageEditor img={userData.avatar} />
+      </div>
     </div>
   );
 };

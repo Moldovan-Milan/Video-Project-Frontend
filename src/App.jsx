@@ -12,7 +12,7 @@ import AppRoutes from "./AppRoutes";
 import { useWebSocket } from "./components/contexts/WebSocketProvider";
 import { useSignalR } from "./components/contexts/SignalRProvider";
 
-axios.defaults.baseURL = "https://localhost:7124";
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 function App() {
   // Ez fog lefutni az oldal első betöltésekor
   const { user, setUser } = useContext(UserContext);

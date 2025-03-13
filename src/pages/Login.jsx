@@ -15,6 +15,10 @@ const Login = () => {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = "Login | Omega Stream"
+  }, [])
+
   //const { connectToServer } = useWebSocket();
   const { connectToServer } = useSignalR();
 
@@ -97,6 +101,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-4">
+            {/*TODO: get jwtToken after user logn in via "remember me"*/}
             <label htmlFor="rememberMe" className="block font-bold mb-2">
               Remember me:
             </label>

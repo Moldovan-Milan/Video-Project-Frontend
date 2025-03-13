@@ -1,0 +1,25 @@
+.followedUserItem:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 20px lime;
+}
+
+.followedUserItem{
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 200px;
+    transition: transform 0.2s, box-shadow 0.2s; //a hover animáció simábbá tétele
+}
+
+.channelAvatar{
+border-radius: 100%;
+height:100px;
+width:100px;
+}
+
+.followedChannelName
+{
+    text-align: center;
+    font-weight: bold;
+    color: lime;
+}
