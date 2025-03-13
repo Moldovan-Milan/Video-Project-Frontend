@@ -12,8 +12,6 @@ import MessagePage from "./pages/MessagePage";
 import LiveStreamPage from "./pages/LiveStreamPage"
 import GoLivePage from "./pages/GoLivePage";
 import EditVideoPage from "./pages/EditVideoPage";
-import LiveStreamPage from "./pages/LiveStreamPage"
-import GoLivePage from "./pages/GoLivePage";
 
 const AppRoutes = () => {
   return (
