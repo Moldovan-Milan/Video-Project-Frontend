@@ -4,6 +4,7 @@ import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
 import "../styles/SearchVideoItem.scss";
 import getViewText from "../functions/getViewText";
+import formatDuration from "../functions/formatDuration";
 
 const SearchVideoItem = forwardRef(({ video }, ref) => {
   const { id, title, duration, created, thumbnailId, user } = video;
@@ -23,7 +24,7 @@ const SearchVideoItem = forwardRef(({ video }, ref) => {
                     }}
                     className="searchItemThumbnailDiv"
                   >
-                    <div className="video-duration">{duration}</div>
+                    <div className="video-duration">{formatDuration(duration)}</div>
                   </div>
                 </td>
                 <td className="searchItemDetails">

@@ -4,6 +4,7 @@ import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
 import "../styles/UserPageVideoItem.scss";
 import getViewText from "../functions/getViewText";
+import formatDuration from "../functions/formatDuration";
 
 const UserPageVideoItem = forwardRef(({ video }, ref) => {
   const { id, title, duration, created, thumbnailId, user, views } = video;
@@ -18,7 +19,7 @@ const UserPageVideoItem = forwardRef(({ video }, ref) => {
             }}
             className="thumbnail-div"
           >
-            <div className="video-duration">{duration}</div>
+            <div className="video-duration">{formatDuration(duration)}</div>
           </div>
           <div className="p-4 video-details">
             <div className="video-title font-bold">

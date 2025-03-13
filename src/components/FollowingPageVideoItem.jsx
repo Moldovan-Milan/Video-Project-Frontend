@@ -4,6 +4,7 @@ import timeAgo from "../functions/timeAgo";
 import { FaEye } from "react-icons/fa";
 import "../styles/FollowingPageVideoItem.scss";
 import getViewText from "../functions/getViewText";
+import formatDuration from "../functions/formatDuration";
 
 const FollowingPageVideoItem = ({ video }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
@@ -22,7 +23,7 @@ const FollowingPageVideoItem = ({ video }) => {
                     }}
                     className="followedVideoItemThumbnailDiv"
                   >
-                    <div className="video-duration">{duration}</div>
+                    <div className="video-duration">{formatDuration(duration)}</div>
                   </div>
                 </td>
                 <td className="followedVideoItemDetails">
