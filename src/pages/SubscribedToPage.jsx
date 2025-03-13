@@ -36,7 +36,7 @@ export default function SubscribedToPage()
         <div key={id}>
         <p className="followingUploadedText">Latest videos by {u.userName}</p>
         <hr></hr>
-        {u.videos.map((video,vId)=><FollowingPageVideoItem key={vId} video={video}></FollowingPageVideoItem>)}
+        {u.videos.map((video,vId)=>(vId<=2)?<FollowingPageVideoItem key={vId} video={video}></FollowingPageVideoItem>:<></>)}
         </div>
       )}
     </div>
