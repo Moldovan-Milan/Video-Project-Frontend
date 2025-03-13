@@ -9,10 +9,14 @@ import {
   FaSignOutAlt,
   FaUserPlus,
   FaBars,
+  FaUser,
+  FaHistory,
+  FaUserFriends,
 } from "react-icons/fa";
 import logOutUser from "../functions/logOutUser";
 import { UserContext } from "./contexts/UserProvider";
 import { useSignalR } from "./contexts/SignalRProvider";
+import { FaMessage, FaUsersLine, FaUsersRectangle } from "react-icons/fa6";
 
 export default function NavbarComponent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -88,7 +92,7 @@ export default function NavbarComponent() {
                     to="/profile"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    Your Profile
+                    <FaUser className="navIcon"/>Your Profile
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
@@ -96,7 +100,7 @@ export default function NavbarComponent() {
                     to="/chats"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    Chats
+                    <FaMessage className="navIcon"/>Chats
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
@@ -104,7 +108,7 @@ export default function NavbarComponent() {
                     to="/watch-together"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    Watch Together
+                    <FaUsersRectangle className="navIcon"/>Watch Together
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
@@ -112,7 +116,7 @@ export default function NavbarComponent() {
                     to="/watch-history"
                     className="nav-link px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    Watch History
+                    <FaHistory className="navIcon"/>Watch History
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
@@ -120,7 +124,7 @@ export default function NavbarComponent() {
                     to="/following"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    Subscriptions
+                    <FaUserFriends className="navIcon"/>Subscriptions
                   </Link>
                 </li>
               </>
