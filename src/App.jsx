@@ -14,7 +14,6 @@ import { useSignalR } from "./components/contexts/SignalRProvider";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 function App() {
-  // Ez fog lefutni az oldal első betöltésekor
   const { user, setUser } = useContext(UserContext);
   const { connectToServer } = useSignalR();
 
@@ -26,11 +25,7 @@ function App() {
     fetchToken();
   }, []);
 
-  useEffect(() => {
-    // Figyeljük a user állapot változásait
-    connectToServer();
-    console.log(user);
-  }, [user]);
+  useEffect(() => {}, []);
 
   return (
     <BrowserRouter>

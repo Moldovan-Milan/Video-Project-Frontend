@@ -22,13 +22,12 @@ const MessagePage = () => {
     requestHistory(Number(id));
   }, [id, connection]);
 
-
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   useEffect(() => {
-    const name = queryParams.get('name');
-    document.title = `Private chat with ${name} | Omega Stream`
-  }, [])
+    const name = queryParams.get("name");
+    document.title = `Private chat with ${name} | Omega Stream`;
+  }, []);
 
   const handleSendMessage = () => {
     const content = newMessageRef.current.value.trim();

@@ -1,5 +1,5 @@
 import axios from "axios";
-import isTokenExpired from "./isTokenExpired";
+import isTokenExpired from "../utils/isTokenExpired";
 
 export const tryLoginUser = async (setUser, connectToServer) => {
   const refreshToken = localStorage.getItem("refreshToken");

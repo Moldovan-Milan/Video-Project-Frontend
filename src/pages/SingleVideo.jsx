@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import VideoPlayer from "../components/VideoPlayer";
 import timeAgo from "../functions/timeAgo";
-import isTokenExpired from "../functions/isTokenExpired";
+import isTokenExpired from "../utils/isTokenExpired";
 import {
   FaEye,
   FaThumbsDown,
@@ -74,10 +74,10 @@ const SingleVideo = () => {
   }, [id]);
 
   useEffect(() => {
-    if(videoData){
-      document.title = videoData.title + " | Omega Stream"
+    if (videoData) {
+      document.title = videoData.title + " | Omega Stream";
     }
-  }, [videoData])
+  }, [videoData]);
 
   const handleReactionClick = async (newValue) => {
     if (!token || isTokenExpired(token) || !videoData) return;
@@ -157,7 +157,7 @@ const SingleVideo = () => {
           />
           <h5 className="username">{videoData.user.userName}</h5>
         </Link>
-        
+
         {user && user.id === videoData.user.id && (
           <Link to={`/video/${id}/edit`}>
             <button className="editBtn">
@@ -168,7 +168,8 @@ const SingleVideo = () => {
 
         {user && user.id === videoData.user.id && (
           <div className="subCountLabel m-2">
-            <FaUserPlus className="m-1"/><p>Subscribers: {videoData.user.followersCount}</p>
+            <FaUserPlus className="m-1" />
+            <p>Subscribers: {videoData.user.followersCount}</p>
           </div>
         )}
 
@@ -179,12 +180,11 @@ const SingleVideo = () => {
             <span>{videoData.user.followersCount}</span>
           </button>
         )}
-        
 
         <div className="video-details">
           <div className="video-views">
-            <FaEye className="eye-icon" /> {getViewText(videoData.views)} ● Created:{" "}
-            {timeAgo(new Date(videoData.created))}
+            <FaEye className="eye-icon" /> {getViewText(videoData.views)} ●
+            Created: {timeAgo(new Date(videoData.created))}
           </div>
           <div className="video-likes">
             <button

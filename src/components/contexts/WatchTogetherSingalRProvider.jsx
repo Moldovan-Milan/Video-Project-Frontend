@@ -1,40 +1,32 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import * as signalR from "@microsoft/signalr";
 import { UserContext } from "./UserProvider";
+import {
+  createSignalRConnectionWithToken,
+  startSignalRConnection,
+  stopSignalRConnection,
+} from "../../utils/signalRUtils";
 
 const WTSignalRContext = createContext();
 
-export const WtSingalRProvider = ({ children }) => {
+export const WtSignalRProvider = ({ children }) => {
   const [connection, setConnection] = useState();
   const user = useContext(UserContext);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const token = sessionStorage.getItem("jwtToken");
 
   useEffect(() => {
-    if (user) {
-      const newConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`${BASE_URL}/watch`, {
-          accessTokenFactory: () => sessionStorage.getItem("jwtToken"),
-        })
-        .withAutomaticReconnect()
-        .configureLogging(signalR.LogLevel.Information)
-        .build();
+    if (token) {
+      const newConnection = createSignalRConnectionWithToken(
+        BASE_URL,
+        "watch",
+        token
+      );
 
-      newConnection
-        .start()
-        .then(() => {
-          console.log("✅ Watch together connection started");
-        })
-        .catch((err) => console.log(`❌ An error happend ${err}`));
-      setConnection(newConnection);
+      startSignalRConnection(newConnection, setConnection);
 
-      return () => {
-        if (newConnection) {
-          newConnection.off("JoinRoom");
-          newConnection.stop();
-        }
-      };
+      return () => stopSignalRConnection(newConnection, ["JoinRoom"]);
     }
-  }, [user]);
+  }, [user, token]);
 
   return (
     <WTSignalRContext.Provider value={connection}>
@@ -43,6 +35,4 @@ export const WtSingalRProvider = ({ children }) => {
   );
 };
 
-export const useWTSignalR = () => {
-  return useContext(WTSignalRContext);
-};
+export const useWTSignalR = () => useContext(WTSignalRContext);
