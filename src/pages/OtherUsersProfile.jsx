@@ -7,6 +7,7 @@ import UserPageVideoItem from "../components/UserPageVideoItem";
 import isTokenExpired from "../functions/isTokenExpired";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
+import loadingImg from "../assets/loading.gif";
 
 const OtherUsersProfile = () => {
   //TODO: pagination
@@ -112,7 +113,7 @@ const OtherUsersProfile = () => {
     }
   };
 
-  if (loading || !userData) return <div>Loading...</div>;
+  if (loading || !userData) return <img src={loadingImg} alt="loading"/>;
 
   return (
     <>
