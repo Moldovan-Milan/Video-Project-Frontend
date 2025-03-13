@@ -10,6 +10,7 @@ const EditVideoPage = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [goBackText, setGoBackText] = useState("Go Back");
   const { id } = useParams();
+  const [safeId, setSafeId] = useState(id);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -64,12 +65,26 @@ const EditVideoPage = () => {
     };
   }, [thumbnail]);
   
-  //TODO: for some reason the backend gets terminated due to some signalR errors, whenever the thumbnail gets changed
+
   const handleUpload = (e) => {
     const newThumbnail = URL.createObjectURL(e.target.files[0]);
     setThumbnail(newThumbnail);
     setGoBackText("Go Back (Discard Changes)");
   };
+
+  const handleDelete = async () => {
+    if(window.confirm("Are you sure you want to delete this video? This action is irreversible, and the video cannot be recovered.")){
+        const token = sessionStorage.getItem("jwtToken");
+        const response = await axios.delete(`api/Video/delete/${safeId}`, 
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+        )
+        if(response.status === 204){
+            navigate(`/profile/${user.id}`);
+        }
+    }
+  }
 
   return (
     <div className="editContainer">
@@ -112,7 +127,7 @@ const EditVideoPage = () => {
       <button className="saveBtn">
         <FaSave className="m-1"/> Save changes
       </button>
-      <button className="deleteBtn">
+      <button className="deleteBtn" onClick={handleDelete}>
         <FaTrash className="m-1"/> Delete video
       </button>
     </div>
