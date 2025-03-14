@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import "../styles/OtherUsersProfile.scss";
 import { FaMailBulk, FaUserPlus, FaPencilAlt } from "react-icons/fa";
 import UserPageVideoItem from "../components/UserPageVideoItem";
-import isTokenExpired from "../functions/isTokenExpired";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
 import loadingImg from "../assets/loading.gif";
@@ -15,7 +14,6 @@ const OtherUsersProfile = () => {
   const [userData, setUserData] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const {user} = useContext(UserContext)
   const navigate = useNavigate();
@@ -95,14 +93,13 @@ const OtherUsersProfile = () => {
   }
 
   const handleSubscribeClick = async () => {
-    if (!token || isTokenExpired(token)) return;
     try {
       const formData = new FormData();
       formData.append("value", !isSubscribed);
       const { status } = await axios.post(
         `/api/video/change-subscribe/${userData.id}`,
         formData,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { withCredentials: true }
       );
       if (status === 200) {
         setIsSubscribed(!isSubscribed);

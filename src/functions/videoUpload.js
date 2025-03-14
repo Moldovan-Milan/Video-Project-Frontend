@@ -6,14 +6,14 @@ const MAX_VIDEO_SIZE = 256 * 1024 * 1024; // 256 MB
 const queryClient = new QueryClient();
 
 // Chunkokat küld a szerver felé
-const uploadChunk = async ({ chunk, fileName, chunkNumber, token }) => {
+const uploadChunk = async ({ chunk, fileName, chunkNumber }) => {
   const formData = new FormData();
   formData.append("chunk", chunk);
   formData.append("fileName", fileName);
   formData.append("chunkNumber", chunkNumber);
 
   const response = await axios.post("api/video/upload", formData, {
-    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
   });
   return response.data;
 };
@@ -23,7 +23,6 @@ const assembleFile = async ({
   fileName,
   totalChunks,
   image,
-  token,
   extension,
 }) => {
   const formData = new FormData();
@@ -34,7 +33,7 @@ const assembleFile = async ({
   formData.append("title", titleRef.current.value);
 
   const response = await axios.post("api/video/assemble", formData, {
-    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
   });
   return response.data;
 };

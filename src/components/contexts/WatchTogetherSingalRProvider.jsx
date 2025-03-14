@@ -13,7 +13,7 @@ export const WtSingalRProvider = ({ children }) => {
     if (user) {
       const newConnection = new signalR.HubConnectionBuilder()
         .withUrl(`${BASE_URL}/watch`, {
-          accessTokenFactory: () => sessionStorage.getItem("jwtToken"),
+
         })
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)

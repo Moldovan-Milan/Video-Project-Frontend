@@ -19,11 +19,10 @@ const UserAccount = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = sessionStorage.getItem("jwtToken");
-      if (token) {
+      if (user) {
         try {
           const { data } = await axios.get(`/api/user/profile`, {
-            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true
           });
 
           const formattedDate = new Date(data.created).toLocaleDateString(

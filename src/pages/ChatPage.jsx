@@ -10,11 +10,8 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const token = sessionStorage.getItem("jwtToken");
         const { data } = await axios.get("/api/chat/user-chats", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true
         });
         setChats(data);
         //console.log("Beszélgetések: " + chats);
