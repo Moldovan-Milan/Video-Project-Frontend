@@ -23,7 +23,7 @@ const ViewHistoryPage = () => {
 
         const fetchVideoViews = async () => {
             try {
-                const response = await axios.get(`api/Video/watch-history/${user.id}?pageSize=${pageSize}&pageNumber=${pageNumber}`, {
+                const response = await axios.get(`api/Video/watch-history?pageSize=${pageSize}&pageNumber=${pageNumber}`, {
                     withCredentials: true
                 });
 

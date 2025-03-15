@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import ImageEditor from "../components/ImageEditor";
 import InputAndLabel from "../components/InputAndLabel";
+import { UserContext } from "../components/contexts/UserProvider";
 
 const UserAccount = () => {
   //TODO: Legyen más a profil, ha vendégként nézzük, bejelentkezett felhasználóként nézzük, vagy a saját profilunkat nézzük
   const { id } = useParams();
+  const {user} = useContext(UserContext)
 
   const [userData, setUserData] = useState({
     username: "",
