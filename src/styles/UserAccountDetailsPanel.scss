@@ -1,0 +1,31 @@
+.DivDetailsPanel{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2{
+      font-size: 35px;
+      font-weight: bold;
+      color: #B200FF;   
+    }
+}
+
+.DivAccDetails{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.AccInfo{
+    margin-left: 5px;
+    margin-right: 2px;
+    font-weight: bold;
+    color: lime;
+}
+
+.AccLine{
+    width: 100%;
+}

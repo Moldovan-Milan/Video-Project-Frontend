@@ -1,0 +1,105 @@
+.UserAccVideoItemContainer {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+  }
+  
+  .UserAccVideoItem {
+    display: flex;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s; //a hover animáció simábbá tétele
+  }
+  
+  .UserAccVideoItem:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px lime;
+  }
+  
+  .UserAccItemTable {
+    width: 100%;
+  }
+  
+  .UserAccItemThumbnail {
+    width: 200px;
+  }
+  
+  .UserAccItemDetails {
+    width: 500px;
+    padding-left: 10px;
+  }
+  
+  .UserAccItemThumbnailDiv {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 100%;
+    height: 150px;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 10px;
+  }
+  
+  
+  .UserAccItemTitle {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: lime;
+  }
+  
+  .UserAccItemUploader {
+    margin-bottom: 5px;
+  }
+  
+  .UserAccItemViews {
+    display: flex;
+    font-size: 15px;
+  }
+  
+  .UserAccEye {
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-top: 3px;
+  }
+  
+  .DivManageUserVid{
+    width:50px;
+    text-align: right;
+    display: flex;
+  }
+
+  .BtnUserAccVidEdit{
+    margin-left: 5px;
+    margin-right: 15px;
+    height:30px;
+    width:30px;
+    border-radius: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 2px;
+  }
+
+  .BtnUserAccVidEdit:hover{
+    transform: scale(1.5);
+    box-shadow: 0 0 20px #B200FF;
+    color: #B200FF;
+  }
+
+
+  .BtnUserAccVidDel{
+    margin-left: 5px;
+    margin-right: 15px;
+    height:30px;
+    width:30px;
+    border-radius: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 2px;
+  }
+
+  .BtnUserAccVidDel:hover{
+    transform: scale(1.5);
+    box-shadow: 0 0 20px red;
+    color: red;
+  }

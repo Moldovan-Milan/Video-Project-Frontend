@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import ImageEditor from "../components/ImageEditor";
-import InputAndLabel from "../components/InputAndLabel";
+import "../styles/UserAccount.scss";
+import UserAccountHeader from "../components/UserAccountHeader";
+import UserAccountDetailsPanel from "../components/UserAccountDetailsPanel";
+import UserAccountVideosPanel from "../components/UserAccountVideosPanel";
 
 const UserAccount = () => {
-  //TODO: Legyen más a profil, ha vendégként nézzük, bejelentkezett felhasználóként nézzük, vagy a saját profilunkat nézzük
+  //TODO: Ha be vagyunk jelentkezve, és a SingleVideo-nál rányomunk a saját csatornánkra, ne az OtherUsersProfile-ra dobjon, hanem irányítson át ide
   const { id } = useParams();
+  const [pageNumber, setPageNumber] = useState(1);
+  const pageSize = 30;
 
   const [userData, setUserData] = useState({
     username: "",
@@ -15,6 +19,10 @@ const UserAccount = () => {
     followers: 0,
     created: "",
   });
+
+  const [userVideos,setUserVideos]=useState([]);
+  const[switchPanel,setSwitchPanel]=useState("Videos");
+
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
@@ -22,7 +30,7 @@ const UserAccount = () => {
       const token = sessionStorage.getItem("jwtToken");
       if (token) {
         try {
-          const { data } = await axios.get(`/api/user/profile`, {
+          const { data } = await axios.get(`/api/user/profile?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
 
@@ -37,6 +45,7 @@ const UserAccount = () => {
             followers: data.followersCount,
             created: formattedDate,
           });
+          setUserVideos(data.videos)
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -51,34 +60,39 @@ const UserAccount = () => {
     }
   }, [userData]);
 
-  return (
+  return (  
     <div className="container">
-      <h1>{userData.username}</h1>
-      <InputAndLabel
-        name={"Email cím: "}
-        inputId={"email"}
-        type="email"
-        value={userData.email}
-        isReadOnly={true}
-      />
-      <InputAndLabel
-        name={"Követőid száma: "}
-        inputId={"followers"}
-        type="number"
-        value={userData.followers}
-        isReadOnly={true}
-      />
-      <InputAndLabel
-        name={"Fiók létrehozva: "}
-        inputId={"created"}
-        value={userData.created}
-        isReadOnly={true}
-      />
-      <div className="form-group">
-        <label htmlFor="avatar">Profilkép:</label>
-        <ImageEditor img={userData.avatar} />
-      </div>
-    </div>
+    <UserAccountHeader user={userData}/>
+    <div className="divUserAccPanelSwitch">
+            <button
+              className={
+                switchPanel === "Videos"
+                  ? "btnUserAccPanelActive"
+                  : "btnUserAccBottomPanel"
+              }
+              onClick={() => setSwitchPanel("Videos")}
+            >
+              Edit your videos
+            </button>
+            <button
+              className={
+                switchPanel === "Details"
+                  ? "btnUserAccPanelActive"
+                  : "btnUserAccBottomPanel"
+              }
+              onClick={() => setSwitchPanel("Details")}
+            >
+              Details
+            </button>
+          </div>
+          <div>
+            {switchPanel === "Videos" ? (
+              <UserAccountVideosPanel videos={userVideos}/>
+            ) : (
+              <UserAccountDetailsPanel user={userData}/>
+            )}
+          </div>
+    </div> 
   );
 };
 
