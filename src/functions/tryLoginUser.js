@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const tryLoginUser = async (setUser, connectToServer) => {
   try {
-    const response = await axios.post("/api/user/refresh-jwt-token");
+    const response = await axios.post("/api/user/refresh-jwt-token", {}, { withCredentials: true });
 
     if (response.status === 200) {
       const { userDto } = response.data;
