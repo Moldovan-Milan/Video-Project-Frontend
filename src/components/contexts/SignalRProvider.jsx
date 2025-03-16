@@ -1,12 +1,13 @@
 import React, { createContext, useEffect, useState, useContext } from "react";
 import * as signalR from "@microsoft/signalr";
+import { UserContext } from "./UserProvider";
 
 const SignalRContext = createContext(null);
 
 export const SignalRProvider = ({ children }) => {
   const [connection, setConnection] = useState(null);
   const [messages, setMessages] = useState([]);
-  const token = sessionStorage.getItem("jwtToken");
+  const {user} = useContext(UserContext)
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const connectToServer = async () => {
@@ -17,7 +18,6 @@ export const SignalRProvider = ({ children }) => {
 
     const newConnection = new signalR.HubConnectionBuilder()
       .withUrl(`${BASE_URL}/chatHub`, {
-        accessTokenFactory: () => token,
       })
       .withAutomaticReconnect()
       .build();
@@ -66,7 +66,7 @@ export const SignalRProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (user) {
       connectToServer();
     }
 
@@ -75,7 +75,7 @@ export const SignalRProvider = ({ children }) => {
         connection.stop();
       }
     };
-  }, [token]);
+  }, [user]);
 
   return (
     <SignalRContext.Provider

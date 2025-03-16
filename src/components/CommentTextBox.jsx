@@ -9,12 +9,12 @@ const CommentTextBox = ({ videoid, setComments }) => {
   const [error, setError] = useState();
   const user = useContext(UserContext);
 
-  const uploadComment = async (content, formData, token) => {
-    const result = await axios.post("/api/video/write-new-comment", formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+  const uploadComment = async (content, formData) => {
+    const result = await axios.post("/api/video/write-new-comment", formData, 
+      {
+        withCredentials: true
       },
-    });
+    );
     if (result.status !== 200) {
       setError(result.statusText);
     } else {
@@ -32,8 +32,7 @@ const CommentTextBox = ({ videoid, setComments }) => {
 
   const handleCommentSendClick = () => {
     const content = textAreaRef.current.value;
-    const token = sessionStorage.getItem("jwtToken");
-    if (!token) {
+    if (!user) {
       setError("Komment írásához jelentkezz be!");
       return;
     }
@@ -44,7 +43,7 @@ const CommentTextBox = ({ videoid, setComments }) => {
     const formData = new FormData();
     formData.append("Content", content);
     formData.append("VideoId", videoid);
-    uploadComment(content, formData, token);
+    uploadComment(content, formData);
   };
 
   return (

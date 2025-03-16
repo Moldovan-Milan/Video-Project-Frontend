@@ -13,9 +13,8 @@ export default function SubscribedToPage()
     const [followedUsers,setFollowedUsers]=useState([]);
 
     const fetchFollowedUsers = async () => {
-        const token = sessionStorage.getItem("jwtToken");
         const { data } = await axios.get(`api/User/${user.id}/following`, {
-          headers: { Authorization: `Bearer ${token}` }});
+          withCredentials: true});
         setFollowedUsers(data.users);
       };
 

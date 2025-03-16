@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../styles/UserAccount.scss";
 import UserAccountHeader from "../components/UserAccountHeader";
 import UserAccountDetailsPanel from "../components/UserAccountDetailsPanel";
 import UserAccountVideosPanel from "../components/UserAccountVideosPanel";
+import { UserContext } from "../components/contexts/UserProvider";
 
 const UserAccount = () => {
   //TODO: Ha be vagyunk jelentkezve, és a SingleVideo-nál rányomunk a saját csatornánkra, ne az OtherUsersProfile-ra dobjon, hanem irányítson át ide
   const { id } = useParams();
   const [pageNumber, setPageNumber] = useState(1);
   const pageSize = 30;
+  const {user} = useContext(UserContext)
 
   const [userData, setUserData] = useState({
     username: "",
@@ -27,11 +29,10 @@ const UserAccount = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = sessionStorage.getItem("jwtToken");
-      if (token) {
+      if (user) {
         try {
           const { data } = await axios.get(`/api/user/profile?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
-            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true
           });
 
           const formattedDate = new Date(data.created).toLocaleDateString(

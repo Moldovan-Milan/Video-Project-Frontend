@@ -28,7 +28,7 @@ export const useVideoUpload = () => {
   const titleRef = useRef(); // Videó címe
 
   // Ez fog lefutni, amikor feltöltjük a fájlokat a szerverre
-  const uploadChunk = async ({ chunk, fileName, chunkNumber, token }) => {
+  const uploadChunk = async ({ chunk, fileName, chunkNumber }) => {
     const formData = new FormData();
     formData.append("chunk", chunk);
     formData.append("fileName", fileName);
@@ -36,7 +36,7 @@ export const useVideoUpload = () => {
 
     // HTTP POST kérés a feltöltési API-hoz
     const response = await axios.post("api/video/upload", formData, {
-      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
     });
     return response.data;
   };
@@ -46,7 +46,6 @@ export const useVideoUpload = () => {
     fileName,
     totalChunks,
     image,
-    token,
     extension,
   }) => {
     const formData = new FormData();
@@ -57,7 +56,7 @@ export const useVideoUpload = () => {
     formData.append("title", titleRef.current.value);
 
     const response = await axios.post("api/video/assemble", formData, {
-      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
     });
     return response.data;
   };
@@ -77,18 +76,17 @@ export const useVideoUpload = () => {
     chunk,
     fileName,
     chunkNumber,
-    token,
     attempt = 1
   ) => {
     try {
-      await uploadMutation.mutateAsync({ chunk, fileName, chunkNumber, token });
+      await uploadMutation.mutateAsync({ chunk, fileName, chunkNumber });
     } catch (error) {
       if (attempt < RETRY_LIMIT) {
         // Újrapróbálkozás hiba esetén, ha a próbálkozások száma nem érte el a RETRY_LIMIT-et
         console.warn(
           `Chunk ${chunkNumber} upload failed, retrying (${attempt}/${RETRY_LIMIT})`
         );
-        await uploadWithRetry(chunk, fileName, chunkNumber, token, attempt + 1);
+        await uploadWithRetry(chunk, fileName, chunkNumber, attempt + 1);
       } else {
         // Hibakezelés, ha a próbálkozások száma elérte a RETRY_LIMIT-et
         setError(`Chunk ${chunkNumber} upload permanently failed.`);
@@ -115,7 +113,6 @@ export const useVideoUpload = () => {
     const generatedFileName = Date.now();
     setFileName(generatedFileName);
 
-    const token = sessionStorage.getItem("jwtToken");
     const extension = file.name.split(".").pop();
 
     let completedChunks = 0;
@@ -141,7 +138,6 @@ export const useVideoUpload = () => {
           chunk,
           generatedFileName,
           chunkNumber,
-          token
         ).finally(() => {
           // Végrehajtandó műveletek feltöltés után
           activeUploads.delete(uploadPromise); // Eltávolítás az aktív feltöltések közül
@@ -162,7 +158,6 @@ export const useVideoUpload = () => {
       fileName: generatedFileName,
       totalChunks,
       image,
-      token,
       extension,
     });
 

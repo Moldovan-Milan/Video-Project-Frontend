@@ -107,7 +107,7 @@ const WatchTogetherRoom = () => {
       PlayListChanged: setPlayList,
       StartVideo: setCurrentVideo,
       RoomClosed: () => {
-        alert("The host disconected.");
+        alert("The host disconnected.");
         navigate("/watch-together");
       },
       Error: console.log,

@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import VideoPlayer from "../components/VideoPlayer";
 import timeAgo from "../functions/timeAgo";
-import isTokenExpired from "../functions/isTokenExpired";
 import {
   FaEye,
   FaThumbsDown,
@@ -21,7 +20,6 @@ import getViewText from "../functions/getViewText";
 const SingleVideo = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
-  const token = sessionStorage.getItem("jwtToken");
 
   const [videoData, setVideoData] = useState(null);
   const [likeValue, setLikeValue] = useState("none");
@@ -36,13 +34,12 @@ const SingleVideo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = sessionStorage.getItem("jwtToken");
 
         const videoPromise = axios.get(`/api/video/data/${id}`);
         const userInteractionPromise =
-          token && !isTokenExpired(token)
+          user
             ? axios.get(`/api/video/get-user-like-subscribe-value/${id}`, {
-                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true
               })
             : null;
         const recomendedVideoPromise = axios.get("/api/video");
@@ -80,7 +77,6 @@ const SingleVideo = () => {
   }, [videoData])
 
   const handleReactionClick = async (newValue) => {
-    if (!token || isTokenExpired(token) || !videoData) return;
 
     let updatedLikes = videoData.likes;
     let updatedDislikes = videoData.dislikes;
@@ -109,7 +105,7 @@ const SingleVideo = () => {
       const formData = new FormData();
       formData.append("value", newValue);
       await axios.post(`/api/video/set-user-like/${id}`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true
       });
     } catch (error) {
       console.error("Error updating like value:", error);
@@ -117,14 +113,13 @@ const SingleVideo = () => {
   };
 
   const handleSubscribeClick = async () => {
-    if (!token || isTokenExpired(token)) return;
     try {
       const formData = new FormData();
       formData.append("value", !isFollowedByUser);
       const { status } = await axios.post(
         `/api/video/change-subscribe/${videoData.userId}`,
         formData,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { withCredentials: true }
       );
       if (status === 200) {
         setIsFollowedByUser(!isFollowedByUser);

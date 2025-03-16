@@ -34,18 +34,11 @@ const Login = () => {
     formData.append("password", password);
     formData.append("rememberMe", rememberMe);
 
-    const response = await axios.post("api/user/login", formData);
+    const response = await axios.post("api/user/login", formData, { withCredentials: true });
+    console.log(response.headers)
 
     if (response.status === 200) {
-      if (rememberMe) {
-        const { refreshToken } = response.data;
-
-        if (refreshToken) {
-          localStorage.setItem("refreshToken", refreshToken);
-        }
-      }
-      const { token, userDto } = response.data;
-      sessionStorage.setItem("jwtToken", token);
+      const { userDto } = response.data;
       console.log(userDto);
       setUser({
         id: userDto.id,

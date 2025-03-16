@@ -1,30 +1,11 @@
 import axios from "axios";
-import isTokenExpired from "./isTokenExpired";
 
 export const tryLoginUser = async (setUser, connectToServer) => {
-  const refreshToken = localStorage.getItem("refreshToken");
-  const token = sessionStorage.getItem("jwtToken");
-
-  // Ha a token érvényes, nincs teendő
-  if (token && !isTokenExpired(token)) {
-    //await setUserData(token, setUser);
-    return token;
-  }
-
-  // Ha nincs refresh token, nincs teendő
-  if (!refreshToken) {
-    return null;
-  }
-
   try {
-    const formData = new FormData();
-    formData.append("refreshToken", refreshToken);
-
-    const response = await axios.post("/api/user/refresh-jwt-token", formData);
+    const response = await axios.post("/api/user/refresh-jwt-token", {}, { withCredentials: true });
 
     if (response.status === 200) {
-      const { newToken, userDto } = response.data;
-      sessionStorage.setItem("jwtToken", newToken);
+      const { userDto } = response.data;
       setUser({
         id: userDto.id,
         email: userDto.email,
@@ -34,12 +15,9 @@ export const tryLoginUser = async (setUser, connectToServer) => {
         created: userDto.created,
       });
       connectToServer();
-    } else {
-      localStorage.removeItem("refreshToken");
     }
   } catch (error) {
     console.error("Error refreshing token:", error);
-    localStorage.removeItem("refreshToken");
     return null;
   }
 };
