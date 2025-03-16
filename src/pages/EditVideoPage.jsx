@@ -85,6 +85,42 @@ const EditVideoPage = () => {
     }
   }
 
+  const handleSave = async () => {
+    try {
+      const formData = new FormData();
+      
+      if (videoData.title) {
+        formData.append("title", videoData.title);
+      }
+      if (videoData.description) {
+        formData.append("description", videoData.description);
+      }
+      if (thumbnail && thumbnail.startsWith("blob:")) {
+        const fileInput = document.querySelector("input[type='file']");
+        if (fileInput.files.length > 0) {
+          formData.append("image", fileInput.files[0]);
+        }
+      }
+  
+      const response = await axios.patch(
+        `${BASE_URL}/api/video/update/${safeId}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+  
+      if (response.status === 204) {
+        navigate(`/video/${safeId}`);
+      }
+    } catch (error) {
+      console.error("Error updating video:", error);
+      alert("Failed to update video. Please try again.");
+    }
+  };
+  
+
   return (
     <div className="editContainer">
       <button className="goBack" onClick={
@@ -123,7 +159,7 @@ const EditVideoPage = () => {
         
       </div>
       
-      <button className="saveBtn">
+      <button className="saveBtn" onClick={handleSave}>
         <FaSave className="m-1"/> Save changes
       </button>
       <button className="deleteBtn" onClick={handleDelete}>
