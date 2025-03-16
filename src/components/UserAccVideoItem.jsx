@@ -13,10 +13,9 @@ const UserAccVideoItem = ({ video }) => {
 
   const handleDelete = async () => {
     if(window.confirm("Are you sure you want to delete this video? This action is irreversible, and the video cannot be recovered.")){
-        const token = sessionStorage.getItem("jwtToken");
         const response = await axios.delete(`api/Video/delete/${safeId}`, 
         {
-          headers: { Authorization: `Bearer ${token}` }
+          withCredentials: true
         }
         )
         if(response.status === 204){
