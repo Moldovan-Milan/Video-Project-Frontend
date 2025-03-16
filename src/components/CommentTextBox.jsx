@@ -10,11 +10,11 @@ const CommentTextBox = ({ videoid, setComments }) => {
   const user = useContext(UserContext);
 
   const uploadComment = async (content, formData) => {
-    const result = await axios.post("/api/video/write-new-comment", formData, {
-      headers: {
+    const result = await axios.post("/api/video/write-new-comment", formData, 
+      {
         withCredentials: true
       },
-    });
+    );
     if (result.status !== 200) {
       setError(result.statusText);
     } else {
