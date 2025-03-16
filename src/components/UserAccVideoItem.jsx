@@ -29,7 +29,7 @@ const UserAccVideoItem = ({ video }) => {
   return (
     <div className="UserAccVideoItemContainer" title={title}>
       <div className="UserAccVideoItem">
-        <Link to={`/video/${id}`}>
+        <Link to={`/video/${safeId}`}>
           <table className="UserAccItemTable">
             <tbody>
               <tr>
