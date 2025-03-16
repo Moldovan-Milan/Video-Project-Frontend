@@ -1,5 +1,12 @@
 import * as signalR from "@microsoft/signalr";
 
+export const createSignalRConnection = (baseUrl, hubPath) => {
+  return new signalR.HubConnectionBuilder()
+    .withUrl(`${baseUrl}/${hubPath}`)
+    .withAutomaticReconnect()
+    .build();
+};
+
 export const createSignalRConnectionWithToken = (baseUrl, hubPath, token) => {
   return new signalR.HubConnectionBuilder()
     .withUrl(`${baseUrl}/${hubPath}`, {
@@ -20,13 +27,13 @@ export const invokeSignalRMethod = async (connection, methodName, ...args) => {
     !connection ||
     connection.state !== signalR.HubConnectionState.Connected
   ) {
-    console.warn(`⚠️ Cannot invoke ${methodName}: SignalR is not connected.`);
+    console.warn(`Cannot invoke ${methodName}: SignalR is not connected.`);
     return;
   }
   try {
     await connection.invoke(methodName, ...args);
   } catch (err) {
-    console.error(`❌ Error invoking ${methodName}`, err);
+    console.error(`Error invoking ${methodName}`, err);
   }
 };
 
@@ -34,9 +41,9 @@ export const startSignalRConnection = async (connection, setConnection) => {
   try {
     await connection.start();
     setConnection(connection);
-    console.log("✅ SignalR connection started");
+    console.log("SignalR connection started");
   } catch (err) {
-    console.error("❌ Error while starting the SignalR connection", err);
+    console.error("Error while starting the SignalR connection", err);
   }
 };
 

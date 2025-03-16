@@ -9,7 +9,7 @@ import UserAccount from "./pages/UserAccount";
 import OtherUsersProfile from "./pages/OtherUsersProfile";
 import ChatPage from "./pages/ChatPage";
 import MessagePage from "./pages/MessagePage";
-import LiveStreamPage from "./pages/LiveStreamPage"
+import LiveStreamPage from "./pages/LiveStreamPage";
 import GoLivePage from "./pages/GoLivePage";
 import EditVideoPage from "./pages/EditVideoPage";
 import WatchTogetherMainPage from "./pages/WatchTogetherMainPage";
@@ -17,6 +17,7 @@ import WatchTogetherRoom from "./pages/WatchTogetherRoom";
 import SearchResultPage from "./pages/SearchResultPage";
 import ViewHistoryPage from "./pages/ViewHistoryPage";
 import SubscribedToPage from "./pages/SubscribedToPage";
+import LiveStreamList from "./pages/LiveStreamList";
 
 const AppRoutes = () => {
   return (
@@ -31,8 +32,9 @@ const AppRoutes = () => {
       <Route path="/profile/:id" Component={OtherUsersProfile} />
       <Route path="/chats" Component={ChatPage} />
       <Route path="/chat/:id" Component={MessagePage} />
-      <Route path="/livestream/:id" Component={LiveStreamPage}/>
+      <Route path="/livestream/:id" Component={LiveStreamPage} />
       <Route path="/go-live" Component={GoLivePage} />
+      <Route path="/livestream" Component={LiveStreamList} />
       <Route path="/search" Component={SearchResultPage} />
       <Route path="/watch-history" Component={ViewHistoryPage} />
       <Route path="/following" Component={SubscribedToPage} />

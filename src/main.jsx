@@ -8,6 +8,7 @@ import { WebSocketProvider } from "./components/contexts/WebSocketProvider.jsx";
 import { SignalRProvider } from "./components/contexts/SignalRProvider.jsx";
 import { WtSignalRProvider } from "./components/contexts/WatchTogetherSingalRProvider.jsx";
 import { AuthProvider } from "./components/contexts/AuthContext.jsx";
+import { LiveStreamProvider } from "./components/contexts/LiveStreamProvider.jsx";
 
 const queryClient = new QueryClient();
 
