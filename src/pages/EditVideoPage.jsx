@@ -10,7 +10,7 @@ const EditVideoPage = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [goBackText, setGoBackText] = useState("Go Back");
   const { id } = useParams();
-  const [safeId, setSafeId] = useState(id);
+  const [safeId] = useState(id);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const BASE_URL = import.meta.env.VITE_BASE_URL;

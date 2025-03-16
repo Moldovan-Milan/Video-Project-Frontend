@@ -15,6 +15,7 @@ const WatchTogetherRoom = () => {
   const navigate = useNavigate();
   const connection = useWTSignalR();
   const { id } = useParams();
+  const [safeId] = useState(id)
   const { user } = useContext(UserContext);
 
   const [isHost, setIsHost] = useState(false);
@@ -35,7 +36,7 @@ const WatchTogetherRoom = () => {
   const [toggleSearch, setTogleSearch] = useState(true);
 
   const handleUserAction = (action, userId) => {
-    connection.invoke(action, id, userId);
+    connection.invoke(action, safeId, userId);
     setUserRequest((prev) => prev.filter((u) => u.id !== userId));
   };
 
@@ -46,7 +47,7 @@ const WatchTogetherRoom = () => {
       );
       return;
     }
-    connection.invoke("SendMessage", id, user.id, content);
+    connection.invoke("SendMessage", safeId, user.id, content);
   };
 
   const handleSearch = async () => {
@@ -121,13 +122,13 @@ const WatchTogetherRoom = () => {
       connection.on(event, handler);
     });
 
-    connection.invoke("JoinRoom", id, user.id).catch(console.error);
+    connection.invoke("JoinRoom", safeId, user.id).catch(console.error);
 
     return () => {
       Object.keys(eventHandlers).forEach((event) => connection.off(event));
-      connection.invoke("LeaveRoom", id, user.id).catch(console.error);
+      connection.invoke("LeaveRoom", safeId, user.id).catch(console.error);
     };
-  }, [connection, user, id, navigate]);
+  }, [connection, user, safeId, navigate]);
 
   return (
     <div className="wt-watch-together-room">
@@ -143,7 +144,7 @@ const WatchTogetherRoom = () => {
           </div>
         )}
         <VideoPlayerWrapper
-          {...{ isInRoom, currentVideo, isPlaying, isHost, id }}
+          {...{ isInRoom, currentVideo, isPlaying, isHost, safeId }}
         />
         <Playlist
           {...{
@@ -151,9 +152,9 @@ const WatchTogetherRoom = () => {
             currentVideo,
             isHost,
             startVideo: (video) =>
-              connection.invoke("StartVideo", id, video.id),
+              connection.invoke("StartVideo", safeId, video.id),
             deleteVideo: (videoId) =>
-              connection.invoke("RemoveVideoFromPlayList", id, videoId),
+              connection.invoke("RemoveVideoFromPlayList", safeId, videoId),
           }}
         />
         {isHost && (
@@ -173,7 +174,7 @@ const WatchTogetherRoom = () => {
               videos,
               playList,
               onVideoSelect: (video) =>
-                connection.invoke("AddVideoToPlaylist", id, video.id),
+                connection.invoke("AddVideoToPlaylist", safeId, video.id),
             }}
           />
         )}
@@ -188,7 +189,7 @@ const WatchTogetherRoom = () => {
               isHost,
               user,
               banUser: (userId) =>
-                isHost && connection.invoke("BanUser", id, userId),
+                isHost && connection.invoke("BanUser", safeId, userId),
             }}
           />
           <JoinRequests

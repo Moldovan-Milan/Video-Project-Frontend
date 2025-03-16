@@ -11,6 +11,7 @@ import loadingImg from "../assets/loading.gif";
 const OtherUsersProfile = () => {
   //TODO: pagination
   const { id } = useParams();
+  const [safeId] = useState(id)
   const [userData, setUserData] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ const OtherUsersProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
         try {
-            const { data } = await axios.get(`/api/user/profile/${id}`);
+            const { data } = await axios.get(`/api/user/profile/${safeId}`);
             setUserData({
                 id: data.user.id,
                 username: data.user.userName,
@@ -46,7 +47,7 @@ const OtherUsersProfile = () => {
   useEffect(() => {
     const fetchVideos = async () => {
         try {
-            const response = await axios.get(`/api/user/profile/${id}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+            const response = await axios.get(`/api/user/profile/${safeId}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
             const { hasMore } = response.data;
             const newVideos = response.data.user.videos;
 

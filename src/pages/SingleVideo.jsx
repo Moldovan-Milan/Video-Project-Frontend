@@ -19,6 +19,7 @@ import getViewText from "../functions/getViewText";
 
 const SingleVideo = () => {
   const { id } = useParams();
+  const [safeId] = useState(id)
   const { user } = useContext(UserContext);
 
   const [videoData, setVideoData] = useState(null);
@@ -35,10 +36,10 @@ const SingleVideo = () => {
     const fetchData = async () => {
       try {
 
-        const videoPromise = axios.get(`/api/video/data/${id}`);
+        const videoPromise = axios.get(`/api/video/data/${safeId}`);
         const userInteractionPromise =
           user
-            ? axios.get(`/api/video/get-user-like-subscribe-value/${id}`, {
+            ? axios.get(`/api/video/get-user-like-subscribe-value/${safeId}`, {
                 withCredentials: true
               })
             : null;
@@ -104,7 +105,7 @@ const SingleVideo = () => {
     try {
       const formData = new FormData();
       formData.append("value", newValue);
-      await axios.post(`/api/video/set-user-like/${id}`, formData, {
+      await axios.post(`/api/video/set-user-like/${safeId}`, formData, {
         withCredentials: true
       });
     } catch (error) {

@@ -7,6 +7,7 @@ import MessageItem from "../components/MessageItem";
 
 const MessagePage = () => {
   const { id } = useParams();
+  const [safeId] = useState(id);
   const { connection, messages, setMessages, requestHistory, sendMessage } =
     useSignalR();
   const { user } = useContext(UserContext);
@@ -17,10 +18,10 @@ const MessagePage = () => {
   useEffect(() => {
     if (!connection || connection.state !== "Connected") return;
 
-    console.log(`📥 Requesting chat history for chat ID: ${id}`);
+    console.log(`📥 Requesting chat history for chat ID: ${safeId}`);
     setMessages([]);
-    requestHistory(Number(id));
-  }, [id, connection]);
+    requestHistory(Number(safeId));
+  }, [safeId, connection]);
 
 
   const location = useLocation();
@@ -37,7 +38,7 @@ const MessagePage = () => {
       return;
     }
     setError(null);
-    sendMessage(Number(id), content);
+    sendMessage(Number(safeId), content);
     newMessageRef.current.value = "";
   };
 
