@@ -92,7 +92,7 @@ export default function NavbarComponent() {
                     to="/profile"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    <FaUser className="navIcon"/>Your Profile
+                    <FaUser className="navIcon"/>My Profile
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
