@@ -36,18 +36,13 @@ export const useVideoUpload = () => {
 
     // HTTP POST kérés a feltöltési API-hoz
     const response = await axios.post("api/video/upload", formData, {
-      withCredentials: true
+      withCredentials: true,
     });
     return response.data;
   };
 
   // Ez fog lefutni, amikor a fájldarabok összeállításra kerülnek
-  const assembleFile = async ({
-    fileName,
-    totalChunks,
-    image,
-    extension,
-  }) => {
+  const assembleFile = async ({ fileName, totalChunks, image, extension }) => {
     const formData = new FormData();
     formData.append("fileName", fileName);
     formData.append("extension", extension);
@@ -56,7 +51,7 @@ export const useVideoUpload = () => {
     formData.append("title", titleRef.current.value);
 
     const response = await axios.post("api/video/assemble", formData, {
-      withCredentials: true
+      withCredentials: true,
     });
     return response.data;
   };
@@ -72,12 +67,7 @@ export const useVideoUpload = () => {
   });
 
   // Adatdarab feltöltése újrapróbálkozással
-  const uploadWithRetry = async (
-    chunk,
-    fileName,
-    chunkNumber,
-    attempt = 1
-  ) => {
+  const uploadWithRetry = async (chunk, fileName, chunkNumber, attempt = 1) => {
     try {
       await uploadMutation.mutateAsync({ chunk, fileName, chunkNumber });
     } catch (error) {
@@ -97,7 +87,7 @@ export const useVideoUpload = () => {
 
   // Feltöltési folyamat kezelése
   const handleUpload = async () => {
-    if (!file || !image || !titleRef.current.value) return;
+    if (!file || !titleRef.current.value) return;
 
     if (file.size > MAX_VIDEO_SIZE) {
       setError("Nem lehet nagyobb a videó mérete 256 MB-nál");
@@ -137,7 +127,7 @@ export const useVideoUpload = () => {
         const uploadPromise = uploadWithRetry(
           chunk,
           generatedFileName,
-          chunkNumber,
+          chunkNumber
         ).finally(() => {
           // Végrehajtandó műveletek feltöltés után
           activeUploads.delete(uploadPromise); // Eltávolítás az aktív feltöltések közül
