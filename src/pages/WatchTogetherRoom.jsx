@@ -15,7 +15,7 @@ const WatchTogetherRoom = () => {
   const navigate = useNavigate();
   const connection = useWTSignalR();
   const { id } = useParams();
-  const [safeId] = useState(id)
+  const [safeId] = useState(id);
   const { user } = useContext(UserContext);
 
   const [isHost, setIsHost] = useState(false);
