@@ -18,9 +18,9 @@ const LiveStreamPage = () => {
     const connectToSignalR = async () => {
       const newConnection = createSignalRConnection(BASE_URL, "live");
 
-      newConnection.on("JoinedToLiveStream", async (streamerId) => {
+      newConnection.on("ReceiveOffer", async (streamerId, offer) => {
         setStreamerConnId(streamerId);
-        await makeCall(newConnection, streamerId);
+        await makeCall(newConnection, streamerId, offer);
       });
 
       await startSignalRConnection(newConnection, setConnection);
@@ -31,15 +31,22 @@ const LiveStreamPage = () => {
     connectToSignalR();
   }, []);
 
-  const makeCall = async (newConnection, streamerId) => {
-    // Megkapott válasz beállítása
-    newConnection.on("ReceiveAnswer", async (answer) => {
-      console.log("Receiwe Answer");
-      console.log(peerConnectionRef.current);
-      await peerConnectionRef.current.setRemoteDescription(
-        new RTCSessionDescription(JSON.parse(answer))
-      );
-    });
+  const makeCall = async (newConnection, streamerId, offer) => {
+    const configuration = {
+      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+    };
+
+    const newPeerConnection = new RTCPeerConnection(configuration);
+    peerConnectionRef.current = newPeerConnection;
+    console.log("Offer");
+
+    newPeerConnection.setRemoteDescription(
+      new RTCSessionDescription(JSON.parse(offer))
+    );
+
+    const answer = await newPeerConnection.createAnswer();
+    await newPeerConnection.setLocalDescription(answer);
+    newConnection.invoke("SendAnswer", streamerId, JSON.stringify(answer));
 
     // Ice candidate beállítása
     newConnection.on("ReceiveIceCandidate", async (candidate) => {
@@ -53,16 +60,10 @@ const LiveStreamPage = () => {
       }
     });
 
-    const configuration = {
-      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-    };
-
-    const newPeerConnection = new RTCPeerConnection(configuration);
-    peerConnectionRef.current = newPeerConnection;
-
     // Ice candidate elküldése
-    newPeerConnection.onicecandidate = (event) => {
+    newPeerConnection.addEventListener("icecandidate", (event) => {
       if (event.candidate) {
+        console.log("Ice candidate");
         invokeSignalRMethod(
           newConnection,
           "SendIceCandidate",
@@ -70,24 +71,17 @@ const LiveStreamPage = () => {
           JSON.stringify(event.candidate)
         );
       }
-    };
+    });
 
-    newPeerConnection.ontrack = (event) => {
-      if (remoteVideoRef.current) {
-        remoteVideoRef.current.srcObject = event.streams[0];
-      }
-    };
+    newPeerConnection.addEventListener("track", async (event) => {
+      console.log("Track event");
+      const [remoteStream] = event.streams;
+      remoteVideoRef.current.srcObject = remoteStream;
+    });
 
-    const offer = await newPeerConnection.createOffer();
-    await newPeerConnection.setLocalDescription(offer);
-
-    // Offer (ajánlat) elküdlése a kapcsolat kezdeményezéséhez
-    invokeSignalRMethod(
-      newConnection,
-      "SendOffer",
-      streamerId,
-      JSON.stringify(offer)
-    );
+    newPeerConnection.addEventListener("icecandidateerror", (event) => {
+      console.log(event);
+    });
   };
 
   return (
@@ -95,6 +89,7 @@ const LiveStreamPage = () => {
       <h2>Live Stream</h2>
       <video
         ref={remoteVideoRef}
+        controls
         autoPlay
         playsInline
         style={{ width: "80%", border: "1px solid black" }}
