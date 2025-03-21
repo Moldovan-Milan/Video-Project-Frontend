@@ -31,6 +31,10 @@ const MediaSharing = () => {
     if (!user) {
       navigate("/");
     }
+
+    return () => {
+      connection.invoke("StopStream", streamURL);
+    };
   }, []);
 
   const handleScreenSelected = async () => {

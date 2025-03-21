@@ -4,7 +4,7 @@ import {
   invokeSignalRMethod,
   startSignalRConnection,
 } from "../utils/signalRUtils";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const LiveStreamPage = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -13,6 +13,7 @@ const LiveStreamPage = () => {
   //const [streamerConnId, setStreamerConnId] = useState(null);
   const peerConnectionRef = useRef(null);
   const remoteVideoRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -31,6 +32,11 @@ const LiveStreamPage = () => {
 
     signalRConnection.on("ReceiveIceCandidate", (_, candidate) => {
       handleIceCandidate(JSON.parse(candidate));
+    });
+
+    signalRConnection.on("StreamStopped", () => {
+      alert("Stream stopped :(");
+      navigate("/livestream");
     });
 
     //await startSignalRConnection(signalRConnection, setConnection);
