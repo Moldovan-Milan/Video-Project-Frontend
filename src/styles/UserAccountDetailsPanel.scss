@@ -28,4 +28,117 @@
 
 .AccLine{
     width: 100%;
+    z-index: -1;
+}
+
+
+.UserAccNameEditDiv{
+    display: flex;
+}
+
+.editUnsernameBtn{
+    background-color: #B200FF;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.editUnsernameBtn:hover{
+    background-color: #7b00b0;
+}
+
+
+.editBg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    backdrop-filter: blur(7px);
+    align-items: center;
+    
+    
+
+    .editUsernameWindow{
+        height:200px;
+        width: 33%;
+        background-color: black;
+        justify-items: center;
+        align-items: center;
+        color: white;
+        border-radius: 30px;
+        box-shadow: 0 0 50px lime;
+        padding: 20px 10px 5px 10px;
+
+        input{
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: lime;
+            color: black;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-radius: 30px;
+            padding: 2px 10px 2px 10px ;
+
+        }
+
+        .editUsernameSave{
+            background-color: lime;
+            color: black;
+            font-weight: bold;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .editUsernameSave:hover{
+            background-color: rgb(0, 134, 0);
+            color: white;
+            transform: scale(1.2);
+        }
+
+        .editUsernameCancel{
+            background-color: red;
+            color: white;
+            font-weight: bold;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .editUsernameCancel:hover{
+            background-color: rgb(185 28 28);
+            color: white;
+            transform: scale(1.2);
+        }
+
+        h1{
+            font-size: 30px;
+            margin-bottom: 5px;
+            .titleEditUname{
+                font-weight: bold;
+                color: #B200FF;
+            }
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .editUsernameWindow {
+            height: 30%;
+        }
+    }
+    
+
 }
