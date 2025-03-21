@@ -11,6 +11,10 @@
     font-size: 16px;
 }
 
+.message-info{
+    font-weight: bold;
+}
+
 
 
 .sent {
@@ -28,7 +32,7 @@
 }
 
 .received {
-    background-color: lime;
+    background-color: rgb(0, 202, 0);
     align-self: flex-start;
     text-align: left;
     color: black;
