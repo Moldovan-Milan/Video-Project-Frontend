@@ -8,6 +8,7 @@ import {
   stopSignalRConnection,
 } from "../utils/signalRUtils";
 import { UserContext } from "../components/contexts/UserProvider";
+import { useNavigate } from "react-router-dom";
 
 const MediaSharing = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -19,134 +20,18 @@ const MediaSharing = () => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamURL, setStreamURL] = useState(null);
   const { user } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
   const [connection, setConnection] = useState(null);
   const [peerConnections, setPeerConnections] = useState({});
+  const pendingCandidates = {};
 
-  const createSignalRConnection = async () => {
-    const newConnection = createSignalR(BASE_URL, "live");
-
-    newConnection.on("LiveStreamStarted", async (id) => {
-      setStreamURL(id);
-    });
-
-    newConnection.on("ViewerConnected", async (connId) => {
-      await handleViewerConnection(connId, newConnection);
-    });
-
-    newConnection.on("ReceiveOffer", async (viewerId, offer) => {
-      await handleViewerConnection(viewerId, offer, newConnection);
-    });
-
-    await startSignalRConnection(newConnection, setConnection);
-    await invokeSignalRMethod(
-      newConnection,
-      "StartStream",
-      user.id,
-      title,
-      description
-    );
-  };
-
-  const handleViewerConnection = async (viewerId, newConnection) => {
-    const configuration = {
-      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-    };
-
-    const newPeerConnection = new RTCPeerConnection(configuration);
-    peerConnections[viewerId] = newPeerConnection;
-
-    console.log(`Viewer connected: ${viewerId}`);
-
-    // Itt adjuk hozzá a képernyő megosztást
-    stream.getTracks().forEach((track) => {
-      console.log("Add track");
-      newPeerConnection.addTrack(track, stream);
-    });
-
-    newConnection.on("ReceiveAnswer", async (answer) => {
-      console.log("Receiwe Answer");
-      await newPeerConnection.setRemoteDescription(
-        new RTCSessionDescription(JSON.parse(answer))
-      );
-      console.log(peerConnections);
-    });
-
-    // Ice candidate beállítása
-    newConnection.on("ReceiveIceCandidate", async (candidate) => {
-      if (newPeerConnection && candidate) {
-        console.log("Received ICE Candidate:", candidate);
-        await newPeerConnection.addIceCandidate(
-          new RTCIceCandidate(JSON.parse(candidate))
-        );
-      } else {
-        console.warn("PeerConnection not ready for ICE candidate");
-      }
-    });
-
-    // Ice candidate elküldése
-    newPeerConnection.addEventListener("icecandidate", (event) => {
-      if (event.candidate) {
-        console.log("Ice candidate");
-        invokeSignalRMethod(
-          newConnection,
-          "SendIceCandidate",
-          viewerId,
-          JSON.stringify(event.candidate)
-        );
-      }
-    });
-
-    const offer = await newPeerConnection.createOffer();
-    await newPeerConnection.setLocalDescription(offer);
-
-    newPeerConnection.addEventListener("icecandidateerror", (event) => {
-      console.log("Ice error: ", event);
-    });
-
-    // Offer (ajánlat) elküdlése a kapcsolat kezdeményezéséhez
-    invokeSignalRMethod(
-      newConnection,
-      "SendOffer",
-      viewerId,
-      JSON.stringify(offer)
-    );
-
-    //   try {
-    //     const remoteDesc = new RTCSessionDescription(JSON.parse(offer));
-    //     await newPeerConnection.setRemoteDescription(remoteDesc);
-    //     console.log(`Remote offer set for viewer: ${viewerId}`);
-
-    //     const answer = await newPeerConnection.createAnswer();
-    //     await newPeerConnection.setLocalDescription(answer);
-    //     console.log(`Local answer set for viewer: ${viewerId}`);
-
-    //     invokeSignalRMethod(
-    //       connection,
-    //       "SendAnswer",
-    //       viewerId,
-    //       JSON.stringify(answer)
-    //     );
-
-    // newPeerConnection.addEventListener("icecandidateerror", event => {
-    //   console.log(event)
-    // })
-
-    //     newPeerConnection.addEventListener("icecandidate", event => {
-    //       if (event.candidate) {
-    //         invokeSignalRMethod(
-    //           connection,
-    //           "SendIceCandidate",
-    //           streamerId,
-    //           JSON.stringify(event.candidate)
-    //         );
-    //       }
-    //     });
-    //   } catch (error) {
-    //     console.error(`Error handling viewer ${viewerId}:`, error);
-    //   }
-
-    //   console.log(peerConnections)
-  };
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, []);
 
   const handleScreenSelected = async () => {
     try {
@@ -188,8 +73,7 @@ const MediaSharing = () => {
     }
 
     try {
-      await createSignalRConnection();
-      setIsStreaming(true);
+      await startLiveStream();
     } catch (error) {
       console.error("Error starting stream:", error);
     }
@@ -203,10 +87,157 @@ const MediaSharing = () => {
       setIsStreaming(false);
 
       if (connection) {
-        await invokeSignalRMethod(connection, "StopStream", user.id);
-        stopSignalRConnection(connection);
-        setConnection(null);
+        try {
+          await invokeSignalRMethod(connection, "StopStream", user.id);
+          stopSignalRConnection(connection);
+          setConnection(null);
+        } catch (error) {
+          console.log("Error during stop: ", error);
+        }
       }
+    }
+  };
+
+  const startLiveStream = async () => {
+    try {
+      const signalRConnection = createSignalR(BASE_URL, "live");
+
+      signalRConnection.on("LiveStreamStarted", (streamId) => {
+        setStreamURL(streamId);
+        setIsStreaming(true);
+      });
+
+      signalRConnection.on("StreamStopped", () => {
+        setIsStreaming(false);
+        stopSignalRConnection(connection);
+        setTitle("");
+        setDescription("");
+        setStreamURL("");
+      });
+
+      signalRConnection.on("ReceiveViewer", (viewerId) => {
+        handleViewer(viewerId, signalRConnection);
+      });
+
+      signalRConnection.on("ReceiveAnswer", (answer, viewerId) => {
+        if (!viewerId) {
+          console.error("Received answer but viewerId is undefined");
+          return;
+        }
+        handleAnswer(JSON.parse(answer), viewerId);
+      });
+
+      signalRConnection.on("ReceiveIceCandidate", (candidate, connId) => {
+        if (!connId) {
+          console.error("Received answer but viewerId is undefined");
+          return;
+        }
+        handleIceCandidate(JSON.parse(candidate), connId);
+      });
+
+      //await startSignalRConnection(signalRConnection, setConnection);
+      try {
+        await signalRConnection.start();
+        setConnection(signalRConnection);
+        console.log("SignalR connection started");
+      } catch (err) {
+        console.error("Error while starting the SignalR connection", err);
+      }
+
+      signalRConnection.invoke("StartStream", user.id, title, description);
+      // invokeSignalRMethod(
+      //   connection,
+      //   "StartStream",
+      //   user.id,
+      //   title,
+      //   description
+      // );
+    } catch (error) {
+      console.log("Error happend during the start: ", error);
+    }
+  };
+
+  const handleViewer = async (viewerId, connection) => {
+    const peer = new RTCPeerConnection({
+      iceServers: [
+        {
+          urls: "stun:stun.stunprotocol.org",
+        },
+      ],
+    });
+
+    stream.getTracks().forEach((track) => {
+      console.log("addPeer");
+      peer.addTrack(track, stream);
+    });
+
+    const offer = await peer.createOffer();
+    peer.setLocalDescription(offer);
+
+    peer.addEventListener("icecandidate", (event) => {
+      if (event.candidate) {
+        console.log(`Send ice candidate for: ${viewerId}`);
+        invokeSignalRMethod(
+          connection,
+          "SendIceCandidate",
+          viewerId,
+          JSON.stringify(event.candidate)
+        );
+      }
+    });
+
+    //connection.invoke("SendOffer", viewerId, JSON.stringify(offer));
+
+    await invokeSignalRMethod(
+      connection,
+      "SendOffer",
+      viewerId,
+      JSON.stringify(offer)
+    );
+    peerConnections[viewerId] = peer;
+  };
+
+  const handleAnswer = (answer, viewerId) => {
+    const peer = peerConnections[viewerId];
+    if (!peer) {
+      console.error(`No peer connection found for viewerId: ${viewerId}`);
+      return;
+    }
+
+    peer
+      .setRemoteDescription(new RTCSessionDescription(answer))
+      .then(() => {
+        if (pendingCandidates[viewerId]) {
+          pendingCandidates[viewerId].forEach((candidate) => {
+            peer
+              .addIceCandidate(new RTCIceCandidate(candidate))
+              .catch(console.error);
+          });
+          delete pendingCandidates[viewerId];
+        }
+      })
+      .catch(console.error);
+  };
+
+  const handleIceCandidate = async (candidate, viewerId) => {
+    const peer = peerConnections[viewerId];
+
+    if (!peer) {
+      console.error(`No peer connection found for viewerId: ${viewerId}`);
+      return;
+    }
+
+    if (peer.remoteDescription) {
+      console.log("Adding ICE candidate immediately");
+      await peer
+        .addIceCandidate(new RTCIceCandidate(candidate))
+        .catch(console.error);
+    } else {
+      console.log("Storing ICE candidate for later");
+      if (!pendingCandidates[viewerId]) {
+        pendingCandidates[viewerId] = [];
+      }
+      pendingCandidates[viewerId].push(candidate);
     }
   };
 
