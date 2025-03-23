@@ -2,12 +2,37 @@ import ImageEditor from "./ImageEditor";
 import "../styles/UserAccountDetailsPanel.scss";
 import { FaPencil } from "react-icons/fa6";
 import { useState } from "react";
+import axios from "axios";
 
 export default function UserAccountDetailsPanel({user})
 {
 
     const [editing, setEditing] = useState(null);
     let editDialog = null
+
+    const HandleNameUpdate= async ()=>{
+        if(editing!="")
+            {
+                user.username=editing
+                setEditing(null)
+                const response = await axios.post(`api/user/profile/update-username?newName=${user.username}`, {}, { withCredentials: true });
+                if(response.status===200)
+                {
+                    window.alert(`Username changed successfully your new name is: ${user.username}`)
+                    location.reload();
+                    
+                }
+                else
+                {
+                    window.alert("Username change is unsuccessful!")
+                }
+            }
+            else
+            {
+                window.alert("Type in a new username!")
+            }        
+        
+    }
     
     if (editing!=null) {
         editDialog = <div className="editBg">
@@ -21,17 +46,7 @@ export default function UserAccountDetailsPanel({user})
             })} />
             </div>
             <div>
-            <button onClick={() => {
-                if(editing!="")
-                {
-                    user.username=editing
-                    setEditing(null)
-                }
-                else
-                {
-                    window.alert("Type in new username!")
-                }        
-            }} className="editUsernameSave">Save</button>
+            <button onClick={() => HandleNameUpdate()} className="editUsernameSave">Save</button>
             <button onClick={() => setEditing(null)} className="editUsernameCancel">Cancel</button>
             </div>
         </div>

@@ -103,3 +103,17 @@
     box-shadow: 0 0 20px red;
     color: red;
   }
+
+  @media (max-width: 1030px) {
+    .UserAccItemDetails {
+        width: 30vw
+    }
+}
+
+@media (max-width: 500px) {
+  .DivManageUserVid{
+    display: flex;
+    flex-direction: column;
+  }
+  
+}
