@@ -2,7 +2,14 @@ import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../components/contexts/UserProvider";
-import { FaArrowLeft, FaImage, FaSave, FaTrash, FaUpload, FaVideo } from "react-icons/fa";
+import {
+  FaArrowLeft,
+  FaImage,
+  FaSave,
+  FaTrash,
+  FaUpload,
+  FaVideo,
+} from "react-icons/fa";
 import "../styles/EditVideoPage.scss";
 
 const EditVideoPage = () => {
@@ -39,22 +46,22 @@ const EditVideoPage = () => {
     if (videoData.title) {
       document.title = `Edit ${videoData.title} | Omega Stream`;
     }
-
-
   }, [user, videoData, navigate, id]);
 
   useEffect(() => {
-    if(videoData.thumbnailId){
+    if (videoData.thumbnailId) {
       const setDefaultThumbnail = async () => {
-        setThumbnail(`${BASE_URL}/api/Video/thumbnail/${videoData.thumbnailId}`)
-      }
+        setThumbnail(
+          `${BASE_URL}/api/Video/thumbnail/${videoData.thumbnailId}`
+        );
+      };
       setDefaultThumbnail();
     }
-  }, [videoData])
+  }, [videoData]);
 
   const handleChange = (e) => {
     setVideoData({ ...videoData, [e.target.name]: e.target.value });
-    setGoBackText("Go Back (Discard Changes)")
+    setGoBackText("Go Back (Discard Changes)");
   };
 
   useEffect(() => {
@@ -64,7 +71,6 @@ const EditVideoPage = () => {
       }
     };
   }, [thumbnail]);
-  
 
   const handleUpload = (e) => {
     const newThumbnail = URL.createObjectURL(e.target.files[0]);
@@ -73,22 +79,24 @@ const EditVideoPage = () => {
   };
 
   const handleDelete = async () => {
-    if(window.confirm("Are you sure you want to delete this video? This action is irreversible, and the video cannot be recovered.")){
-        const response = await axios.delete(`api/Video/delete/${safeId}`, 
-        {
-          withCredentials: true
-        }
-        )
-        if(response.status === 204){
-            navigate(`/profile/${user.id}`);
-        }
+    if (
+      window.confirm(
+        "Are you sure you want to delete this video? This action is irreversible, and the video cannot be recovered."
+      )
+    ) {
+      const response = await axios.delete(`api/Video/delete/${safeId}`, {
+        withCredentials: true,
+      });
+      if (response.status === 204) {
+        navigate(`/profile/${user.id}`);
+      }
     }
-  }
+  };
 
   const handleSave = async () => {
     try {
       const formData = new FormData();
-      
+
       if (videoData.title) {
         formData.append("title", videoData.title);
       }
@@ -101,7 +109,7 @@ const EditVideoPage = () => {
           formData.append("image", fileInput.files[0]);
         }
       }
-  
+
       const response = await axios.patch(
         `${BASE_URL}/api/video/update/${safeId}`,
         formData,
@@ -110,7 +118,7 @@ const EditVideoPage = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-  
+
       if (response.status === 204) {
         navigate(`/video/${safeId}`);
       }
@@ -119,14 +127,17 @@ const EditVideoPage = () => {
       alert("Failed to update video. Please try again.");
     }
   };
-  
 
   return (
     <div className="editContainer">
-      <button className="goBack" onClick={
-        () => {navigate(`/video/${id}`)}
-      }>
-        <FaArrowLeft className="m-1"/>{goBackText} 
+      <button
+        className="goBack"
+        onClick={() => {
+          navigate(`/video/${id}`);
+        }}
+      >
+        <FaArrowLeft className="m-1" />
+        {goBackText}
       </button>
       <h1 className="text-2xl font-bold mb-4 flex items-center editTitle">
         <FaVideo className="mr-2 text-blue-500" /> Edit Your Video
@@ -139,7 +150,7 @@ const EditVideoPage = () => {
         onChange={handleChange}
         className="titleInput"
       />
-      
+
       <label>Description</label>
       <textarea
         type="text"
@@ -148,25 +159,29 @@ const EditVideoPage = () => {
         onChange={handleChange}
         className="descriptionTextArea"
       />
-      
-      {/*
-        <label className="flex items-center justify-center editLabel">Thumbnail preview<FaImage className="m-1"/></label>
-        <img src={thumbnail} className="thumbnailPreview"/>
-        <div className="flex items-center gap-2">
-          <label className="imgInput">
-            <FaUpload className="m-1"/> Upload new thumbnail 
-            <input type="file" accept=".png,.jpg,.jpeg" className="mt-1" onChange={handleUpload}/>
-          </label>
-          
-        </div>
-      */}
-      
-      
+
+      <label className="flex items-center justify-center editLabel">
+        Thumbnail preview
+        <FaImage className="m-1" />
+      </label>
+      <img src={thumbnail} className="thumbnailPreview" />
+      <div className="flex items-center gap-2">
+        <label className="imgInput">
+          <FaUpload className="m-1" /> Upload new thumbnail
+          <input
+            type="file"
+            accept=".png,.jpg,.jpeg"
+            className="mt-1"
+            onChange={handleUpload}
+          />
+        </label>
+      </div>
+
       <button className="saveBtn" onClick={handleSave}>
-        <FaSave className="m-1"/> Save changes
+        <FaSave className="m-1" /> Save changes
       </button>
       <button className="deleteBtn" onClick={handleDelete}>
-        <FaTrash className="m-1"/> Delete video
+        <FaTrash className="m-1" /> Delete video
       </button>
     </div>
   );
