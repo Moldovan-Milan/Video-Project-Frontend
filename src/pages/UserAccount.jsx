@@ -20,6 +20,7 @@ const UserAccount = () => {
     avatar: "",
     followers: 0,
     created: "",
+    userTheme:{}
   });
 
   const [userVideos,setUserVideos]=useState([]);
@@ -45,8 +46,10 @@ const UserAccount = () => {
             avatar: `${BASE_URL}/api/User/avatar/${data.avatarId}`,
             followers: data.followersCount,
             created: formattedDate,
+            userTheme:data.userTheme
           });
           setUserVideos(data.videos)
+          console.log(userData);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -62,7 +65,7 @@ const UserAccount = () => {
   }, [userData]);
 
   return (  
-    <div className="container">
+    <div className="container" style={userData.userTheme?{background:userData.userTheme.background,color:userData.userTheme.textColor}:null}>
     <UserAccountHeader user={userData}/>
     <div className="divUserAccPanelSwitch">
             <button
