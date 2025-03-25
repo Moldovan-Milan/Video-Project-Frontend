@@ -5,7 +5,7 @@ import "../styles/OtherUsersProfile.scss";
 import { FaMailBulk, FaUserPlus, FaPencilAlt } from "react-icons/fa";
 import UserPageVideoItem from "../components/UserPageVideoItem";
 import { UserContext } from "../components/contexts/UserProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import loadingImg from "../assets/loading.gif";
 
 const OtherUsersProfile = () => {
@@ -162,9 +162,11 @@ const OtherUsersProfile = () => {
             ) : (
               <tr>
                 <td>
-                  <button className="editVideosBtn">
-                    <FaPencilAlt className="m-1"/><p>Edit Your Videos</p>
-                  </button>
+                  <Link to={"/profile"}>
+                    <button className="editVideosBtn">
+                      <FaPencilAlt className="m-1"/><p>Edit Your Profile</p>
+                    </button>
+                  </Link>
                 </td>
                 <td>
                   <div className="subscribersLabel">
