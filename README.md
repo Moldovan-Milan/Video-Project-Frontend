@@ -3,7 +3,7 @@
 ## Omega Stream Frontend
 
 The Frontend service for the Omega Stream project.  
-Backend repository: [Video Project Api](https://github.com/Moldovan-Milan/Video-Project-Frontend](https://github.com/Moldovan-Milan/Video-Project-Api)
+Backend repository: [Video Project Api](https://github.com/Moldovan-Milan/Video-Project-Api)
 
 ## Features
 
