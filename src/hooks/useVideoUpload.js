@@ -90,7 +90,7 @@ export const useVideoUpload = () => {
     if (!file || !titleRef.current.value) return;
 
     if (file.size > MAX_VIDEO_SIZE) {
-      setError("Nem lehet nagyobb a videó mérete 256 MB-nál");
+      setError(`Video can't be larger than ${MAX_VIDEO_SIZE/1048576} MB`);
       return;
     }
 
