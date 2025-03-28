@@ -24,6 +24,26 @@
 
 }
 
+.comment-edit{
+    color: black;
+}
+
+.save-button{
+    background-color: green;
+}
+
+.discard-button{
+    background-color: maroon;
+
+}
+
+.save-button, .discard-button{
+    margin: 5px;
+    padding: 10px;
+    border-radius: 15px;
+    display: flex;
+}
+
 .comment-item-body{
     border-radius: 10px;
     border: 1px solid lime;
