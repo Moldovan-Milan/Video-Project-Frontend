@@ -40,6 +40,8 @@ const Login = () => {
     if (response.status === 200) {
       const { userDto } = response.data;
       console.log(userDto);
+
+      const roles = await axios.get("api/user/get-roles", {withCredentials: true});
       setUser({
         id: userDto.id,
         email: userDto.email,
@@ -47,6 +49,7 @@ const Login = () => {
         followers: userDto.followers,
         avatarId: userDto.avatarId,
         created: userDto.created,
+        roles: roles.data
       });
 
       navigate("/");

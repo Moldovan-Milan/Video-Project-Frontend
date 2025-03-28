@@ -24,6 +24,96 @@
 
 }
 
+.comment-edit{
+    color: black;
+}
+
+.edit-button{
+    background-color: aquamarine;
+    color: black;
+}
+
+.save-button{
+    background-color: rgb(19, 133, 19);
+}
+
+.save-button:hover{
+    background-color: rgb(2, 75, 2);
+}
+
+.discard-button{
+    background-color: maroon;
+}
+
+.discard-button:hover{
+    background-color: rgb(184, 32, 32);
+}
+
+
+.delete-button{
+    display: flex;
+    background-color: #FA0000;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    min-width: 100px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.2s ease-in-out;
+
+}
+
+.delete-button:hover{
+    background-color: #7A0000;
+    animation: shake 0.4s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+}
+
+.edit-button{
+    display: flex;
+    background-color: #4A90E2;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+.edit-button:hover{
+    background-color: #043975;
+}
+
+.save-button, .discard-button{
+    margin: 5px;
+    padding: 10px;
+    border-radius: 15px;
+    display: flex;
+}
+
+.button-container{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.content-container{
+    display: flex;
+    align-items: baseline;
+    flex-direction: column;
+    width: 35%;
+}
+
 .comment-item-body{
     border-radius: 10px;
     border: 1px solid lime;
