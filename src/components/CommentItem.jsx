@@ -1,4 +1,4 @@
-import { FaEye, FaSave, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
+import { FaEye, FaSave, FaThumbsDown, FaThumbsUp, FaTrash } from "react-icons/fa";
 import "../styles/CommentItem.scss";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
@@ -22,10 +22,35 @@ export default function CommentItem({ comment }) {
     setIsEditing(false)
   }
 
+  const handleDelete = async () => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this comment?"
+      )
+    ) {
+      try{
+        const response = await axios.delete(`api/Video/delete-comment/${comment.id}`, {
+          withCredentials: true,
+        });
+        if (response.status === 204) {
+          window.alert("Your comment has been succesfully deleted!")
+          location.reload();
+        }
+      }
+      catch(error){
+        console.error(error);
+      }
+    }
+  } 
+
   const handleSave = () => {
     const safeComment = editedComment
     const saveChanges = async () =>{
       try{
+        if(safeComment === comment.content){
+          setIsEditing(false)
+          return
+        }
         const response = await axios.patch(`api/Video/edit-comment/${comment.id}`,
           safeComment,
           {
@@ -73,9 +98,14 @@ export default function CommentItem({ comment }) {
         <tr className="comment-row">
           <td className="comment-col">
             {!isEditing ? (
-            <p className="comment-content">{comment.content}
-              {user && user.id === comment.user.id && <button className="m-1" onClick={handleCommentEdit}><FaPencil/></button>}
-            </p>):(
+            <div className="content-container">
+              <p className="comment-content">{comment.content}</p>
+                {user && user.id === comment.user.id && 
+                  <div className="button-container">
+                    <button className="edit-button" onClick={handleCommentEdit}><FaPencil className="m-1"/></button>
+                    <button className="delete-button" onClick={handleDelete}><FaTrash className="m-1"/>Delete</button>
+                  </div>}
+            </div>):(
               <div>
                   <textarea value={editedComment} onChange={(e) => setEditedComment(e.target.value)} className="comment-edit"/>
                   <button className="save-button" onClick={handleSave}><FaSave className="m-1"/>Save Comment</button>
