@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import loading from "../assets/loading.gif";
-import VideoItem from "../components/VideoItem";
+import ShortsVideoItem from "../components/ShortsVideoItem";
+import "../styles/ShortsPage.scss";
 
 const ShortsPage = () => {
   const [shorts, setShorts] = useState([]);
@@ -51,21 +52,24 @@ const ShortsPage = () => {
   );
 
   return (
-    <div>
-      <h1>Shorts</h1>
+    <>
+    <h1 className="shortsTitle">Shorts</h1>
+    <hr></hr>
+      <div className="flex flex-wrap flex-row">
       {shorts.length > 0 ? (
         shorts.map((video, index) => {
           const isLastShort = index === shorts.length - 1;
           return (
-            <div key={video.id} ref={isLastShort ? lastShortRef : null}>
-              <VideoItem video={video} />
-            </div>
+            <>
+              <ShortsVideoItem video={video} key={video.id} ref={isLastShort ? lastShortRef : null}/>
+              </>
           );
         })
       ) : (
         <img src={loading} alt="loading" />
       )}
     </div>
+    </>
   );
 };
 
