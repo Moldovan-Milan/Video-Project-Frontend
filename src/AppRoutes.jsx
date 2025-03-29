@@ -17,6 +17,7 @@ import ViewHistoryPage from "./pages/ViewHistoryPage";
 import SubscribedToPage from "./pages/SubscribedToPage";
 import ShortsPage from "./pages/ShortsPage";
 import AdminPage from "./pages/AdminPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const AppRoutes = () => {
   return (
@@ -38,6 +39,7 @@ const AppRoutes = () => {
       <Route path="/watch-together/:id" Component={WatchTogetherRoom} />
       <Route path="/shorts" Component={ShortsPage} />
       <Route path="/admin" Component={AdminPage}/>
+      <Route path="/not-found" Component={NotFoundPage}/>
     </Routes>
   );
 };
