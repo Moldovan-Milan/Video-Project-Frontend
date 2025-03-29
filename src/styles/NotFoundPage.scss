@@ -1,0 +1,38 @@
+.not-found-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img{
+        min-width: 100px;
+        min-height: 100px;
+        height: 25vw;
+        width: 25vw;
+        margin: 2vw;
+    }
+    
+    h1{
+        font-size: 3rem;
+        font-weight: bolder;
+        margin: 30px;
+    }
+    
+    p{
+        font-size: 1.5rem;
+    }
+
+    button{
+        min-width: 200px;
+        width: 20%;
+        margin: 25px;
+        background-color: #B200FF;
+        padding: 10px;
+        border-radius: 20px;
+        color: white;
+        font-size: 150%;
+    }
+
+    button:hover{
+        background-color: #7b00b0
+    }
+}
+
