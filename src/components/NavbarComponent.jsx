@@ -13,6 +13,7 @@ import {
   FaHistory,
   FaUserFriends,
   FaPhotoVideo,
+  FaUserTie,
 } from "react-icons/fa";
 import logOutUser from "../functions/logOutUser";
 import { UserContext } from "./contexts/UserProvider";
@@ -142,6 +143,14 @@ export default function NavbarComponent() {
                     Subscriptions
                   </Link>
                 </li>
+                {user && user.roles && user.roles.includes("Admin") &&
+                  <li>
+                    <Link to="/admin"
+                    className="nav-link  px-3 py-2 rounded-md text-sm font-medium">
+                      <FaUserTie className="navIcon"/>
+                      Admin Page
+                    </Link>
+                  </li>}
               </>
             )}
             <li className="nav-item mb-2">
