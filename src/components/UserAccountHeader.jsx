@@ -10,7 +10,7 @@ export default function UserAccountHeader({user})
     <img src={user.avatar} className="UserAccAvatar"/>
     <h1 className="UserAccUsername text-center">{user.username}</h1>
     <div className="subscribersLabel UserAccSubs">
-    <FaUserPlus className="m-1"/><p>Your subscribers: {user.followers}</p>
+    <FaUserPlus className="m-1"/><p>Subscribers: {user.followers}</p>
     </div>
     </>)
 }

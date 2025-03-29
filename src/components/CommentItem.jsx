@@ -100,7 +100,7 @@ export default function CommentItem({ comment }) {
             {!isEditing ? (
             <div className="content-container">
               <p className="comment-content">{comment.content}</p>
-                {user && user.id === comment.user.id && 
+                {user && (user.id === comment.user.id || user.roles.includes("Admin")) && 
                   <div className="button-container">
                     <button className="edit-button" onClick={handleCommentEdit}><FaPencil className="m-1"/></button>
                     <button className="delete-button" onClick={handleDelete}><FaTrash className="m-1"/>Delete</button>

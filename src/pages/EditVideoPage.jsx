@@ -39,7 +39,7 @@ const EditVideoPage = () => {
       navigate("/login");
       return;
     }
-    if (videoData.userId && user.id !== videoData.userId) {
+    if (videoData.userId && (user.id !== videoData.userId && !user.roles.includes("Admin"))) {
       navigate(`/video/${id}`);
       return;
     }

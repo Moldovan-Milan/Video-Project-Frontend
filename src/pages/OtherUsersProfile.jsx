@@ -158,6 +158,14 @@ const OtherUsersProfile = () => {
                     </button>
                   )}
                 </td>
+                {user && (user.roles.includes("Admin") && user.id !== userData.id) &&
+                <td>
+                  <Link to={`/profile/${userData.id}/edit`}>
+                    <button className="editUser font-bold py-2 px-4 rounded mb-2 navbar-btn m-1">
+                      <FaPencilAlt className="m-1"/> Edit this user's profile
+                    </button>
+                  </Link>
+                </td>}
               </tr>
             ) : (
               <tr>

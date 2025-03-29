@@ -8,29 +8,38 @@ import { UserContext } from "./contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
 
 
-export default function UserAccountDetailsPanel({user})
+export default function UserAccountDetailsPanel({userData})
 {
     const [editing, setEditing] = useState(null);
     let editDialog = null
-    const {setUser} = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     const navigate = useNavigate();
 
     const HandleNameUpdate= async ()=>{
         if(editing!="")
             {
-                user.username=editing
+                userData.username=editing
                 setEditing(null)
-                const response = await axios.post(`api/user/profile/update-username?newName=${user.username}`, {}, { withCredentials: true });
+                let URL = `api/user/profile/update-username?newName=${userData.username}`
+                if(user.roles.includes("Admin") && user.id!=userData.id){
+                    URL = `api/Admin/edit-user/${userData.id}?username=${userData.username}`
+                }
+
+                const response = await axios.post(URL, {}, { withCredentials: true });
                 if(response.status===200)
                 {
-                    window.alert(`Username changed successfully your new name is: ${user.username}`)
+                    window.alert(`Username changed successfully the new name is: ${userData.username}`)
                     location.reload();
-                    
+                }
+                else if(response.status === 204){
+                    window.alert("You succesfully changed this user's name!")
+                    location.reload();
                 }
                 else
                 {
                     window.alert("Username change is unsuccessful!")
                 }
+                
             }
             else
             {
@@ -47,18 +56,22 @@ export default function UserAccountDetailsPanel({user})
         if (!confirmation) return;
     
         try {
-            const response = await axios.delete(`/api/User/profile/delete-account`, {
+            let URL = `/api/User/profile/delete-account`
+            if(user.roles.includes("Admin") && user.id!=userData.id){
+                URL = `/api/Admin/delete-user/${userData.id}`
+            }
+            const response = await axios.delete(URL, {
                 withCredentials: true,
             });
     
             if (response.status === 204) {
                 setUser(null);
-                window.alert("Your account has been successfully deleted.");
+                window.alert("Account has been successfully deleted.");
                 navigate("/");
             }
         } catch (error) {
             console.error("Error deleting account:", error);
-            window.alert("An error occurred while deleting your account. Please try again.");
+            window.alert("An error occurred while deleting account. Please try again.");
         }
     };
     
@@ -66,7 +79,7 @@ export default function UserAccountDetailsPanel({user})
     if (editing!=null) {
         editDialog = <div className="editBg">
             <div className="editUsernameWindow">
-            <h1>Editing <span className="titleEditUname">{user.username}</span>'s username</h1>
+            <h1>Editing <span className="titleEditUname">{userData.username}</span>'s username</h1>
             <div>
             <label>New username: </label>
             <input value={editing} onChange={e => setEditing(prev => {
@@ -88,30 +101,30 @@ export default function UserAccountDetailsPanel({user})
         
         <div className="DivDetailsPanel">
                 {editDialog}
-                <h2>Account datails</h2>
+                <h2>Account details</h2>
                 <hr className="AccLine"></hr>
             <div className="DivAccDetails">
             <label>Channel name: </label>
             <div className="UserAccNameEditDiv">
-            <p className="AccInfo">{user.username}</p>
-            <button className="editUnsernameBtn" onClick={()=>setEditing(user.username)}><FaPencil className="m-1"/></button>
+            <p className="AccInfo">{userData.username}</p>
+            <button className="editUnsernameBtn" onClick={()=>setEditing(userData.username)}><FaPencil className="m-1"/></button>
             </div>
             </div>
             <div className="DivAccDetails">
             <label>Email address: </label>
-            <p className="AccInfo">{user.email}</p>
+            <p className="AccInfo">{userData.email}</p>
             </div>
             <div className="DivAccDetails">
             <label>Created at: </label>
-            <p className="AccInfo">{user.created}</p>
+            <p className="AccInfo">{userData.created}</p>
             </div>
             <hr className="AccLine"></hr>
             <div>
-            <h2>Edit your avatar</h2>
-            <ImageEditor img={user.avatar}/>
+            <h2>Edit avatar</h2>
+            <ImageEditor img={userData.avatar}/>
             </div>
             <button className="deleteBtn" onClick={handleDelete}>
-                <FaTrash className="m-1"/> Delete your account
+                <FaTrash className="m-1"/> Delete account
             </button>
         </div>
     )

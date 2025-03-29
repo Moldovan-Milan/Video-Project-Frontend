@@ -6,11 +6,13 @@ import UserAccountHeader from "../components/UserAccountHeader";
 import UserAccountDetailsPanel from "../components/UserAccountDetailsPanel";
 import UserAccountVideosPanel from "../components/UserAccountVideosPanel";
 import { UserContext } from "../components/contexts/UserProvider";
+import UserEditComponent from "../components/UserEditComponent";
 
 const UserAccount = () => {
   //TODO: Ha be vagyunk jelentkezve, és a SingleVideo-nál rányomunk a saját csatornánkra, ne az OtherUsersProfile-ra dobjon, hanem irányítson át ide
   const { id } = useParams();
   const [pageNumber, setPageNumber] = useState(1);
+  const [userVideos,setUserVideos]=useState([]);
   const pageSize = 30;
   const {user} = useContext(UserContext)
 
@@ -22,8 +24,7 @@ const UserAccount = () => {
     created: "",
   });
 
-  const [userVideos,setUserVideos]=useState([]);
-  const[switchPanel,setSwitchPanel]=useState("Videos");
+
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -62,38 +63,7 @@ const UserAccount = () => {
   }, [userData]);
 
   return (  
-    <div className="container">
-    <UserAccountHeader user={userData}/>
-    <div className="divUserAccPanelSwitch">
-            <button
-              className={
-                switchPanel === "Videos"
-                  ? "btnUserAccPanelActive"
-                  : "btnUserAccBottomPanel"
-              }
-              onClick={() => setSwitchPanel("Videos")}
-            >
-              Edit your videos
-            </button>
-            <button
-              className={
-                switchPanel === "Details"
-                  ? "btnUserAccPanelActive"
-                  : "btnUserAccBottomPanel"
-              }
-              onClick={() => setSwitchPanel("Details")}
-            >
-              Details
-            </button>
-          </div>
-          <div>
-            {switchPanel === "Videos" ? (
-              <UserAccountVideosPanel videos={userVideos}/>
-            ) : (
-              <UserAccountDetailsPanel user={userData}/>
-            )}
-          </div>
-    </div> 
+    <UserEditComponent userData={userData} userVideos={userVideos}/>
   );
 };
 
