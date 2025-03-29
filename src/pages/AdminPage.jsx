@@ -12,6 +12,7 @@ const AdminPage = () =>{
                 })
             }
             catch(e){
+                console.error(e)
                 navigate("/not-found")
             }
             
@@ -20,9 +21,7 @@ const AdminPage = () =>{
     }, [])
     return(
         <div>
-            <p>
-                Admin Page
-            </p>
+            <h1>Admin Page</h1>
         </div>
     )
 

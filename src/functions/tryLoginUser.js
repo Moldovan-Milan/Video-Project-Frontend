@@ -6,6 +6,7 @@ export const tryLoginUser = async (setUser, connectToServer) => {
 
     if (response.status === 200) {
       const { userDto } = response.data;
+      const roles = await axios.get("api/user/get-roles", {withCredentials: true});
       setUser({
         id: userDto.id,
         email: userDto.email,
@@ -13,6 +14,7 @@ export const tryLoginUser = async (setUser, connectToServer) => {
         followers: userDto.followers,
         avatarId: userDto.avatarId,
         created: userDto.created,
+        roles: roles.data
       });
       connectToServer();
     }
