@@ -154,7 +154,7 @@ const SingleVideo = () => {
           <h5 className="username">{videoData.user.userName}</h5>
         </Link>
         
-        {user && user.id === videoData.user.id && (
+        {user && (user.id === videoData.user.id || user.roles.includes("Admin")) && (
           <Link to={`/video/${id}/edit`}>
             <button className="editBtn">
               Edit Video <FaPencilAlt className="m-2" />
