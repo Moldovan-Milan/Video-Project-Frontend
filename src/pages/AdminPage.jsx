@@ -1,22 +1,27 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminPage = () =>{
-    const [testMessage, setTestMessage] = useState(null);
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get("api/Admin/admin-test", {
-                withCredentials: true
-            })
-            setTestMessage(result.data);
+            try{
+                const result = await axios.get("api/Admin/admin-test", {
+                    withCredentials: true
+                })
+            }
+            catch(e){
+                navigate("/not-found")
+            }
+            
         }
         fetchData();
-        
     }, [])
     return(
         <div>
             <p>
-                {testMessage}
+                Admin Page
             </p>
         </div>
     )
