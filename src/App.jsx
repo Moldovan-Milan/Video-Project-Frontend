@@ -49,13 +49,11 @@ function App() {
 
   useEffect(() => {
     const fetchToken = async () => {
-      if (!user) {
-        await tryLoginUser(setUser, connectToServer, connection);
-      }
+      await tryLoginUser(setUser, connectToServer, connection);
     };
 
     fetchToken();
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     connectToServer();
