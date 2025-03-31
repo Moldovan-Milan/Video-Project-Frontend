@@ -1,25 +1,33 @@
 import axios from "axios";
 
-export const tryLoginUser = async (setUser, connectToServer) => {
+export const tryLoginUser = async (setUser, connectToServer, connection) => {
   try {
-    const response = await axios.post("/api/user/refresh-jwt-token", {}, { withCredentials: true });
+    const response = await axios.get("/api/user/refresh-jwt-token", {
+      withCredentials: true,
+    });
 
     if (response.status === 200) {
-      const { userDto } = response.data;
-      const roles = await axios.get("api/user/get-roles", {withCredentials: true});
+      const { user, roles } = response.data;
       setUser({
-        id: userDto.id,
-        email: userDto.email,
-        userName: userDto.userName,
-        followers: userDto.followers,
-        avatarId: userDto.avatarId,
-        created: userDto.created,
-        roles: roles.data
+        id: user.id,
+        email: user.email,
+        userName: user.userName,
+        followers: user.followers,
+        avatarId: user.avatarId,
+        created: user.created,
+        roles: roles.data,
       });
-      connectToServer();
+      if (!connection) {
+        connectToServer();
+      }
+      return user;
+    } else if (response.status === 401 || response.status === 400) {
+      setUser(null);
+      console.log("Remove user context");
     }
   } catch (error) {
     console.error("Error refreshing token:", error);
+    setUser(null);
     return null;
   }
 };
