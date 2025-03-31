@@ -46,7 +46,6 @@ const EditUser = () => {
     fetchUser();
   }, []);
   return (
-    //TODO: user deletion as admin doesn't work
     <UserEditComponent userData={userData} userVideos={userVideos}/>
   )
 }

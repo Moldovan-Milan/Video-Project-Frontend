@@ -65,7 +65,9 @@ export default function UserAccountDetailsPanel({userData})
             });
     
             if (response.status === 204) {
-                setUser(null);
+                if(user.id === userData.id){
+                    setUser(null);
+                }
                 window.alert("Account has been successfully deleted.");
                 navigate("/");
             }
