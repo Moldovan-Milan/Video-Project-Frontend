@@ -19,6 +19,7 @@ import ShortsPage from "./pages/ShortsPage";
 import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EditUser from "./pages/EditUser";
+import ReviewVerificationPage from "./pages/ReviewVerificationPage";
 
 const AppRoutes = () => {
   return (
@@ -41,7 +42,8 @@ const AppRoutes = () => {
       <Route path="/shorts" Component={ShortsPage} />
       <Route path="/admin" Component={AdminPage}/>
       <Route path="/not-found" Component={NotFoundPage}/>
-      <Route path="profile/:id/edit" Component={EditUser}/>
+      <Route path="/profile/:id/edit" Component={EditUser}/>
+      <Route path="/review-verification/:id" Component={ReviewVerificationPage}/>
     </Routes>
   );
 };

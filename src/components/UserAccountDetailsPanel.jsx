@@ -97,8 +97,6 @@ export default function UserAccountDetailsPanel({userData})
         </div>
     }
 
-    
-
     return(
         
         <div className="DivDetailsPanel">
@@ -120,6 +118,14 @@ export default function UserAccountDetailsPanel({userData})
             <label>Created at: </label>
             <p className="AccInfo">{userData.created}</p>
             </div>
+            {user.roles.includes("Admin") && 
+                <button>Verify User</button>
+            }
+
+            {user.id === userData.id && !user.roles.includes("Verified") &&
+                <button>Apply for Verification</button>
+            }
+            
             <hr className="AccLine"></hr>
             <div>
             <h2>Edit avatar</h2>
