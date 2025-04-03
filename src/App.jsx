@@ -18,13 +18,13 @@ function App() {
   const { user, setUser } = useContext(UserContext);
   const { connectToServer } = useSignalR();
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      await tryLoginUser(setUser, connectToServer);
-    };
+  // useEffect(() => {
+  //   const fetchToken = async () => {
+  //     await tryLoginUser(setUser, connectToServer);
+  //   };
 
-    fetchToken();
-  }, []);
+  //   fetchToken();
+  // }, []);
 
   useEffect(() => {
     // Figyeljük a user állapot változásait

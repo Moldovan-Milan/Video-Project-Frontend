@@ -4,15 +4,19 @@ import { FaPencil } from "react-icons/fa6";
 import { useState } from "react";
 import axios from "axios";
 import { FaUpload } from "react-icons/fa";
+import isColorDark from "../functions/isColorDark";
 
 export default function UserAccountDetailsPanel({user})
 {
 
     const [editing, setEditing] = useState(null);
+    const [editingTheme,setEditingTheme]=useState(null);
     const [banner,setBanner]=useState(null);
     const [bg,setBg]=useState(null);
-    const [txtColor,setTxtColor]=useState(null);
-    let editDialog = null
+    const [primaryColor,setPrimaryColor]=useState(null);
+    const [secondaryColor,setSecondaryColor]=useState(null);
+    let editDialog = null;
+    let themeDialog=null;
 
     const HandleNameUpdate= async ()=>{
         if(editing!="")
@@ -41,7 +45,8 @@ export default function UserAccountDetailsPanel({user})
     const HandleThemeUpload= async ()=>{
         const formData=new FormData();
         formData.append("background",bg);
-        formData.append("textColor",txtColor);
+        formData.append("primaryColor",primaryColor);
+        formData.append("secondaryColor",secondaryColor);
         formData.append("bannerImage",banner)
 
         const response = await axios.post("api/user/profile/set-theme", formData, {withCredentials:true});
@@ -76,37 +81,18 @@ export default function UserAccountDetailsPanel({user})
         </div>
     }
 
-    
-
-    return(
-        
-        <div className="DivDetailsPanel">
-            {editDialog}
-            <h2>Account details</h2>
-            <hr className="AccLine"></hr>
-        <div className="DivAccDetails">
-        <label>Channel name: </label>
-        <div className="UserAccNameEditDiv">
-        <p className="AccInfo">{user.username}</p>
-        <button className="editUnsernameBtn" onClick={()=>setEditing(user.username)}><FaPencil className="m-1"/></button>
-        </div>
-        </div>
-        <div className="DivAccDetails">
-        <label>Email address: </label>
-        <p className="AccInfo">{user.email}</p>
-        </div>
-        <div className="DivAccDetails">
-        <label>Created at: </label>
-        <p className="AccInfo">{user.created}</p>
-        </div>
-        <h2>Choose your theme</h2>
-        <hr className="AccLine"></hr>
-
-        <label>Background color</label>
-        <input type="color" onChange={(e) => setBg(e.target.value)}/>
-        <label>Text color</label>
-        <input type="color" onChange={(e) => setTxtColor(e.target.value)}/>
-        <label>Upload a banner</label>
+    if(editingTheme!=null)
+    {
+        themeDialog=<div className="editBg">
+        <div className="editThemeWindow">
+        <h1><span className="titleEditUname">{user.username}</span>'s theme</h1>
+        <label className="m-1">Background color: </label>
+        <input type="color" onChange={(e) => setBg(e.target.value)} defaultValue={user.userTheme&&user.userTheme.background?user.userTheme.background:null}/>
+        <label className="m-1">Primary color: </label>
+        <input type="color" onChange={(e) => setPrimaryColor(e.target.value)} defaultValue={user.userTheme&&user.userTheme.primaryColor?user.userTheme.primaryColor:null}/>
+        <label className="m-1">Secondary color</label>
+        <input type="color" onChange={(e) => setSecondaryColor(e.target.value)} defaultValue={user.userTheme&&user.userTheme.secondaryColor?user.userTheme.secondaryColor:null}/>
+        <label className="m-1">Upload a banner: </label>
         <div className="mb-4">
         <input
           id="uploadBanner"
@@ -119,9 +105,44 @@ export default function UserAccountDetailsPanel({user})
           <FaUpload className="upload-icn" /> Choose a banner
         </label>
       </div>
-    {bg||txtColor||banner?<button onClick={()=>{console.log(banner);console.log(bg);HandleThemeUpload()}} className="bg-lime-500 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded mb-2">Upload theme</button>:<></>}
+    {bg||primaryColor||secondaryColor||banner?<button onClick={()=>{console.log(banner);console.log(bg);HandleThemeUpload()}} className="text-white font-bold py-2 px-4 rounded mb-2 btnThemeUpload"><FaUpload className="m-1"/>Upload theme</button>:<></>}
         <div>
-        <h2>Edit your avatar</h2>
+        <button onClick={() => setEditingTheme(null)} className="editUsernameCancel">Cancel</button>
+        </div>
+    </div>
+    </div>
+    }
+
+    
+
+    return(
+        
+        <div className="DivDetailsPanel">
+            {editDialog}
+            {themeDialog}
+            <h2 style={user.userTheme&&user.userTheme.secondaryColor?{color:user.userTheme.secondaryColor}:null}>Account details</h2>
+            <hr className="AccLine"></hr>
+        <div className="DivAccDetails">
+        <label>Channel name: </label>
+        <div className="UserAccNameEditDiv">
+        <p className="AccInfo" style={user.userTheme&&user.userTheme.primaryColor?{color:user.userTheme.primaryColor}:null}>{user.username}</p>
+        <button className="editUnsernameBtn" onClick={()=>setEditing(user.username)} style={user.userTheme&&user.userTheme.secondaryColor?{backgroundColor:user.userTheme.secondaryColor}:null}><FaPencil className="m-1"/></button>
+        </div>
+        </div>
+        <div className="DivAccDetails">
+        <label>Email address: </label>
+        <p className="AccInfo" style={user.userTheme&&user.userTheme.primaryColor?{color:user.userTheme.primaryColor}:null}>{user.email}</p>
+        </div>
+        <div className="DivAccDetails">
+        <label>Created at: </label>
+        <p className="AccInfo" style={user.userTheme&&user.userTheme.primaryColor?{color:user.userTheme.primaryColor}:null}>{user.created}</p>
+        </div>
+        <h2 style={user.userTheme&&user.userTheme.secondaryColor?{color:user.userTheme.secondaryColor}:null}>Choose your theme</h2>
+        <hr className="AccLine"></hr>
+        <button onClick={()=>setEditingTheme(true)} className="font-bold py-2 px-4 rounded mb-2 btnEditTheme m-1" style={user.userTheme&&user.userTheme.primaryColor?{backgroundColor:user.userTheme.primaryColor,color:(isColorDark(user.userTheme.primaryColor)?"white":"black")}:null}>Edit theme</button>
+        
+        <div>
+        <h2 style={user.userTheme&&user.userTheme.secondaryColor?{color:user.userTheme.secondaryColor}:null}>Edit your avatar</h2>
         <ImageEditor img={user.avatar}/>
         </div>  
         </div>

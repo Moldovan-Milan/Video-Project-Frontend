@@ -7,6 +7,7 @@ import UserPageVideoItem from "../components/UserPageVideoItem";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
 import loadingImg from "../assets/loading.gif";
+import isColorDark from "../functions/isColorDark";
 
 const OtherUsersProfile = () => {
   //TODO: pagination
@@ -23,6 +24,8 @@ const OtherUsersProfile = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const pageSize = 30;
   const observerRef = useRef(null);
+  const [primaryColor,setPrimaryColor]=useState(null);
+  const [secondaryColor,setSecondaryColor]=useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -33,6 +36,7 @@ const OtherUsersProfile = () => {
                 username: data.user.userName,
                 avatarId: data.user.avatarId,
                 followers: data.user.followersCount,
+                userTheme:data.user.userTheme
             });
             setLoading(false);
         } catch (error) {
@@ -114,7 +118,16 @@ const OtherUsersProfile = () => {
   if (loading || !userData) return <img src={loadingImg} alt="loading"/>;
 
   return (
-    <>
+    <div  style={
+      userData.userTheme&& userData.userTheme.background
+        ? {
+            background: userData.userTheme.background,
+            color: (isColorDark(userData.userTheme.background))?"white":"black",
+            height:"85vh",
+            borderRadius:"20px"
+          }
+        : null
+    }>
       <div>
         <table className="user-properties-table">
           <tbody>
@@ -127,7 +140,7 @@ const OtherUsersProfile = () => {
                 />
               </td>
               <td colSpan={2}>
-                <h1 className="user-username text-center">
+                <h1 className="user-username text-center" style={userData.userTheme&&userData.userTheme.primaryColor?{color:userData.userTheme.primaryColor}:null}>
                   {userData.username}
                 </h1>
               </td>
@@ -135,7 +148,7 @@ const OtherUsersProfile = () => {
             {!(user && user.id === userData.id) ? (
               <tr>
                 <td>
-                  <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1" onClick={handleMessageSend}>
+                  <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1" onClick={handleMessageSend} style={userData.userTheme&&userData.userTheme.secondaryColor?{backgroundColor:userData.userTheme.secondaryColor}:null}>
                     Send Message
                     <FaMailBulk className="m-1" />
                   </button>
@@ -145,6 +158,7 @@ const OtherUsersProfile = () => {
                     <button
                       onClick={handleSubscribeClick}
                       className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
+                      style={userData.userTheme&&userData.userTheme.primaryColor?{backgroundColor:userData.userTheme.primaryColor}:null}
                     >
                       Subscribe | {userData.followers}
                       <FaUserPlus className="m-1" />
@@ -153,6 +167,7 @@ const OtherUsersProfile = () => {
                     <button
                       onClick={handleSubscribeClick}
                       className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
+                      style={userData.userTheme&&userData.userTheme.primaryColor?{backgroundColor:userData.userTheme.primaryColor}:null}
                     >
                       Subscribed | {userData.followers}
                     </button>
@@ -162,12 +177,12 @@ const OtherUsersProfile = () => {
             ) : (
               <tr>
                 <td>
-                  <button className="editVideosBtn">
+                  <button className="editVideosBtn" style={userData.userTheme&&userData.userTheme.secondaryColor?{backgroundColor:userData.userTheme.secondaryColor}:null}>
                     <FaPencilAlt className="m-1"/><p>Edit Your Videos</p>
                   </button>
                 </td>
                 <td>
-                  <div className="subscribersLabel">
+                  <div className="subscribersLabel" style={userData.userTheme&&userData.userTheme.primaryColor?{backgroundColor:userData.userTheme.primaryColor}:null}>
                     <FaUserPlus className="m-1"/><p>Your subscribers: {userData.followers}</p>
                   </div>
                 </td>
@@ -186,7 +201,7 @@ const OtherUsersProfile = () => {
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

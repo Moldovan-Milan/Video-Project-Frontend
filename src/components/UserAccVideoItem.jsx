@@ -6,7 +6,7 @@ import "../styles/UserAccVideoItem.scss";
 import getViewText from "../functions/getViewText";
 import formatDuration from "../functions/formatDuration";
 
-const UserAccVideoItem = ({ video }) => {
+const UserAccVideoItem = ({ video,color }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [safeId, setSafeId] = useState(id);
@@ -28,7 +28,7 @@ const UserAccVideoItem = ({ video }) => {
 
   return (
     <div className="UserAccVideoItemContainer" title={title}>
-      <div className="UserAccVideoItem">
+      <div className={`UserAccVideoItem ${color ? "hover-shadow" : ""}`} style={{"--hover-color": color || "none",}}>
         <Link to={`/video/${safeId}`}>
           <table className="UserAccItemTable">
             <tbody>
@@ -44,7 +44,13 @@ const UserAccVideoItem = ({ video }) => {
                   </div>
                 </td>
                 <td className="UserAccItemDetails">
-                  <div className="UserAccItemTitle">
+                  <div className="UserAccItemTitle" style={
+                    color
+                      ? {
+                          color: color,
+                        }
+                      : null
+                  }>
                     {title.length > 30 ? title.substring(0, 30) + "..." : title}
                   </div>
                   <div className="UserAccItemUploader">{user.userName}</div>
