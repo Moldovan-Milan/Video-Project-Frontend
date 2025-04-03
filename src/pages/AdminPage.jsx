@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, Outlet } from "react-router-dom";
+
 
 const AdminPage = () =>{
     const navigate = useNavigate();
@@ -22,6 +23,10 @@ const AdminPage = () =>{
     return(
         <div>
             <h1>Admin Page</h1>
+            <Link to={"/admin/verification-list"}>
+                <button>Verification Requests</button>
+            </Link>
+            <Outlet/>
         </div>
     )
 

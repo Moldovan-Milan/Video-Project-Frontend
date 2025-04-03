@@ -1,0 +1,39 @@
+@use "sass:color";
+
+.accept-button {
+    background-color: green;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: color.mix(black, green, 25%);
+    }
+}
+
+.decline-button {
+    background-color: red;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: color.mix(black, red, 25%);
+    }
+}
+
+
+.accept-button, .decline-button{
+    margin: 5px;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.request-text{
+    text-align: center;
+}
+
+.verification-container{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    min-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+}

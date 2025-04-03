@@ -20,30 +20,33 @@ import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EditUser from "./pages/EditUser";
 import ReviewVerificationPage from "./pages/ReviewVerificationPage";
+import VerificationRequestList from "./pages/VerificationRequestList";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route index path="/" Component={VideosPage} />
-      <Route path="/video/:id" Component={SingleVideo} />
-      <Route path="/video/:id/edit" Component={EditVideoPage} />
-      <Route path="/video/upload" Component={UploadVideo} />
-      <Route path="/registration" Component={Registration} />
-      <Route path="/login" Component={Login} />
-      <Route path="/profile" Component={UserAccount} />
-      <Route path="/profile/:id" Component={OtherUsersProfile} />
-      <Route path="/chats" Component={ChatPage} />
-      <Route path="/chat/:id" Component={MessagePage} />
-      <Route path="/search" Component={SearchResultPage} />
-      <Route path="/watch-history" Component={ViewHistoryPage} />
-      <Route path="/following" Component={SubscribedToPage} />
-      <Route path="/watch-together" Component={WatchTogetherMainPage} />
-      <Route path="/watch-together/:id" Component={WatchTogetherRoom} />
-      <Route path="/shorts" Component={ShortsPage} />
-      <Route path="/admin" Component={AdminPage}/>
-      <Route path="/not-found" Component={NotFoundPage}/>
-      <Route path="/profile/:id/edit" Component={EditUser}/>
-      <Route path="/review-verification/:id" Component={ReviewVerificationPage}/>
+      <Route index path="/" element={<VideosPage />} />
+      <Route path="/video/:id" element={<SingleVideo />} />
+      <Route path="/video/:id/edit" element={<EditVideoPage />} />
+      <Route path="/video/upload" element={<UploadVideo />} />
+      <Route path="/registration" element={<Registration />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/profile" element={<UserAccount />} />
+      <Route path="/profile/:id" element={<OtherUsersProfile />} />
+      <Route path="/profile/:id/edit" element={<EditUser />} />
+      <Route path="/chats" element={<ChatPage />} />
+      <Route path="/chat/:id" element={<MessagePage />} />
+      <Route path="/search" element={<SearchResultPage />} />
+      <Route path="/watch-history" element={<ViewHistoryPage />} />
+      <Route path="/following" element={<SubscribedToPage />} />
+      <Route path="/watch-together" element={<WatchTogetherMainPage />} />
+      <Route path="/watch-together/:id" element={<WatchTogetherRoom />} />
+      <Route path="/shorts" element={<ShortsPage />} />
+      <Route path="/review-verification/:id" element={<ReviewVerificationPage />} />
+      <Route path="/admin" element={<AdminPage />}>
+        <Route path="verification-list" element={<VerificationRequestList />} />
+      </Route>
+      <Route path="/not-found" element={<NotFoundPage />} />
     </Routes>
   );
 };

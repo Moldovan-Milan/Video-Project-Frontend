@@ -6,6 +6,7 @@ import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import { UserContext } from "./contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
+import VerificationRequestButton from "./VerificationRequestButton";
 
 
 export default function UserAccountDetailsPanel({userData})
@@ -123,7 +124,7 @@ export default function UserAccountDetailsPanel({userData})
             }
 
             {user.id === userData.id && !user.roles.includes("Verified") &&
-                <button>Apply for Verification</button>
+                <VerificationRequestButton/>
             }
             
             <hr className="AccLine"></hr>
