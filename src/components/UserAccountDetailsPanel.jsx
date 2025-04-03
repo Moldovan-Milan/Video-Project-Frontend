@@ -1,7 +1,7 @@
 import ImageEditor from "./ImageEditor";
 import "../styles/UserAccountDetailsPanel.scss";
 import { FaPencil } from "react-icons/fa6";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import { UserContext } from "./contexts/UserProvider";
@@ -12,9 +12,28 @@ import VerificationRequestButton from "./VerificationRequestButton";
 export default function UserAccountDetailsPanel({userData})
 {
     const [editing, setEditing] = useState(null);
+    const [hasActiveRequest, setHasActiveRequest] = useState(false)
     let editDialog = null
     const {user, setUser} = useContext(UserContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchRequest = async () =>{
+            try{
+                const response = await axios.get(`api/User/${userData.id}/verification-request/active`, {
+                    withCredentials: true
+                })
+                if(response.status === 200){
+                    setHasActiveRequest(response.data)
+                    console.log(response)
+                }
+            }
+            catch(error){
+                console.error(error)
+            }
+        }
+        fetchRequest()
+    }, [])
 
     const HandleNameUpdate= async ()=>{
         if(editing!="")
@@ -123,9 +142,12 @@ export default function UserAccountDetailsPanel({userData})
                 <button>Verify User</button>
             }
 
-            {user.id === userData.id && !user.roles.includes("Verified") &&
-                <VerificationRequestButton/>
+            {user.id === userData.id && 
+                !user.roles?.includes("Verified") && 
+                !hasActiveRequest &&
+                <VerificationRequestButton />
             }
+
             
             <hr className="AccLine"></hr>
             <div>

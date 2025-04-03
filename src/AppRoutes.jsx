@@ -19,7 +19,6 @@ import ShortsPage from "./pages/ShortsPage";
 import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EditUser from "./pages/EditUser";
-import ReviewVerificationPage from "./pages/ReviewVerificationPage";
 import VerificationRequestList from "./pages/VerificationRequestList";
 
 const AppRoutes = () => {
@@ -42,7 +41,6 @@ const AppRoutes = () => {
       <Route path="/watch-together" element={<WatchTogetherMainPage />} />
       <Route path="/watch-together/:id" element={<WatchTogetherRoom />} />
       <Route path="/shorts" element={<ShortsPage />} />
-      <Route path="/review-verification/:id" element={<ReviewVerificationPage />} />
       <Route path="/admin" element={<AdminPage />}>
         <Route path="verification-list" element={<VerificationRequestList />} />
       </Route>

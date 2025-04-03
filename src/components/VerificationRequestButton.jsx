@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import "../styles/VerificationRequestButton.scss"
 
 const VerificationRequestButton = () => {
     const handleClick = async () => {
@@ -9,6 +10,7 @@ const VerificationRequestButton = () => {
             })
             if(response.status === 200){
                 window.alert("Successfully sent verification request!")
+                location.reload()
             }
         }
         catch(error){
@@ -16,7 +18,7 @@ const VerificationRequestButton = () => {
         }
     }
   return (
-    <button onClick={handleClick}>Request to get Verified</button>
+    <button className='verification-button' onClick={handleClick}>Request to get Verified</button>
   )
 }
 

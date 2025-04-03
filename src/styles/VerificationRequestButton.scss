@@ -1,0 +1,14 @@
+@use "sass:color";
+
+.verification-button{
+    background-color: blue;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+    &:hover{
+        transform: scale(1.05);
+        background-color: color.mix(black, blue, 25%);
+    }
+}
+
