@@ -1,19 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   createSignalRConnection,
   invokeSignalRMethod,
   startSignalRConnection,
 } from "../utils/signalRUtils";
 import { useNavigate, useParams } from "react-router-dom";
+import { UserContext } from "../components/contexts/UserProvider";
+import ChatPanel from "../components/ChatPanel";
 
 const LiveStreamPage = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const { id } = useParams();
-  const [connection, setConnection] = useState(null);
+  const { user } = useContext(UserContext);
+  const [viewerCount, setViewerCount] = useState(0);
+  const connectionRef = useRef(null);
   //const [streamerConnId, setStreamerConnId] = useState(null);
+
   const peerConnectionRef = useRef(null);
   const remoteVideoRef = useRef(null);
   const navigate = useNavigate();
+  const [messages, setMessages] = useState([]);
+  const pendingCandidates = [];
 
   useEffect(() => {
     try {
@@ -21,6 +28,16 @@ const LiveStreamPage = () => {
     } catch (error) {
       console.log("Error: ", error);
     }
+
+    return () => {
+      try {
+        console.log(connectionRef.current, " Leave stream function");
+        connectionRef.current.invoke("LeaveStream", id);
+        connectionRef.current.stop();
+      } catch (error) {
+        console.log(error);
+      }
+    };
   }, []);
 
   const createSignalConn = async () => {
@@ -30,7 +47,7 @@ const LiveStreamPage = () => {
       createPeer(JSON.parse(offer), connId, signalRConnection);
     });
 
-    signalRConnection.on("ReceiveIceCandidate", (_, candidate) => {
+    signalRConnection.on("ReceiveIceCandidate", (candidate, _) => {
       handleIceCandidate(JSON.parse(candidate));
     });
 
@@ -39,11 +56,23 @@ const LiveStreamPage = () => {
       navigate("/livestream");
     });
 
+    signalRConnection.on("ReceiveMessage", (message) => {
+      setMessages((prev) => [...prev, message]);
+    });
+
+    signalRConnection.on("ReceiveChatHistory", (chatHistory) => {
+      setMessages(chatHistory);
+    });
+
+    signalRConnection.on("ViewerCountChanged", (count) => {
+      setViewerCount(count);
+    });
+
     //await startSignalRConnection(signalRConnection, setConnection);
 
     try {
       await signalRConnection.start();
-      setConnection(signalRConnection);
+      connectionRef.current = signalRConnection;
       console.log("SignalR connection started");
     } catch (err) {
       console.error("Error while starting the SignalR connection", err);
@@ -89,13 +118,41 @@ const LiveStreamPage = () => {
       JSON.stringify(answer)
     );
     peerConnectionRef.current = peer;
+
+    pendingCandidates.forEach((candidate, idx) => {
+      console.log(candidate);
+      peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(candidate));
+      delete pendingCandidates[idx];
+      console.log("Set ice candidate");
+    });
+
+    console.log(pendingCandidates);
   };
 
   const handleIceCandidate = async (candidate) => {
-    console.log("Set ice candidate");
-    await peerConnectionRef.current.addIceCandidate(
-      new RTCIceCandidate(candidate)
-    );
+    if (peerConnectionRef.current) {
+      console.log("Set ice candidate");
+      await peerConnectionRef.current.addIceCandidate(
+        new RTCIceCandidate(candidate)
+      );
+    } else {
+      console.log("Store candidate");
+      pendingCandidates.push(candidate);
+    }
+    //console.log(peerConnectionRef.current);
+  };
+
+  const onMessageSend = (content) => {
+    if (user) {
+      if (!content) {
+        return;
+      }
+      if (connectionRef.current) {
+        connectionRef.current.invoke("SendMessage", user.id, content, id);
+      }
+    } else {
+      alert("You must have an account");
+    }
   };
 
   return (
@@ -108,6 +165,8 @@ const LiveStreamPage = () => {
         playsInline
         style={{ width: "80%", border: "1px solid black" }}
       />
+      <h3>Viewers: {viewerCount}</h3>
+      <ChatPanel messages={messages} onMessageSend={onMessageSend} />
     </div>
   );
 };

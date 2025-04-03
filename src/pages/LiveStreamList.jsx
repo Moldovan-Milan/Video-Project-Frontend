@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/LiveStreamList.scss";
 import { Link } from "react-router-dom";
+import { FaEye } from "react-icons/fa";
 
 const LiveStreamList = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -37,6 +38,9 @@ const LiveStreamList = () => {
                 <h2 className="stream-title">{ls.title}</h2>
                 <p className="username">{ls.user.userName}</p>
                 <p className="description">{ls.description}</p>
+                <p>
+                  Viewers: {ls.viewers} <FaEye />
+                </p>
                 <p className="started-at">
                   Started at: {new Date(ls.startedAt).toLocaleString()}
                 </p>

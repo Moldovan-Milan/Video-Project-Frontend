@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { FaCamera, FaDesktop, FaPlay, FaStop } from "react-icons/fa";
+import { FaCamera, FaDesktop, FaEye, FaPlay, FaStop } from "react-icons/fa";
 import "../styles/GoLivePage.scss";
 import {
   createSignalRConnection as createSignalR,
@@ -9,6 +9,7 @@ import {
 } from "../utils/signalRUtils";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
+import ChatPanel from "../components/ChatPanel";
 
 const MediaSharing = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -19,13 +20,17 @@ const MediaSharing = () => {
   const [description, setDescription] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamURL, setStreamURL] = useState(null);
+  const [viewerCount, setViewerCount] = useState(0);
   const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
 
-  const [connection, setConnection] = useState(null);
+  // WebRTC
+  const connectionRef = useRef(null);
   const [peerConnections, setPeerConnections] = useState({});
   const pendingCandidates = {};
+
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     if (!user) {
@@ -33,7 +38,11 @@ const MediaSharing = () => {
     }
 
     return () => {
-      connection.invoke("StopStream", streamURL);
+      console.log("Return");
+      if (connectionRef.current) {
+        connectionRef.current.invoke("StopStream", user.id);
+        connectionRef.current.stop();
+      }
     };
   }, []);
 
@@ -85,15 +94,20 @@ const MediaSharing = () => {
 
   const stopSharing = async () => {
     if (stream) {
+      setMessages([]);
       stream.getTracks().forEach((track) => track.stop());
       setSelectedSource(null);
       setStream(null);
       setIsStreaming(false);
 
-      if (connection) {
+      if (connectionRef.current) {
         try {
-          await invokeSignalRMethod(connection, "StopStream", user.id);
-          stopSignalRConnection(connection);
+          await invokeSignalRMethod(
+            connectionRef.current,
+            "StopStream",
+            user.id
+          );
+          stopSignalRConnection(connectionRef.current);
           setConnection(null);
         } catch (error) {
           console.log("Error during stop: ", error);
@@ -113,7 +127,7 @@ const MediaSharing = () => {
 
       signalRConnection.on("StreamStopped", () => {
         setIsStreaming(false);
-        stopSignalRConnection(connection);
+        stopSignalRConnection(connectionRef.current);
         setTitle("");
         setDescription("");
         setStreamURL("");
@@ -121,6 +135,12 @@ const MediaSharing = () => {
 
       signalRConnection.on("ReceiveViewer", (viewerId) => {
         handleViewer(viewerId, signalRConnection);
+      });
+
+      signalRConnection.on("ReceiveMessage", (message) => {
+        console.log("Receive message");
+        console.log(message);
+        setMessages((prev) => [...prev, message]);
       });
 
       signalRConnection.on("ReceiveAnswer", (answer, viewerId) => {
@@ -139,10 +159,22 @@ const MediaSharing = () => {
         handleIceCandidate(JSON.parse(candidate), connId);
       });
 
+      signalRConnection.on("ViewerLeftStream", (viewerId) => {
+        if (viewerId) {
+          console.log("Viewer disconected!");
+          peerConnections[viewerId].close();
+          delete peerConnections[viewerId];
+        }
+      });
+
+      signalRConnection.on("ViewerCountChanged", (count) => {
+        setViewerCount(count);
+      });
+
       //await startSignalRConnection(signalRConnection, setConnection);
       try {
         await signalRConnection.start();
-        setConnection(signalRConnection);
+        connectionRef.current = signalRConnection;
         console.log("SignalR connection started");
       } catch (err) {
         console.error("Error while starting the SignalR connection", err);
@@ -245,6 +277,16 @@ const MediaSharing = () => {
     }
   };
 
+  const onMessageSend = (content) => {
+    if (!content) {
+      alert("You can not send empty message!");
+      return;
+    }
+    if (connectionRef.current) {
+      connectionRef.current.invoke("SendMessage", user.id, content, streamURL);
+    }
+  };
+
   return (
     <div className="goLiveContainer">
       <h1>Media Sharing</h1>
@@ -302,7 +344,17 @@ const MediaSharing = () => {
         )}
       </div>
       {isStreaming && <h2>Your stream code: {streamURL}</h2>}
-      <video ref={videoRef} autoPlay playsInline style={{ width: "100%" }} />
+      <div>
+        <video ref={videoRef} autoPlay playsInline style={{ width: "90%" }} />
+        {streamURL && (
+          <div>
+            <h3>
+              Viewers: {viewerCount} <FaEye />
+            </h3>
+          </div>
+        )}
+        <ChatPanel messages={messages} onMessageSend={onMessageSend} />
+      </div>
     </div>
   );
 };
