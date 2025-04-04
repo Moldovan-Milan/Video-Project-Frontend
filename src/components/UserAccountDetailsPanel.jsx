@@ -8,6 +8,7 @@ import { UserContext } from "./contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
 import VerificationRequestButton from "./VerificationRequestButton";
 import getActiveVerificationRequestStatus from "../functions/getActiveVerificationRequestStatus";
+import getRoles from "../functions/getRoles";
 
 export default function UserAccountDetailsPanel({userData})
 {
@@ -15,6 +16,7 @@ export default function UserAccountDetailsPanel({userData})
     const [hasActiveRequest, setHasActiveRequest] = useState(false)
     let editDialog = null
     const {user, setUser} = useContext(UserContext);
+    const [roles, setRoles] = useState([])
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,6 +26,17 @@ export default function UserAccountDetailsPanel({userData})
         };
         checkVerificationRequest();
       }, []);
+
+      useEffect(() => {
+        const loadRoles = async () => {
+            const fetchedRoles = await getRoles(user.id);
+            setRoles(fetchedRoles);
+          };
+        
+          if (user) {
+            loadRoles();
+          }
+      }, [user])
       
 
     const HandleNameUpdate= async ()=>{
@@ -32,7 +45,7 @@ export default function UserAccountDetailsPanel({userData})
                 userData.username=editing
                 setEditing(null)
                 let URL = `api/user/profile/update-username?newName=${userData.username}`
-                if(user.roles.includes("Admin") && user.id!=userData.id){
+                if(roles.includes("Admin") && user.id!=userData.id){
                     URL = `api/Admin/edit-user/${userData.id}?username=${userData.username}`
                 }
 
@@ -68,7 +81,7 @@ export default function UserAccountDetailsPanel({userData})
     
         try {
             let URL = `/api/User/profile/delete-account`
-            if(user.roles.includes("Admin") && user.id!=userData.id){
+            if(roles.includes("Admin") && user.id!=userData.id){
                 URL = `/api/Admin/delete-user/${userData.id}`
             }
             const response = await axios.delete(URL, {
@@ -134,12 +147,12 @@ export default function UserAccountDetailsPanel({userData})
             <label>Created at: </label>
             <p className="AccInfo">{userData.created}</p>
             </div>
-            {user.roles.includes("Admin") && 
+            {roles.includes("Admin") && 
                 <button>Verify User</button>
             }
 
             {user.id === userData.id && 
-                !user.roles?.includes("Verified") && 
+                !roles?.includes("Verified") && 
                 !hasActiveRequest &&
                 <VerificationRequestButton onRequestSent={handleVerificationRequest}/>
             }
