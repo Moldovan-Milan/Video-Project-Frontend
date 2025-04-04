@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, Outlet } from "react-router-dom";
 import "../styles/AdminPage.scss"
-import { FaCheckCircle, FaUserTie } from "react-icons/fa";
+import { FaCheckCircle, FaUserCog, FaUserTie } from "react-icons/fa";
 
 
 const AdminPage = () =>{
@@ -29,6 +29,9 @@ const AdminPage = () =>{
                 <div className="admin-link-list">
                     <Link to={"/admin/verification-list"}>
                         <button>Verification Requests <FaCheckCircle className="m-1"/></button>
+                    </Link>
+                    <Link to={"/admin/edit-user-roles"}>
+                        <button>Edit User Roles <FaUserCog className="m-1"/></button>
                     </Link>
                 </div>
             </div>

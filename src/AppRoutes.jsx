@@ -20,6 +20,7 @@ import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import EditUser from "./pages/EditUser";
 import VerificationRequestList from "./pages/VerificationRequestList";
+import UserRoleEditPage from "./pages/UserRoleEditPage";
 
 const AppRoutes = () => {
   return (
@@ -43,6 +44,7 @@ const AppRoutes = () => {
       <Route path="/shorts" element={<ShortsPage />} />
       <Route path="/admin" element={<AdminPage />}>
         <Route path="verification-list" element={<VerificationRequestList />} />
+        <Route path="edit-user-roles" element={<UserRoleEditPage/>}/>
       </Route>
       <Route path="/not-found" element={<NotFoundPage />} />
     </Routes>
