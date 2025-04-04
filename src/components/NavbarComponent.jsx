@@ -21,6 +21,7 @@ import { UserContext } from "./contexts/UserProvider";
 import { useSignalR } from "./contexts/SignalRProvider";
 import { FaMessage, FaUsersLine, FaUsersRectangle } from "react-icons/fa6";
 import axios from "axios";
+import getRoles from "../functions/getRoles";
 
 export default function NavbarComponent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,23 +40,15 @@ export default function NavbarComponent() {
   };
 
   useEffect(() => {
-    const fetchRoles = async() =>{
-      try{
-        const response = await axios.get(`api/User/get-roles`, {
-          withCredentials: true
-        })
-        if(response.status === 200){
-          setRoles(response.data)
-        }
-      }
-      catch(error){
-        console.error(error)
-      }
+    const loadRoles = async () => {
+      const fetchedRoles = await getRoles();
+      setRoles(fetchedRoles);
+    };
+  
+    if (user) {
+      loadRoles();
     }
-    if(user){
-      fetchRoles()
-    }
-  }, [user])
+  }, [user]);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
