@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, Outlet } from "react-router-dom";
+import "../styles/AdminPage.scss"
+import { FaCheckCircle, FaUserTie } from "react-icons/fa";
 
 
 const AdminPage = () =>{
@@ -22,10 +24,14 @@ const AdminPage = () =>{
     }, [])
     return(
         <div>
-            <h1>Admin Page</h1>
-            <Link to={"/admin/verification-list"}>
-                <button>Verification Requests</button>
-            </Link>
+            <div className="admin-navbar">
+                <h1>Admin Page <FaUserTie className="m-3"/></h1>
+                <div className="admin-link-list">
+                    <Link to={"/admin/verification-list"}>
+                        <button>Verification Requests <FaCheckCircle className="m-1"/></button>
+                    </Link>
+                </div>
+            </div>
             <Outlet/>
         </div>
     )
