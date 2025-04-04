@@ -41,7 +41,7 @@ export default function NavbarComponent() {
 
   useEffect(() => {
     const loadRoles = async () => {
-      const fetchedRoles = await getRoles();
+      const fetchedRoles = await getRoles(user.id);
       setRoles(fetchedRoles);
     };
   
