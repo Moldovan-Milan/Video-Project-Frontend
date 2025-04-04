@@ -1,6 +1,8 @@
 import React from 'react'
 import "../styles/VerificationRequestHandler.scss"
 import axios from "axios"
+import { FaCheck } from 'react-icons/fa';
+import { FaX } from 'react-icons/fa6';
 
 const VerificationRequestHandler = ({ user, onRequestProcessed }) => {
     const handleAccept = async () => {
@@ -38,8 +40,8 @@ const VerificationRequestHandler = ({ user, onRequestProcessed }) => {
     return (
       <div className="verification-container">
         <p className="request-text">{user.userName} Would like to get Verified</p>
-        <button className="accept-button" onClick={handleAccept}>Accept</button>
-        <button className="decline-button" onClick={handleDecline}>Decline</button>
+        <button className="accept-button" onClick={handleAccept}><FaCheck className='m-1'/> Accept</button>
+        <button className="decline-button" onClick={handleDecline}><FaX className='m-1'/> Decline</button>
       </div>
     );
   };
