@@ -117,6 +117,11 @@ export default function UserAccountDetailsPanel({userData})
         </div>
     }
 
+    const handleVerificationRequest = () => {
+        setHasActiveRequest(true);
+    };
+    
+
     return(
         
         <div className="DivDetailsPanel">
@@ -145,7 +150,7 @@ export default function UserAccountDetailsPanel({userData})
             {user.id === userData.id && 
                 !user.roles?.includes("Verified") && 
                 !hasActiveRequest &&
-                <VerificationRequestButton />
+                <VerificationRequestButton onRequestSent={handleVerificationRequest}/>
             }
 
             

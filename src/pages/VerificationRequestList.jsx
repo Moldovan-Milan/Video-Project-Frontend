@@ -37,6 +37,13 @@ const VerificationRequestList = () => {
     fetchRequests();
   }, [pageNumber]);
 
+  const handleRequestProcessed = (userId) => {
+    setRequestList((prevRequests) =>
+      prevRequests.filter((request) => request.id !== userId)
+    );
+  };
+  
+
   const lastUserRef = useCallback(
     (node) => {
       if (!hasMore) return;
@@ -63,6 +70,7 @@ const VerificationRequestList = () => {
               user={request}
               key={request.id}
               ref={isLastRequest ? lastUserRef : null}
+              onRequestProcessed={handleRequestProcessed}
             />
           );
         })
