@@ -7,7 +7,7 @@ import { FaTrash } from "react-icons/fa";
 import { UserContext } from "./contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
 import VerificationRequestButton from "./VerificationRequestButton";
-
+import getActiveVerificationRequestStatus from "../functions/getActiveVerificationRequestStatus";
 
 export default function UserAccountDetailsPanel({userData})
 {
@@ -18,22 +18,13 @@ export default function UserAccountDetailsPanel({userData})
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchRequest = async () =>{
-            try{
-                const response = await axios.get(`api/User/${userData.id}/verification-request/active`, {
-                    withCredentials: true
-                })
-                if(response.status === 200){
-                    setHasActiveRequest(response.data)
-                    console.log(response)
-                }
-            }
-            catch(error){
-                console.error(error)
-            }
-        }
-        fetchRequest()
-    }, [])
+        const checkVerificationRequest = async () => {
+          const hasRequest = await getActiveVerificationRequestStatus(userData.id);
+          setHasActiveRequest(hasRequest);
+        };
+        checkVerificationRequest();
+      }, []);
+      
 
     const HandleNameUpdate= async ()=>{
         if(editing!="")
