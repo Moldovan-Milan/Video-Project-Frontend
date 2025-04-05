@@ -1,6 +1,6 @@
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "./components/SearchBar";
 import "./output.css";
@@ -30,14 +30,14 @@ function App() {
           try {
             console.log("Token lejárt, frissítés...");
             await tryLoginUser(setUser, connectToServer, connection);
-
+            originalRequest.withCredentials = true; // Send the new access token
+            //console.log(originalRequest.headers);
             return axios(originalRequest);
           } catch (refreshError) {
             console.error("Token frissítés sikertelen:", refreshError);
             return Promise.reject(refreshError);
           }
         }
-
         return Promise.reject(error);
       }
     );
