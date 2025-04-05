@@ -1,0 +1,51 @@
+.role-edit-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: inherit;
+    color: inherit;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-role-editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .user-role-editor img {
+    border-radius: 9999px;
+    object-fit: cover;
+    border: 3px solid currentColor;
+  }
+  
+  .user-role-editor p {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .role-toggle {
+    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .role-toggle label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .role-toggle input[type="checkbox"] {
+    accent-color: currentColor;
+    transform: scale(1.2);
+    cursor: pointer;
+    margin: 5px;
+  }
+  

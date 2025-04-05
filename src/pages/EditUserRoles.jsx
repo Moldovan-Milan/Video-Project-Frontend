@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from "axios"
 import loading from "../assets/loading.gif";
+import "../styles/EditUserRoles.scss";
 
 const EditUserRoles = () => {
   const { id } = useParams();
@@ -72,8 +73,8 @@ const EditUserRoles = () => {
             alt="User Avatar"
             className="w-24 h-24 rounded-full"
           />
-          <p><strong>Username:</strong> {user.userName}</p>
-          <p><strong>ID:</strong> {user.id}</p>
+          <p style={{color: "#B200FF"}}><strong>Username:</strong> {user.userName}</p>
+          <p style={{color: "lime"}}><strong>ID:</strong> {user.id}</p>
 
           <div className="role-toggle">
             <p><strong>Modify Roles:</strong></p>
