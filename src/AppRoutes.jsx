@@ -15,6 +15,10 @@ import WatchTogetherRoom from "./pages/WatchTogetherRoom";
 import SearchResultPage from "./pages/SearchResultPage";
 import ViewHistoryPage from "./pages/ViewHistoryPage";
 import SubscribedToPage from "./pages/SubscribedToPage";
+import ShortsPage from "./pages/ShortsPage";
+import AdminPage from "./pages/AdminPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import EditUser from "./pages/EditUser";
 
 const AppRoutes = () => {
   return (
@@ -34,6 +38,10 @@ const AppRoutes = () => {
       <Route path="/following" Component={SubscribedToPage} />
       <Route path="/watch-together" Component={WatchTogetherMainPage} />
       <Route path="/watch-together/:id" Component={WatchTogetherRoom} />
+      <Route path="/shorts" Component={ShortsPage} />
+      <Route path="/admin" Component={AdminPage}/>
+      <Route path="/not-found" Component={NotFoundPage}/>
+      <Route path="profile/:id/edit" Component={EditUser}/>
     </Routes>
   );
 };

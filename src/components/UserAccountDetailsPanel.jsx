@@ -1,14 +1,17 @@
 import ImageEditor from "./ImageEditor";
 import "../styles/UserAccountDetailsPanel.scss";
 import { FaPencil } from "react-icons/fa6";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
+import { FaTrash } from "react-icons/fa";
+import { UserContext } from "./contexts/UserProvider";
+import { useNavigate } from "react-router-dom";
+
 import { FaUpload } from "react-icons/fa";
 import isColorDark from "../functions/isColorDark";
 
-export default function UserAccountDetailsPanel({user})
+export default function UserAccountDetailsPanel({userData})
 {
-
     const [editing, setEditing] = useState(null);
     const [editingTheme,setEditingTheme]=useState(null);
     const [banner,setBanner]=useState(null);
@@ -17,23 +20,34 @@ export default function UserAccountDetailsPanel({user})
     const [secondaryColor,setSecondaryColor]=useState(null);
     let editDialog = null;
     let themeDialog=null;
+    const {user, setUser} = useContext(UserContext);
+    const navigate = useNavigate();
 
     const HandleNameUpdate= async ()=>{
         if(editing!="")
             {
-                user.username=editing
+                userData.username=editing
                 setEditing(null)
-                const response = await axios.post(`api/user/profile/update-username?newName=${user.username}`, {}, { withCredentials: true });
+                let URL = `api/user/profile/update-username?newName=${userData.username}`
+                if(user.roles.includes("Admin") && user.id!=userData.id){
+                    URL = `api/Admin/edit-user/${userData.id}?username=${userData.username}`
+                }
+
+                const response = await axios.post(URL, {}, { withCredentials: true });
                 if(response.status===200)
                 {
-                    window.alert(`Username changed successfully your new name is: ${user.username}`)
+                    window.alert(`Username changed successfully the new name is: ${userData.username}`)
                     location.reload();
-                    
+                }
+                else if(response.status === 204){
+                    window.alert("You succesfully changed this user's name!")
+                    location.reload();
                 }
                 else
                 {
                     window.alert("Username change is unsuccessful!")
                 }
+                
             }
             else
             {
@@ -41,6 +55,36 @@ export default function UserAccountDetailsPanel({user})
             }        
         
     }
+
+    const handleDelete = async () => {
+        const confirmation = window.confirm(
+            "Warning: Deleting your account is permanent! All your videos, comments, and data will be erased forever. This action CANNOT be undone."
+        );
+    
+        if (!confirmation) return;
+    
+        try {
+            let URL = `/api/User/profile/delete-account`
+            if(user.roles.includes("Admin") && user.id!=userData.id){
+                URL = `/api/Admin/delete-user/${userData.id}`
+            }
+            const response = await axios.delete(URL, {
+                withCredentials: true,
+            });
+    
+            if (response.status === 204) {
+                if(user.id === userData.id){
+                    setUser(null);
+                }
+                window.alert("Account has been successfully deleted.");
+                navigate("/");
+            }
+        } catch (error) {
+            console.error("Error deleting account:", error);
+            window.alert("An error occurred while deleting account. Please try again.");
+        }
+    };
+    
 
     const HandleThemeUpload= async ()=>{
         const formData=new FormData();
@@ -65,7 +109,7 @@ export default function UserAccountDetailsPanel({user})
     if (editing!=null) {
         editDialog = <div className="editBg">
             <div className="editUsernameWindow">
-            <h1>Editing <span className="titleEditUname">{user.username}</span>'s username</h1>
+            <h1>Editing <span className="titleEditUname">{userData.username}</span>'s username</h1>
             <div>
             <label>New username: </label>
             <input value={editing} onChange={e => setEditing(prev => {
@@ -118,6 +162,32 @@ export default function UserAccountDetailsPanel({user})
     return(
         
         <div className="DivDetailsPanel">
+                {editDialog}
+                <h2>Account details</h2>
+                <hr className="AccLine"></hr>
+            <div className="DivAccDetails">
+            <label>Channel name: </label>
+            <div className="UserAccNameEditDiv">
+            <p className="AccInfo">{userData.username}</p>
+            <button className="editUnsernameBtn" onClick={()=>setEditing(userData.username)}><FaPencil className="m-1"/></button>
+            </div>
+            </div>
+            <div className="DivAccDetails">
+            <label>Email address: </label>
+            <p className="AccInfo">{userData.email}</p>
+            </div>
+            <div className="DivAccDetails">
+            <label>Created at: </label>
+            <p className="AccInfo">{userData.created}</p>
+            </div>
+            <hr className="AccLine"></hr>
+            <div>
+            <h2>Edit avatar</h2>
+            <ImageEditor img={userData.avatar}/>
+            </div>
+            <button className="deleteBtn" onClick={handleDelete}>
+                <FaTrash className="m-1"/> Delete account
+            </button>
             {editDialog}
             {themeDialog}
             <h2 style={user.userTheme&&user.userTheme.secondaryColor?{color:user.userTheme.secondaryColor}:null}>Account details</h2>

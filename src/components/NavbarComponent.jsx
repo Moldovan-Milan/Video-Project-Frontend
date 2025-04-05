@@ -12,6 +12,8 @@ import {
   FaUser,
   FaHistory,
   FaUserFriends,
+  FaPhotoVideo,
+  FaUserTie,
 } from "react-icons/fa";
 import logOutUser from "../functions/logOutUser";
 import { UserContext } from "./contexts/UserProvider";
@@ -78,6 +80,15 @@ export default function NavbarComponent() {
                 </li>
               </>
             )}
+            <li className="nav-item mb-2">
+              <Link
+                to="/shorts"
+                className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
+              >
+                <FaPhotoVideo className="navIcon" />
+                Shorts
+              </Link>
+            </li>
             {user && (
               <>
                 <button
@@ -92,7 +103,8 @@ export default function NavbarComponent() {
                     to="/profile"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    <FaUser className="navIcon"/>My Profile
+                    <FaUser className="navIcon" />
+                    My Profile
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
@@ -100,7 +112,8 @@ export default function NavbarComponent() {
                     to="/chats"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    <FaMessage className="navIcon"/>Chats
+                    <FaMessage className="navIcon" />
+                    Chats
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
@@ -108,7 +121,8 @@ export default function NavbarComponent() {
                     to="/watch-together"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    <FaUsersRectangle className="navIcon"/>Watch Together
+                    <FaUsersRectangle className="navIcon" />
+                    Watch Together
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
@@ -116,7 +130,8 @@ export default function NavbarComponent() {
                     to="/watch-history"
                     className="nav-link px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    <FaHistory className="navIcon"/>Watch History
+                    <FaHistory className="navIcon" />
+                    Watch History
                   </Link>
                 </li>
                 <li className="nav-item mb-2">
@@ -124,9 +139,18 @@ export default function NavbarComponent() {
                     to="/following"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
                   >
-                    <FaUserFriends className="navIcon"/>Subscriptions
+                    <FaUserFriends className="navIcon" />
+                    Subscriptions
                   </Link>
                 </li>
+                {user && user.roles && user.roles.includes("Admin") &&
+                  <li>
+                    <Link to="/admin"
+                    className="nav-link  px-3 py-2 rounded-md text-sm font-medium">
+                      <FaUserTie className="navIcon"/>
+                      Admin Page
+                    </Link>
+                  </li>}
               </>
             )}
             <li className="nav-item mb-2">

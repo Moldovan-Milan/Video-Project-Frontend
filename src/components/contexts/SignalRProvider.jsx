@@ -7,7 +7,7 @@ const SignalRContext = createContext(null);
 export const SignalRProvider = ({ children }) => {
   const [connection, setConnection] = useState(null);
   const [messages, setMessages] = useState([]);
-  const {user} = useContext(UserContext)
+  const { user } = useContext(UserContext);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const connectToServer = async () => {
@@ -17,8 +17,7 @@ export const SignalRProvider = ({ children }) => {
     // }
 
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${BASE_URL}/chatHub`, {
-      })
+      .withUrl(`${BASE_URL}/chatHub`, {})
       .withAutomaticReconnect()
       .build();
 
@@ -68,6 +67,8 @@ export const SignalRProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       connectToServer();
+    } else if (connection) {
+      connection.stop();
     }
 
     return () => {

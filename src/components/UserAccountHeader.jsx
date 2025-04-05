@@ -49,7 +49,7 @@ export default function UserAccountHeader({ user }) {
           : null
       }>
         <FaUserPlus className="m-1" />
-        <p>Your subscribers: {user.followers}</p>
+        <p>Subscribers: {user.followers}</p>
       </div>
     </>
   );

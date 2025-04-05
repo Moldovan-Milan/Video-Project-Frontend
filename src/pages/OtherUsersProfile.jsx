@@ -1,23 +1,29 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState, useRef, useCallback } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 import { useParams } from "react-router-dom";
 import "../styles/OtherUsersProfile.scss";
 import { FaMailBulk, FaUserPlus, FaPencilAlt } from "react-icons/fa";
 import UserPageVideoItem from "../components/UserPageVideoItem";
 import { UserContext } from "../components/contexts/UserProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import loadingImg from "../assets/loading.gif";
 import isColorDark from "../functions/isColorDark";
 
 const OtherUsersProfile = () => {
   //TODO: pagination
   const { id } = useParams();
-  const [safeId] = useState(id)
+  const [safeId] = useState(id);
   const [userData, setUserData] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const {user} = useContext(UserContext)
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [hasMore, setHasMore] = useState(true);
@@ -50,41 +56,42 @@ const OtherUsersProfile = () => {
 
   useEffect(() => {
     const fetchVideos = async () => {
-        try {
-            const response = await axios.get(`/api/user/profile/${safeId}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
-            const { hasMore } = response.data;
-            const newVideos = response.data.user.videos;
+      try {
+        const response = await axios.get(
+          `/api/user/profile/${safeId}?pageNumber=${pageNumber}&pageSize=${pageSize}`
+        );
+        const { hasMore } = response.data;
+        const newVideos = response.data.user.videos;
 
-            setVideos((prevVideos) => {
-              const filteredNewVideos = newVideos.filter(
-                  (newVideo) => !prevVideos.some((video) => video.id === newVideo.id)
-              );
-              return [...prevVideos, ...filteredNewVideos];
-          });
-            setHasMore(hasMore);
-        } catch (error) {
-            console.error("Error fetching videos:", error);
-        }
+        setVideos((prevVideos) => {
+          const filteredNewVideos = newVideos.filter(
+            (newVideo) => !prevVideos.some((video) => video.id === newVideo.id)
+          );
+          return [...prevVideos, ...filteredNewVideos];
+        });
+        setHasMore(hasMore);
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+      }
     };
 
     fetchVideos();
   }, [pageNumber]);
 
-
   const lastVideoRef = useCallback(
-          (node) => {
-              console.log("Observer ref active!")
-              if (!hasMore) return;
-              if (observerRef.current) observerRef.current.disconnect();
-              observerRef.current = new IntersectionObserver((entries) => {
-                  if (entries[0].isIntersecting) {
-                      setPageNumber((prevPageNumber) => prevPageNumber + 1);
-                  }
-              });
-              if (node) observerRef.current.observe(node);
-          },
-          [hasMore]
-      );
+    (node) => {
+      console.log("Observer ref active!");
+      if (!hasMore) return;
+      if (observerRef.current) observerRef.current.disconnect();
+      observerRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observerRef.current.observe(node);
+    },
+    [hasMore]
+  );
 
   useEffect(() => {
     if (userData) {
@@ -92,10 +99,27 @@ const OtherUsersProfile = () => {
     }
   }, [userData]);
 
-  //TODO: new chat if it doesn't exist
-  const handleMessageSend = () => {
+  const handleMessageSend = async () => {
+    if (user) {
+      try {
+        const formData = new FormData();
+        formData.append("userId", userData.id);
+        const response = await axios.post(
+          `${BASE_URL}/api/chat/new-chat`,
+          formData,
+          { withCredentials: true }
+        );
 
-  }
+        if (response.status === 200) {
+          navigate(`/chat/${response.data}`);
+        } else if (response.status === 404) {
+          console.log("User not foud");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   const handleSubscribeClick = async () => {
     try {
@@ -115,7 +139,7 @@ const OtherUsersProfile = () => {
     }
   };
 
-  if (loading || !userData) return <img src={loadingImg} alt="loading"/>;
+  if (loading || !userData) return <img src={loadingImg} alt="loading" />;
 
   return (
     <div  style={
@@ -173,22 +197,37 @@ const OtherUsersProfile = () => {
                     </button>
                   )}
                 </td>
+                {user &&
+                  user.roles.includes("Admin") &&
+                  user.id !== userData.id && (
+                    <td>
+                      <Link to={`/profile/${userData.id}/edit`}>
+                        <button className="editUser font-bold py-2 px-4 rounded mb-2 navbar-btn m-1">
+                          <FaPencilAlt className="m-1" /> Edit this user's
+                          profile
+                        </button>
+                      </Link>
+                    </td>
+                  )}
               </tr>
             ) : (
               <tr>
                 <td>
-                  <button className="editVideosBtn" style={userData.userTheme&&userData.userTheme.secondaryColor?{backgroundColor:userData.userTheme.secondaryColor}:null}>
-                    <FaPencilAlt className="m-1"/><p>Edit Your Videos</p>
-                  </button>
+                  <Link to={"/profile"}>
+                    <button className="editVideosBtn" style={userData.userTheme&&userData.userTheme.secondaryColor?{backgroundColor:userData.userTheme.secondaryColor}:null}>
+                      <FaPencilAlt className="m-1" />
+                      <p>Edit Your Profile</p>
+                    </button>
+                  </Link>
                 </td>
                 <td>
                   <div className="subscribersLabel" style={userData.userTheme&&userData.userTheme.primaryColor?{backgroundColor:userData.userTheme.primaryColor}:null}>
-                    <FaUserPlus className="m-1"/><p>Your subscribers: {userData.followers}</p>
+                    <FaUserPlus className="m-1" />
+                    <p>Your subscribers: {userData.followers}</p>
                   </div>
                 </td>
               </tr>
             )}
-              
           </tbody>
         </table>
       </div>
@@ -197,7 +236,13 @@ const OtherUsersProfile = () => {
         <div className="flex flex-wrap justify-center -mx-2">
           {videos.map((video, id) => {
             const isLastVideo = id === videos.length - 1;
-            return(<UserPageVideoItem key={id} video={video} ref={isLastVideo ? lastVideoRef : null} />);
+            return (
+              <UserPageVideoItem
+                key={id}
+                video={video}
+                ref={isLastVideo ? lastVideoRef : null}
+              />
+            );
           })}
         </div>
       </div>
