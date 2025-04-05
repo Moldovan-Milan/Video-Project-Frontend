@@ -9,6 +9,8 @@ const EditUserRoles = () => {
   const [safeId, setSafeId] = useState(id);
   const [user, setUser] = useState()
   const navigate = useNavigate();
+  const [roles, setRoles] = useState([])
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchUser = async() => {
@@ -18,10 +20,15 @@ const EditUserRoles = () => {
                 const userData = response.data
                 setUser(userData);
             }
+            const rolesResponse = await axios.get(`api/user/get-roles/${safeId}`, {withCredentials: true})
+            console.log(rolesResponse)
+            if(response.status === 200){
+                setRoles(rolesResponse.data.roles)
+            }
         }
         catch(error){
-            navigate("/not-found")
             console.error(error)
+            navigate("/not-found")
         }
     }
     fetchUser()
@@ -30,7 +37,14 @@ const EditUserRoles = () => {
   return (
     <div>
         {user? (<div className='role-edit-container'>
-            <h1>{user.userName}</h1>
+            <img src={`${BASE_URL}/api/User/avatar/${user.avatarId}`}/>
+            <p>username: {user.userName}</p>
+            <p>ID: {user.id}</p>
+            <ul>
+                {roles.map((role, index) => (
+                    <li key={index}>{role}</li>
+                ))}
+            </ul>
         </div>):
             (<div>
                 <img src={loading}/>
