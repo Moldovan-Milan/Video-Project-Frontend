@@ -49,7 +49,7 @@ export default function UserAccountDetailsPanel({userData})
                     URL = `api/Admin/edit-user/${userData.id}?username=${userData.username}`
                 }
 
-                const response = await axios.post(URL, {}, { withCredentials: true });
+                const response = await axios.patch(URL, {}, { withCredentials: true });
                 if(response.status===200)
                 {
                     window.alert(`Username changed successfully the new name is: ${userData.username}`)
