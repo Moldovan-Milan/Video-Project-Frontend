@@ -24,8 +24,10 @@ export default function UserAccountDetailsPanel({userData})
     const navigate = useNavigate();
 
     const HandleNameUpdate= async ()=>{
+        console.log("NameUpdate")
         if(editing!="")
             {
+                console.log("editing not null")
                 userData.username=editing
                 setEditing(null)
                 let URL = `api/user/profile/update-username?newName=${userData.username}`
@@ -34,6 +36,7 @@ export default function UserAccountDetailsPanel({userData})
                 }
 
                 const response = await axios.post(URL, {}, { withCredentials: true });
+                console.log(response)
                 if(response.status===200)
                 {
                     window.alert(`Username changed successfully the new name is: ${userData.username}`)
@@ -129,13 +132,13 @@ export default function UserAccountDetailsPanel({userData})
     {
         themeDialog=<div className="editBg">
         <div className="editThemeWindow">
-        <h1><span className="titleEditUname">{user.username}</span>'s theme</h1>
+        <h1><span className="titleEditUname">{userData.username}</span>'s theme</h1>
         <label className="m-1">Background color: </label>
-        <input type="color" onChange={(e) => setBg(e.target.value)} defaultValue={user.userTheme&&user.userTheme.background?user.userTheme.background:null}/>
+        <input type="color" onChange={(e) => setBg(e.target.value)} defaultValue={userData.userTheme&&userData.userTheme.background?userData.userTheme.background:null}/>
         <label className="m-1">Primary color: </label>
-        <input type="color" onChange={(e) => setPrimaryColor(e.target.value)} defaultValue={user.userTheme&&user.userTheme.primaryColor?user.userTheme.primaryColor:null}/>
+        <input type="color" onChange={(e) => setPrimaryColor(e.target.value)} defaultValue={userData.userTheme&&userData.userTheme.primaryColor?userData.userTheme.primaryColor:null}/>
         <label className="m-1">Secondary color</label>
-        <input type="color" onChange={(e) => setSecondaryColor(e.target.value)} defaultValue={user.userTheme&&user.userTheme.secondaryColor?user.userTheme.secondaryColor:null}/>
+        <input type="color" onChange={(e) => setSecondaryColor(e.target.value)} defaultValue={userData.userTheme&&userData.userTheme.secondaryColor?userData.userTheme.secondaryColor:null}/>
         <label className="m-1">Upload a banner: </label>
         <div className="mb-4">
         <input
@@ -162,59 +165,36 @@ export default function UserAccountDetailsPanel({userData})
     return(
         
         <div className="DivDetailsPanel">
-                {editDialog}
-                <h2>Account details</h2>
-                <hr className="AccLine"></hr>
-            <div className="DivAccDetails">
-            <label>Channel name: </label>
-            <div className="UserAccNameEditDiv">
-            <p className="AccInfo">{userData.username}</p>
-            <button className="editUnsernameBtn" onClick={()=>setEditing(userData.username)}><FaPencil className="m-1"/></button>
-            </div>
-            </div>
-            <div className="DivAccDetails">
-            <label>Email address: </label>
-            <p className="AccInfo">{userData.email}</p>
-            </div>
-            <div className="DivAccDetails">
-            <label>Created at: </label>
-            <p className="AccInfo">{userData.created}</p>
-            </div>
-            <hr className="AccLine"></hr>
-            <div>
-            <h2>Edit avatar</h2>
-            <ImageEditor img={userData.avatar}/>
-            </div>
-            <button className="deleteBtn" onClick={handleDelete}>
-                <FaTrash className="m-1"/> Delete account
-            </button>
             {editDialog}
             {themeDialog}
-            <h2 style={user.userTheme&&user.userTheme.secondaryColor?{color:user.userTheme.secondaryColor}:null}>Account details</h2>
+            <h2 style={userData.userTheme&&userData.userTheme.secondaryColor?{color:userData.userTheme.secondaryColor}:null}>Account details</h2>
             <hr className="AccLine"></hr>
         <div className="DivAccDetails">
         <label>Channel name: </label>
         <div className="UserAccNameEditDiv">
-        <p className="AccInfo" style={user.userTheme&&user.userTheme.primaryColor?{color:user.userTheme.primaryColor}:null}>{user.username}</p>
-        <button className="editUnsernameBtn" onClick={()=>setEditing(user.username)} style={user.userTheme&&user.userTheme.secondaryColor?{backgroundColor:user.userTheme.secondaryColor}:null}><FaPencil className="m-1"/></button>
+        <p className="AccInfo" style={userData.userTheme&&userData.userTheme.primaryColor?{color:userData.userTheme.primaryColor}:null}>{userData.username}</p>
+        <button className="editUnsernameBtn" onClick={()=>setEditing(userData.username)} style={userData.userTheme&&userData.userTheme.secondaryColor?{backgroundColor:userData.userTheme.secondaryColor}:null}><FaPencil className="m-1"/></button>
         </div>
         </div>
         <div className="DivAccDetails">
         <label>Email address: </label>
-        <p className="AccInfo" style={user.userTheme&&user.userTheme.primaryColor?{color:user.userTheme.primaryColor}:null}>{user.email}</p>
+        <p className="AccInfo" style={userData.userTheme&&userData.userTheme.primaryColor?{color:userData.userTheme.primaryColor}:null}>{userData.email}</p>
         </div>
         <div className="DivAccDetails">
         <label>Created at: </label>
-        <p className="AccInfo" style={user.userTheme&&user.userTheme.primaryColor?{color:user.userTheme.primaryColor}:null}>{user.created}</p>
+        <p className="AccInfo" style={userData.userTheme&&userData.userTheme.primaryColor?{color:userData.userTheme.primaryColor}:null}>{userData.created}</p>
         </div>
-        <h2 style={user.userTheme&&user.userTheme.secondaryColor?{color:user.userTheme.secondaryColor}:null}>Choose your theme</h2>
+        <h2 style={userData.userTheme&&userData.userTheme.secondaryColor?{color:userData.userTheme.secondaryColor}:null}>Choose your theme</h2>
         <hr className="AccLine"></hr>
-        <button onClick={()=>setEditingTheme(true)} className="font-bold py-2 px-4 rounded mb-2 btnEditTheme m-1" style={user.userTheme&&user.userTheme.primaryColor?{backgroundColor:user.userTheme.primaryColor,color:(isColorDark(user.userTheme.primaryColor)?"white":"black")}:null}>Edit theme</button>
+        <button onClick={()=>setEditingTheme(true)} className="font-bold py-2 px-4 rounded mb-2 btnEditTheme m-1" style={userData.userTheme&&userData.userTheme.primaryColor?{backgroundColor:userData.userTheme.primaryColor,color:(isColorDark(userData.userTheme.primaryColor)?"white":"black")}:null}>Edit theme</button>
         
         <div>
-        <h2 style={user.userTheme&&user.userTheme.secondaryColor?{color:user.userTheme.secondaryColor}:null}>Edit your avatar</h2>
-        <ImageEditor img={user.avatar}/>
+        <h2 style={userData.userTheme&&userData.userTheme.secondaryColor?{color:userData.userTheme.secondaryColor}:null}>Edit your avatar</h2>
+        <ImageEditor img={userData.avatar}/>
         </div>  
+        <button className="deleteBtn" onClick={handleDelete}>
+                <FaTrash className="m-1"/> Delete account
+            </button>
         </div>
     )
 }

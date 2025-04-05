@@ -15,7 +15,7 @@ export const tryLoginUser = async (setUser, connectToServer, connection) => {
         followers: user.followers,
         avatarId: user.avatarId,
         created: user.created,
-        roles: roles.data,
+        roles: roles
       });
       if (!connection) {
         connectToServer();
