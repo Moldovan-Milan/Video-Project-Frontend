@@ -7,7 +7,7 @@ import "../styles/UserRoleEditPage.scss"
 const pageSize = 30
 const DEBOUNCE_DELAY = 250
 
-const UserRoleEditPage = () => {
+const UserSearchPage = () => {
   const [users, setUsers] = useState([])
   const [hasMore, setHasMore] = useState(true)
   const [pageNumber, setPageNumber] = useState(1)
@@ -159,4 +159,4 @@ const UserRoleEditPage = () => {
   )
 }
 
-export default UserRoleEditPage
+export default UserSearchPage
