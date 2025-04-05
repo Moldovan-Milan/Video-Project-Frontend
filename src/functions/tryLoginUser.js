@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const tryLoginUser = async (setUser, connectToServer) => {
   try {
-    const response = await axios.post("/api/user/refresh-jwt-token", {}, { withCredentials: true });
+    const response = await axios.get("/api/user/refresh-jwt-token", { withCredentials: true });
 
     if (response.status === 200) {
       const { userDto } = response.data;
@@ -14,7 +14,7 @@ export const tryLoginUser = async (setUser, connectToServer) => {
         followers: userDto.followers,
         avatarId: userDto.avatarId,
         created: userDto.created,
-        roles: roles.data
+        roles: roles
       });
       connectToServer();
     }
