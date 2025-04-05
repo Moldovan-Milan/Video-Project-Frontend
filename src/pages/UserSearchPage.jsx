@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import axios from "axios"
 import { FaIdBadge, FaSearch } from "react-icons/fa"
+import { Link } from 'react-router-dom'
 import UserItem from '../components/UserItem'
 import "../styles/UserRoleEditPage.scss"
 
@@ -149,9 +150,13 @@ const UserSearchPage = () => {
       <div className="user-list-container flex flex-col gap-4">
         {users.map((user, index) => {
           if (users.length === index + 1 && !debouncedUserId && !debouncedUsername) {
-            return <div ref={lastUserRef} key={user.id}><UserItem user={user} /></div>
+            return <div ref={lastUserRef} key={user.id}>
+              <Link to={`/admin/edit-user-roles/${user.id}`}>
+                <UserItem user={user} />
+              </Link>
+              </div>
           } else {
-            return <UserItem key={user.id} user={user} />
+            return <Link key={user.id} to={`/admin/edit-user-roles/${user.id}`}><UserItem  user={user}/></Link>
           }
         })}
       </div>

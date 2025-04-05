@@ -13,6 +13,7 @@ import UserPageVideoItem from "../components/UserPageVideoItem";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate, Link } from "react-router-dom";
 import loadingImg from "../assets/loading.gif";
+import getRoles from "../functions/getRoles";
 
 const OtherUsersProfile = () => {
   //TODO: pagination
@@ -29,6 +30,19 @@ const OtherUsersProfile = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const pageSize = 30;
   const observerRef = useRef(null);
+
+  const [roles, setRoles] = useState([])
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      const fetchedRoles = await getRoles(user.id);
+      setRoles(fetchedRoles);
+    };
+  
+    if (user) {
+      loadRoles();
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -186,7 +200,7 @@ const OtherUsersProfile = () => {
                   )}
                 </td>
                 {user &&
-                  user.roles.includes("Admin") &&
+                  roles.includes("Admin") &&
                   user.id !== userData.id && (
                     <td>
                       <Link to={`/profile/${userData.id}/edit`}>

@@ -16,12 +16,14 @@ import "../styles/SingleVideo.scss";
 import CommentSection from "../components/CommentSection";
 import RecommendedVideos from "../components/RecommendedVideos";
 import getViewText from "../functions/getViewText";
+import getRoles from "../functions/getRoles";
 
 const SingleVideo = () => {
   const { id } = useParams();
   const [safeId] = useState(id)
   const { user } = useContext(UserContext);
-
+  
+  const[roles, setRoles] = useState([])
   const [videoData, setVideoData] = useState(null);
   const [likeValue, setLikeValue] = useState("none");
   const [isFollowedByUser, setIsFollowedByUser] = useState(false);
@@ -31,6 +33,17 @@ const SingleVideo = () => {
 
   const [recomendedVideos, setRecomendedVideos] = useState(null);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      const fetchedRoles = await getRoles(user.id);
+      setRoles(fetchedRoles);
+    };
+  
+    if (user) {
+      loadRoles();
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,7 +167,7 @@ const SingleVideo = () => {
           <h5 className="username">{videoData.user.userName}</h5>
         </Link>
         
-        {user && (user.id === videoData.user.id || user.roles.includes("Admin")) && (
+        {user && (user.id === videoData.user.id || roles.includes("Admin")) && (
           <Link to={`/video/${id}/edit`}>
             <button className="editBtn">
               Edit Video <FaPencilAlt className="m-2" />

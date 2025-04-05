@@ -3,15 +3,28 @@ import "../styles/CommentItem.scss";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
 import { FaPencil, FaX } from "react-icons/fa6";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserProvider";
 import axios from "axios";
+import getRoles from "../functions/getRoles";
 
 export default function CommentItem({ comment }) {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const {user} = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState("");
+  const [roles, setRoles] = useState([])
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      const fetchedRoles = await getRoles(user.id);
+      setRoles(fetchedRoles);
+    };
+  
+    if (user) {
+      loadRoles();
+    }
+  }, [user]);
 
   const handleCommentEdit = () => {
     setIsEditing(true)
@@ -100,7 +113,7 @@ export default function CommentItem({ comment }) {
             {!isEditing ? (
             <div className="content-container">
               <p className="comment-content">{comment.content}</p>
-                {user && (user.id === comment.user.id || user.roles.includes("Admin")) && 
+                {user && (user.id === comment.user.id || roles.includes("Admin")) && 
                   <div className="button-container">
                     <button className="edit-button" onClick={handleCommentEdit}><FaPencil className="m-1"/></button>
                     <button className="delete-button" onClick={handleDelete}><FaTrash className="m-1"/>Delete</button>
