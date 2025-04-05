@@ -7,7 +7,7 @@ const EditUser = () => {
   const { id } = useParams();
   const [safeId] = useState(id)
   const [pageNumber, setPageNumber] = useState(1);
-    const [userVideos,setUserVideos]=useState([]);
+  const [userVideos,setUserVideos]=useState([]);
   const pageSize = 30;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 

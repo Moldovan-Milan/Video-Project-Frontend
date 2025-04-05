@@ -13,6 +13,14 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.item-outer{
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.item-outer:hover{
+  transform: scale(1.05);
+}
+
 /*a videó hosszát megjelenítő div*/
 .video-length{
   position: absolute;
@@ -64,6 +72,7 @@
   translate: -50% -50%;
   border-radius: 10px;
   animation: 3s spin linear infinite;
+  display: block;
 }
 
 .border-animacio:hover::before {
@@ -94,6 +103,7 @@
   border-radius: 10px;
   animation: 3s spin linear infinite;
   z-index: -3;
+  display: none;
 }
 
 .border-animacio::before {
