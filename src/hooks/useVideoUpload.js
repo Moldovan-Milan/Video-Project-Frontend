@@ -113,7 +113,7 @@ export const useVideoUpload = () => {
     const generatedFileName = Date.now();
     // Megkérdezzük, hogy van-e elég hely a videóhoz
     if (!canUploadVideo(generatedFileName)) {
-      setError("The server doesn't has enough storage for the video");
+      setError("There is not enough space on the server for the video.");
       return;
     }
 
