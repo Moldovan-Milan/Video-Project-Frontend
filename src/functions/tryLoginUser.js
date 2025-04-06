@@ -2,19 +2,19 @@ import axios from "axios";
 
 export const tryLoginUser = async (setUser, connectToServer, connection) => {
   try {
-    const response = await axios.get("/api/user/refresh-jwt-token", {
+    const response = await axios.gemt("/api/user/refresh-jwt-token", {
       withCredentials: true,
     });
 
     if (response.status === 200) {
       const { user } = response.data;
       setUser({
-        id: userDto.id,
-        email: userDto.email,
-        userName: userDto.userName,
-        followers: userDto.followers,
-        avatarId: userDto.avatarId,
-        created: userDto.created,
+        id: user.id,
+        email: user.email,
+        userName: user.userName,
+        followers: user.followers,
+        avatarId: user.avatarId,
+        created: user.created,
       });
       if (!connection) {
         connectToServer();
