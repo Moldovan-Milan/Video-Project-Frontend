@@ -56,11 +56,6 @@ function App() {
     }
   }, [user]);
 
-  useEffect(() => {
-    connectToServer();
-    console.log(user);
-  }, [user]);
-
   return (
     <BrowserRouter>
       <SearchBar />

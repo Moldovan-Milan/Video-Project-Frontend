@@ -20,12 +20,11 @@ export const tryLoginUser = async (setUser, connectToServer, connection) => {
         connectToServer();
       }
       return user;
-    } else if (response.status === 401 || response.status === 400) {
+    } else if (response.status === 401) {
       setUser(null);
-      console.log("Remove user context");
     }
-  } catch (error) {
-    console.error("Error refreshing token:", error);
+  } catch {
+    //console.log("Error refreshing token:", error);
     setUser(null);
     return null;
   }
