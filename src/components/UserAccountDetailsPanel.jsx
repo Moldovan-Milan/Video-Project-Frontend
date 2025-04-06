@@ -110,6 +110,10 @@ export default function UserAccountDetailsPanel({userData})
             window.alert("An error occurred while deleting account. Please try again.");
         }
     };
+
+    const handleVerificationRequest = () => {
+        setHasActiveRequest(true);
+    };
     
 
     const HandleThemeUpload= async ()=>{
