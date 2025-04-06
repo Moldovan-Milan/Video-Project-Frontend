@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useWTSignalR } from "../components/contexts/WatchTogetherSingalRProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../components/contexts/UserProvider";
 import VideoPlayerWrapper from "../components/VideoPlayerWrapper";
@@ -10,12 +9,13 @@ import UserList from "../components/UserList";
 import JoinRequests from "../components/JoinRequests";
 import axios from "axios";
 import "../styles/WatchTogetherRoom.scss";
+import useWatchTogetherSignalR from "../hooks/useWatchTogetherConnection";
 
 const WatchTogetherRoom = () => {
   const navigate = useNavigate();
-  const connection = useWTSignalR();
+  const connection = useWatchTogetherSignalR();
   const { id } = useParams();
-  const [safeId] = useState(id);
+  const [safeId, setSafeId] = useState(id);
   const { user } = useContext(UserContext);
 
   const [isHost, setIsHost] = useState(false);
@@ -77,6 +77,7 @@ const WatchTogetherRoom = () => {
 
   useEffect(() => {
     if (connection?.state !== "Connected" || !user) return;
+    setSafeId(id);
 
     const eventHandlers = {
       JoinedToRoom: setUsers,
@@ -127,6 +128,7 @@ const WatchTogetherRoom = () => {
     return () => {
       Object.keys(eventHandlers).forEach((event) => connection.off(event));
       connection.invoke("LeaveRoom", safeId, user.id).catch(console.error);
+      connection.stop();
     };
   }, [connection, user, safeId, navigate]);
 
@@ -144,7 +146,7 @@ const WatchTogetherRoom = () => {
           </div>
         )}
         <VideoPlayerWrapper
-          {...{ isInRoom, currentVideo, isPlaying, isHost, safeId }}
+          {...{ isInRoom, currentVideo, isPlaying, isHost, id, connection }}
         />
         <Playlist
           {...{

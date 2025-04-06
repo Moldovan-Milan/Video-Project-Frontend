@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useWTSignalR } from "./contexts/WatchTogetherSingalRProvider";
 import Hls from "hls.js";
 import "../styles/WatchTogetherVideoPlayer.scss";
 
 const SYNC_TIME = 2000; // 2 sec
 
-const WatchTogetherVideoPlayer = ({ roomId, videoUrl, isHost, isPlaying }) => {
+const WatchTogetherVideoPlayer = ({
+  roomId,
+  videoUrl,
+  isHost,
+  isPlaying,
+  connection,
+}) => {
   const videoRef = useRef(null);
-  const connection = useWTSignalR();
   const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
