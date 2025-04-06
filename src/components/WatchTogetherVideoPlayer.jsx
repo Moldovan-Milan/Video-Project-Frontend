@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 import "../styles/WatchTogetherVideoPlayer.scss";
 
-const SYNC_TIME = 2000; // 2 sec
+const SYNC_TIME = 5000; // 5 sec
 
 const WatchTogetherVideoPlayer = ({
   roomId,
