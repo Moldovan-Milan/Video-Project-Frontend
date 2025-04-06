@@ -95,7 +95,7 @@ export const useVideoUpload = () => {
     });
 
     if (response.status === 200) {
-      return data;
+      return response.data;
     } else {
       return false;
     }
