@@ -25,6 +25,7 @@ export default function UserAccountDetailsPanel({userData})
     let themeDialog=null;
     const {user, setUser} = useContext(UserContext);
     const [roles, setRoles] = useState([])
+    const [userRoles, setUserRoles] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,6 +40,8 @@ export default function UserAccountDetailsPanel({userData})
         const loadRoles = async () => {
             const fetchedRoles = await getRoles(user.id);
             setRoles(fetchedRoles);
+            const fetchedUserRoles = await getRoles(userData.id);
+            setUserRoles(fetchedUserRoles)
           };
         
           if (user) {
@@ -128,7 +131,6 @@ export default function UserAccountDetailsPanel({userData})
             {
                 window.alert("Custom theme uploaded successfully!");
                 location.reload();
-                
             }
             else
                 {
@@ -213,6 +215,7 @@ export default function UserAccountDetailsPanel({userData})
         </div>
             {roles.includes("Admin") && 
                 !hasActiveRequest &&
+                !userRoles.includes("Verified") &&
                 <button>Verify User</button>
             }
 
