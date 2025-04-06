@@ -14,15 +14,19 @@ import {
   FaUserFriends,
   FaPhotoVideo,
   FaUserTie,
+  FaUpload,
 } from "react-icons/fa";
 import logOutUser from "../functions/logOutUser";
 import { UserContext } from "./contexts/UserProvider";
 import { useSignalR } from "./contexts/SignalRProvider";
 import { FaMessage, FaUsersLine, FaUsersRectangle } from "react-icons/fa6";
+import axios from "axios";
+import getRoles from "../functions/getRoles";
 
 export default function NavbarComponent() {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState("light");
+  const [roles, setRoles] = useState([]);
   const { user, setUser } = useContext(UserContext);
   //const { socket } = useWebSocket();
   const navigate = useNavigate();
@@ -34,6 +38,17 @@ export default function NavbarComponent() {
     document.documentElement.classList.toggle("dark", newTheme === "dark");
     localStorage.setItem("theme", newTheme);
   };
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      const fetchedRoles = await getRoles(user.id);
+      setRoles(fetchedRoles);
+    };
+  
+    if (user) {
+      loadRoles();
+    }
+  }, [user]);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
@@ -143,9 +158,9 @@ export default function NavbarComponent() {
                     Subscriptions
                   </Link>
                 </li>
-                {user && user.roles && user.roles.includes("Admin") &&
+                {user && roles && roles.includes("Admin") &&
                   <li>
-                    <Link to="/admin"
+                    <Link to="/admin/verification-list"
                     className="nav-link  px-3 py-2 rounded-md text-sm font-medium">
                       <FaUserTie className="navIcon"/>
                       Admin Page
@@ -159,7 +174,7 @@ export default function NavbarComponent() {
                 id="upload-button"
                 className="px-3 py-2 rounded-md text-sm font-medium"
               >
-                <FaPlusCircle />
+                <p style={{display: "flex", alignItems: "center"}}><FaUpload className="m-1"/> Upload Video</p>
               </Link>
             </li>
             <li className="nav-item mb-2">

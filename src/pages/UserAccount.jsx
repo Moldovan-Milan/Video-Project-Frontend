@@ -18,6 +18,7 @@ const UserAccount = () => {
   const { user } = useContext(UserContext);
 
   const [userData, setUserData] = useState({
+    id: "",
     username: "",
     email: "",
     avatar: "",
@@ -46,6 +47,7 @@ const UserAccount = () => {
             { year: "numeric", month: "2-digit", day: "2-digit" }
           );
           setUserData({
+            id: data.id,
             username: data.userName,
             email: data.email,
             avatar: `${BASE_URL}/api/User/avatar/${data.avatarId}`,

@@ -41,7 +41,6 @@ const Login = () => {
       const { userDto } = response.data;
       console.log(userDto);
 
-      const roles = await axios.get("api/user/get-roles", {withCredentials: true});
       setUser({
         id: userDto.id,
         email: userDto.email,
@@ -49,7 +48,6 @@ const Login = () => {
         followers: userDto.followers,
         avatarId: userDto.avatarId,
         created: userDto.created,
-        roles: roles.data
       });
 
       navigate("/");
@@ -69,7 +67,7 @@ const Login = () => {
 
   //TODO: forgot password
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center">
       <div className="bg-green-600 p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <form onSubmit={handleSubmit}>

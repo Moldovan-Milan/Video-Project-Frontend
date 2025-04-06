@@ -11,6 +11,7 @@ import {
   FaVideo,
 } from "react-icons/fa";
 import "../styles/EditVideoPage.scss";
+import getRoles from "../functions/getRoles";
 
 const EditVideoPage = () => {
   const [videoData, setVideoData] = useState({ title: "", description: "" });
@@ -21,6 +22,19 @@ const EditVideoPage = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  const [roles, setRoles] = useState([])
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      const fetchedRoles = await getRoles(user.id);
+      setRoles(fetchedRoles);
+    };
+  
+    if (user) {
+      loadRoles();
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +53,7 @@ const EditVideoPage = () => {
       navigate("/login");
       return;
     }
-    if (videoData.userId && (user.id !== videoData.userId && !user.roles.includes("Admin"))) {
+    if (videoData.userId && (user.id !== videoData.userId && !roles.includes("Admin"))) {
       navigate(`/video/${id}`);
       return;
     }

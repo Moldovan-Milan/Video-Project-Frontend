@@ -14,6 +14,7 @@ import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate, Link } from "react-router-dom";
 import loadingImg from "../assets/loading.gif";
 import isColorDark from "../functions/isColorDark";
+import getRoles from "../functions/getRoles";
 
 const OtherUsersProfile = () => {
   //TODO: pagination
@@ -32,6 +33,19 @@ const OtherUsersProfile = () => {
   const observerRef = useRef(null);
   const [primaryColor,setPrimaryColor]=useState(null);
   const [secondaryColor,setSecondaryColor]=useState(null);
+
+  const [roles, setRoles] = useState([])
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      const fetchedRoles = await getRoles(user.id);
+      setRoles(fetchedRoles);
+    };
+  
+    if (user) {
+      loadRoles();
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -198,7 +212,7 @@ const OtherUsersProfile = () => {
                   )}
                 </td>
                 {user &&
-                  user.roles.includes("Admin") &&
+                  roles.includes("Admin") &&
                   user.id !== userData.id && (
                     <td>
                       <Link to={`/profile/${userData.id}/edit`}>
