@@ -129,7 +129,7 @@ const ImageEditor = ({ img }) => {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
-        style={{ border: "1px solid black" }}
+        style={{ border: "1px solid black", borderRadius:"100%" }}
       />
       <div>
         <input

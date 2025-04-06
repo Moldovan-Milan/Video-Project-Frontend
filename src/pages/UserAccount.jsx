@@ -7,6 +7,7 @@ import UserAccountDetailsPanel from "../components/UserAccountDetailsPanel";
 import UserAccountVideosPanel from "../components/UserAccountVideosPanel";
 import { UserContext } from "../components/contexts/UserProvider";
 import UserEditComponent from "../components/UserEditComponent";
+import isColorDark from "../functions/isColorDark";
 
 const UserAccount = () => {
   //TODO: Ha be vagyunk jelentkezve, és a SingleVideo-nál rányomunk a saját csatornánkra, ne az OtherUsersProfile-ra dobjon, hanem irányítson át ide
@@ -14,7 +15,7 @@ const UserAccount = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [userVideos,setUserVideos]=useState([]);
   const pageSize = 30;
-  const {user} = useContext(UserContext)
+  const { user } = useContext(UserContext);
 
   const [userData, setUserData] = useState({
     id: "",
@@ -23,9 +24,10 @@ const UserAccount = () => {
     avatar: "",
     followers: 0,
     created: "",
+    userTheme: {},
   });
 
-
+  const [switchPanel, setSwitchPanel] = useState("Videos");
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -33,9 +35,12 @@ const UserAccount = () => {
     const fetchUser = async () => {
       if (user) {
         try {
-          const { data } = await axios.get(`/api/user/profile?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
-            withCredentials: true
-          });
+          const { data } = await axios.get(
+            `/api/user/profile?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+            {
+              withCredentials: true,
+            }
+          );
 
           const formattedDate = new Date(data.created).toLocaleDateString(
             "hu-HU",
@@ -48,8 +53,10 @@ const UserAccount = () => {
             avatar: `${BASE_URL}/api/User/avatar/${data.avatarId}`,
             followers: data.followersCount,
             created: formattedDate,
+            userTheme: data.userTheme,
           });
-          setUserVideos(data.videos)
+          setUserVideos(data.videos);
+          console.log(userData);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -64,7 +71,7 @@ const UserAccount = () => {
     }
   }, [userData]);
 
-  return (  
+  return (
     <UserEditComponent userData={userData} userVideos={userVideos}/>
   );
 };
