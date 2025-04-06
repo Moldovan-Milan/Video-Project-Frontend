@@ -212,6 +212,7 @@ export default function UserAccountDetailsPanel({userData})
         <p className="AccInfo" style={userData.userTheme&&userData.userTheme.primaryColor?{color:userData.userTheme.primaryColor}:null}>{userData.created}</p>
         </div>
             {roles.includes("Admin") && 
+                !hasActiveRequest &&
                 <button>Verify User</button>
             }
 
