@@ -15,11 +15,21 @@ import {
   FaPhotoVideo,
   FaUserTie,
   FaUpload,
+  FaEyeSlash,
+  FaEyeDropper,
+  FaRegEye,
+  FaVideo,
 } from "react-icons/fa";
 import logOutUser from "../functions/logOutUser";
 import { UserContext } from "./contexts/UserProvider";
 import { useSignalR } from "./contexts/SignalRProvider";
-import { FaMessage, FaUsersLine, FaUsersRectangle } from "react-icons/fa6";
+import {
+  Fa42Group,
+  FaEye,
+  FaMessage,
+  FaUsersLine,
+  FaUsersRectangle,
+} from "react-icons/fa6";
 import axios from "axios";
 import getRoles from "../functions/getRoles";
 
@@ -44,7 +54,7 @@ export default function NavbarComponent() {
       const fetchedRoles = await getRoles(user.id);
       setRoles(fetchedRoles);
     };
-  
+
     if (user) {
       loadRoles();
     }
@@ -104,6 +114,15 @@ export default function NavbarComponent() {
                 Shorts
               </Link>
             </li>
+            <li className="nav-item mb-2">
+              <Link
+                to="/livestream"
+                className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
+              >
+                <FaEye className="navIcon" />
+                Watch Streams
+              </Link>
+            </li>
             {user && (
               <>
                 <button
@@ -142,6 +161,15 @@ export default function NavbarComponent() {
                 </li>
                 <li className="nav-item mb-2">
                   <Link
+                    to="/go-live"
+                    className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    <FaVideo className="navIcon" />
+                    Go live
+                  </Link>
+                </li>
+                <li className="nav-item mb-2">
+                  <Link
                     to="/watch-history"
                     className="nav-link px-3 py-2 rounded-md text-sm font-medium"
                   >
@@ -158,14 +186,17 @@ export default function NavbarComponent() {
                     Subscriptions
                   </Link>
                 </li>
-                {user && roles && roles.includes("Admin") &&
+                {user && roles && roles.includes("Admin") && (
                   <li>
-                    <Link to="/admin/verification-list"
-                    className="nav-link  px-3 py-2 rounded-md text-sm font-medium">
-                      <FaUserTie className="navIcon"/>
+                    <Link
+                      to="/admin/verification-list"
+                      className="nav-link  px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      <FaUserTie className="navIcon" />
                       Admin Page
                     </Link>
-                  </li>}
+                  </li>
+                )}
               </>
             )}
             <li className="nav-item mb-2">
@@ -174,7 +205,9 @@ export default function NavbarComponent() {
                 id="upload-button"
                 className="px-3 py-2 rounded-md text-sm font-medium"
               >
-                <p style={{display: "flex", alignItems: "center"}}><FaUpload className="m-1"/> Upload Video</p>
+                <p style={{ display: "flex", alignItems: "center" }}>
+                  <FaUpload className="m-1" /> Upload Video
+                </p>
               </Link>
             </li>
             <li className="nav-item mb-2">
