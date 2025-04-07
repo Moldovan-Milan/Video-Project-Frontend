@@ -20,17 +20,16 @@ const ChatPanel = ({ messages, onMessageSend }) => {
       <div className="messages-box">
         {messages.length > 0 ? (
           messages.map((msg, index) => (
-            <div key={index} className="message-item">
-              <img
+                <div key={index} className="message-bubble flex">
+                <img
                 src={`https://localhost:7124/api/User/avatar/${msg.sender.avatarId}`}
                 alt={msg.sender.userName}
                 className="sender-avatar"
               />
-              <div>
-                <span className="sender-name">{msg.sender.userName}</span>
-                <div className="message-bubble">{msg.content}</div>
-              </div>
-            </div>
+              <div className="flex flex-col">
+              <span className="sender-name">{msg.sender.userName}</span>
+                  <p className="message-text">{msg.content}</p></div>
+                  </div>
           ))
         ) : (
           <p className="no-messages">No messages yet</p>
