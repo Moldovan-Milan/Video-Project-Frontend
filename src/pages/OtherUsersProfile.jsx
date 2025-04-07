@@ -15,6 +15,7 @@ import { useNavigate, Link } from "react-router-dom";
 import loadingImg from "../assets/loading.gif";
 import isColorDark from "../functions/isColorDark";
 import getRoles from "../functions/getRoles";
+import OtherUsersProfileHeader from "../components/OtherUsersProfileHeader";
 
 const OtherUsersProfile = () => {
   //TODO: pagination
@@ -161,28 +162,15 @@ const OtherUsersProfile = () => {
         ? {
             background: userData.userTheme.background,
             color: (isColorDark(userData.userTheme.background))?"white":"black",
-            height:"85vh",
+            height:"100%",
             borderRadius:"20px"
           }
         : null
     }>
       <div>
+        <OtherUsersProfileHeader userData={userData}/>
         <table className="user-properties-table">
           <tbody>
-            <tr>
-              <td rowSpan={2}>
-                <img
-                  className="avatar-picture"
-                  src={`${BASE_URL}/api/User/avatar/${userData.avatarId}`}
-                  alt={userData.username}
-                />
-              </td>
-              <td colSpan={2}>
-                <h1 className="user-username text-center" style={userData.userTheme&&userData.userTheme.primaryColor?{color:userData.userTheme.primaryColor}:null}>
-                  {userData.username}
-                </h1>
-              </td>
-            </tr>
             {!(user && user.id === userData.id) ? (
               <tr>
                 <td>
@@ -254,6 +242,7 @@ const OtherUsersProfile = () => {
               <UserPageVideoItem
                 key={id}
                 video={video}
+                color={(userData.userTheme&&userData.userTheme.secondaryColor)?userData.userTheme.secondaryColor:null}
                 ref={isLastVideo ? lastVideoRef : null}
               />
             );
