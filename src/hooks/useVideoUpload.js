@@ -85,12 +85,35 @@ export const useVideoUpload = () => {
     }
   };
 
+  const canUploadVideo = async (fileName) => {
+    const formData = new FormData();
+    formData.append("videoSize", file.size);
+    formData.append("fileName", fileName);
+    console.log(fileName);
+    const response = await axios.post("/api/video/can-upload", formData, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return false;
+    }
+  };
+
   // Feltöltési folyamat kezelése
   const handleUpload = async () => {
     if (!file || !titleRef.current.value) return;
 
     if (file.size > MAX_VIDEO_SIZE) {
-      setError(`Video can't be larger than ${MAX_VIDEO_SIZE/1048576} MB`);
+      setError(`Video can't be larger than ${MAX_VIDEO_SIZE / 1048576} MB`);
+      return;
+    }
+
+    const generatedFileName = Date.now();
+    // Megkérdezzük, hogy van-e elég hely a videóhoz
+    if (!canUploadVideo(generatedFileName)) {
+      setError("There is not enough space on the server for the video.");
       return;
     }
 
@@ -100,7 +123,6 @@ export const useVideoUpload = () => {
     // Darabszámok kiszámítása
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
 
-    const generatedFileName = Date.now();
     setFileName(generatedFileName);
 
     const extension = file.name.split(".").pop();

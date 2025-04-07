@@ -24,20 +24,20 @@ const UploadVideo = () => {
     handleUpload,
   } = useVideoUpload();
 
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
   const [roles, setRoles] = useState([]);
   const [hasActiveRequest, setHasActiveRequest] = useState(null);
 
   useEffect(() => {
-    document.title = "Upload video | Omega Stream"
-  }, [])
+    document.title = "Upload video | Omega Stream";
+  }, []);
 
   useEffect(() => {
     const loadRoles = async () => {
       const fetchedRoles = await getRoles(user.id);
       setRoles(fetchedRoles);
     };
-  
+
     if (user) {
       loadRoles();
     }
@@ -53,7 +53,7 @@ const UploadVideo = () => {
 
   const handleVerificationRequest = () => {
     setHasActiveRequest(true);
-};
+  };
 
   if (!user) {
     return (
@@ -70,31 +70,33 @@ const UploadVideo = () => {
         </Link>
       </div>
     );
-  }
-
-  else if(!roles.includes("Verified") && !roles.includes("Admin")){
+  } else if (!roles.includes("Verified") && !roles.includes("Admin")) {
     return (
       <div className="flex items-center justify-center min-h-[70vh] px-4 rounded-md">
-        <div className="shadow-xl rounded-2xl p-8 max-w-md w-full text-center border" style={{backgroundColor: "darkcyan", borderRadius: "10px"}}>
+        <div
+          className="shadow-xl rounded-2xl p-8 max-w-md w-full text-center border"
+          style={{ backgroundColor: "darkcyan", borderRadius: "10px" }}
+        >
           <div className="flex justify-center mb-4 text-4xl">
             <FaShieldAlt />
           </div>
-          <h1 className="text-2xl font-extrabold">
-            You Are Not Verified
-          </h1>
+          <h1 className="text-2xl font-extrabold">You Are Not Verified</h1>
           <p className="mb-4">
             To upload videos, you need to be verified first.
           </p>
-    
+
           {hasActiveRequest !== null && (
             <>
               {hasActiveRequest ? (
                 <p className="font-medium">
-                  Your verification request has been sent! <br /> Please wait until it’s reviewed.
+                  Your verification request has been sent! <br /> Please wait
+                  until it’s reviewed.
                 </p>
               ) : (
                 <div className="mt-4">
-                  <VerificationRequestButton onRequestSent={handleVerificationRequest} />
+                  <VerificationRequestButton
+                    onRequestSent={handleVerificationRequest}
+                  />
                 </div>
               )}
             </>

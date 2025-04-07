@@ -32,38 +32,46 @@ const OtherUsersProfile = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const pageSize = 30;
   const observerRef = useRef(null);
-  const [primaryColor,setPrimaryColor]=useState(null);
-  const [secondaryColor,setSecondaryColor]=useState(null);
+  const [primaryColor, setPrimaryColor] = useState(null);
+  const [secondaryColor, setSecondaryColor] = useState(null);
 
-  const [roles, setRoles] = useState([])
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     const loadRoles = async () => {
       const fetchedRoles = await getRoles(user.id);
       setRoles(fetchedRoles);
     };
-  
+
+    const getSubscibeValue = async () => {
+      const { data } = await axios.get(`api/video/is-user-subscribed/${id}`, {
+        withCredentials: true,
+      });
+      setIsSubscribed(data);
+    };
+
     if (user) {
       loadRoles();
+      getSubscibeValue();
     }
   }, [user]);
 
   useEffect(() => {
     const fetchUser = async () => {
-        try {
-            const { data } = await axios.get(`/api/user/profile/${safeId}`);
-            setUserData({
-                id: data.user.id,
-                username: data.user.userName,
-                avatarId: data.user.avatarId,
-                followers: data.user.followersCount,
-                userTheme:data.user.userTheme
-            });
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-            setLoading(false);
-        }
+      try {
+        const { data } = await axios.get(`/api/user/profile/${safeId}`);
+        setUserData({
+          id: data.user.id,
+          username: data.user.userName,
+          avatarId: data.user.avatarId,
+          followers: data.user.followersCount,
+          userTheme: data.user.userTheme,
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setLoading(false);
+      }
     };
 
     fetchUser();
@@ -157,16 +165,20 @@ const OtherUsersProfile = () => {
   if (loading || !userData) return <img src={loadingImg} alt="loading" />;
 
   return (
-    <div  style={
-      userData.userTheme&& userData.userTheme.background
-        ? {
-            background: userData.userTheme.background,
-            color: (isColorDark(userData.userTheme.background))?"white":"black",
-            height:"100%",
-            borderRadius:"20px"
-          }
-        : null
-    }>
+    <div
+      style={
+        userData.userTheme && userData.userTheme.background
+          ? {
+              background: userData.userTheme.background,
+              color: isColorDark(userData.userTheme.background)
+                ? "white"
+                : "black",
+              height: "100%",
+              borderRadius: "20px",
+            }
+          : null
+      }
+    >
       <div>
         <OtherUsersProfileHeader userData={userData}/>
         <table className="user-properties-table">
@@ -174,7 +186,15 @@ const OtherUsersProfile = () => {
             {!(user && user.id === userData.id) ? (
               <tr>
                 <td>
-                  <button className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1" onClick={handleMessageSend} style={userData.userTheme&&userData.userTheme.secondaryColor?{backgroundColor:userData.userTheme.secondaryColor}:null}>
+                  <button
+                    className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
+                    onClick={handleMessageSend}
+                    style={
+                      userData.userTheme && userData.userTheme.secondaryColor
+                        ? { backgroundColor: userData.userTheme.secondaryColor }
+                        : null
+                    }
+                  >
                     Send Message
                     <FaMailBulk className="m-1" />
                   </button>
@@ -184,7 +204,11 @@ const OtherUsersProfile = () => {
                     <button
                       onClick={handleSubscribeClick}
                       className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
-                      style={userData.userTheme&&userData.userTheme.primaryColor?{backgroundColor:userData.userTheme.primaryColor}:null}
+                      style={
+                        userData.userTheme && userData.userTheme.primaryColor
+                          ? { backgroundColor: userData.userTheme.primaryColor }
+                          : null
+                      }
                     >
                       Subscribe | {userData.followers}
                       <FaUserPlus className="m-1" />
@@ -193,37 +217,55 @@ const OtherUsersProfile = () => {
                     <button
                       onClick={handleSubscribeClick}
                       className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
-                      style={userData.userTheme&&userData.userTheme.primaryColor?{backgroundColor:userData.userTheme.primaryColor}:null}
+                      style={
+                        userData.userTheme && userData.userTheme.primaryColor
+                          ? { backgroundColor: userData.userTheme.primaryColor }
+                          : null
+                      }
                     >
                       Subscribed | {userData.followers}
                     </button>
                   )}
                 </td>
-                {user &&
-                  roles.includes("Admin") &&
-                  user.id !== userData.id && (
-                    <td>
-                      <Link to={`/profile/${userData.id}/edit`}>
-                        <button className="editUser font-bold py-2 px-4 rounded mb-2 navbar-btn m-1">
-                          <FaPencilAlt className="m-1" /> Edit this user's
-                          profile
-                        </button>
-                      </Link>
-                    </td>
-                  )}
+                {user && roles.includes("Admin") && user.id !== userData.id && (
+                  <td>
+                    <Link to={`/profile/${userData.id}/edit`}>
+                      <button className="editUser font-bold py-2 px-4 rounded mb-2 navbar-btn m-1">
+                        <FaPencilAlt className="m-1" /> Edit this user's profile
+                      </button>
+                    </Link>
+                  </td>
+                )}
               </tr>
             ) : (
               <tr>
                 <td>
                   <Link to={"/profile"}>
-                    <button className="editVideosBtn" style={userData.userTheme&&userData.userTheme.secondaryColor?{backgroundColor:userData.userTheme.secondaryColor}:null}>
+                    <button
+                      className="editVideosBtn"
+                      style={
+                        userData.userTheme && userData.userTheme.secondaryColor
+                          ? {
+                              backgroundColor:
+                                userData.userTheme.secondaryColor,
+                            }
+                          : null
+                      }
+                    >
                       <FaPencilAlt className="m-1" />
                       <p>Edit Your Profile</p>
                     </button>
                   </Link>
                 </td>
                 <td>
-                  <div className="subscribersLabel" style={userData.userTheme&&userData.userTheme.primaryColor?{backgroundColor:userData.userTheme.primaryColor}:null}>
+                  <div
+                    className="subscribersLabel"
+                    style={
+                      userData.userTheme && userData.userTheme.primaryColor
+                        ? { backgroundColor: userData.userTheme.primaryColor }
+                        : null
+                    }
+                  >
                     <FaUserPlus className="m-1" />
                     <p>Your subscribers: {userData.followers}</p>
                   </div>
