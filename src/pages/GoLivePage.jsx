@@ -52,11 +52,26 @@ const MediaSharing = () => {
         video: true,
         audio: true,
       });
-      setStream(screenStream);
+
+      const micStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+
+      const combinedStream = new MediaStream([
+        ...screenStream.getVideoTracks(),
+        ...screenStream.getAudioTracks(),
+        ...micStream.getAudioTracks(),
+      ]);
+
+      setStream(combinedStream);
+
       if (videoRef.current) {
         videoRef.current.srcObject = screenStream;
+        videoRef.current.muted = true;
       }
+
       setSelectedSource("screen");
+
       screenStream.getTracks()[0].onended = stopSharing;
     } catch (err) {
       console.error("Error sharing screen:", err);
@@ -73,6 +88,7 @@ const MediaSharing = () => {
       setStream(webcamStream);
       if (videoRef.current) {
         videoRef.current.srcObject = webcamStream;
+        videoRef.current.muted = true;
       }
     } catch (err) {
       console.error("Error accessing webcam:", err);
