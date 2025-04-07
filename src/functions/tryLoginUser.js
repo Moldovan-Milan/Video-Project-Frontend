@@ -1,45 +1,31 @@
 import axios from "axios";
-import isTokenExpired from "../utils/isTokenExpired";
 
-export const tryLoginUser = async (setUser, connectToServer) => {
-  const refreshToken = localStorage.getItem("refreshToken");
-  const token = sessionStorage.getItem("jwtToken");
-
-  // Ha a token érvényes, nincs teendő
-  if (token && !isTokenExpired(token)) {
-    //await setUserData(token, setUser);
-    return token;
-  }
-
-  // Ha nincs refresh token, nincs teendő
-  if (!refreshToken) {
-    return null;
-  }
-
+export const tryLoginUser = async (setUser, connectToServer, connection) => {
   try {
-    const formData = new FormData();
-    formData.append("refreshToken", refreshToken);
-
-    const response = await axios.post("/api/user/refresh-jwt-token", formData);
+    const response = await axios.get("/api/user/refresh-jwt-token", {
+      withCredentials: true,
+    });
 
     if (response.status === 200) {
-      const { newToken, userDto } = response.data;
-      sessionStorage.setItem("jwtToken", newToken);
+      const { user } = response.data;
       setUser({
-        id: userDto.id,
-        email: userDto.email,
-        userName: userDto.userName,
-        followers: userDto.followers,
-        avatarId: userDto.avatarId,
-        created: userDto.created,
+        id: user.id,
+        email: user.email,
+        userName: user.userName,
+        followers: user.followers,
+        avatarId: user.avatarId,
+        created: user.created,
       });
-      connectToServer();
-    } else {
-      localStorage.removeItem("refreshToken");
+      if (!connection) {
+        connectToServer();
+      }
+      return user;
+    } else if (response.status === 401) {
+      setUser(null);
     }
-  } catch (error) {
-    console.error("Error refreshing token:", error);
-    localStorage.removeItem("refreshToken");
+  } catch {
+    //console.log("Error refreshing token:", error);
+    setUser(null);
     return null;
   }
 };

@@ -1,0 +1,19 @@
+.shortsDiv{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.shortsTitle{
+text-align: center;
+font-size: 3vw;
+font-weight: bold;
+color: lime;
+}
+
+@media (max-width: 768px) {
+    .shortsTitle{
+        font-size: 30px;
+    }
+}

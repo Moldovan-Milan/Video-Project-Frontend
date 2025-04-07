@@ -23,9 +23,8 @@ const ViewHistoryPage = () => {
 
         const fetchVideoViews = async () => {
             try {
-                const token = sessionStorage.getItem("jwtToken");
-                const response = await axios.get(`api/Video/watch-history/${user.id}?pageSize=${pageSize}&pageNumber=${pageNumber}`, {
-                    headers: { Authorization: `Bearer ${token}` }
+                const response = await axios.get(`api/Video/watch-history?pageSize=${pageSize}&pageNumber=${pageNumber}`, {
+                    withCredentials: true
                 });
 
                 if (response.status === 401) {

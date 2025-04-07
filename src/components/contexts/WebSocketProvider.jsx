@@ -1,17 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { UserContext } from "./UserProvider";
 
 const WebSocketContext = createContext(null);
 
 export const WebSocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
+  const user = useContext(UserContext);
 
   const connectToServer = () => {
-    const token = sessionStorage.getItem("jwtToken");
-    if (!token) {
-      return;
-    }
-
     const ws = new WebSocket("wss://localhost:7124/ws");
 
     ws.addEventListener("open", () => {
@@ -50,8 +47,10 @@ export const WebSocketProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    connectToServer();
-  }, []);
+    if (user) {
+      connectToServer();
+    }
+  }, [user]);
 
   return (
     <WebSocketContext.Provider

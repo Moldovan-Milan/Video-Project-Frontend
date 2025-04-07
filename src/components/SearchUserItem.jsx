@@ -1,8 +1,8 @@
 import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import timeAgo from "../functions/timeAgo";
-import { FaEye } from "react-icons/fa";
-import "../styles/SearchVideoItem.scss";
+import { FaEye, FaUserPlus } from "react-icons/fa";
+import "../styles/SearchUserItem.scss";
 
 const SearchUserItem = forwardRef(({ user }, ref) => {
   const {  id,
@@ -14,27 +14,25 @@ const SearchUserItem = forwardRef(({ user }, ref) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   return (
-    <div className="searchVideoItemContainer" title={userName} ref={ref}>
-      <div className="searchVideoItem">
+    <div className="searchUserItemContainer" title={userName} ref={ref}>
+      <div className="searchUserItem">
         <Link to={`/profile/${id}`}>
           <table className="searchItemTable">
             <tbody>
               <tr>
-                <td className="searchItemThumbnail">
-                  <div
-                    style={{
-                      backgroundImage: `url("${BASE_URL}/api/User/avatar/${avatarId}")`,
-                    }}
-                    className="searchItemThumbnailDiv"
-                  >
+                <td className="searchItemAvatarTd">
+                  <div className="searchItemAvatarDiv">
+                    <img src={`${BASE_URL}/api/User/avatar/${avatarId}`} className="SearchItemAvatarImg"></img>
                   </div>
                 </td>
-                <td className="searchItemDetails">
+                <td className="searchUserItemDetails">
                   <div className="searchItemTitle">
                     {userName}
                   </div>
-                  <div className="searchItemViews">
-                    {followersCount}
+                  <div className="searchItemFollowers">
+                  <div className="subscribersLabel">
+                  <p>Subscribers: {followersCount}</p>
+                  </div>
                   </div>
                 </td>
               </tr>

@@ -11,9 +11,7 @@ const WatchHistoryVideoItem = ({ videoView }) => {
 
   return (
     <div className="watch-history-item">
-      {/* Make the entire div clickable */}
       <Link to={`/video/${video.id}`} className="watch-history-link">
-        {/* Thumbnail */}
         <div className="thumbnail">
           <img
             src={`${BASE_URL}/api/Video/thumbnail/${video.thumbnailId}`}
@@ -22,7 +20,6 @@ const WatchHistoryVideoItem = ({ videoView }) => {
           <div className="video-duration">{video.duration}</div>
         </div>
 
-        {/* Video Details */}
         <div className="video-details">
           <div className="title">{video.title.length > 50 ? video.title.substring(0, 50) + "..." : video.title}</div>
             <object className="user-link">

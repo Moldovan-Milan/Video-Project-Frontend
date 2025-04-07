@@ -107,13 +107,14 @@ const VideoPlayer = ({ src, id }) => {
     }
   };
   const params = useParams()
+  const [safeId] = useState(params.id)
   const validateView = async () => {
     try {
         if(user){
-          const response = await axios.post(`api/Video/add-video-view?videoId=${params.id}&userId=${user.id}`);
+          const response = await axios.post(`api/Video/add-video-view?videoId=${safeId}&userId=${user.id}`);
         }
         else{
-          const response = await axios.post(`api/Video/add-video-view?videoId=${params.id}`);
+          const response = await axios.post(`api/Video/add-video-view?videoId=${safeId}`);
         }
     } catch (error) {
       console.error("Error sending view to backend:", error);

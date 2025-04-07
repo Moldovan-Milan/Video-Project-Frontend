@@ -2,7 +2,7 @@
 .messages-container {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #84cc16;
+    color: lime;
     margin-bottom: 1rem;
 }
 
@@ -13,6 +13,9 @@
     border-radius: 0.5rem;
     margin-bottom: 1rem;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
 
 .message-item {
@@ -24,14 +27,16 @@
 .sender-avatar {
     width: 2rem;
     height: 2rem;
-    border-radius: 9999px;
+    border-radius: 100%;
     object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid lime;
 }
 
 .sender-name {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #bef264;
+    color: lime;
 }
 
 .message-bubble {
@@ -40,6 +45,16 @@
     border-radius: 0.5rem;
     color: white;
     max-width: 20rem;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.message-text{
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 
 .no-messages {
@@ -67,7 +82,7 @@
 }
 
 .send-button {
-    background-color: #84cc16;
+    background-color: lime;
     border-radius: 0.5rem;
     color: white;
     padding: 0.5rem 1rem;
@@ -77,7 +92,7 @@
 }
 
 .send-button:hover {
-    background-color: #65a30d;
+    background-color: lime;
 }
 
 /* Reszponzív kialakítás */

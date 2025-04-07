@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import WatchTogetherVideoPlayer from "./WatchTogetherVideoPlayer";
 
 const VideoPlayerWrapper = ({
@@ -7,8 +7,13 @@ const VideoPlayerWrapper = ({
   isPlaying,
   isHost,
   id,
+  connection,
 }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  useEffect(() => {
+    console.log(id);
+  }, []);
 
   return (
     <div className="wt-video-wrapper">
@@ -18,6 +23,7 @@ const VideoPlayerWrapper = ({
           isPlaying={isPlaying}
           isHost={isHost}
           videoUrl={`${BASE_URL}/api/video/${currentVideo.id}`}
+          connection={connection}
         />
       ) : !isHost ? (
         <div>

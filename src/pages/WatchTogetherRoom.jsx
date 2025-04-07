@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useWTSignalR } from "../components/contexts/WatchTogetherSingalRProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../components/contexts/UserProvider";
 import VideoPlayerWrapper from "../components/VideoPlayerWrapper";
@@ -10,11 +9,13 @@ import UserList from "../components/UserList";
 import JoinRequests from "../components/JoinRequests";
 import axios from "axios";
 import "../styles/WatchTogetherRoom.scss";
+import useWatchTogetherSignalR from "../hooks/useWatchTogetherConnection";
 
 const WatchTogetherRoom = () => {
   const navigate = useNavigate();
-  const connection = useWTSignalR();
+  const connection = useWatchTogetherSignalR();
   const { id } = useParams();
+  const [safeId, setSafeId] = useState(id);
   const { user } = useContext(UserContext);
 
   const [isHost, setIsHost] = useState(false);
@@ -35,7 +36,7 @@ const WatchTogetherRoom = () => {
   const [toggleSearch, setTogleSearch] = useState(true);
 
   const handleUserAction = (action, userId) => {
-    connection.invoke(action, id, userId);
+    connection.invoke(action, safeId, userId);
     setUserRequest((prev) => prev.filter((u) => u.id !== userId));
   };
 
@@ -46,7 +47,7 @@ const WatchTogetherRoom = () => {
       );
       return;
     }
-    connection.invoke("SendMessage", id, user.id, content);
+    connection.invoke("SendMessage", safeId, user.id, content);
   };
 
   const handleSearch = async () => {
@@ -76,6 +77,7 @@ const WatchTogetherRoom = () => {
 
   useEffect(() => {
     if (connection?.state !== "Connected" || !user) return;
+    setSafeId(id);
 
     const eventHandlers = {
       JoinedToRoom: setUsers,
@@ -107,7 +109,7 @@ const WatchTogetherRoom = () => {
       PlayListChanged: setPlayList,
       StartVideo: setCurrentVideo,
       RoomClosed: () => {
-        alert("The host disconected.");
+        alert("The host disconnected.");
         navigate("/watch-together");
       },
       Error: console.log,
@@ -121,13 +123,14 @@ const WatchTogetherRoom = () => {
       connection.on(event, handler);
     });
 
-    connection.invoke("JoinRoom", id, user.id).catch(console.error);
+    connection.invoke("JoinRoom", safeId, user.id).catch(console.error);
 
     return () => {
       Object.keys(eventHandlers).forEach((event) => connection.off(event));
-      connection.invoke("LeaveRoom", id, user.id).catch(console.error);
+      connection.invoke("LeaveRoom", safeId, user.id).catch(console.error);
+      connection.stop();
     };
-  }, [connection, user, id, navigate]);
+  }, [connection, user, safeId, navigate]);
 
   return (
     <div className="wt-watch-together-room">
@@ -143,7 +146,7 @@ const WatchTogetherRoom = () => {
           </div>
         )}
         <VideoPlayerWrapper
-          {...{ isInRoom, currentVideo, isPlaying, isHost, id }}
+          {...{ isInRoom, currentVideo, isPlaying, isHost, id, connection }}
         />
         <Playlist
           {...{
@@ -151,9 +154,9 @@ const WatchTogetherRoom = () => {
             currentVideo,
             isHost,
             startVideo: (video) =>
-              connection.invoke("StartVideo", id, video.id),
+              connection.invoke("StartVideo", safeId, video.id),
             deleteVideo: (videoId) =>
-              connection.invoke("RemoveVideoFromPlayList", id, videoId),
+              connection.invoke("RemoveVideoFromPlayList", safeId, videoId),
           }}
         />
         {isHost && (
@@ -173,7 +176,7 @@ const WatchTogetherRoom = () => {
               videos,
               playList,
               onVideoSelect: (video) =>
-                connection.invoke("AddVideoToPlaylist", id, video.id),
+                connection.invoke("AddVideoToPlaylist", safeId, video.id),
             }}
           />
         )}
@@ -188,7 +191,7 @@ const WatchTogetherRoom = () => {
               isHost,
               user,
               banUser: (userId) =>
-                isHost && connection.invoke("BanUser", id, userId),
+                isHost && connection.invoke("BanUser", safeId, userId),
             }}
           />
           <JoinRequests

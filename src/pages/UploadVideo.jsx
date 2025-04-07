@@ -1,9 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUpload } from "react-icons/fa";
 import { useVideoUpload } from "../hooks/useVideoUpload";
 import "../styles/UploadVideo.scss";
 import { useContext } from "react";
 import { UserContext } from "../components/contexts/UserProvider";
+import { Link } from "react-router-dom";
+import getRoles from "../functions/getRoles";
+import VerificationRequestButton from "../components/VerificationRequestButton";
+import getActiveVerificationRequestStatus from "../functions/getActiveVerificationRequestStatus";
+import { FaShieldAlt } from "react-icons/fa";
 
 const UploadVideo = () => {
   const {
@@ -19,25 +24,84 @@ const UploadVideo = () => {
     handleUpload,
   } = useVideoUpload();
 
-  useEffect(() => {
-    document.title = "Upload video | Omega Stream"
-  }, [])
+  const { user } = useContext(UserContext);
+  const [roles, setRoles] = useState([]);
+  const [hasActiveRequest, setHasActiveRequest] = useState(null);
 
-  const { user } = useContext(UserContext)
+  useEffect(() => {
+    document.title = "Upload video | Omega Stream";
+  }, []);
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      const fetchedRoles = await getRoles(user.id);
+      setRoles(fetchedRoles);
+    };
+
+    if (user) {
+      loadRoles();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const checkVerificationRequest = async () => {
+      const hasRequest = await getActiveVerificationRequestStatus(user.id);
+      setHasActiveRequest(hasRequest);
+    };
+    checkVerificationRequest();
+  }, []);
+
+  const handleVerificationRequest = () => {
+    setHasActiveRequest(true);
+  };
 
   if (!user) {
     return (
       <div className="container mx-auto p-4">
         <h1 className="text-center text-2xl font-bold mb-4">
-          Nem vagy bejelentkezve!
+          You Are not Logged In!
         </h1>
-        <p className="text-center mb-4">A feltöltéshez be kell jelentkezned.</p>
-        <a
-          href="/login"
+        <p className="text-center mb-4">To Upload Videos you need to Log In</p>
+        <Link
+          to="/login"
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 block text-center"
         >
-          Bejelentkezés
-        </a>
+          Log In
+        </Link>
+      </div>
+    );
+  } else if (!roles.includes("Verified") && !roles.includes("Admin")) {
+    return (
+      <div className="flex items-center justify-center min-h-[70vh] px-4 rounded-md">
+        <div
+          className="shadow-xl rounded-2xl p-8 max-w-md w-full text-center border"
+          style={{ backgroundColor: "darkcyan", borderRadius: "10px" }}
+        >
+          <div className="flex justify-center mb-4 text-4xl">
+            <FaShieldAlt />
+          </div>
+          <h1 className="text-2xl font-extrabold">You Are Not Verified</h1>
+          <p className="mb-4">
+            To upload videos, you need to be verified first.
+          </p>
+
+          {hasActiveRequest !== null && (
+            <>
+              {hasActiveRequest ? (
+                <p className="font-medium">
+                  Your verification request has been sent! <br /> Please wait
+                  until it’s reviewed.
+                </p>
+              ) : (
+                <div className="mt-4">
+                  <VerificationRequestButton
+                    onRequestSent={handleVerificationRequest}
+                  />
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     );
   }

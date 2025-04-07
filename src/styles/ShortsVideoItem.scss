@@ -1,0 +1,44 @@
+.shortsItemThumbnail{
+    height: 16vw;
+    width:9vw;
+    min-width: 90px;
+    min-height: 160px;
+    background-size: cover,contain;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: block;
+    margin: auto;
+}
+
+.shortsItemThumbnail:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #B200FF;}
+
+.shortsItemTitle
+{
+    position: relative;
+    top: 75%;
+    text-align: center;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 2px 2px 15px 15px;
+    font-size: 1vw;
+    color: white;
+    padding-top: 2px;
+}
+
+@media (max-width: 1000px) {
+    .shortsItemTitle {
+        font-size: 10px;
+    }
+}
+
+.shortsAvatar{
+    width:1vw;
+    height: 1vw;
+    border-radius: 100%;
+    border: 1px solid lime;
+}
+
+
+

@@ -1,31 +1,60 @@
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 import axios from "axios";
-import NavbarComponent from "./components/NavbarComponent";
 import SearchBar from "./components/SearchBar";
 import "./output.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { tryLoginUser } from "./functions/tryLoginUser";
 import { UserContext } from "./components/contexts/UserProvider";
 import AppRoutes from "./AppRoutes";
-import { useWebSocket } from "./components/contexts/WebSocketProvider";
 import { useSignalR } from "./components/contexts/SignalRProvider";
+import NavbarComponent from "./components/NavbarComponent";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+axios.defaults.withCredentials = true;
+
 function App() {
   const { user, setUser } = useContext(UserContext);
-  const { connectToServer } = useSignalR();
+  const { connectToServer, connection } = useSignalR();
+
+  useEffect(() => {
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+
+          try {
+            console.log("Token lejárt, frissítés...");
+            await tryLoginUser(setUser, connectToServer, connection);
+            originalRequest.withCredentials = true; // Send the new access token
+            //console.log(originalRequest.headers);
+            return axios(originalRequest);
+          } catch (refreshError) {
+            console.error("Token frissítés sikertelen:", refreshError);
+            return Promise.reject(refreshError);
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, [setUser, connectToServer, connection]);
 
   useEffect(() => {
     const fetchToken = async () => {
-      await tryLoginUser(setUser, connectToServer);
+      await tryLoginUser(setUser, connectToServer, connection);
     };
-
-    fetchToken();
-  }, []);
-
-  useEffect(() => {}, []);
+    if (!user) {
+      fetchToken();
+    }
+  }, [user]);
 
   return (
     <BrowserRouter>

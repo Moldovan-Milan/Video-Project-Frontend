@@ -15,7 +15,7 @@ const Playlist = ({
       <ul>
         {playList.map((video) => (
           <li
-            onClick={() => startVideo(video)}
+            onClick={() => (isHost ? startVideo(video) : null)}
             key={video.id}
             className={currentVideo?.id === video.id ? "selected" : ""}
           >

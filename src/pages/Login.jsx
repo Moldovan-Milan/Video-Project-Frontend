@@ -34,19 +34,13 @@ const Login = () => {
     formData.append("password", password);
     formData.append("rememberMe", rememberMe);
 
-    const response = await axios.post("api/user/login", formData);
+    const response = await axios.post("api/user/login", formData, { withCredentials: true });
+    console.log(response.headers)
 
     if (response.status === 200) {
-      if (rememberMe) {
-        const { refreshToken } = response.data;
-
-        if (refreshToken) {
-          localStorage.setItem("refreshToken", refreshToken);
-        }
-      }
-      const { token, userDto } = response.data;
-      sessionStorage.setItem("jwtToken", token);
+      const { userDto } = response.data;
       console.log(userDto);
+
       setUser({
         id: userDto.id,
         email: userDto.email,
@@ -59,7 +53,7 @@ const Login = () => {
       navigate("/");
       //window.location = "/";
     } else {
-      setErrorMessage("Hibás felhasználónév vagy jelszó!");
+      setErrorMessage("Invalid username or password.");
       // A form mezők kiürítése
       emailRef.current.value = "";
       passwordRef.current.value = "";
@@ -70,10 +64,11 @@ const Login = () => {
     navigate("/");
   }
 
+  //TODO: forgot password
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center">
       <div className="bg-green-600 p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Bejelentkezés</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block font-bold mb-2">

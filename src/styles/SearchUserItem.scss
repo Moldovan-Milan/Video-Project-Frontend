@@ -1,17 +1,17 @@
-.searchVideoItemContainer {
+.searchUserItemContainer {
     width: 80%;
     margin: 10px 0;
     padding: 10px;
     margin-left: 20px;
   }
   
-  .searchVideoItem {
+  .searchUserItem {
     display: flex;
     border-radius: 10px;
     transition: transform 0.2s, box-shadow 0.2s; //a hover animáció simábbá tétele
   }
   
-  .searchVideoItem:hover {
+  .searchUserItem:hover {
     transform: scale(1.05);
     box-shadow: 0 0 20px #B200FF;
   }
@@ -20,16 +20,16 @@
     width: 100%;
   }
   
-  .searchItemThumbnail {
+  .searchItemAvatarTd {
     width: 200px;
   }
   
-  .searchItemDetails {
+  .searchUserItemDetails {
     width: 500px;
     padding-left: 10px;
   }
   
-  .searchItemThumbnailDiv {
+  .searchItemAvatarDiv {
     position: relative;
     background-size: cover;
     background-position: center;
@@ -55,9 +55,10 @@
     margin-bottom: 5px;
   }
   
-  .searchItemViews {
+  .searchItemFollowers {
     display: flex;
     font-size: 15px;
+    justify-self: self-start;
   }
   
   .searchEye {
@@ -65,4 +66,13 @@
     vertical-align: middle;
     margin-top: 3px;
   }
+
+  .SearchItemAvatarImg{
+    height: 120px;
+    width: 120px;
+    border-radius: 100%;
+    border: 1px solid lime;
+
+  }
+
   

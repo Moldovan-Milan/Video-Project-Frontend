@@ -32,12 +32,12 @@ const Registration = () => {
       emailRef.current.value === "" ||
       avatar === null
     ) {
-      setErrorMessage("Minden mező kitöltése kötelező!");
+      setErrorMessage("You need to fill out everything!");
       return;
     } else {
       // Jelszó ellenőrzése
       if (passwordRef.current.value !== confirmPasswordRef.current.value) {
-        setErrorMessage("A jelszó nem egyezik!");
+        setErrorMessage("The passwords don't match!");
         return;
       } else {
         try {
@@ -48,7 +48,8 @@ const Registration = () => {
           formData.append("avatar", avatar);
           const response = await axios.post("api/user/register", formData);
           if (response.status === 200) {
-            setErrorMessage("Regisztráció sikeres");
+            window.alert("Successfully Registered!");
+            navigate("/");
           } else {
             setErrorMessage(response.data);
             console.log(response.data);
@@ -67,10 +68,10 @@ const Registration = () => {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="bg-green-600 p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Regisztráció</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
         <form onSubmit={(e) => handleRegistration(e)}>
           <div className="mb-4">
-            <label htmlFor="username" className="block font-bold mb-2">Felhasználónév:</label>
+            <label htmlFor="username" className="block font-bold mb-2">Username:</label>
             <input
               ref={userNameRef}
               type="text"
@@ -80,7 +81,7 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block font-bold mb-2">E-mail cím:</label>
+            <label htmlFor="email" className="block font-bold mb-2">E-mail address:</label>
             <input
               ref={emailRef}
               type="email"
@@ -90,7 +91,7 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block font-bold mb-2">Jelszó:</label>
+            <label htmlFor="password" className="block font-bold mb-2">Password:</label>
             <input
               type="password"
               className="text-black form-input w-full px-4 py-2 border rounded-md"
@@ -100,7 +101,7 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-gray-white font-bold mb-2">Jelszó újra:</label>
+            <label htmlFor="confirmPassword" className="block text-gray-white font-bold mb-2">Password:</label>
             <input
               type="password"
               className="text-black form-input w-full px-4 py-2 border rounded-md"
@@ -110,7 +111,7 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="avatar" className="block text-gray-white font-bold mb-2">Profilkép:</label>
+            <label htmlFor="avatar" className="block text-gray-white font-bold mb-2">Profile Picture:</label>
             <input
               onChange={handleAvatarChange}
               type="file"
@@ -120,7 +121,7 @@ const Registration = () => {
             {avatar && <img src={URL.createObjectURL(avatar)} alt="Avatar" className="mt-4 w-32 h-32 rounded-full object-cover" />}
           </div>
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full">
-            Regisztrálás
+            Sign Up
           </button>
           {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
         </form>

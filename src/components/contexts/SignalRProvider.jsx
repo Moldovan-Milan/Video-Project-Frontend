@@ -1,11 +1,5 @@
 import React, { createContext, useEffect, useState, useContext } from "react";
-import {
-  createSignalRConnectionWithToken,
-  setupSignalREventHandlers,
-  invokeSignalRMethod,
-  startSignalRConnection,
-  stopSignalRConnection,
-} from "../../utils/signalRUtils";
+import * as signalR from "@microsoft/signalr";
 import { UserContext } from "./UserProvider";
 
 const SignalRContext = createContext(null);
@@ -13,33 +7,76 @@ const SignalRContext = createContext(null);
 export const SignalRProvider = ({ children }) => {
   const [connection, setConnection] = useState(null);
   const [messages, setMessages] = useState([]);
-  const token = sessionStorage.getItem("jwtToken");
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  useEffect(() => {
-    if (token) {
-      const newConnection = createSignalRConnectionWithToken(
-        BASE_URL,
-        "chathub",
-        token
-      );
+  const connectToServer = async () => {
+    // if (connection) {
+    //   console.warn("⚠️ SignalR connection already exists.");
+    //   return;
+    // }
 
-      setupSignalREventHandlers(newConnection, {
-        ReceiveMessage: (message) =>
-          setMessages((prev) => [...prev, JSON.parse(message)]),
-        ReceiveChatHistory: setMessages,
-      });
+    const newConnection = new signalR.HubConnectionBuilder()
+      .withUrl(`${BASE_URL}/chatHub`, {})
+      .withAutomaticReconnect()
+      .build();
 
-      startSignalRConnection(newConnection, setConnection);
+    newConnection.on("ReceiveMessage", (message) => {
+      //console.log("📩 New message: ", JSON.parse(message));
+      setMessages((prevMessages) => [...prevMessages, JSON.parse(message)]);
+    });
 
-      return () =>
-        stopSignalRConnection(newConnection, [
-          "ReceiveMessage",
-          "ReceiveChatHistory",
-        ]);
+    newConnection.on("ReceiveChatHistory", (history) => {
+      //console.log("📜 Received history: ", history);
+      setMessages(history);
+    });
+
+    try {
+      await newConnection.start();
+      setConnection(newConnection);
+    } catch (err) {
+      console.error("❌ Error while starting the SignalR connection", err);
     }
-  }, [user, token]);
+  };
+
+  const requestHistory = async (chatId) => {
+    if (
+      !connection ||
+      connection.state !== signalR.HubConnectionState.Connected
+    ) {
+      return;
+    }
+    connection.invoke("RequestChatHistory", chatId).catch((err) => {
+      console.error("❌ Error requesting chat history", err);
+    });
+  };
+
+  const sendMessage = async (chatId, content) => {
+    if (
+      !connection ||
+      connection.state !== signalR.HubConnectionState.Connected
+    ) {
+      console.warn("⚠️ Cannot send message: SignalR is not connected.");
+      return;
+    }
+    connection
+      .invoke("SendMessage", chatId, content)
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    if (user) {
+      connectToServer();
+    } else if (connection) {
+      connection.stop();
+    }
+
+    return () => {
+      if (connection) {
+        connection.stop();
+      }
+    };
+  }, [user]);
 
   return (
     <SignalRContext.Provider

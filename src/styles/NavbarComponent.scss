@@ -47,10 +47,11 @@
 }
 
 #upload-button{
-    color: white;
+    color: black;
     background-color: lime;
     border-radius: 10px;
-    width: 100px;
+    width: 20%;
+    min-width: 200px;
     text-align: center;
     display: flex;
     justify-content: center;

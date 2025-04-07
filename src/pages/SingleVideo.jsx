@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import VideoPlayer from "../components/VideoPlayer";
 import timeAgo from "../functions/timeAgo";
-import isTokenExpired from "../utils/isTokenExpired";
 import {
   FaEye,
   FaThumbsDown,
@@ -17,12 +16,14 @@ import "../styles/SingleVideo.scss";
 import CommentSection from "../components/CommentSection";
 import RecommendedVideos from "../components/RecommendedVideos";
 import getViewText from "../functions/getViewText";
+import getRoles from "../functions/getRoles";
 
 const SingleVideo = () => {
   const { id } = useParams();
+  const [safeId] = useState(id);
   const { user } = useContext(UserContext);
-  const token = sessionStorage.getItem("jwtToken");
 
+  const [roles, setRoles] = useState([]);
   const [videoData, setVideoData] = useState(null);
   const [likeValue, setLikeValue] = useState("none");
   const [isFollowedByUser, setIsFollowedByUser] = useState(false);
@@ -34,17 +35,25 @@ const SingleVideo = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
+    const loadRoles = async () => {
+      const fetchedRoles = await getRoles(user.id);
+      setRoles(fetchedRoles);
+    };
+
+    if (user) {
+      loadRoles();
+    }
+  }, [user]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = sessionStorage.getItem("jwtToken");
-
-        const videoPromise = axios.get(`/api/video/data/${id}`);
-        const userInteractionPromise =
-          token && !isTokenExpired(token)
-            ? axios.get(`/api/video/get-user-like-subscribe-value/${id}`, {
-                headers: { Authorization: `Bearer ${token}` },
-              })
-            : null;
+        const videoPromise = axios.get(`/api/video/data/${safeId}`);
+        const userInteractionPromise = user
+          ? axios.get(`/api/video/get-user-like-subscribe-value/${safeId}`, {
+              withCredentials: true,
+            })
+          : null;
         const recomendedVideoPromise = axios.get("/api/video");
 
         const [
@@ -80,8 +89,6 @@ const SingleVideo = () => {
   }, [videoData]);
 
   const handleReactionClick = async (newValue) => {
-    if (!token || isTokenExpired(token) || !videoData) return;
-
     let updatedLikes = videoData.likes;
     let updatedDislikes = videoData.dislikes;
 
@@ -108,8 +115,8 @@ const SingleVideo = () => {
     try {
       const formData = new FormData();
       formData.append("value", newValue);
-      await axios.post(`/api/video/set-user-like/${id}`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
+      await axios.post(`/api/video/set-user-like/${safeId}`, formData, {
+        withCredentials: true,
       });
     } catch (error) {
       console.error("Error updating like value:", error);
@@ -117,14 +124,13 @@ const SingleVideo = () => {
   };
 
   const handleSubscribeClick = async () => {
-    if (!token || isTokenExpired(token)) return;
     try {
       const formData = new FormData();
       formData.append("value", !isFollowedByUser);
       const { status } = await axios.post(
         `/api/video/change-subscribe/${videoData.userId}`,
         formData,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { withCredentials: true }
       );
       if (status === 200) {
         setIsFollowedByUser(!isFollowedByUser);
@@ -158,7 +164,7 @@ const SingleVideo = () => {
           <h5 className="username">{videoData.user.userName}</h5>
         </Link>
 
-        {user && user.id === videoData.user.id && (
+        {user && (user.id === videoData.user.id || roles.includes("Admin")) && (
           <Link to={`/video/${id}/edit`}>
             <button className="editBtn">
               Edit Video <FaPencilAlt className="m-2" />
