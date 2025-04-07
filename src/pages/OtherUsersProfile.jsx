@@ -180,7 +180,7 @@ const OtherUsersProfile = () => {
       }
     >
       <div>
-        <OtherUsersProfileHeader userData={userData}/>
+        <OtherUsersProfileHeader userData={userData} />
         <table className="user-properties-table">
           <tbody>
             {!(user && user.id === userData.id) ? (
@@ -284,7 +284,11 @@ const OtherUsersProfile = () => {
               <UserPageVideoItem
                 key={id}
                 video={video}
-                color={(userData.userTheme&&userData.userTheme.secondaryColor)?userData.userTheme.secondaryColor:null}
+                color={
+                  userData.userTheme && userData.userTheme.secondaryColor
+                    ? userData.userTheme.secondaryColor
+                    : null
+                }
                 ref={isLastVideo ? lastVideoRef : null}
               />
             );

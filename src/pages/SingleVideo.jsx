@@ -20,10 +20,10 @@ import getRoles from "../functions/getRoles";
 
 const SingleVideo = () => {
   const { id } = useParams();
-  const [safeId] = useState(id)
+  const [safeId] = useState(id);
   const { user } = useContext(UserContext);
-  
-  const[roles, setRoles] = useState([])
+
+  const [roles, setRoles] = useState([]);
   const [videoData, setVideoData] = useState(null);
   const [likeValue, setLikeValue] = useState("none");
   const [isFollowedByUser, setIsFollowedByUser] = useState(false);
@@ -39,7 +39,7 @@ const SingleVideo = () => {
       const fetchedRoles = await getRoles(user.id);
       setRoles(fetchedRoles);
     };
-  
+
     if (user) {
       loadRoles();
     }
@@ -48,14 +48,12 @@ const SingleVideo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-
         const videoPromise = axios.get(`/api/video/data/${safeId}`);
-        const userInteractionPromise =
-          user
-            ? axios.get(`/api/video/get-user-like-subscribe-value/${safeId}`, {
-                withCredentials: true
-              })
-            : null;
+        const userInteractionPromise = user
+          ? axios.get(`/api/video/get-user-like-subscribe-value/${safeId}`, {
+              withCredentials: true,
+            })
+          : null;
         const recomendedVideoPromise = axios.get("/api/video");
 
         const [
@@ -85,13 +83,12 @@ const SingleVideo = () => {
   }, [id]);
 
   useEffect(() => {
-    if(videoData){
-      document.title = videoData.title + " | Omega Stream"
+    if (videoData) {
+      document.title = videoData.title + " | Omega Stream";
     }
-  }, [videoData])
+  }, [videoData]);
 
   const handleReactionClick = async (newValue) => {
-
     let updatedLikes = videoData.likes;
     let updatedDislikes = videoData.dislikes;
 
@@ -119,7 +116,7 @@ const SingleVideo = () => {
       const formData = new FormData();
       formData.append("value", newValue);
       await axios.post(`/api/video/set-user-like/${safeId}`, formData, {
-        withCredentials: true
+        withCredentials: true,
       });
     } catch (error) {
       console.error("Error updating like value:", error);
@@ -166,7 +163,7 @@ const SingleVideo = () => {
           />
           <h5 className="username">{videoData.user.userName}</h5>
         </Link>
-        
+
         {user && (user.id === videoData.user.id || roles.includes("Admin")) && (
           <Link to={`/video/${id}/edit`}>
             <button className="editBtn">
@@ -177,7 +174,8 @@ const SingleVideo = () => {
 
         {user && user.id === videoData.user.id && (
           <div className="subCountLabel m-2">
-            <FaUserPlus className="m-1"/><p>Subscribers: {videoData.user.followersCount}</p>
+            <FaUserPlus className="m-1" />
+            <p>Subscribers: {videoData.user.followersCount}</p>
           </div>
         )}
 
@@ -188,12 +186,11 @@ const SingleVideo = () => {
             <span>{videoData.user.followersCount}</span>
           </button>
         )}
-        
 
         <div className="video-details">
           <div className="video-views">
-            <FaEye className="eye-icon" /> {getViewText(videoData.views)} ● Created:{" "}
-            {timeAgo(new Date(videoData.created))}
+            <FaEye className="eye-icon" /> {getViewText(videoData.views)} ●
+            Created: {timeAgo(new Date(videoData.created))}
           </div>
           <div className="video-likes">
             <button

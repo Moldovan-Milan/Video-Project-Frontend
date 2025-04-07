@@ -84,9 +84,10 @@ export const SignalRProvider = ({ children }) => {
         connection,
         messages,
         setMessages,
-        connectToServer,
-        requestHistory,
-        sendMessage,
+        requestHistory: (chatId) =>
+          invokeSignalRMethod(connection, "RequestChatHistory", chatId),
+        sendMessage: (chatId, content) =>
+          invokeSignalRMethod(connection, "SendMessage", chatId, content),
       }}
     >
       {children}
@@ -94,6 +95,4 @@ export const SignalRProvider = ({ children }) => {
   );
 };
 
-export const useSignalR = () => {
-  return useContext(SignalRContext);
-};
+export const useSignalR = () => useContext(SignalRContext);

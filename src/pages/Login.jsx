@@ -16,8 +16,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Login | Omega Stream"
-  }, [])
+    document.title = "Login | Omega Stream";
+  }, []);
 
   //const { connectToServer } = useWebSocket();
   const { connectToServer } = useSignalR();
@@ -51,7 +51,6 @@ const Login = () => {
       });
 
       navigate("/");
-      connectToServer();
       //window.location = "/";
     } else {
       setErrorMessage("Invalid username or password.");
@@ -61,8 +60,8 @@ const Login = () => {
     }
   };
 
-  if(user){
-    navigate("/")
+  if (user) {
+    navigate("/");
   }
 
   //TODO: forgot password

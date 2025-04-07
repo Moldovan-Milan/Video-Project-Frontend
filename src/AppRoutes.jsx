@@ -9,12 +9,15 @@ import UserAccount from "./pages/UserAccount";
 import OtherUsersProfile from "./pages/OtherUsersProfile";
 import ChatPage from "./pages/ChatPage";
 import MessagePage from "./pages/MessagePage";
+import LiveStreamPage from "./pages/LiveStreamPage";
+import GoLivePage from "./pages/GoLivePage";
 import EditVideoPage from "./pages/EditVideoPage";
 import WatchTogetherMainPage from "./pages/WatchTogetherMainPage";
 import WatchTogetherRoom from "./pages/WatchTogetherRoom";
 import SearchResultPage from "./pages/SearchResultPage";
 import ViewHistoryPage from "./pages/ViewHistoryPage";
 import SubscribedToPage from "./pages/SubscribedToPage";
+import LiveStreamList from "./pages/LiveStreamList";
 import ShortsPage from "./pages/ShortsPage";
 import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -37,6 +40,9 @@ const AppRoutes = () => {
       <Route path="/profile/:id/edit" element={<EditUser />} />
       <Route path="/chats" element={<ChatPage />} />
       <Route path="/chat/:id" element={<MessagePage />} />
+      <Route path="/livestream/:id" Component={LiveStreamPage} />
+      <Route path="/go-live" Component={GoLivePage} />
+      <Route path="/livestream" Component={LiveStreamList} />
       <Route path="/search" element={<SearchResultPage />} />
       <Route path="/watch-history" element={<ViewHistoryPage />} />
       <Route path="/following" element={<SubscribedToPage />} />
@@ -45,8 +51,8 @@ const AppRoutes = () => {
       <Route path="/shorts" element={<ShortsPage />} />
       <Route path="/admin" element={<AdminPage />}>
         <Route path="verification-list" element={<VerificationRequestList />} />
-        <Route path="edit-user-roles" element={<UserSearchPage/>}/>
-        <Route path="edit-user-roles/:id" element={<EditUserRoles/>}/>
+        <Route path="edit-user-roles" element={<UserSearchPage />} />
+        <Route path="edit-user-roles/:id" element={<EditUserRoles />} />
       </Route>
       <Route path="/not-found" element={<NotFoundPage />} />
     </Routes>
