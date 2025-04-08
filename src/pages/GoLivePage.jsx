@@ -54,21 +54,21 @@ const MediaSharing = () => {
       });
 
       let combinedStream;
-       try {
-         const micStream = await navigator.mediaDevices.getUserMedia({
-           audio: true,
-         });
-         combinedStream = new MediaStream([
-           ...screenStream.getVideoTracks(),
-           ...screenStream.getAudioTracks(),
-           ...micStream.getAudioTracks(),
-         ]);
-       } catch {
-         combinedStream = new MediaStream([
-           ...screenStream.getVideoTracks(),
-           ...screenStream.getAudioTracks(),
-         ]);
-       }
+      try {
+        const micStream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        combinedStream = new MediaStream([
+          ...screenStream.getVideoTracks(),
+          ...screenStream.getAudioTracks(),
+          ...micStream.getAudioTracks(),
+        ]);
+      } catch {
+        combinedStream = new MediaStream([
+          ...screenStream.getVideoTracks(),
+          ...screenStream.getAudioTracks(),
+        ]);
+      }
       setStream(combinedStream);
 
       if (videoRef.current) {
