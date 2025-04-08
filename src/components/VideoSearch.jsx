@@ -1,6 +1,7 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
 import WatchTogetherVideoItem from "./WatchTogetherVideoItem";
+import "../styles/WatchTogetherRoom.scss"
 
 const VideoSearch = ({
   searchRef,

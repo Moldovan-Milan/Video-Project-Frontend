@@ -29,48 +29,31 @@
         }
 
         .search-button {
-            background-color: #84cc16;
-            /* Alapértelmezett háttérszín */
+            background-color: lime;
             color: white;
-            /* Szöveg színe */
             padding: 0.8rem 1.5rem;
-            /* Gomb belső térköze */
             border: none;
-            /* Keret eltüntetése */
             border-radius: 0.5rem;
-            /* Lekerekített sarkok */
             font-size: 1rem;
-            /* Betűméret */
             font-weight: bold;
-            /* Félkövér szöveg */
             cursor: pointer;
-            /* Mutató változtatása */
             transition: background-color 0.3s ease, transform 0.2s ease;
-            /* Sima animáció */
 
             .search-button:hover {
-                background-color: #6aaa12;
-                /* Hover állapot háttérszíne */
+                background-color: rgb(0, 139, 0);
                 transform: translateY(-2px);
-                /* Enyhe emelkedés */
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-                /* Árnyék */
             }
 
             .search-button:active {
-                background-color: #5f8e0f;
-                /* Aktív állapot színe */
+                background-color: #4eff19;
                 transform: translateY(2px);
-                /* Lenyomás érzete */
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                /* Árnyék csökkentése */
             }
 
             .search-button:focus {
-                outline: 2px solid #a4de02;
-                /* Fókusz állapot kiemelése */
+                outline: 2px solid rgb(165, 255, 47);
                 outline-offset: 2px;
-                /* Kiemelés helyzete */
             }
 
         }
@@ -84,7 +67,7 @@
 
             .wt-toggle-users-btn {
                 margin-top: 1rem;
-                background-color: #84cc16;
+                background-color: lime;
                 color: white;
                 padding: 0.5rem 1rem;
                 border-radius: 0.25rem;
@@ -94,7 +77,7 @@
             .wt-user-list,
             .wt-join-requests {
                 margin-top: 1rem;
-                color: #84cc16;
+                color: lime;
 
                 h4 {
                     font-size: 1.125rem;
@@ -167,7 +150,7 @@
     .wt-video-container h2 {
         font-size: 2rem;
         font-weight: bold;
-        color: #84cc16;
+        color: lime;
         margin-bottom: 16px;
     }
 
@@ -190,33 +173,35 @@
         border-radius: 8px;
     }
 
-    .wt-wtsearch-bar {
+    .wt-search-bar {
         display: flex;
         align-items: center;
-        gap: 8px;
     }
+
+
 
     .wt-search-input {
         flex-grow: 1;
         padding: 10px;
         border: 1px solid #ccc;
-        border-radius: 4px;
+        border-radius: 30px 0 0 30px;
         font-size: 1rem;
         color: black;
+        height: 35px;
     }
 
-    .wt-search-btn {
-        background-color: #84cc16;
+    .wt-wtsearch-btn {
+        background-color: lime;
         color: white;
         padding: 10px 16px;
         border: none;
-        border-radius: 4px;
+        border-radius: 0 30px 30px 0;
         cursor: pointer;
-        transition: background 0.2s;
+        height: 35px;
     }
 
-    .wt-search-btn:hover {
-        background-color: #6aaa12;
+    .wt-wtsearch-btn:hover {
+        background-color: rgb(0, 128, 0);
     }
 
     .wt-video-results {

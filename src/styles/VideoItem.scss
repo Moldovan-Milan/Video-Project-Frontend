@@ -1,10 +1,9 @@
 
-/*a videó kártyájának háttere*/
 .video-item{
   background-color: black;
   border-radius: 10px;
   transition: transform 0.2s, box-shadow 0.2s;
-  
+  box-shadow: 0 0 2px gray;
 }
 
 .dark .video-item {
@@ -21,7 +20,6 @@
   transform: scale(1.05);
 }
 
-/*a videó hosszát megjelenítő div*/
 .video-length{
   position: absolute;
   bottom: 90px;
@@ -40,10 +38,6 @@
   align-items: center;
 }
 
-
-/*border animációk*/
-
-/*a meganimált div*/
 .border-animacio {
   padding: 5px;
   border-radius: 10px;
@@ -51,16 +45,12 @@
   z-index: 1;
 }
 
-
-
-/*az animációnál ez a változó változik folyamatosan*/
 @property --angle {
   syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
 }
 
-/*az animáció ha rávisszük az egeret*/
 .border-animacio:hover::after, .border-animacio:hover::before {
   content: '';
   position: absolute;
@@ -80,7 +70,6 @@
   opacity: 0.5;
 }
 
-/*a változó változtatása*/
 @keyframes spin {
   from {
     --angle: 0deg;
@@ -90,7 +79,6 @@
   }
 }
 
-/*az alap animáció*/
 .border-animacio::after, .border-animacio::before {
   content: '';
   position: absolute;

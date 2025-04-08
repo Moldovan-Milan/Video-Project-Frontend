@@ -1,0 +1,91 @@
+.w2gMain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.W2Gh1 {
+  font-size: 3.5rem;
+  color: lime;
+  margin-bottom: 2rem;
+}
+
+.btnW2GCreateR, .btnW2GJoin, .btnW2GJoinR,  .btnW2GCreate{
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btnW2GCreateR:hover, .btnW2GJoin:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.btnW2GCreateR {
+  background-color: lime;
+  color: black;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.btnW2GCreateR:hover {
+  background-color: #019c01;
+  transform: scale(1.1);
+  box-shadow: 0px 4px 20px rgba(0, 255, 34, 0.4);
+}
+
+.btnW2GJoinR {
+  background-color: #007bff;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.btnW2GJoinR:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+  box-shadow: 0px 4px 20px rgba(4, 0, 255, 0.4);
+}
+
+.btnCreateW2G {
+  background-color: #B200FF;
+  font-size: 1.2rem;
+}
+
+.btnCreateW2G:hover {
+  background-color: #6c009b;
+  transform: scale(1.1);
+  box-shadow: 0px 4px 20px rgba(153, 0, 255, 0.4);
+}
+
+
+.inputW2Gcode {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.inputW2Gcode:focus {
+  outline: none;
+  box-shadow: 0px 0px 10px #007bff;
+  border: 1px solid #007bff;
+}
+
+.btnW2GJoin {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btnW2GJoin:hover {
+  background-color: #e0a800;
+  transform: scale(1.1);
+  box-shadow: 0px 4px 20px rgba(217, 255, 0, 0.4);
+}
