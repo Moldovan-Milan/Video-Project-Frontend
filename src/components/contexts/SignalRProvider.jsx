@@ -11,10 +11,6 @@ export const SignalRProvider = ({ children }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const connectToServer = async () => {
-    // if (connection) {
-    //   console.warn("⚠️ SignalR connection already exists.");
-    //   return;
-    // }
 
     const newConnection = new signalR.HubConnectionBuilder()
       .withUrl(`${BASE_URL}/chatHub`, {})

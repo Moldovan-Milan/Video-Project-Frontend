@@ -34,8 +34,10 @@ const Login = () => {
     formData.append("password", password);
     formData.append("rememberMe", rememberMe);
 
-    const response = await axios.post("api/user/login", formData, { withCredentials: true });
-    console.log(response.headers)
+    const response = await axios.post("api/user/login", formData, {
+      withCredentials: true,
+    });
+    console.log(response.headers);
 
     if (response.status === 200) {
       const { userDto } = response.data;
@@ -48,6 +50,7 @@ const Login = () => {
         followers: userDto.followers,
         avatarId: userDto.avatarId,
         created: userDto.created,
+        rememberMe,
       });
 
       navigate("/");

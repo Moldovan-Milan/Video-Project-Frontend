@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
-import VideoItem from "../components/VideoItem";
+const VideoItem = React.lazy(() => import("../components/VideoItem")); // Lazy import
+
 import loading from "../assets/loading.gif";
 
 const VideosPage = () => {
@@ -56,11 +57,12 @@ const VideosPage = () => {
           videos.map((video, index) => {
             const isLastVideo = index === videos.length - 1;
             return (
-              <VideoItem
-                key={video.id}
-                video={video}
-                ref={isLastVideo ? lastVideoRef : null}
-              />
+              <Suspense key={video.id} fallback={<div>Loading...</div>}>
+                <VideoItem
+                  video={video}
+                  ref={isLastVideo ? lastVideoRef : null}
+                />
+              </Suspense>
             );
           })
         ) : (
