@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  Suspense,
+} from "react";
 import axios from "axios";
 const VideoItem = React.lazy(() => import("../components/VideoItem")); // Lazy import
 
