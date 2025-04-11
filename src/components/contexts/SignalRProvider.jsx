@@ -11,7 +11,12 @@ export const SignalRProvider = ({ children }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const connectToServer = async () => {
-
+    if (
+      connection &&
+      connection.state == signalR.HubConnectionState.Connected
+    ) {
+      return;
+    }
     const newConnection = new signalR.HubConnectionBuilder()
       .withUrl(`${BASE_URL}/chatHub`, {})
       .withAutomaticReconnect()
@@ -80,10 +85,8 @@ export const SignalRProvider = ({ children }) => {
         connection,
         messages,
         setMessages,
-        requestHistory: (chatId) =>
-          invokeSignalRMethod(connection, "RequestChatHistory", chatId),
-        sendMessage: (chatId, content) =>
-          invokeSignalRMethod(connection, "SendMessage", chatId, content),
+        requestHistory,
+        sendMessage,
       }}
     >
       {children}

@@ -18,7 +18,6 @@ const MessagePage = () => {
   useEffect(() => {
     if (!connection || connection.state !== "Connected") return;
 
-    console.log(`📥 Requesting chat history for chat ID: ${safeId}`);
     setMessages([]);
     requestHistory(Number(safeId));
   }, [safeId, connection]);

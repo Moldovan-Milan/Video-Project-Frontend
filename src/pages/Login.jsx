@@ -37,11 +37,9 @@ const Login = () => {
     const response = await axios.post("api/user/login", formData, {
       withCredentials: true,
     });
-    console.log(response.headers);
 
     if (response.status === 200) {
       const { userDto } = response.data;
-      console.log(userDto);
 
       setUser({
         id: userDto.id,
