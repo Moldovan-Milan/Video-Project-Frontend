@@ -4,6 +4,7 @@ import "../styles/ThumbnailUpload.scss";
 
 const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, maxHeight }) => {
   const [preview, setPreview] = useState("");
+  const [displaySelected, setDisplaySelected] = useState(false)
 
   useEffect(() => {
     if (thumbnail instanceof File) {
@@ -19,6 +20,7 @@ const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, max
     const file = e.target.files[0];
     if (!file) return;
     setThumbnail(file);
+    setDisplaySelected(true)
     setGoBackText && setGoBackText("Go Back (Discard Changes)");
   };
 
@@ -29,9 +31,12 @@ const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, max
         <FaImage className="m-1" />
       </label>
       {preview && <div>
-        <p className="mt-2 text-sm text-center m-3">
-          Selected: <strong>{thumbnail.name}</strong> ({(thumbnail.size / 1024 / 1024).toFixed(2)} MB)
-        </p>
+        {displaySelected && 
+            <p className="mt-2 text-sm text-center m-3">
+                Selected: <strong>{thumbnail.name}</strong> ({(thumbnail.size / 1024 / 1024).toFixed(2)} MB)
+            </p>
+        }
+        
         <img src={preview} className="thumbnailPreview" style={{maxHeight: maxHeight, maxWidth: maxWidth}}/>
       </div>}
       <div className="flex items-center gap-2">
