@@ -9,6 +9,8 @@ import getRoles from "../functions/getRoles";
 import VerificationRequestButton from "../components/VerificationRequestButton";
 import getActiveVerificationRequestStatus from "../functions/getActiveVerificationRequestStatus";
 import { FaShieldAlt } from "react-icons/fa";
+import axios from "axios";
+import ThumbnailUpload from "../components/ThumbnailUpload";
 
 const UploadVideo = () => {
   const {
@@ -17,6 +19,7 @@ const UploadVideo = () => {
     setFile,
     setImage,
     titleRef,
+    descriptionRef,
     error,
     isUploaded,
     uploading,
@@ -27,6 +30,7 @@ const UploadVideo = () => {
   const { user } = useContext(UserContext);
   const [roles, setRoles] = useState([]);
   const [hasActiveRequest, setHasActiveRequest] = useState(null);
+  const [supportedFormats, setSupportedFormats] = useState([]);
 
   useEffect(() => {
     document.title = "Upload video | Omega Stream";
@@ -49,6 +53,25 @@ const UploadVideo = () => {
       setHasActiveRequest(hasRequest);
     };
     checkVerificationRequest();
+  }, []);
+
+  useEffect(() => {
+    const loadSupportedFormats = async () => {
+      try {
+        const response = await axios.get("api/video/get-supported-formats");
+        if (response.status === 200) {
+          const formats = response.data;
+  
+          const acceptString = formats.join(",");
+  
+          setSupportedFormats(acceptString);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    loadSupportedFormats();
   }, []);
 
   const handleVerificationRequest = () => {
@@ -116,40 +139,56 @@ const UploadVideo = () => {
           Video
         </label>
         <input
-          id="uploadVideo"
-          type="file"
-          onChange={(e) => setFile(e.target.files[0])}
-          accept="video/*"
-          hidden
-        />
+            id="uploadVideo"
+            type="file"
+            onChange={(e) => setFile(e.target.files[0])}
+            accept={supportedFormats}
+            hidden
+          />
         <label htmlFor="uploadVideo" className="uploadBtn">
           <FaUpload className="upload-icn" /> Choose a video
         </label>
+        {file && (
+          <div className="mt-4">
+            <p className="mt-2 text-sm text-center m-3">
+              Selected: <strong>{file.name}</strong> ({(file.size / 1024 / 1024).toFixed(2)} MB)
+            </p>
+            <video
+              src={URL.createObjectURL(file)}
+              controls
+              width="320"
+              height="180"
+              className="rounded-md shadow-md"
+              style={{margin: "auto", maxHeight: 180, maxWidth: 320}} 
+            />
+          </div>
+        )}
+
+
       </div>
       <div className="mb-4">
-        <label htmlFor="thumbnail" className="block font-bold mb-2 uploadLabel">
-          Thumbnail
-        </label>
-        <input
-          id="uploadThumbnail"
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-          accept=".png"
-          hidden
-        />
-        <label htmlFor="uploadThumbnail" className="uploadBtn">
-          <FaUpload className="upload-icn" /> Choose a thumbnail
-        </label>
+        <ThumbnailUpload thumbnail={image} setThumbnail={setImage} maxWidth={480} maxHeight={270}/>
       </div>
+
       <div className="mb-4">
         <label htmlFor="title" className="block font-bold mb-2 uploadLabel">
           Title
         </label>
         <input
-          className="form-input text-black w-full px-4 py-2 inputTitle"
+          className="form-input text-black px-4 py-2 inputTitle"
           name="title"
           type="text"
           ref={titleRef}
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="description" className="block font-bold mb-2 uploadLabel">
+          Description
+        </label>
+        <textarea
+          className="form-input text-white px-4 py-2 inputDescription"
+          name="description"
+          ref={descriptionRef}
         />
       </div>
       {error && <p className="text-red-500 mb-4">{error}</p>}

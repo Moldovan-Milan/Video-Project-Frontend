@@ -26,6 +26,7 @@ export const useVideoUpload = () => {
   const [uploading, setUploading] = useState(false); // Feltöltés folyamatban jelző
   const [uploadPercent, setUploadPercent] = useState(0); // Feltöltési százalék
   const titleRef = useRef(); // Videó címe
+  const descriptionRef = useRef();
 
   // Ez fog lefutni, amikor feltöltjük a fájlokat a szerverre
   const uploadChunk = async ({ chunk, fileName, chunkNumber }) => {
@@ -49,6 +50,7 @@ export const useVideoUpload = () => {
     formData.append("totalChunks", totalChunks);
     formData.append("image", image);
     formData.append("title", titleRef.current.value);
+    formData.append("description", descriptionRef.current.value)
 
     const response = await axios.post("api/video/assemble", formData, {
       withCredentials: true,
@@ -85,10 +87,12 @@ export const useVideoUpload = () => {
     }
   };
 
-  const canUploadVideo = async (fileName) => {
+  const canUploadVideo = async (fileName, extension) => {
     const formData = new FormData();
     formData.append("videoSize", file.size);
     formData.append("fileName", fileName);
+    formData.append("extension", extension)
+    formData.append("thumbnail", image)
     console.log(fileName);
     const response = await axios.post("/api/video/can-upload", formData, {
       withCredentials: true,
@@ -110,9 +114,10 @@ export const useVideoUpload = () => {
       return;
     }
 
+    const extension = file.name.split(".").pop();
     const generatedFileName = Date.now();
     // Megkérdezzük, hogy van-e elég hely a videóhoz
-    if (!canUploadVideo(generatedFileName)) {
+    if (!canUploadVideo(generatedFileName, extension)) {
       setError("There is not enough space on the server for the video.");
       return;
     }
@@ -124,8 +129,6 @@ export const useVideoUpload = () => {
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
 
     setFileName(generatedFileName);
-
-    const extension = file.name.split(".").pop();
 
     let completedChunks = 0;
     let chunkQueue = Array.from({ length: totalChunks }, (_, i) => i); // Darabszámok sorban
@@ -182,6 +185,7 @@ export const useVideoUpload = () => {
     setFile,
     setImage,
     titleRef,
+    descriptionRef,
     error,
     isUploaded,
     uploading,
