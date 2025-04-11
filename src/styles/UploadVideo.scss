@@ -1,16 +1,19 @@
 .uploadBtn{
- background-color: black;
- color: lime;
- border: 1px solid #B200FF;
- border-radius: 10px;
- padding-left: 5px;
- padding-right: 5px;
- padding-top: 2px;
- padding-bottom: 2px;
- display: flex;
- align-items: center;
- justify-content: center;
- transition: transform 0.2s, box-shadow 0.2s;
+    background-color: black;
+    color: lime;
+    border: 1px solid #B200FF;
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 30%;
+    min-width: 250px;
+    margin: auto;
 }
 
 .uploadBtn:hover{
@@ -37,6 +40,20 @@
     background-color: lime;
     border: 1px solid white;
     border-radius: 35px;
+    width: 65%;
+    min-width: 300px;
+    display: block;
+    margin: auto;
+}
+
+.inputDescription{
+    color: white;
+    margin: auto;
+    display: block;
+    width: 65%;
+    min-width: 425px;
+    border-radius: 10px;
+    background-color: #B200FF;
 }
 
 
