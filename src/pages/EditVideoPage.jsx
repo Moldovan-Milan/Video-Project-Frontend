@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import "../styles/EditVideoPage.scss";
 import getRoles from "../functions/getRoles";
+import ThumbnailUpload from "../components/ThumbnailUpload";
 
 const EditVideoPage = () => {
   const [videoData, setVideoData] = useState({ title: "", description: "" });
@@ -174,22 +175,12 @@ const EditVideoPage = () => {
         className="descriptionTextArea"
       />
 
-      <label className="flex items-center justify-center editLabel">
-        Thumbnail preview
-        <FaImage className="m-1" />
-      </label>
-      <img src={thumbnail} className="thumbnailPreview" />
-      <div className="flex items-center gap-2">
-        <label className="imgInput">
-          <FaUpload className="m-1" /> Upload new thumbnail
-          <input
-            type="file"
-            accept=".png,.jpg,.jpeg"
-            className="mt-1"
-            onChange={handleUpload}
-          />
-        </label>
-      </div>
+      <ThumbnailUpload
+        thumbnail={thumbnail}
+        setThumbnail={setThumbnail}
+        setGoBackText={setGoBackText}
+      />
+
 
       <button className="saveBtn" onClick={handleSave}>
         <FaSave className="m-1" /> Save changes
