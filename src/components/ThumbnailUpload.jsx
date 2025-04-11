@@ -1,19 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaImage, FaUpload } from "react-icons/fa";
 import "../styles/ThumbnailUpload.scss";
 
-const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText }) => {
+const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, maxHeight }) => {
+  const [preview, setPreview] = useState("");
+
   useEffect(() => {
-    return () => {
-      if (thumbnail && thumbnail.startsWith("blob:")) {
-        URL.revokeObjectURL(thumbnail);
-      }
-    };
+    if (thumbnail instanceof File) {
+      const objectUrl = URL.createObjectURL(thumbnail);
+      setPreview(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    } else {
+      setPreview(thumbnail);
+    }
   }, [thumbnail]);
 
   const handleUpload = (e) => {
-    const newThumbnail = URL.createObjectURL(e.target.files[0]);
-    setThumbnail(newThumbnail);
+    const file = e.target.files[0];
+    if (!file) return;
+    setThumbnail(file);
     setGoBackText && setGoBackText("Go Back (Discard Changes)");
   };
 
@@ -23,11 +28,17 @@ const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText }) => {
         Thumbnail preview
         <FaImage className="m-1" />
       </label>
-      <img src={thumbnail} className="thumbnailPreview" />
+      {preview && <div>
+        <p className="mt-2 text-sm text-center m-3">
+          Selected: <strong>{thumbnail.name}</strong> ({(thumbnail.size / 1024 / 1024).toFixed(2)} MB)
+        </p>
+        <img src={preview} className="thumbnailPreview" style={{maxHeight: maxHeight, maxWidth: maxWidth}}/>
+      </div>}
       <div className="flex items-center gap-2">
         <label className="imgInput">
           <FaUpload className="m-1" /> Upload new thumbnail
           <input
+            hidden
             type="file"
             accept=".png,.jpg,.jpeg"
             className="mt-1"
