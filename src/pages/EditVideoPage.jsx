@@ -23,14 +23,17 @@ const EditVideoPage = () => {
   const { user } = useContext(UserContext);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  const [roles, setRoles] = useState([])
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
+
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     const loadRoles = async () => {
       const fetchedRoles = await getRoles(user.id);
       setRoles(fetchedRoles);
     };
-  
+
     if (user) {
       loadRoles();
     }
@@ -53,7 +56,11 @@ const EditVideoPage = () => {
       navigate("/login");
       return;
     }
-    if (videoData.userId && (user.id !== videoData.userId && !roles.includes("Admin"))) {
+    if (
+      videoData.userId &&
+      user.id !== videoData.userId &&
+      !roles.includes("Admin")
+    ) {
       navigate(`/video/${id}`);
       return;
     }
@@ -66,7 +73,7 @@ const EditVideoPage = () => {
     if (videoData.thumbnailId) {
       const setDefaultThumbnail = async () => {
         setThumbnail(
-          `${BASE_URL}/api/Video/thumbnail/${videoData.thumbnailId}`
+          `${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${videoData.thumbnail.path}.${videoData.thumbnail.extension}`
         );
       };
       setDefaultThumbnail();
