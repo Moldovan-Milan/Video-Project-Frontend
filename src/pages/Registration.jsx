@@ -97,7 +97,7 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-gray-white font-bold mb-2">Password:</label>
+            <label htmlFor="confirmPassword" className="block text-gray-white font-bold mb-2">Confrim Password:</label>
             <input
               type="password"
               className="text-black form-input w-full px-4 py-2 border rounded-md"
