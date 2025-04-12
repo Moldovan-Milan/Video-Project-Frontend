@@ -8,7 +8,8 @@ import formatDuration from "../functions/formatDuration";
 
 const SearchVideoItem = forwardRef(({ video }, ref) => {
   const { id, title, duration, created, thumbnailId, user } = video;
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
 
   return (
     <div className="searchVideoItemContainer" title={title} ref={ref}>
@@ -20,7 +21,7 @@ const SearchVideoItem = forwardRef(({ video }, ref) => {
                 <td className="searchItemThumbnail">
                   <div
                     style={{
-                      backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
+                      backgroundImage: `url("${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}")`,
                     }}
                     className="searchItemThumbnailDiv"
                   >
