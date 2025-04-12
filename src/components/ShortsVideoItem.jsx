@@ -24,11 +24,15 @@ const ShortsVideoItem = forwardRef(({ video }, ref) => {
           }}
           className="shortsItemThumbnail"
         >
-          <div className="shortsItemTitle">
-            <img
-              src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
-              className="shortsAvatar"
-            ></img>
+          <div className="shortsItemTitle" title={user.userName}>
+            <object>
+              <Link to={`/profile/${video.user.id}`} onClick={(e) => e.stopPropagation()}>
+                <img
+                  src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
+                  className="shortsAvatar"
+                ></img>
+              </Link>
+            </object>
             <p>{title}</p>
             <p>{formatDuration(duration)}</p>
           </div>
