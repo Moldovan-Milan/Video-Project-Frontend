@@ -15,6 +15,12 @@
 .UserAccSubs {
   max-width: 300px;
   position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  text-align: center;
   top: -50px;
 }
 
