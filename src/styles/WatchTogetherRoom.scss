@@ -28,7 +28,7 @@
             color: #9ca3af;
         }
 
-        .search-button {
+        .W2GSearchButton {
             background-color: lime;
             color: white;
             padding: 0.8rem 1.5rem;
@@ -38,20 +38,22 @@
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block;
+            margin: auto;
 
-            .search-button:hover {
+            .W2GSearchButton:hover {
                 background-color: rgb(0, 139, 0);
                 transform: translateY(-2px);
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             }
 
-            .search-button:active {
+            .W2GSearchButton:active {
                 background-color: #4eff19;
                 transform: translateY(2px);
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             }
 
-            .search-button:focus {
+            .W2GSearchButton:focus {
                 outline: 2px solid rgb(165, 255, 47);
                 outline-offset: 2px;
             }
@@ -64,15 +66,6 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
-
-            .wt-toggle-users-btn {
-                margin-top: 1rem;
-                background-color: lime;
-                color: white;
-                padding: 0.5rem 1rem;
-                border-radius: 0.25rem;
-                cursor: pointer;
-            }
 
             .wt-user-list,
             .wt-join-requests {
@@ -224,7 +217,7 @@
     .wt-playlist h3 {
         font-size: 18px;
         font-weight: bold;
-        color: #a4de02;
+        color: lime;
         margin-bottom: 10px;
         text-align: center;
     }
@@ -286,7 +279,6 @@
         text-overflow: ellipsis;
     }
 
-    /* Törlés ikon */
     .wt-playlist li .delete-icon {
         position: absolute;
         right: 10px;
@@ -294,12 +286,12 @@
         transform: translateY(-50%);
         cursor: pointer;
         font-size: 18px;
-        color: #ff4d4d;
-        /* Piros szín */
+        background-color: #ff0000;
         display: none;
+        padding: 2px;
+        border-radius: 5px;
     }
 
-    /* Hover hatás a törlés ikonra */
     .wt-playlist li:hover .delete-icon {
         display: block;
     }
@@ -327,6 +319,8 @@
         background-color: #222;
         font-style: italic;
         box-shadow: 0px 0px 10px rgba(255, 204, 0, 0.5);
+        display: block;
+        margin: auto;
     }
 
     /* Médialekérdezések */
@@ -369,4 +363,23 @@
             /* Nagy képernyőméret */
         }
     }
+
+}
+
+.W2GConnUsers{
+    text-align: center;
+    color: lime;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.W2GUserToggler {
+    margin-top: 1rem;
+    background-color: lime;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    display: flex;
+    margin: auto;
 }

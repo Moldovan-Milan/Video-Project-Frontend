@@ -9,7 +9,6 @@ $black: black;
     border-radius: 8px;
     background-color: #111;
     overflow: hidden;
-    width: 100%;
     margin: 10px;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -53,7 +52,7 @@ $black: black;
         color: white;
         flex-grow: 1;
 
-        .title {
+        .W2GVidItemTitle {
             font-size: 16px;
             font-weight: bold;
             color: $lime;
@@ -91,4 +90,12 @@ $black: black;
         }
     }
     
+    .W2GVidItemThumbnailDiv
+    {
+        width:150px;
+    }
+    .VidItemTitleWrapper {
+        width: 100%;
+        overflow: hidden;
+      }
 }

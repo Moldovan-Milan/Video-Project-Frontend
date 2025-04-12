@@ -48,7 +48,7 @@ const Login = () => {
         followers: userDto.followers,
         avatarId: userDto.avatarId,
         created: userDto.created,
-        rememberMe,
+        rememberMe: userDto.rememberMe,
       });
 
       navigate("/");
