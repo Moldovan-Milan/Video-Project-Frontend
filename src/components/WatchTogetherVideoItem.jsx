@@ -12,9 +12,15 @@ const WatchTogetherVideoItem = ({ video, onSelect }) => {
   return (
     <div className="wtvideo-item" onClick={() => onSelect(video)}>
       <div
-        style={{backgroundImage: `url("${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}")`,}}
-        className="W2GVidItemThumbnailDiv">
-          <div className="video-duration flex"><FaClock className="m-1"/>{formatDuration(video.duration)}</div>
+        style={{
+          backgroundImage: `url("${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}")`,
+        }}
+        className="W2GVidItemThumbnailDiv"
+      >
+        <div className="video-duration flex">
+          <FaClock className="m-1" />
+          {formatDuration(video.duration)}
+        </div>
       </div>
       {/* <div className="W2Gthumbnail">
           <img
@@ -27,11 +33,12 @@ const WatchTogetherVideoItem = ({ video, onSelect }) => {
         </div> */}
       <div className="wtvideo-info">
         <div className="VidItemTitleWrapper">
-        <h3 className="W2GVidItemTitle">{video.title}</h3>
+          <h3 className="W2GVidItemTitle">{video.title}</h3>
         </div>
         <p className="description">{video.description}</p>
         <div className="user-info">
           <img
+            loading="eager"
             src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
             alt={video.user.userName}
             className="avatar"

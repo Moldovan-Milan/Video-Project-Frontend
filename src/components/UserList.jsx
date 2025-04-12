@@ -3,6 +3,8 @@ import { FaUser } from "react-icons/fa";
 
 const UserList = ({ users, isHost, user, banUser }) => {
   const [showUsers, setShowUsers] = useState(false);
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
 
   return (
     <div>
@@ -10,7 +12,13 @@ const UserList = ({ users, isHost, user, banUser }) => {
         className="W2GUserToggler"
         onClick={() => setShowUsers(!showUsers)}
       >
-        {showUsers ? `Hide Users` : <p className="flex"><FaUser className="m-1"/> Show the users in the room</p>}
+        {showUsers ? (
+          `Hide Users`
+        ) : (
+          <p className="flex">
+            <FaUser className="m-1" /> Show the users in the room
+          </p>
+        )}
       </button>
 
       {showUsers && (
@@ -19,8 +27,11 @@ const UserList = ({ users, isHost, user, banUser }) => {
           <ul>
             {users.map((connectedUser) => (
               <li key={connectedUser.id}>
+                {console.log(connectedUser)}
                 <img
                   src={`https://localhost:7124/api/User/avatar/${connectedUser.avatarId}`}
+                  // TODO: Replace src with this
+                  //src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${connectedUser.avatar.path}.${connectedUser.avatar.extension}`}
                   alt={connectedUser.username}
                 />
                 <span>{connectedUser.userName}</span>

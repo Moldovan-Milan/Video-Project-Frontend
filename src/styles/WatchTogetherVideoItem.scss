@@ -92,7 +92,10 @@ $black: black;
     
     .W2GVidItemThumbnailDiv
     {
-        width:150px;
+        width: 150px;
+        height: 150px;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
     .VidItemTitleWrapper {
         width: 100%;

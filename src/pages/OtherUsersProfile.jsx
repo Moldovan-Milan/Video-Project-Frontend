@@ -60,6 +60,7 @@ const OtherUsersProfile = () => {
     const fetchUser = async () => {
       try {
         const { data } = await axios.get(`/api/user/profile/${safeId}`);
+        console.log(data);
         setUserData({
           id: data.user.id,
           username: data.user.userName,

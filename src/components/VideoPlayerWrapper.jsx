@@ -10,6 +10,7 @@ const VideoPlayerWrapper = ({
   connection,
 }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
 
   useEffect(() => {
     console.log(id);
@@ -22,7 +23,7 @@ const VideoPlayerWrapper = ({
           roomId={id}
           isPlaying={isPlaying}
           isHost={isHost}
-          videoUrl={`${BASE_URL}/api/video/${currentVideo.id}`}
+          videoUrl={`${CLOUDFLARE_PATH}/videos/${currentVideo.path}/${currentVideo.path}.m3u8`}
           connection={connection}
         />
       ) : !isHost ? (
