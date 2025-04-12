@@ -151,6 +151,10 @@
 .VidItemUploader{
   margin-top: 0px;
   text-align: center;
+  :hover{
+    color: #B200FF;
+    transform: scale(1.05);
+  }
 }
 
 .vid-info-table{

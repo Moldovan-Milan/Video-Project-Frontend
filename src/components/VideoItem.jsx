@@ -31,19 +31,27 @@ const VideoItem = forwardRef(({ video }, ref) => {
               <div className="video-duration">{formatDuration(duration)}</div>
             </div>
             <div className="p-4 VideoItemDetails">
-              <div className="VidItemCol1">
-              <img
-                  src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
-                  className="VidItemUploaderAvt w-12 h-12"
-                  alt="Uploader Avatar"/>
+              <div className="VidItemCol1" title={user.userName}>
+                <object>
+                  <Link to={`/profile/${video.user.id}`} onClick={(e) => e.stopPropagation()}>
+                    <img
+                      src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
+                      className="VidItemUploaderAvt w-12 h-12"
+                      alt="Uploader Avatar"/>
+                  </Link>
+                </object>
               </div>
               <div className="VidItemCol2">
                 <div className="VidItemDetailsRows">
                 <div className="VidItemTitleWrapper">
                   <p className="VidItemTitle font-bold">{title}</p>
                 </div>
-                <div className="text-2xl VidItemUploader">
-                  {user.userName}
+                <div className="text-2xl VidItemUploader" title={user.userName}>
+                  <object>
+                    <Link to={`/profile/${video.user.id}`} onClick={(e) => e.stopPropagation()}>
+                      {user.userName}
+                    </Link>
+                  </object>
                 </div>                    
                 <div className="text-sm VidItemViews">
                   <FaEye className="m-1 eye-icon"/>
