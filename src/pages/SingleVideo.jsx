@@ -33,6 +33,8 @@ const SingleVideo = () => {
 
   const [recomendedVideos, setRecomendedVideos] = useState(null);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
 
   useEffect(() => {
     const loadRoles = async () => {
@@ -148,7 +150,7 @@ const SingleVideo = () => {
   return (
     <div className="container">
       <VideoPlayer
-        src={`${BASE_URL}/api/video/${id}`}
+        src={`${CLOUDFLARE_PATH}/videos/${videoData.path}/${videoData.path}.m3u8`}
         id={id}
         className="vplayer"
       />
@@ -157,7 +159,7 @@ const SingleVideo = () => {
         <h2 className="video-title">{videoData.title}</h2>
         <Link to={`/profile/${videoData.userId}`} className="video-user">
           <img
-            src={`${BASE_URL}/api/User/avatar/${videoData.user.avatarId}`}
+            src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${videoData.user.avatar.path}.${videoData.user.avatar.extension}`}
             alt="User Avatar"
             className="avatar"
           />
