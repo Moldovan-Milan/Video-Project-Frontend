@@ -32,13 +32,13 @@ function App() {
           originalRequest._retry = true;
 
           try {
-            console.log("Token lejárt, frissítés...");
+            console.log("Token expired, refreshing...");
             await tryLoginUser(setUser, connectToServer, connection);
             originalRequest.withCredentials = true; // Send the new access token
             //console.log(originalRequest.headers);
             return axios(originalRequest);
           } catch (refreshError) {
-            console.error("Token frissítés sikertelen:", refreshError);
+            console.error("Failed refreshing token:", refreshError);
             return Promise.reject(refreshError);
           }
         }
