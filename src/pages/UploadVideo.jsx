@@ -167,7 +167,12 @@ const UploadVideo = () => {
 
       </div>
       <div className="mb-4">
-        <ThumbnailUpload thumbnail={image} setThumbnail={setImage} maxWidth={480} maxHeight={270}/>
+        <ThumbnailUpload 
+          thumbnail={image}
+          setThumbnail={setImage}
+          maxWidth={480}
+          maxHeight={270}
+          buttonText={"Upload Thumbnail"}/>
       </div>
 
       <div className="mb-4">

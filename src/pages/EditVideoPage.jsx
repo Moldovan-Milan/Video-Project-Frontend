@@ -179,6 +179,7 @@ const EditVideoPage = () => {
         thumbnail={thumbnail}
         setThumbnail={setThumbnail}
         setGoBackText={setGoBackText}
+        buttonText={"Upload Thumbnail"}
       />
 
 

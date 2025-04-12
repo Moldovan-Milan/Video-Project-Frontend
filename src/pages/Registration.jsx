@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import axios from "axios";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
+import ThumbnailUpload from "../components/ThumbnailUpload";
 
 const Registration = () => {
   const userNameRef = useRef("");
@@ -10,21 +11,16 @@ const Registration = () => {
   const emailRef = useRef("");
   const [avatar, setAvatar] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleAvatarChange = (e) => {
-    setAvatar(e.target.files[0]);
-  };
-
   useEffect(() => {
-    document.title = "Register | Omega Stream"
-  }, [])
+    document.title = "Register | Omega Stream";
+  }, []);
 
   const handleRegistration = async (e) => {
     e.preventDefault();
 
-    // Megnézi, hogy minden mezőt kitöltött-e
     if (
       userNameRef.current.value === "" ||
       passwordRef.current.value === "" ||
@@ -34,42 +30,42 @@ const Registration = () => {
     ) {
       setErrorMessage("You need to fill out everything!");
       return;
-    } else {
-      // Jelszó ellenőrzése
-      if (passwordRef.current.value !== confirmPasswordRef.current.value) {
-        setErrorMessage("The passwords don't match!");
-        return;
+    }
+
+    if (passwordRef.current.value !== confirmPasswordRef.current.value) {
+      setErrorMessage("The passwords don't match!");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("username", userNameRef.current.value);
+      formData.append("email", emailRef.current.value);
+      formData.append("password", passwordRef.current.value);
+      formData.append("avatar", avatar);
+      const response = await axios.post("api/user/register", formData);
+
+      if (response.status === 200) {
+        window.alert("Successfully Registered!");
+        navigate("/");
       } else {
-        try {
-          const formData = new FormData();
-          formData.append("username", userNameRef.current.value);
-          formData.append("email", emailRef.current.value);
-          formData.append("password", passwordRef.current.value);
-          formData.append("avatar", avatar);
-          const response = await axios.post("api/user/register", formData);
-          if (response.status === 200) {
-            window.alert("Successfully Registered!");
-            navigate("/");
-          } else {
-            setErrorMessage(response.data);
-            console.log(response.data);
-          }
-        } catch (err) {
-          console.error(err);
-        }
+        setErrorMessage(response.data);
+        console.log(response.data);
       }
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  if(user){
-    navigate("/")
+  if (user) {
+    navigate("/");
   }
 
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="bg-green-600 p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-        <form onSubmit={(e) => handleRegistration(e)}>
+        <form onSubmit={handleRegistration}>
           <div className="mb-4">
             <label htmlFor="username" className="block font-bold mb-2">Username:</label>
             <input
@@ -111,14 +107,16 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="avatar" className="block text-gray-white font-bold mb-2">Profile Picture:</label>
-            <input
-              onChange={handleAvatarChange}
-              type="file"
-              className="text-black form-input w-full px-4 py-2 border rounded-md"
-              id="avatar"
+            <label className="block text-white font-bold mb-2">Profile Picture:</label>
+            <ThumbnailUpload
+              thumbnail={avatar}
+              setThumbnail={setAvatar}
+              maxWidth={128}
+              maxHeight={128}
+              setGoBackText={() => {}}
+              buttonText={"Upload Image"}
+              borderRadius={"250px"}
             />
-            {avatar && <img src={URL.createObjectURL(avatar)} alt="Avatar" className="mt-4 w-32 h-32 rounded-full object-cover" />}
           </div>
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full">
             Sign Up

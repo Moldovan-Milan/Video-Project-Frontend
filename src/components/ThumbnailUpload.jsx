@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaImage, FaUpload } from "react-icons/fa";
 import "../styles/ThumbnailUpload.scss";
 
-const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, maxHeight }) => {
+const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, maxHeight, buttonText = "Upload Image", borderRadius = 0 }) => {
   const [preview, setPreview] = useState("");
   const [displaySelected, setDisplaySelected] = useState(false)
 
@@ -27,7 +27,7 @@ const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, max
   return (
     <>
       <label className="flex items-center justify-center editLabel">
-        Thumbnail preview
+        Image preview
         <FaImage className="m-1" />
       </label>
       {preview && <div>
@@ -37,11 +37,11 @@ const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, max
             </p>
         }
         
-        <img src={preview} className="thumbnailPreview" style={{maxHeight: maxHeight, maxWidth: maxWidth}}/>
+        <img src={preview} className="thumbnailPreview" style={{maxHeight: maxHeight, maxWidth: maxWidth, borderRadius: borderRadius}}/>
       </div>}
       <div className="flex items-center gap-2">
         <label className="imgInput">
-          <FaUpload className="m-1" /> Upload new thumbnail
+          <FaUpload className="m-1" /> {!buttonText ? (<p>Upload new image</p>): (<p>{buttonText}</p>)}
           <input
             hidden
             type="file"
