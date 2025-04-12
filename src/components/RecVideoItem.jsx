@@ -8,7 +8,8 @@ import formatDuration from "../functions/formatDuration";
 
 const RecVideoItem = forwardRef(({ video }, ref) => {
   const { id, title, duration, created, thumbnailId, user } = video;
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
 
   return (
     <div ref={ref} className="recVideoItemContainer" title={title}>
@@ -20,7 +21,7 @@ const RecVideoItem = forwardRef(({ video }, ref) => {
                 <td className="recItemThumbnail">
                   <div
                     style={{
-                      backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
+                      backgroundImage: `url("${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}")`,
                     }}
                     className="recItemThumbnailDiv"
                   >
@@ -31,7 +32,11 @@ const RecVideoItem = forwardRef(({ video }, ref) => {
                   <div className="recItemTitle">
                     {title.length > 30 ? title.substring(0, 30) + "..." : title}
                   </div>
-                  <div className="recItemUploader">{user.userName}</div>
+                  <div className="recItemUploader" title={user.userName}>
+                    <Link to={`/profile/${user.id}`}>
+                      {user.userName}
+                    </Link>
+                  </div>
                   <div className="recItemViews">
                     <FaEye className="recEye" /> {getViewText(video.views)} ● Created:{" "}
                     {timeAgo(new Date(created))}
