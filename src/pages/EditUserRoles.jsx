@@ -10,7 +10,8 @@ const EditUserRoles = () => {
   const [roles, setRoles] = useState([]);
   const [updating, setUpdating] = useState(false);
   const navigate = useNavigate();
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
 
   const AVAILABLE_ROLES = ["Verified", "Admin"];
 
@@ -69,7 +70,7 @@ const EditUserRoles = () => {
       {user ? (
         <div className="user-role-editor">
           <img
-            src={`${BASE_URL}/api/User/avatar/${user.avatarId}`}
+            src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${user.avatar.path}.${user.avatar.extension}`}
             alt="User Avatar"
             className="w-24 h-24 rounded-full"
           />
