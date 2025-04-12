@@ -12,7 +12,7 @@ const UserAccVideoItem = ({ video,color }) => {
   const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
   const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
   
-  const [safeId, setSafeId] = useState(id);
+  const [safeId] = useState(id);
 
   const handleDelete = async () => {
     if(window.confirm("Are you sure you want to delete this video? This action is irreversible, and the video cannot be recovered.")){
@@ -39,7 +39,7 @@ const UserAccVideoItem = ({ video,color }) => {
                 <td className="UserAccItemThumbnail">
                   <div
                     style={{
-                      backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
+                      backgroundImage: `url("${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}")`,
                     }}
                     className="UserAccItemThumbnailDiv"
                   >
