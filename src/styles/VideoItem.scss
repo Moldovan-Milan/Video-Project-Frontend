@@ -12,11 +12,11 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.item-outer{
+.VidItemOuter{
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.item-outer:hover{
+.VidItemOuter:hover{
   transform: scale(1.05);
 }
 
@@ -32,7 +32,7 @@
 }
 
 
-.views{
+.VidItemViews{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -104,9 +104,6 @@
   margin: 20px;
 }
 
-.video-info {
-  display: flex;
-}
 .video-avatar {
   margin-right: 10px;
 }
@@ -121,11 +118,20 @@
   justify-content: center;
   align-items: center;
 }
-.video-title, .video-title:visited {
-  font-size: 16px;
+.VidItemTitleWrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.VidItemTitle, .VidItemTitle:visited {
+  font-size: 25px;
   font-weight: bold;
   text-decoration: none;
   color: lime;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 .video-channel, .video-channel:visited {
   font-size: 14px;
@@ -142,8 +148,9 @@
   padding-right: 10px;
 }
 
-.uploader-name{
+.VidItemUploader{
   margin-top: 0px;
+  text-align: center;
 }
 
 .vid-info-table{
@@ -157,7 +164,7 @@
   width: 100%;
   height: 150px;
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
   position: relative;
   border-radius: 10px 10px 0px 0px;
 }
@@ -172,5 +179,61 @@
   bottom: 5px;
   right: 5px;
 }
+
+
+.VideoItemDetails {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.VidItemCol1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.VidItemCol2 {
+  min-width: 0;
+}
+
+.VidItemUploaderAvt {
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.VidItemDetailsRows{
+  grid-template-rows: repeat(3, 1fr);
+  gap: 5px;
+}
+
+@media (max-width: 1780px) {
+  .VidItemOuter {
+      width: 33.3333333333%;
+  }
+}
+
+@media (max-width: 1300px) {
+  .VidItemOuter {
+      width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .VidItemOuter {
+      width: 50%;
+  }
+}
+
+@media (max-width: 760px) {
+  .VidItemOuter {
+      width: 100%;
+  }
+}
+
 
 

@@ -16,7 +16,7 @@ const VideoItem = forwardRef(({ video }, ref) => {
   return (
     <div
       ref={ref}
-      className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 item-outer"
+      className="w-full lg:w-1/4 p-2 VidItemOuter"
       title={title}
     >
       <div className="shadow-md rounded-lg overflow-hidden border-animacio">
@@ -30,40 +30,27 @@ const VideoItem = forwardRef(({ video }, ref) => {
             >
               <div className="video-duration">{formatDuration(duration)}</div>
             </div>
-            <div className="p-4 video-details">
-              <table className="vid-info-table">
-                <tbody>
-                  <tr>
-                    <td rowSpan={2} className="uploader-avt">
-                      <img
-                        src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
-                        className="w-10 h-10 rounded-full mr-2"
-                        alt="Uploader Avatar"
-                      />
-                    </td>
-                    <td>
-                      <div className="video-title font-bold">
-                        {title.length > 11
-                          ? title.substring(0, 11) + "..."
-                          : title}
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="text-sm">
-                        <div className="video-info text-2xl uploader-name">
-                          {user.userName}
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className="text-xs views">
-                <FaEye className="eye-icon" />
-                {getViewText(views)} ● Created: {timeAgo(new Date(created))}
+            <div className="p-4 VideoItemDetails">
+              <div className="VidItemCol1">
+              <img
+                  src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
+                  className="VidItemUploaderAvt w-12 h-12"
+                  alt="Uploader Avatar"/>
               </div>
+              <div className="VidItemCol2">
+                <div className="VidItemDetailsRows">
+                <div className="VidItemTitleWrapper">
+                  <p className="VidItemTitle font-bold">{title}</p>
+                </div>
+                <div className="text-2xl VidItemUploader">
+                  {user.userName}
+                </div>                    
+                <div className="text-sm VidItemViews">
+                  <FaEye className="m-1 eye-icon"/>
+                  {getViewText(views)} ● Created: {timeAgo(new Date(created))}
+                </div>
+                </div>
+              </div>        
             </div>
           </Link>
         </div>
