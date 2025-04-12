@@ -10,9 +10,7 @@ export default function UserAccountHeader({ user }) {
 
   useEffect(() => {
     try {
-      //console.log("Banner use effect");
       if (user.userTheme.bannerId) {
-        //console.log("Bannnerrrr");
         setBannerUrl(`${BASE_URL}/api/user/banner/${user.userTheme.bannerId}`);
         setIsDefult(false);
       } else {
