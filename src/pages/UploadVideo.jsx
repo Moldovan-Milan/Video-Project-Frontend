@@ -212,8 +212,9 @@ const UploadVideo = () => {
       )}
       {uploading && (
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center mt-3"
           type="button"
+          style={{margin: "auto", display: "block"}}
           disabled
         >
           <svg
@@ -221,6 +222,7 @@ const UploadVideo = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
+            style={{margin: "auto", display: "block"}}
           >
             <circle
               className="opacity-25"
