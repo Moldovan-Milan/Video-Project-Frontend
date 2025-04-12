@@ -94,12 +94,6 @@ const EditVideoPage = () => {
     };
   }, [thumbnail]);
 
-  const handleUpload = (e) => {
-    const newThumbnail = URL.createObjectURL(e.target.files[0]);
-    setThumbnail(newThumbnail);
-    setGoBackText("Go Back (Discard Changes)");
-  };
-
   const handleDelete = async () => {
     if (
       window.confirm(
@@ -155,7 +149,7 @@ const EditVideoPage = () => {
       <button
         className="goBack"
         onClick={() => {
-          navigate(`/video/${id}`);
+          history.back();
         }}
       >
         <FaArrowLeft className="m-1" />
