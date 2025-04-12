@@ -9,6 +9,9 @@ import formatDuration from "../functions/formatDuration";
 const UserAccVideoItem = ({ video,color }) => {
   const { id, title, duration, created, thumbnailId, user } = video;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
+  
   const [safeId, setSafeId] = useState(id);
 
   const handleDelete = async () => {

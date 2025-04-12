@@ -9,13 +9,15 @@ import formatDuration from "../functions/formatDuration";
 const UserPageVideoItem = forwardRef(({ video,color }, ref) => {
   const { id, title, duration, created, thumbnailId, user, views } = video;
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" title={title} ref={ref}>
       <div className={`user-video-item ${color ? "hover-shadow" : ""}`} style={{"--hover-color": color || "none",}} >
         <Link to={`/video/${id}`}>
           <div
             style={{
-              backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${thumbnailId}")`,
+              backgroundImage: `url("${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}")`,
             }}
             className="thumbnail-div"
           >
