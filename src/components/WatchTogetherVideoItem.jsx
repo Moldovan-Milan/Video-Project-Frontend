@@ -5,17 +5,17 @@ import formatDuration from "../functions/formatDuration";
 
 const WatchTogetherVideoItem = ({ video, onSelect }) => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
 
   return (
     <div className="wtvideo-item" onClick={() => onSelect(video)}>
       <div
-                    style={{
-                      backgroundImage: `url("${BASE_URL}/api/Video/thumbnail/${video.thumbnailId}")`,
-                    }}
-                    className="recItemThumbnailDiv"
-                  >
-                    <div className="video-duration flex"><FaClock className="m-1"/>{formatDuration(video.duration)}</div>
-                  </div>
+        style={{backgroundImage: `url("${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}")`,}}
+        className="W2GVidItemThumbnailDiv">
+          <div className="video-duration flex"><FaClock className="m-1"/>{formatDuration(video.duration)}</div>
+      </div>
       {/* <div className="W2Gthumbnail">
           <img
             src={`${BASE_URL}/api/Video/thumbnail/${video.thumbnailId}`}
@@ -26,11 +26,13 @@ const WatchTogetherVideoItem = ({ video, onSelect }) => {
         </span>
         </div> */}
       <div className="wtvideo-info">
-        <h3 className="title">{video.title}</h3>
+        <div className="VidItemTitleWrapper">
+        <h3 className="W2GVidItemTitle">{video.title}</h3>
+        </div>
         <p className="description">{video.description}</p>
         <div className="user-info">
           <img
-            src={`${BASE_URL}/api/user/avatar/${video.user.avatarId}`}
+            src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
             alt={video.user.userName}
             className="avatar"
           />

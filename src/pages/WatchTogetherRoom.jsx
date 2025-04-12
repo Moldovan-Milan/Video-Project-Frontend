@@ -33,6 +33,10 @@ const WatchTogetherRoom = () => {
     "🤔 Hmmm... What are we searching for? Try typing something in the search bar!"
   );
 
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
+
   const [toggleSearch, setTogleSearch] = useState(true);
 
   const handleUserAction = (action, userId) => {
@@ -135,7 +139,7 @@ const WatchTogetherRoom = () => {
   return (
     <div className="wt-watch-together-room">
       <div className="wt-video-container">
-        <h2 className="">Watch Together - Room ID: {id}</h2>
+        <h2 className="text-center">Watch Together - Room ID: {id}</h2>
         {isHostLeft && (
           <div>
             Uh-oh! The host just Ctrl+Z-ed their way out of here! ⌨️❌
@@ -159,12 +163,13 @@ const WatchTogetherRoom = () => {
               connection.invoke("RemoveVideoFromPlayList", safeId, videoId),
           }}
         />
+        <h2 className="text-center m-5">Add videos to your playlist</h2>
         {isHost && (
           <button
-            className="search-button"
+            className="W2GSearchButton"
             onClick={() => setTogleSearch(!toggleSearch)}
           >
-            Search
+            {!toggleSearch?"Click here to search for videos":"Close search section"}
           </button>
         )}
         {isHost && toggleSearch && (

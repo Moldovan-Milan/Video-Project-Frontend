@@ -9,6 +9,10 @@ const Playlist = ({
   startVideo,
   deleteVideo,
 }) => {
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
+
   return (
     <div className="wt-playlist">
       <h3>{isHost ? "Playlist" : "Next Videos"}</h3>
@@ -21,7 +25,7 @@ const Playlist = ({
           >
             <div>
               <img
-                src={`https://localhost:7124/api/video/thumbnail/${video.thumbnailId}`}
+                src={`${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}`}
                 alt={video.title}
                 className="wt-thumbnail"
               />

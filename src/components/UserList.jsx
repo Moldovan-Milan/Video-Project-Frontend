@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaUser } from "react-icons/fa";
 
 const UserList = ({ users, isHost, user, banUser }) => {
   const [showUsers, setShowUsers] = useState(false);
@@ -6,15 +7,15 @@ const UserList = ({ users, isHost, user, banUser }) => {
   return (
     <div>
       <button
-        className="wt-toggle-users-btn"
+        className="W2GUserToggler"
         onClick={() => setShowUsers(!showUsers)}
       >
-        {showUsers ? "Hide Users" : "Show Users"}
+        {showUsers ? `Hide Users` : <p className="flex"><FaUser className="m-1"/> Show the users in the room</p>}
       </button>
 
       {showUsers && (
         <div className="wt-user-list">
-          <h4>Connected Users</h4>
+          <h4 className="W2GConnUsers">Connected Users</h4>
           <ul>
             {users.map((connectedUser) => (
               <li key={connectedUser.id}>
