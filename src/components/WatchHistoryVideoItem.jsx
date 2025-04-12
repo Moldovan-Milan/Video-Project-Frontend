@@ -6,7 +6,8 @@ import getViewText from "../functions/getViewText";
 import "../styles/WatchHistoryVideoItem.scss";
 
 const WatchHistoryVideoItem = ({ videoView }) => {
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
   const { video } = videoView;
 
   return (
@@ -14,7 +15,7 @@ const WatchHistoryVideoItem = ({ videoView }) => {
       <Link to={`/video/${video.id}`} className="watch-history-link">
         <div className="thumbnail">
           <img
-            src={`${BASE_URL}/api/Video/thumbnail/${video.thumbnailId}`}
+            src={`${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}`}
             alt={video.title}
           />
           <div className="video-duration">{video.duration}</div>
