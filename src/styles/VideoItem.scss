@@ -158,16 +158,19 @@
 }
 
 .thumbnail-div {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  width: 100%;
-  height: 150px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  border-radius: 10px 10px 0px 0px;
 }
+
 
 .video-duration {
   color: white;
