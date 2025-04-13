@@ -4,7 +4,6 @@ import logo from "../assets/omega_stream_v1.png";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
 import {
-  FaPlusCircle,
   FaSignInAlt,
   FaSignOutAlt,
   FaUserPlus,
@@ -15,22 +14,16 @@ import {
   FaPhotoVideo,
   FaUserTie,
   FaUpload,
-  FaEyeSlash,
-  FaEyeDropper,
-  FaRegEye,
   FaVideo,
 } from "react-icons/fa";
 import logOutUser from "../functions/logOutUser";
 import { UserContext } from "./contexts/UserProvider";
 import { useSignalR } from "./contexts/SignalRProvider";
 import {
-  Fa42Group,
   FaEye,
   FaMessage,
-  FaUsersLine,
   FaUsersRectangle,
 } from "react-icons/fa6";
-import axios from "axios";
 import getRoles from "../functions/getRoles";
 
 export default function NavbarComponent() {
@@ -90,7 +83,7 @@ export default function NavbarComponent() {
                     className="nav-link px-3 py-2 rounded-md text-sm font-medium navbar-btn"
                     to="/Login"
                   >
-                    <FaSignInAlt className="symbol" />
+                    <FaSignInAlt className="symbol m-1" />
                     Log in
                   </Link>
                 </li>
@@ -99,7 +92,7 @@ export default function NavbarComponent() {
                     className="nav-link px-3 py-2 rounded-md text-sm font-medium navbar-btn"
                     to="/Registration"
                   >
-                    <FaUserPlus className="symbol" />
+                    <FaUserPlus className="symbol m-1" />
                     Register
                   </Link>
                 </li>

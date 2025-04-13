@@ -7,6 +7,9 @@ export default function UserAccountHeader({ user }) {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [bannerUrl, setBannerUrl] = useState(null);
   const [isDefault, setIsDefult] = useState(null);
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
+  const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
 
   useEffect(() => {
     try {

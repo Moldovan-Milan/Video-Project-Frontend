@@ -162,13 +162,13 @@ export default function UserAccountDetailsPanel({userData})
         themeDialog=<div className="editBg">
         <div className="editThemeWindow">
         <h1><span className="titleEditUname">{userData.username}</span>'s theme</h1>
-        <label className="m-1">Background color: </label>
-        <input type="color" onChange={(e) => setBg(e.target.value)} defaultValue={userData.userTheme&&userData.userTheme.background?userData.userTheme.background:null}/>
-        <label className="m-1">Primary color: </label>
-        <input type="color" onChange={(e) => setPrimaryColor(e.target.value)} defaultValue={userData.userTheme&&userData.userTheme.primaryColor?userData.userTheme.primaryColor:null}/>
-        <label className="m-1">Secondary color</label>
-        <input type="color" onChange={(e) => setSecondaryColor(e.target.value)} defaultValue={userData.userTheme&&userData.userTheme.secondaryColor?userData.userTheme.secondaryColor:null}/>
-        <label className="m-1">Upload a banner: </label>
+        <p className="m-1">Background color </p>
+        <input type="color" onChange={(e) => setBg(e.target.value)} defaultValue={userData.userTheme&&userData.userTheme.background?userData.userTheme.background:null} className="themeColorInput"/>
+        <p className="m-1">Primary color </p>
+        <input type="color" onChange={(e) => setPrimaryColor(e.target.value)} defaultValue={userData.userTheme&&userData.userTheme.primaryColor?userData.userTheme.primaryColor:null} className="themeColorInput"/>
+        <p className="m-1">Secondary color</p>
+        <input type="color" onChange={(e) => setSecondaryColor(e.target.value)} defaultValue={userData.userTheme&&userData.userTheme.secondaryColor?userData.userTheme.secondaryColor:null} className="themeColorInput"/>
+        <p className="m-1">Upload a banner: </p>
         <div className="mb-4">
         <input
           id="uploadBanner"
@@ -177,9 +177,21 @@ export default function UserAccountDetailsPanel({userData})
           accept=".png"
           hidden
         />
-        <label htmlFor="uploadBanner" className="uploadBtn">
-          <FaUpload className="upload-icn" /> Choose a banner
+        <label htmlFor="uploadBanner" className="BannerUploadBtn">
+          <FaUpload className="upload-icn m-1" /> Choose a banner
         </label>
+        {banner && (
+          <div className="mt-4">
+            <p className="mt-2 text-sm text-center m-3">
+              Selected: <strong>{banner.name}</strong> ({(banner.size / 1024 / 1024).toFixed(2)} MB)
+            </p>
+            <img
+              src={URL.createObjectURL(banner)}
+              className="rounded-md shadow-md"
+              style={{margin: "auto", maxHeight: 180, maxWidth: 320}} 
+            />
+          </div>
+        )}
       </div>
     {bg||primaryColor||secondaryColor||banner?<button onClick={()=>{console.log(banner);console.log(bg);HandleThemeUpload()}} className="text-white font-bold py-2 px-4 rounded mb-2 btnThemeUpload"><FaUpload className="m-1"/>Upload theme</button>:<></>}
         <div>

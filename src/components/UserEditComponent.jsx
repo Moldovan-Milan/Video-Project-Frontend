@@ -9,7 +9,7 @@ const UserEditComponent = ({userData, userVideos}) => {
     const[switchPanel,setSwitchPanel]=useState("Videos");
     return (
         <div
-      className="container"
+      className="container UserAccMainDiv"
       style={
         userData.userTheme&&userData.userTheme.background
           ? {

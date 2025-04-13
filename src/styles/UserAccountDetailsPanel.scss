@@ -87,8 +87,8 @@
     
 
     .editUsernameWindow{
-        height:250px;
-        width: 33%;
+        height:fit-content;
+        width: fit-content;
         background-color: black;
         justify-items: center;
         align-items: center;
@@ -96,7 +96,7 @@
         color: white;
         border-radius: 30px;
         box-shadow: 0 0 50px lime;
-        padding: 20px 10px 5px 10px;
+        padding: 50px;
 
         input{
             width: 80%;
@@ -159,14 +159,6 @@
             }
         }
     }
-
-    @media (max-width: 1000px) {
-        .editUsernameWindow {
-            height: 30%;
-        }
-    }
-    
-
 }
 
 
@@ -194,9 +186,23 @@
     background-color: rgb(10, 100, 10);
 }
 
+.BannerUploadBtn{
+    display: flex;
+    background-color: #B200FF;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    max-width: fit-content;
+    margin: auto;
+}
+.BannerUploadBtn:hover{
+    transform: scale(1.05);
+    background-color: #7b00b0;
+    color: white;
+}
 
 .editThemeWindow{
-    height:50%;
+    height:fit-content;
     width: 33%;
     background-color: black;
     justify-items: center;
@@ -205,7 +211,7 @@
     color: white;
     border-radius: 30px;
     box-shadow: 0 0 50px lime;
-    padding: 20px 10px 5px 10px;
+    padding: 20px 10px 10px 10px;
     font-size: 20px;
 
     input{
@@ -266,12 +272,6 @@
             font-weight: bold;
             color: #B200FF;
         }
-    }
-}
-
-@media (max-width: 1000px) {
-    .editUsernameWindow {
-        height: 30%;
     }
 }
 

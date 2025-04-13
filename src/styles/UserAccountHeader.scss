@@ -24,6 +24,21 @@
   top: -50px;
 }
 
+.subscribersLabel{
+    text-align: center;
+    background-color: lime;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 7px;
+    border-radius: 30px;
+    margin-top: 10px;
+}
+
 .UserAccUsername {
   font-size: 76px;
   font-weight: bold;
