@@ -10,41 +10,37 @@ const WatchTogetherVideoItem = ({ video, onSelect }) => {
   const THUMBNAIL_PATH = import.meta.env.VITE_THUMBNAIL_PATH;
 
   return (
-    <div className="wtvideo-item" onClick={() => onSelect(video)}>
-      <div
-        style={{
-          backgroundImage: `url("${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}")`,
-        }}
-        className="W2GVidItemThumbnailDiv"
-      >
-        <div className="video-duration flex">
-          <FaClock className="m-1" />
-          {formatDuration(video.duration)}
+    <div className="W2GVidItem" onClick={() => onSelect(video)}>
+      <div className="W2GVidItemTumbnailCol">
+        <div
+          style={{
+            backgroundImage: `url("${CLOUDFLARE_PATH}/${THUMBNAIL_PATH}/${video.thumbnail.path}.${video.thumbnail.extension}")`,
+          }}
+          className="W2GVidItemThumbnailDiv">
+            <div className="W2GVidDuration flex">
+              <FaClock className="W2GClock" />
+              {formatDuration(video.duration)}
+            </div>
         </div>
       </div>
-      {/* <div className="W2Gthumbnail">
-          <img
-            src={`${BASE_URL}/api/Video/thumbnail/${video.thumbnailId}`}
-            alt={video.title}
-          />
-          <span className="duration">
-          <FaClock /> {video.duration}
-        </span>
-        </div> */}
-      <div className="wtvideo-info">
-        <div className="VidItemTitleWrapper">
-          <h3 className="W2GVidItemTitle">{video.title}</h3>
-        </div>
-        <p className="description">{video.description}</p>
-        <div className="user-info">
-          <img
-            loading="eager"
-            src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
-            alt={video.user.userName}
-            className="avatar"
-          />
-          <span className="username">{video.user.userName}</span>
-        </div>
+      <div className="W2GVidItemDetailsCol">
+          <div className="W2GItemDetailsRows">
+              <div className="VidItemTitleWrapper">
+                <h3 className="W2GVidItemTitle">{video.title}</h3>
+              </div>
+              <div>
+              <p className="W2GVidItemDescription">{video.description}</p>
+              </div>
+              <div className="W2GVidItemUser">
+                <img
+                  loading="eager"
+                  src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${video.user.avatar.path}.${video.user.avatar.extension}`}
+                  alt={video.user.userName}
+                  className="W2GVidItemAvatar"
+                />
+                <span className="W2GVidUsername">{video.user.userName}</span>
+              </div>
+          </div>
       </div>
     </div>
   );

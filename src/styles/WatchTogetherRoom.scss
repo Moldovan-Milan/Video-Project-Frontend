@@ -1,6 +1,5 @@
 .wt-watch-together-room {
     min-height: 100vh;
-    background-color: black;
     color: white;
     padding: 1.5rem;
     display: flex;
@@ -157,11 +156,12 @@
         background: #1a1a1a;
         padding: 16px;
         border-radius: 8px;
+        margin: auto;
     }
 
     .wt-search-section {
         margin-top: 20px;
-        padding: 16px;
+        padding: 10px;
         background: #1a1a1a;
         border-radius: 8px;
     }
@@ -199,9 +199,9 @@
 
     .wt-video-results {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); // dinamikus elrendezés
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 20px;
-        padding: 20px;
+        padding: 10px;
     }
 
     .wt-playlist {
@@ -238,29 +238,20 @@
         position: relative;
     }
 
-    /* Hover effekt */
     .wt-playlist li:hover {
         background-color: rgba(255, 255, 255, 0.1);
         transform: scale(1.05);
-        /* Kisebb felnagyítás */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        /* Enyhe árnyék */
     }
 
-    /* Kiemelés a kiválasztott videóhoz */
     .wt-playlist li.selected {
         background-color: #a4de02;
-        /* Kiemelt háttérszín */
         color: #111;
-        /* Fehér szöveg */
     }
 
-    /* Kiemelt videó címének színe */
     .wt-playlist li.selected span {
         color: #111;
-        /* Kiemelt szöveg színe */
         font-weight: bold;
-        /* Erősebb betűstílus */
     }
 
     .wt-thumbnail {
@@ -323,46 +314,49 @@
         margin: auto;
     }
 
-    /* Médialekérdezések */
     @media (max-width: 639px) {
 
         .wt-video-container,
         .wt-sidebar {
             width: 100%;
-            /* Teljes szélesség telefonon */
             margin-bottom: 1rem;
-            /* Térköz a két elem között */
         }
 
         .wt-video-container h2 {
             font-size: 1.5rem;
-            /* Kis képernyőkhöz igazított betűméret */
         }
     }
 
     @media (min-width: 640px) and (max-width: 1023px) {
         .wt-video-container {
             width: 66.66%;
-            /* Közepes képernyőméret */
         }
 
         .wt-sidebar {
             width: 33.33%;
-            /* Közepes képernyőméret */
         }
 
         .wt-video-container h2 {
             font-size: 2rem;
-            /* Közepes képernyőméret betűméret */
         }
     }
 
     @media (min-width: 1024px) {
         .wt-video-container h2 {
             font-size: 2.5rem;
-            /* Nagy képernyőméret */
         }
     }
+
+    @media (max-width:350px)
+    {
+        .wt-search-section{
+            padding-left: 0px;
+        }
+        .wt-video-results{
+            padding: 5px;
+        }
+    }
+
 
 }
 

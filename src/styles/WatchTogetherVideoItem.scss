@@ -1,104 +1,102 @@
-$lime: lime;
-$black: black;
-
-.wtvideo-item {
-    display: flex;
-    flex-direction: row;
+.W2GVidItem {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     align-items: center;
-    border: 1px solid $black;
+    border: 1px solid black;
     border-radius: 8px;
     background-color: #111;
     overflow: hidden;
     margin: 10px;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding-right: 10px;
 
     &:hover {
         transform: scale(1.05);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
-    .thumbnail-container {
-        position: relative;
-        width: 120px;
 
-        .thumbnail {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 4px;
-        }
 
-        .duration {
-            position: absolute;
-            bottom: 5px;
-            left: 5px;
+    .W2GItemDetailsRows {   
+        display: grid;
+        grid-template-rows: repeat(3, auto);
+        gap: 10px;
+    }
+
+    .W2GVidItemThumbnailDiv
+    {
+        display: block;
+        width: 150px;
+        height: 170px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 4px;
+
+
+        .W2GVidDuration
+        {
+            position: relative;
             background-color: rgba(0, 0, 0, 0.6);
-            color: $lime;
-            padding: 3px 8px;
+            padding: 2px;
             border-radius: 5px;
             font-size: 8px;
             display: flex;
             align-items: center;
+            color: white;
+            font-size: 15px;
+            width: fit-content;
+            top: 80%;
+            left: 2px;
 
-            svg {
-                margin-right: 3px;
+            .W2GClock{
+                margin-right: 4px;
             }
         }
     }
 
-    .wtvideo-info {
-        padding: 10px;
-        color: white;
-        flex-grow: 1;
+    .W2GVidItemTitle {
+        font-size: 16px;
+        font-weight: bold;
+        color: lime;
+        margin-bottom: 1px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-        .W2GVidItemTitle {
-            font-size: 16px;
-            font-weight: bold;
-            color: $lime;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .description {
-            font-size: 12px;
+    .W2GVidItemDescription{
+        font-size: 12px;
             color: #ccc;
             margin-bottom: 8px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
+    }
 
-        .user-info {
-            display: flex;
-            align-items: center;
+    .W2GVidItemUser{
+        display: flex;
+        align-items: center;
 
-            .avatar {
-                width: 30px;
+        .W2GVidItemAvatar{
+            width: 30px;
                 height: 30px;
                 border-radius: 50%;
                 object-fit: cover;
                 margin-right: 8px;
-            }
+        }
 
-            .username {
+
+        .W2GVidUsername{
                 font-size: 14px;
-                color: $lime;
-            }
+                color: lime;
+                font-weight: bold;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
         }
     }
-    
-    .W2GVidItemThumbnailDiv
-    {
-        width: 150px;
-        height: 150px;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-    .VidItemTitleWrapper {
-        width: 100%;
-        overflow: hidden;
-      }
 }
+
+
