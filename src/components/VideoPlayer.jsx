@@ -110,11 +110,18 @@ const VideoPlayer = ({ src, id }) => {
   const [safeId] = useState(params.id)
   const validateView = async () => {
     try {
+      let URL;
         if(user){
-          const response = await axios.post(`api/Video/add-video-view?videoId=${safeId}&userId=${user.id}`);
+          URL = `api/Video/add-video-view?videoId=${safeId}&userId=${user.id}`
         }
         else{
-          const response = await axios.post(`api/Video/add-video-view?videoId=${safeId}`);
+          URL = `api/Video/add-video-view?videoId=${safeId}`
+        }
+        const response = await axios.post(URL);
+        if(response.status === 201){
+          video.removeEventListener("play", handlePlay);
+          video.removeEventListener("pause", handlePause);
+          video.removeEventListener("ended", handleEnded);
         }
     } catch (error) {
       console.error("Error sending view to backend:", error);
