@@ -120,10 +120,10 @@ const VideoPlayer = ({ src, id }) => {
       }
       const response = await axios.post(URL);
       if (response.status === 201) {
-        calledRef.current = true; // Mark as called
-        video.removeEventListener("play", handlePlay);
-        video.removeEventListener("pause", handlePause);
-        video.removeEventListener("ended", handleEnded);
+        calledRef.current = true;
+        videoRef.current.removeEventListener("play", handlePlay);
+        videoRef.current.removeEventListener("pause", handlePause);
+        videoRef.current.removeEventListener("ended", handleEnded);
       }
     } catch (error) {
       console.error("Error sending view to backend:", error);
