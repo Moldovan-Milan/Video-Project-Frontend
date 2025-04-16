@@ -57,10 +57,7 @@ const AppRoutes = () => {
         <Route path="/watch-together/:id" element={<WatchTogetherRoom />} />
         <Route path="/shorts" element={<ShortsPage />} />
         <Route path="/admin" element={<AdminPage />}>
-          <Route
-            path="verification-list"
-            element={<VerificationRequestList />}
-          />
+          <Route path="verification-list" element={<VerificationRequestList />}/>
           <Route path="edit-user-roles" element={<UserSearchPage />} />
           <Route path="edit-user-roles/:id" element={<EditUserRoles />} />
         </Route>
