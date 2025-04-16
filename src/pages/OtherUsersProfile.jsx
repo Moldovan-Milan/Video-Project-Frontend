@@ -188,11 +188,11 @@ const OtherUsersProfile = () => {
               <tr>
                 <td>
                   <button
-                    className="send-message-btn text-white font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
+                    className="send-message-btn font-bold font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
                     onClick={handleMessageSend}
                     style={
                       userData.userTheme && userData.userTheme.secondaryColor
-                        ? { backgroundColor: userData.userTheme.secondaryColor }
+                        ? { backgroundColor: userData.userTheme.secondaryColor,color:(isColorDark(userData.userTheme.secondaryColor)?"white":"black") }
                         : null
                     }
                   >
@@ -207,7 +207,7 @@ const OtherUsersProfile = () => {
                       className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
                       style={
                         userData.userTheme && userData.userTheme.primaryColor
-                          ? { backgroundColor: userData.userTheme.primaryColor }
+                          ? { backgroundColor: userData.userTheme.primaryColor,color:(isColorDark(userData.userTheme.primaryColor)?"white":"black") }
                           : null
                       }
                     >
@@ -220,7 +220,7 @@ const OtherUsersProfile = () => {
                       className="subscribe-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
                       style={
                         userData.userTheme && userData.userTheme.primaryColor
-                          ? { backgroundColor: userData.userTheme.primaryColor }
+                          ? { backgroundColor: userData.userTheme.primaryColor, color:(isColorDark(userData.userTheme.primaryColor)?"white":"black")}
                           : null
                       }
                     >
