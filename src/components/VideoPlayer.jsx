@@ -13,6 +13,7 @@ const VideoPlayer = ({ src, id }) => {
   const timerRef = useRef(null);
   const { user } = useContext(UserContext);
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
+  const calledRef = useRef(false);
 
 
   const handleLoadedMetadata = () => {
@@ -109,13 +110,21 @@ const VideoPlayer = ({ src, id }) => {
   const params = useParams()
   const [safeId] = useState(params.id)
   const validateView = async () => {
+    if (calledRef.current) return;
     try {
-        if(user){
-          const response = await axios.post(`api/Video/add-video-view?videoId=${safeId}&userId=${user.id}`);
-        }
-        else{
-          const response = await axios.post(`api/Video/add-video-view?videoId=${safeId}`);
-        }
+      let URL;
+      if (user) {
+        URL = `api/Video/add-video-view?videoId=${safeId}&userId=${user.id}`;
+      } else {
+        URL = `api/Video/add-video-view?videoId=${safeId}`;
+      }
+      const response = await axios.post(URL);
+      if (response.status === 201) {
+        calledRef.current = true;
+        videoRef.current.removeEventListener("play", handlePlay);
+        videoRef.current.removeEventListener("pause", handlePause);
+        videoRef.current.removeEventListener("ended", handleEnded);
+      }
     } catch (error) {
       console.error("Error sending view to backend:", error);
     }

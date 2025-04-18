@@ -85,7 +85,7 @@ const SingleVideo = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (videoData) {
@@ -94,6 +94,7 @@ const SingleVideo = () => {
   }, [videoData]);
 
   const handleReactionClick = async (newValue) => {
+    if(!user) return;
     let updatedLikes = videoData.likes;
     let updatedDislikes = videoData.dislikes;
 
