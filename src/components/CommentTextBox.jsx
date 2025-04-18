@@ -26,18 +26,18 @@ const CommentTextBox = ({ videoid, setComments }) => {
         user: { userName: user.userName, avatarId: user.avatarId },
       };
       setComments((prevComments) => [...prevComments, newComment]);
-      textAreaRef.current.value = ""; // Szövegmező ürítése
+      textAreaRef.current.value = "";
     }
   };
 
   const handleCommentSendClick = () => {
     const content = textAreaRef.current.value;
     if (!user) {
-      setError("Komment írásához jelentkezz be!");
+      setError("Log in to write a comment!");
       return;
     }
     if (!content || !videoid) {
-      setError("Nem lehet üres kommentet küldeni!");
+      setError("You can't send an empty comment!");
       return;
     }
     const formData = new FormData();
@@ -47,32 +47,26 @@ const CommentTextBox = ({ videoid, setComments }) => {
   };
 
   return (
-    <div className="comm-tb-cont">
-      <table className="comment-table">
-        <tbody>
-          <tr>
-            <td className="avatar-td">
-              <img src={dummy} className="comment-write-avatar" />
-            </td>
-            <td className="td-comm-tb">
-              <textarea
+    <div className="SubmitCommMain">
+      <div className="SubmitCommCol1">
+        <img src={dummy} className="CommentWriterAvt" />
+      </div>
+      <div className="SubmitCommCol2">
+      <textarea
                 ref={textAreaRef}
-                className="tb-comm"
+                className="CommTextarea"
                 placeholder="Write a comment... ✏"
               ></textarea>
               <span>{error}</span>
-            </td>
-            <td className="btn-td">
-              <button
+      </div>
+      <div className="SubmitCommCol3">
+      <button
                 onClick={() => handleCommentSendClick()}
-                className="btn-send"
+                className="BtnAddComm font-bold py-2 px-4 mb-2 navbar-btn m-1 text-white"
               >
                 Send
               </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      </div>
     </div>
   );
 };

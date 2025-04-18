@@ -68,11 +68,11 @@
 
     .W2GVidItemDescription{
         font-size: 12px;
-            color: #ccc;
-            margin-bottom: 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        color: #ccc;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .W2GVidItemUser{
@@ -98,5 +98,11 @@
         }
     }
 }
+
+@media (max-width: 1255px) {
+    .W2GVidItem {
+        width: 100%;
+    }
+  }
 
 

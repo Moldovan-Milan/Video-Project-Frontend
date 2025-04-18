@@ -28,8 +28,8 @@ const WatchTogetherVideoItem = ({ video, onSelect }) => {
               <div className="VidItemTitleWrapper">
                 <h3 className="W2GVidItemTitle">{video.title}</h3>
               </div>
-              <div>
-              <p className="W2GVidItemDescription">{video.description}</p>
+              <div className="W2GVidItemDescription">
+              <p style={{width:"100%",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{video.description}</p>
               </div>
               <div className="W2GVidItemUser">
                 <img

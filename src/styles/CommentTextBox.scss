@@ -1,5 +1,5 @@
-.tb-comm {
-    width: 100%;
+.CommTextarea {
+    width: 40vw;
     padding: 10px;
     box-sizing: border-box;
     font-size: 16px;
@@ -16,15 +16,18 @@
     margin-top: 8px;
 }
 
-.comm-tb-cont{
+.SubmitCommMain{
     text-align: center;
     background-color: #B200FF;
-    width: 80%;
-    max-width: 600px;
-    padding: 10px;
+    width: fit-content;
+    padding: 10px 20px 10px 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 35px;
+    border-radius: 50px;
     margin: auto;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 10px;
+
 }
 
 .comment-table{
@@ -32,30 +35,31 @@
     margin: auto;
 }
 
-.btn-send{
-    border: 1px solid lime;
-    font-size: 150%;
-    float: left;
+.BtnAddComm{
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 30px;
     background-color: black;
+    box-shadow: 0 0 10px #B200FF;
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 50px;
 }
 
-.dark .btn-send{
-    background-color: white;
+.BtnAddComm:hover{
+transform: scale(1.05);
+background-color: lime;
+box-shadow: 0 0 10px lime;
+color: black;
 }
 
-.btn-td{
-    text-align: left;
-    width: 10%;
-}
 
-.td-comm-tb{
-    width: 75%;
-}
+.SubmitCommCol1
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-.comment-write-avatar{
+  .CommentWriterAvt{
     height: 60px;
     width: 60px;
     border-radius: 100%;
@@ -63,12 +67,30 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+    flex-shrink: 0;
+}
 }
 
-.avatar-td{
-    width: 15%;
-    
+.SubmitCommCol2{
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
 }
+
+.SubmitCommCol3{
+    display: flex;
+    justify-items: center;
+}
+
+@media (max-width:400px)
+{
+    .CommTextarea {
+        width: 100%;
+    }
+}
+
+
+
 
 
 

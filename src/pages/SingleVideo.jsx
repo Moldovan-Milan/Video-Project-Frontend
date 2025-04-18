@@ -10,6 +10,8 @@ import {
   FaUserPlus,
   FaUserMinus,
   FaPencilAlt,
+  FaArrowDown,
+  FaArrowUp,
 } from "react-icons/fa";
 import { UserContext } from "../components/contexts/UserProvider";
 import "../styles/SingleVideo.scss";
@@ -30,6 +32,7 @@ const SingleVideo = () => {
 
   const [comments, setComments] = useState([]);
   const [bottomPanel, setBottomPanel] = useState("Comments");
+  const [descState,setDescState]=useState(false);
 
   const [recomendedVideos, setRecomendedVideos] = useState(null);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -221,6 +224,11 @@ const SingleVideo = () => {
             </button>
           </div>
         </div>
+      </div>
+      <button className="BtnOpenDesc" onClick={()=>setDescState(descState?false:true)} style={{display:(descState?"none":"flex")}}><FaArrowDown className="m-1"/>Description</button>
+      <div className="VideoDescDiv" onClick={()=>setDescState(descState?false:true)} style={{display:(!descState?"none":"flex")}}>
+      <FaArrowUp className="m-1"/>
+      {videoData.description}
       </div>
       <div className="divBottomPanelSwitch">
         <button
