@@ -226,9 +226,9 @@ const SingleVideo = () => {
           </div>
         </div>
       </div>
-      <button className="BtnOpenDesc" onClick={()=>setDescState(descState?false:true)} style={{display:(descState?"none":"flex")}}><FaArrowDown className="m-1"/>Description</button>
-      <div className="VideoDescDiv" onClick={()=>setDescState(descState?false:true)} style={{display:(!descState?"none":"flex")}}>
-      <FaArrowUp className="m-1"/>
+      <button className="VideoDesc" onClick={()=>setDescState(descState?false:true)} style={{display:(descState?"none":"flex"),fontWeight:"bold"}}><FaArrowDown className="m-1 DescToggler"/>Description</button>
+      <div className="VideoDesc" onClick={()=>setDescState(descState?false:true)} style={{display:(!descState?"none":"flex")}}>
+      <FaArrowUp className="m-1 DescToggler"/>
       {videoData.description}
       </div>
       <div className="divBottomPanelSwitch">

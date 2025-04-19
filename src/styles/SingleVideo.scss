@@ -163,8 +163,17 @@
   align-items: center;
 }
 
-.VideoDescDiv{
+.VideoDesc{
   background-color: lime;
   color: black;
   border-radius: 10px;
+  width: 50vw;
+  display: flex;
+  margin: auto;
+  margin-top: 10px;
+  word-break: break-all;
+}
+
+.DescToggler{
+  flex-shrink: 0;
 }
