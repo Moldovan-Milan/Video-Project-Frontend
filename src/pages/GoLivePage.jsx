@@ -311,73 +311,71 @@ const MediaSharing = () => {
 
   return (
     <div className="goLiveContainer">
-      <h1>Media Sharing</h1>
-      {!isStreaming && (
-        <>
-          <label>Title: </label>
-          <input
-            type="text"
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-            className="text-black"
-          />
-          <label>Description: </label>
-          <textarea
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
-            className="text-black"
-          />
-        </>
-      )}
-      <div>
-        {!isStreaming && (
-          <>
-            <button
-              onClick={handleScreenSelected}
-              className={
-                selectedSource === "screen" ? "selectedSourceBtn" : "sourceBtn"
-              }
-            >
-              <FaDesktop className="m-1" /> Go live by sharing your screen
-            </button>
-            <button
-              onClick={handleCameraSelected}
-              className={
-                selectedSource === "camera" ? "selectedSourceBtn" : "sourceBtn"
-              }
-            >
-              <FaCamera className="m-1" /> Go live with webcam
-            </button>
-            <button
-              onClick={GoLive}
-              className="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded mb-2 flex"
-            >
-              <FaPlay className="m-1" /> Go Live
-            </button>
-          </>
-        )}
-        {isStreaming && (
-          <button
-            onClick={stopSharing}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 flex"
-          >
-            <FaStop className="m-1" /> Stop Sharing
-          </button>
-        )}
-      </div>
-      {isStreaming && <h2>Your stream code: {streamURL}</h2>}
-      <div>
-        <video ref={videoRef} autoPlay playsInline style={{ width: "90%" }} />
-        {streamURL && (
-          <div>
-            <h3>
-              Viewers: {viewerCount} <FaEye />
-            </h3>
-          </div>
-        )}
-        <ChatPanel messages={messages} onMessageSend={onMessageSend} />
+  <h1 className="pageTitle">Media Sharing</h1>
+
+  {!isStreaming && (
+    <>
+      <label className="formLabel">Title: </label>
+      <input
+        type="text"
+        onChange={(e) => setTitle(e.target.value)}
+        value={title}
+        className="textInput"
+      />
+      <label className="formLabel">Description: </label>
+      <textarea
+        onChange={(e) => setDescription(e.target.value)}
+        value={description}
+        className="textArea"
+      />
+    </>
+  )}
+  <label className="formLabel text-center">Streaming methods</label>
+  <div className="btnStreamingMethod">
+    <button
+      onClick={handleScreenSelected}
+      className={
+        selectedSource === "screen" ? "selectedSourceBtn" : "sourceBtn"
+      }
+    >
+      <FaDesktop className="m-1" /> Share Screen
+    </button>
+    <button
+      onClick={handleCameraSelected}
+      className={
+        selectedSource === "camera" ? "selectedSourceBtn" : "sourceBtn"
+      }
+    >
+      <FaCamera className="m-1" /> Use Webcam
+    </button>
+  </div>
+
+  <h1 className="pageTitle">Stream preview</h1>
+  <div className="videoWrapper">
+    <video ref={videoRef} autoPlay playsInline className="streamVideo" />
+  </div>
+
+  {!isStreaming ? (
+    <button onClick={GoLive} className="goLiveBtn">
+      <FaPlay /> Start livestream
+    </button>
+  ) : (
+    <button onClick={stopSharing} className="stopBtn">
+      <FaStop /> Stop Sharing
+    </button>
+  )}
+
+  {isStreaming && (
+    <div className="streamInfo">
+      <div className="streamCode">Your stream code: {streamURL}</div>
+      <div className="viewerCount">
+        Viewers: {viewerCount} <FaEye />
       </div>
     </div>
+  )}
+
+  <ChatPanel messages={messages} onMessageSend={onMessageSend} />
+</div>
   );
 };
 
