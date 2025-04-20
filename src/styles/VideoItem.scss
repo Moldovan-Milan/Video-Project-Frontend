@@ -82,23 +82,9 @@
 .border-animacio::after, .border-animacio::before {
   content: '';
   position: absolute;
-  height: 200%;
-  width: 200%;
-  background-image: conic-gradient(from var(--angle), transparent, lime);
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  border-radius: 10px;
-  animation: 3s spin linear infinite;
   z-index: -3;
   display: none;
 }
-
-.border-animacio::before {
-  filter: blur(1.5rem);
-  opacity: 0.5;
-}
-
 
 .video-card {
   margin: 20px;
