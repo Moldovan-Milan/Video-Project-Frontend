@@ -224,7 +224,7 @@
 
 .editThemeWindow{
     height:fit-content;
-    width: 33%;
+    width: fit-content;
     background-color: black;
     justify-items: center;
     align-items: center;
@@ -232,11 +232,12 @@
     color: white;
     border-radius: 30px;
     box-shadow: 0 0 50px lime;
-    padding: 20px 10px 10px 10px;
+    padding: 20px 30px 20px 30px;
     font-size: 20px;
 
     input{
-        width: 60%;
+        display: block;
+        width: 20vw;
         margin-left: auto;
         margin-right: auto;
         color: black;
