@@ -2,16 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../styles/UserAccount.scss";
-import UserAccountHeader from "../components/UserAccountHeader";
-import UserAccountDetailsPanel from "../components/UserAccountDetailsPanel";
-import UserAccountVideosPanel from "../components/UserAccountVideosPanel";
 import { UserContext } from "../components/contexts/UserProvider";
 import UserEditComponent from "../components/UserEditComponent";
-import isColorDark from "../functions/isColorDark";
 
 const UserAccount = () => {
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
+
   const [pageNumber, setPageNumber] = useState(1);
-  const [userVideos,setUserVideos]=useState([]);
+  const [userVideos, setUserVideos] = useState([]);
   const pageSize = 30;
   const { user } = useContext(UserContext);
 
@@ -46,7 +45,7 @@ const UserAccount = () => {
             id: data.id,
             username: data.userName,
             email: data.email,
-            avatar: `${BASE_URL}/api/User/avatar/${data.avatarId}`,
+            avatar: `${CLOUDFLARE_PATH}/${AVATAR_PATH}/${data.avatar.path}.${data.avatar.extension}`,
             followers: data.followersCount,
             created: formattedDate,
             userTheme: data.userTheme,
@@ -67,9 +66,7 @@ const UserAccount = () => {
     }
   }, [userData]);
 
-  return (
-    <UserEditComponent userData={userData} userVideos={userVideos}/>
-  );
+  return <UserEditComponent userData={userData} userVideos={userVideos} />;
 };
 
 export default UserAccount;
