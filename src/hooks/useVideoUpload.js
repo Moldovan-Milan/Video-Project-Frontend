@@ -2,11 +2,9 @@ import { useState, useRef } from "react";
 import axios from "axios";
 import { useMutation, QueryClient } from "react-query";
 
-// Feltöltési darab (chunk) méret beállítása 10 MB-ra
-const CHUNK_SIZE = 10 * 1024 * 1024; // 10 MB
+const CHUNK_SIZE = import.meta.env.VITE_VIDEO_CHUNK_SIZE * 1024 * 1024; // 10 MB
 
-// Maximális videóméret beállítása 256 MB-ra
-const MAX_VIDEO_SIZE = 256 * 1024 * 1024; // 256 MB
+const MAX_VIDEO_SIZE = import.meta.env.VITE_MAX_VIDEO_SIZE * 1024 * 1024; // 256 MB
 
 // Maximális párhuzamos feltöltések száma
 const MAX_CONCURRENT_UPLOADS = 3;
@@ -50,7 +48,7 @@ export const useVideoUpload = () => {
     formData.append("totalChunks", totalChunks);
     formData.append("image", image);
     formData.append("title", titleRef.current.value);
-    formData.append("description", descriptionRef.current.value)
+    formData.append("description", descriptionRef.current.value);
 
     const response = await axios.post("api/video/assemble", formData, {
       withCredentials: true,
@@ -91,8 +89,8 @@ export const useVideoUpload = () => {
     const formData = new FormData();
     formData.append("videoSize", file.size);
     formData.append("fileName", fileName);
-    formData.append("extension", extension)
-    formData.append("thumbnail", image)
+    formData.append("extension", extension);
+    formData.append("thumbnail", image);
     console.log(fileName);
     const response = await axios.post("/api/video/can-upload", formData, {
       withCredentials: true,

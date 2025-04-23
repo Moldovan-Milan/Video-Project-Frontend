@@ -22,7 +22,6 @@ import getRoles from "../functions/getRoles";
 
 const SingleVideo = () => {
   const { id } = useParams();
-  const [safeId] = useState(id);
   const { user } = useContext(UserContext);
 
   const [roles, setRoles] = useState([]);
@@ -32,7 +31,7 @@ const SingleVideo = () => {
 
   const [comments, setComments] = useState([]);
   const [bottomPanel, setBottomPanel] = useState("Comments");
-  const [descState,setDescState]=useState(false);
+  const [descState, setDescState] = useState(false);
 
   const [recomendedVideos, setRecomendedVideos] = useState(null);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -53,9 +52,9 @@ const SingleVideo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const videoPromise = axios.get(`/api/video/data/${safeId}`);
+        const videoPromise = axios.get(`/api/video/data/${id}`);
         const userInteractionPromise = user
-          ? axios.get(`/api/video/get-user-like-subscribe-value/${safeId}`, {
+          ? axios.get(`/api/video/get-user-like-subscribe-value/${id}`, {
               withCredentials: true,
             })
           : null;
@@ -85,7 +84,7 @@ const SingleVideo = () => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (videoData) {
@@ -94,7 +93,7 @@ const SingleVideo = () => {
   }, [videoData]);
 
   const handleReactionClick = async (newValue) => {
-    if(!user) return;
+    if (!user) return;
     let updatedLikes = videoData.likes;
     let updatedDislikes = videoData.dislikes;
 
@@ -121,7 +120,7 @@ const SingleVideo = () => {
     try {
       const formData = new FormData();
       formData.append("value", newValue);
-      await axios.post(`/api/video/set-user-like/${safeId}`, formData, {
+      await axios.post(`/api/video/set-user-like/${id}`, formData, {
         withCredentials: true,
       });
     } catch (error) {
@@ -226,10 +225,21 @@ const SingleVideo = () => {
           </div>
         </div>
       </div>
-      <button className="VideoDesc" onClick={()=>setDescState(descState?false:true)} style={{display:(descState?"none":"flex"),fontWeight:"bold"}}><FaArrowDown className="m-1 DescToggler"/>Description</button>
-      <div className="VideoDesc" onClick={()=>setDescState(descState?false:true)} style={{display:(!descState?"none":"flex")}}>
-      <FaArrowUp className="m-1 DescToggler"/>
-      {videoData.description}
+      <button
+        className="VideoDesc"
+        onClick={() => setDescState(descState ? false : true)}
+        style={{ display: descState ? "none" : "flex", fontWeight: "bold" }}
+      >
+        <FaArrowDown className="m-1 DescToggler" />
+        Description
+      </button>
+      <div
+        className="VideoDesc"
+        onClick={() => setDescState(descState ? false : true)}
+        style={{ display: !descState ? "none" : "flex" }}
+      >
+        <FaArrowUp className="m-1 DescToggler" />
+        {videoData.description}
       </div>
       <div className="divBottomPanelSwitch">
         <button

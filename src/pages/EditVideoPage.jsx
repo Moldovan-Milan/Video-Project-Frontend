@@ -119,7 +119,7 @@ const EditVideoPage = () => {
       if (videoData.description) {
         formData.append("description", videoData.description);
       }
-      if (thumbnail && thumbnail.startsWith("blob:")) {
+      if (thumbnail && thumbnail.type == "image/png") {
         const fileInput = document.querySelector("input[type='file']");
         if (fileInput.files.length > 0) {
           formData.append("image", fileInput.files[0]);
@@ -182,7 +182,6 @@ const EditVideoPage = () => {
         setGoBackText={setGoBackText}
         buttonText={"Upload Thumbnail"}
       />
-
 
       <button className="saveBtn" onClick={handleSave}>
         <FaSave className="m-1" /> Save changes
