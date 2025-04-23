@@ -4,6 +4,7 @@ import axios from "axios";
 import SearchVideoItem from "../components/SearchVideoItem";
 import SearchUserItem from "../components/SearchUserItem";
 import "../styles/SearchResultPage.scss";
+import dancing_squidward from "../assets/dancing_squidward.gif";
 
 const SearchResultPage = () => {
   const [searchParams] = useSearchParams();
@@ -44,7 +45,9 @@ const SearchResultPage = () => {
     if (!hasMoreVideos || loading) return;
     setLoading(true);
     try {
-      const { data } = await axios.get(`api/Video/search/${query}?pageNumber=${page}&pageSize=${videoPageSize}`);
+      const { data } = await axios.get(
+        `api/Video/search/${query}?pageNumber=${page}&pageSize=${videoPageSize}`
+      );
       setFilteredVids((prev) => [...prev, ...data.videos]);
       setHasMoreVideos(data.videos.length > 0);
     } catch (error) {
@@ -57,7 +60,9 @@ const SearchResultPage = () => {
     if (!hasMoreUsers || loading) return;
     setLoading(true);
     try {
-      const { data } = await axios.get(`api/User/search/${query}?pageNumber=${page}&pageSize=${userPageSize}`);
+      const { data } = await axios.get(
+        `api/User/search/${query}?pageNumber=${page}&pageSize=${userPageSize}`
+      );
       setFilteredUsers((prev) => [...prev, ...data.users]);
       setHasMoreUsers(data.users.length > 0);
     } catch (error) {
@@ -94,34 +99,76 @@ const SearchResultPage = () => {
       <h1>Showing results for: {query}</h1>
       <div className="divBottomPanelSwitch">
         <button
-          className={switcher === "Videos" ? "btnBottomPanelActive" : "btnSwitchBottomPanel"}
+          className={
+            switcher === "Videos"
+              ? "btnBottomPanelActive"
+              : "btnSwitchBottomPanel"
+          }
           onClick={() => setSwitcher("Videos")}
         >
           Videos
         </button>
         <button
-          className={switcher === "Channels" ? "btnBottomPanelActive" : "btnSwitchBottomPanel"}
+          className={
+            switcher === "Channels"
+              ? "btnBottomPanelActive"
+              : "btnSwitchBottomPanel"
+          }
           onClick={() => setSwitcher("Channels")}
         >
           Channels
         </button>
       </div>
       <div className="results-container">
-        {switcher === "Videos"
-          ? filteredVids.map((video, index) =>
-              index === filteredVids.length - 1 ? (
-                <SearchVideoItem ref={lastElementRef} key={video.id} video={video} />
-              ) : (
-                <SearchVideoItem key={video.id} video={video} />
+        {switcher === "Videos" ? (
+          <div>
+            {filteredVids.length > 0 ? (
+              filteredVids.map((video, index) =>
+                index === filteredVids.length - 1 ? (
+                  <SearchVideoItem
+                    ref={lastElementRef}
+                    key={video.id}
+                    video={video}
+                  />
+                ) : (
+                  <SearchVideoItem key={video.id} video={video} />
+                )
               )
-            )
-          : filteredUsers.map((user, index) =>
-              index === filteredUsers.length - 1 ? (
-                <SearchUserItem ref={lastElementRef} key={user.id} user={user} />
-              ) : (
-                <SearchUserItem key={user.id} user={user} />
-              )
+            ) : (
+              <div>
+                <p className="notFoundText">
+                  There are no videos found for this search input, but here is
+                  Squidward dancing 😎
+                </p>{" "}
+                <img className="squidwardImage" src={dancing_squidward} />
+              </div>
             )}
+          </div>
+        ) : (
+          <div>
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user, index) =>
+                index === filteredUsers.length - 1 ? (
+                  <SearchUserItem
+                    ref={lastElementRef}
+                    key={user.id}
+                    user={user}
+                  />
+                ) : (
+                  <SearchUserItem key={user.id} user={user} />
+                )
+              )
+            ) : (
+              <div>
+                <p className="notFoundText">
+                  There are no users found for this search input, but here is
+                  Squidward dancing 😎
+                </p>{" "}
+                <img className="squidwardImage" src={dancing_squidward} />
+              </div>
+            )}
+          </div>
+        )}
       </div>
       {loading && <p>Loading more...</p>}
     </div>
