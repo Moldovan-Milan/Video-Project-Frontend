@@ -10,6 +10,7 @@ import {
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
+import * as signalR from "@microsoft/signalr";
 
 const MediaSharing = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -140,7 +141,12 @@ const MediaSharing = () => {
 
   const startLiveStream = async () => {
     try {
-      const signalRConnection = createSignalR(BASE_URL, "live");
+      const signalRConnection = new signalR.HubConnectionBuilder()
+        .withUrl(`${BASE_URL}/live`, {})
+        .withAutomaticReconnect()
+        .build();
+
+      connectionRef.current = signalRConnection;
 
       signalRConnection.on("LiveStreamStarted", (streamId) => {
         setStreamURL(streamId);
@@ -203,13 +209,6 @@ const MediaSharing = () => {
       }
 
       signalRConnection.invoke("StartStream", user.id, title, description);
-      // invokeSignalRMethod(
-      //   connection,
-      //   "StartStream",
-      //   user.id,
-      //   title,
-      //   description
-      // );
     } catch (error) {
       console.log("Error happend during the start: ", error);
     }
@@ -311,71 +310,71 @@ const MediaSharing = () => {
 
   return (
     <div className="goLiveContainer">
-  <h1 className="pageTitle">Media Sharing</h1>
+      <h1 className="pageTitle">Media Sharing</h1>
 
-  {!isStreaming && (
-    <>
-      <label className="formLabel">Title: </label>
-      <input
-        type="text"
-        onChange={(e) => setTitle(e.target.value)}
-        value={title}
-        className="textInput"
-      />
-      <label className="formLabel">Description: </label>
-      <textarea
-        onChange={(e) => setDescription(e.target.value)}
-        value={description}
-        className="textArea"
-      />
-    </>
-  )}
-  <label className="formLabel text-center">Streaming methods</label>
-  <div className="btnStreamingMethod">
-    <button
-      onClick={handleScreenSelected}
-      className={
-        selectedSource === "screen" ? "selectedSourceBtn" : "sourceBtn"
-      }
-    >
-      <FaDesktop className="m-1" /> Share Screen
-    </button>
-    <button
-      onClick={handleCameraSelected}
-      className={
-        selectedSource === "camera" ? "selectedSourceBtn" : "sourceBtn"
-      }
-    >
-      <FaCamera className="m-1" /> Use Webcam
-    </button>
-  </div>
-
-  <h1 className="pageTitle">Stream preview</h1>
-  <div className="videoWrapper">
-    <video ref={videoRef} autoPlay playsInline className="streamVideo" />
-  </div>
-
-  {!isStreaming ? (
-    <button onClick={GoLive} className="goLiveBtn">
-      <FaPlay /> Start livestream
-    </button>
-  ) : (
-    <button onClick={stopSharing} className="stopBtn">
-      <FaStop /> Stop Sharing
-    </button>
-  )}
-
-  {isStreaming && (
-    <div className="streamInfo">
-      <div className="streamCode">Your stream code: {streamURL}</div>
-      <div className="viewerCount">
-        Viewers: {viewerCount} <FaEye />
+      {!isStreaming && (
+        <>
+          <label className="formLabel">Title: </label>
+          <input
+            type="text"
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            className="textInput"
+          />
+          <label className="formLabel">Description: </label>
+          <textarea
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+            className="textArea"
+          />
+        </>
+      )}
+      <label className="formLabel text-center">Streaming methods</label>
+      <div className="btnStreamingMethod">
+        <button
+          onClick={handleScreenSelected}
+          className={
+            selectedSource === "screen" ? "selectedSourceBtn" : "sourceBtn"
+          }
+        >
+          <FaDesktop className="m-1" /> Share Screen
+        </button>
+        <button
+          onClick={handleCameraSelected}
+          className={
+            selectedSource === "camera" ? "selectedSourceBtn" : "sourceBtn"
+          }
+        >
+          <FaCamera className="m-1" /> Use Webcam
+        </button>
       </div>
-    </div>
-  )}
 
-  <ChatPanel messages={messages} onMessageSend={onMessageSend} />
-</div>
+      <h1 className="pageTitle">Stream preview</h1>
+      <div className="videoWrapper">
+        <video ref={videoRef} autoPlay playsInline className="streamVideo" />
+      </div>
+
+      {!isStreaming ? (
+        <button onClick={GoLive} className="goLiveBtn">
+          <FaPlay /> Start livestream
+        </button>
+      ) : (
+        <button onClick={stopSharing} className="stopBtn">
+          <FaStop /> Stop Sharing
+        </button>
+      )}
+
+      {isStreaming && (
+        <div className="streamInfo">
+          <div className="streamCode">Your stream code: {streamURL}</div>
+          <div className="viewerCount">
+            Viewers: {viewerCount} <FaEye />
+          </div>
+        </div>
+      )}
+
+      <ChatPanel messages={messages} onMessageSend={onMessageSend} />
+    </div>
   );
 };
 
