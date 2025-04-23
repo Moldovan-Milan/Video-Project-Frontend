@@ -15,6 +15,7 @@ export const tryLoginUser = async (setUser, connectToServer, connection) => {
         followers: user.followers,
         avatarId: user.avatarId,
         created: user.created,
+        rememberMe: true,
       });
       if (!connection) {
         connectToServer();

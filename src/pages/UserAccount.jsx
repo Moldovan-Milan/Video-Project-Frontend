@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import "../styles/UserAccount.scss";
 import { UserContext } from "../components/contexts/UserProvider";
 import UserEditComponent from "../components/UserEditComponent";

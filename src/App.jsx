@@ -47,14 +47,14 @@ function App() {
     };
   }, [setUser, connectToServer, connection]);
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      await tryLoginUser(setUser, connectToServer, connection);
-    };
-    if (!user) {
-      fetchToken();
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   const fetchToken = async () => {
+  //     await tryLoginUser(setUser, connectToServer, connection);
+  //   };
+  //   if (user && user.rememberMe) {
+  //     fetchToken();
+  //   }
+  // }, []);
 
   return (
     <BrowserRouter>

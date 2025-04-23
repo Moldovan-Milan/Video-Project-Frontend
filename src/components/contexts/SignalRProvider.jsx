@@ -1,13 +1,14 @@
 import React, { createContext, useEffect, useState, useContext } from "react";
 import * as signalR from "@microsoft/signalr";
 import { UserContext } from "./UserProvider";
+import { tryLoginUser } from "../../functions/tryLoginUser";
 
 const SignalRContext = createContext(null);
 
 export const SignalRProvider = ({ children }) => {
   const [connection, setConnection] = useState(null);
   const [messages, setMessages] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const connectToServer = async () => {
@@ -23,12 +24,10 @@ export const SignalRProvider = ({ children }) => {
       .build();
 
     newConnection.on("ReceiveMessage", (message) => {
-      //console.log("📩 New message: ", JSON.parse(message));
       setMessages((prevMessages) => [...prevMessages, JSON.parse(message)]);
     });
 
     newConnection.on("ReceiveChatHistory", (history) => {
-      //console.log("📜 Received history: ", history);
       setMessages(history);
     });
 
@@ -36,7 +35,10 @@ export const SignalRProvider = ({ children }) => {
       await newConnection.start();
       setConnection(newConnection);
     } catch (err) {
-      console.error("❌ Error while starting the SignalR connection", err);
+      //console.error("Error while starting the SignalR connection", err);
+      if (user && user.rememberMe) {
+        await tryLoginUser(setUser, connectToServer, connection);
+      }
     }
   };
 
@@ -48,7 +50,7 @@ export const SignalRProvider = ({ children }) => {
       return;
     }
     connection.invoke("RequestChatHistory", chatId).catch((err) => {
-      console.error("❌ Error requesting chat history", err);
+      console.error("Error requesting chat history", err);
     });
   };
 
@@ -57,7 +59,7 @@ export const SignalRProvider = ({ children }) => {
       !connection ||
       connection.state !== signalR.HubConnectionState.Connected
     ) {
-      console.warn("⚠️ Cannot send message: SignalR is not connected.");
+      console.warn("Cannot send message: SignalR is not connected.");
       return;
     }
     connection
