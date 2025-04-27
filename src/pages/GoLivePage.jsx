@@ -123,6 +123,13 @@ const MediaSharing = () => {
       setStream(null);
       setIsStreaming(false);
 
+      Object.keys(peerConnections).forEach((connId) => {
+        if (peerConnections[connId]) {
+          peerConnections[connId].close();
+          delete peerConnections[connId];
+        }
+      });
+
       if (connectionRef.current) {
         try {
           await invokeSignalRMethod(
@@ -142,7 +149,7 @@ const MediaSharing = () => {
   const startLiveStream = async () => {
     try {
       const signalRConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`${BASE_URL}/live`, {})
+        .withUrl(`${BASE_URL}/live`)
         .withAutomaticReconnect()
         .build();
 

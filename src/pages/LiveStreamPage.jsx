@@ -34,6 +34,9 @@ const LiveStreamPage = () => {
         console.log(connectionRef.current, " Leave stream function");
         connectionRef.current.invoke("LeaveStream", id);
         connectionRef.current.stop();
+        if (peerConnectionRef.current) {
+          peerConnectionRef.current.close();
+        }
       } catch (error) {
         console.log(error);
       }
@@ -94,7 +97,6 @@ const LiveStreamPage = () => {
       const stream = event.streams[0];
       remoteVideoRef.current.srcObject = stream;
     });
-
     peer.addEventListener("icecandidate", (event) => {
       if (event.candidate) {
         console.log("Send ice candidate for the streamer");
