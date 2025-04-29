@@ -7,7 +7,7 @@ import dummy from "../assets/defa_pfp.png";
 const CommentTextBox = ({ videoid, setComments }) => {
   const textAreaRef = useRef();
   const [error, setError] = useState();
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
   const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
 
@@ -55,7 +55,7 @@ const CommentTextBox = ({ videoid, setComments }) => {
       <div className="SubmitCommCol1">
         <img
           src={
-            !user
+            user == null
               ? dummy
               : `${CLOUDFLARE_PATH}/${AVATAR_PATH}/${user.avatar.path}.${user.avatar.extension}`
           }
