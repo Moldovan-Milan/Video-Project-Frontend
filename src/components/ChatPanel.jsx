@@ -3,6 +3,8 @@ import "../styles/ChatPanel.scss";
 
 const ChatPanel = ({ messages, onMessageSend }) => {
   const newMessageRef = useRef();
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
 
   const handleSendMessage = () => {
     const content = newMessageRef.current.value;
@@ -20,16 +22,17 @@ const ChatPanel = ({ messages, onMessageSend }) => {
       <div className="messages-box">
         {messages.length > 0 ? (
           messages.map((msg, index) => (
-                <div key={index} className="message-bubble flex">
-                <img
-                src={`https://localhost:7124/api/User/avatar/${msg.sender.avatarId}`}
+            <div key={index} className="message-bubble flex">
+              <img
+                src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${msg.sender.avatar.path}.${msg.sender.avatar.extension}`}
                 alt={msg.sender.userName}
                 className="sender-avatar"
               />
               <div className="flex flex-col">
-              <span className="sender-name">{msg.sender.userName}</span>
-                  <p className="message-text">{msg.content}</p></div>
-                  </div>
+                <span className="sender-name">{msg.sender.userName}</span>
+                <p className="message-text">{msg.content}</p>
+              </div>
+            </div>
           ))
         ) : (
           <p className="no-messages">No messages yet</p>

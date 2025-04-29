@@ -19,9 +19,6 @@ const Login = () => {
     document.title = "Login | Omega Stream";
   }, []);
 
-  //const { connectToServer } = useWebSocket();
-  const { connectToServer } = useSignalR();
-
   // Felhasználó bejelentkezésének kezelése
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +44,7 @@ const Login = () => {
         userName: userDto.userName,
         followers: userDto.followers,
         avatarId: userDto.avatarId,
+        avatar: userDto.avatar,
         created: userDto.created,
         rememberMe,
       });

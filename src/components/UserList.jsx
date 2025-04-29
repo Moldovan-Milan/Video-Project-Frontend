@@ -29,9 +29,7 @@ const UserList = ({ users, isHost, user, banUser }) => {
               <li key={connectedUser.id}>
                 {console.log(connectedUser)}
                 <img
-                  src={`https://localhost:7124/api/User/avatar/${connectedUser.avatarId}`}
-                  // TODO: Replace src with this
-                  //src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${connectedUser.avatar.path}.${connectedUser.avatar.extension}`}
+                  src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${connectedUser.avatar.path}.${connectedUser.avatar.extension}`}
                   alt={connectedUser.username}
                 />
                 <span>{connectedUser.userName}</span>

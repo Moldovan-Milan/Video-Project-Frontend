@@ -3,29 +3,26 @@ import { Link } from "react-router-dom";
 import "../styles/FollowedChannelItem.scss";
 
 const FollowedChannelItem = ({ user }) => {
-  const {  id,
-    userName,
-    email,
-    avatarId,
-    followersCount,
-    created} = user;
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const { id, userName, avatar } = user;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
+
   return (
     <div title={userName}>
-    <div className="followedUserItem">
-      <Link to={`/profile/${id}`}>
-        <div>
-        <img src={`${BASE_URL}/api/User/avatar/${avatarId}`} className="channelAvatar"></img>
-        
-        </div>
-        <div className="p-4">
-          <div className="followedChannelName">
-            {userName}
+      <div className="followedUserItem">
+        <Link to={`/profile/${id}`}>
+          <div>
+            <img
+              src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${avatar.path}.${avatar.extension}`}
+              className="channelAvatar"
+            ></img>
           </div>
-        </div>
-      </Link>
+          <div className="p-4">
+            <div className="followedChannelName">{userName}</div>
+          </div>
+        </Link>
+      </div>
     </div>
-  </div>
   );
 };
 

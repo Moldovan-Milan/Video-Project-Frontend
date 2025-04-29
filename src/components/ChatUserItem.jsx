@@ -2,7 +2,8 @@ import "../styles/ChatUserItem.scss";
 import { Link } from "react-router-dom";
 
 export default function ChatUserItem({ chat }) {
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
   return (
     <div className="chatUserItemContainer" title={chat.user.userName}>
       <div className="chatUserItem">
@@ -13,7 +14,7 @@ export default function ChatUserItem({ chat }) {
                 <td className="chatAvatartd">
                   <img
                     className="chatUserItemAvatar"
-                    src={`${BASE_URL}/api/User/avatar/${chat.user.avatarId}`}
+                    src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${chat.user.avatar.path}.${chat.user.avatar.extension}`}
                   ></img>
                 </td>
                 <td className="chatUserItemDetails">

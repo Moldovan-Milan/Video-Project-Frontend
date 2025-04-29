@@ -53,7 +53,6 @@ const MediaSharing = () => {
         video: true,
         audio: true,
       });
-
       let combinedStream;
       try {
         const micStream = await navigator.mediaDevices.getUserMedia({
