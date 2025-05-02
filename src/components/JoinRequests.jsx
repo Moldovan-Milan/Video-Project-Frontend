@@ -1,6 +1,9 @@
 import React from "react";
-
+import "../styles/JoinRequests.scss"
 const JoinRequests = ({ isHost, userRequest, acceptUser, rejectUser }) => {
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
+
   return (
     isHost &&
     userRequest.length > 0 && (
@@ -11,9 +14,10 @@ const JoinRequests = ({ isHost, userRequest, acceptUser, rejectUser }) => {
             <li key={requestUser.id}>
               <div>
                 <img
-                  src={`https://localhost:7124/api/User/avatar/${requestUser.avatarId}`}
+                  src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${requestUser.avatar.path}.${requestUser.avatar.extension}`}
                   alt={requestUser.userName}
                 />
+                <p>{requestUser.userName}</p>
               </div>
               <div className="wt-action-buttons">
                 <button

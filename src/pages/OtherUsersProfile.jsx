@@ -188,7 +188,7 @@ const OtherUsersProfile = () => {
               <tr>
                 <td>
                   <button
-                    className="send-message-btn font-bold font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
+                    className="send-message-btn font-bold py-2 px-4 rounded mb-2 navbar-btn m-1"
                     onClick={handleMessageSend}
                     style={
                       userData.userTheme && userData.userTheme.secondaryColor
