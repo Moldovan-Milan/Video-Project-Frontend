@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import loading from "../assets/loading.gif";
-import ShortsVideoItem from "../components/ShortsVideoItem";
-import "../styles/ShortsPage.scss";
+import ShortsVideoItem from "../components/Video/ShortsVideoItem";
+import "../styles/Video/ShortsPage.scss";
 
 const ShortsPage = () => {
   const [shorts, setShorts] = useState([]);
@@ -53,22 +53,26 @@ const ShortsPage = () => {
 
   return (
     <>
-    <h1 className="shortsTitle">Shorts</h1>
-    <hr></hr>
+      <h1 className="shortsTitle">Shorts</h1>
+      <hr></hr>
       <div className="flex flex-wrap flex-row">
-      {shorts.length > 0 ? (
-        shorts.map((video, index) => {
-          const isLastShort = index === shorts.length - 1;
-          return (
-            <>
-              <ShortsVideoItem video={video} key={video.id} ref={isLastShort ? lastShortRef : null}/>
+        {shorts.length > 0 ? (
+          shorts.map((video, index) => {
+            const isLastShort = index === shorts.length - 1;
+            return (
+              <>
+                <ShortsVideoItem
+                  video={video}
+                  key={video.id}
+                  ref={isLastShort ? lastShortRef : null}
+                />
               </>
-          );
-        })
-      ) : (
-        <img src={loading} alt="loading" />
-      )}
-    </div>
+            );
+          })
+        ) : (
+          <img src={loading} alt="loading" />
+        )}
+      </div>
     </>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import VideosPage from "../pages/VideosPage";
 import { cleanup, render, waitFor, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import VideoItem from "../components/VideoItem";
+import VideoItem from "../components/Video/VideoItem";
 import axios from "axios";
 
 jest.mock("../assets/loading.gif", () => ({}), { virtual: true });

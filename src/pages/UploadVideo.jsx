@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { UserContext } from "../components/contexts/UserProvider";
 import { Link } from "react-router-dom";
 import getRoles from "../functions/getRoles";
-import VerificationRequestButton from "../components/VerificationRequestButton";
+import VerificationRequestButton from "../components/Admin/VerificationRequestButton";
 import getActiveVerificationRequestStatus from "../functions/getActiveVerificationRequestStatus";
 import { FaShieldAlt } from "react-icons/fa";
 import axios from "axios";
@@ -61,16 +61,16 @@ const UploadVideo = () => {
         const response = await axios.get("api/video/get-supported-formats");
         if (response.status === 200) {
           const formats = response.data;
-  
+
           const acceptString = formats.join(",");
-  
+
           setSupportedFormats(acceptString);
         }
       } catch (error) {
         console.error(error);
       }
     };
-  
+
     loadSupportedFormats();
   }, []);
 
@@ -139,19 +139,20 @@ const UploadVideo = () => {
           Video
         </label>
         <input
-            id="uploadVideo"
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            accept={supportedFormats}
-            hidden
-          />
+          id="uploadVideo"
+          type="file"
+          onChange={(e) => setFile(e.target.files[0])}
+          accept={supportedFormats}
+          hidden
+        />
         <label htmlFor="uploadVideo" className="uploadBtn">
           <FaUpload className="upload-icn" /> Choose a video
         </label>
         {file && (
           <div className="mt-4">
             <p className="mt-2 text-sm text-center m-3">
-              Selected: <strong>{file.name}</strong> ({(file.size / 1024 / 1024).toFixed(2)} MB)
+              Selected: <strong>{file.name}</strong> (
+              {(file.size / 1024 / 1024).toFixed(2)} MB)
             </p>
             <video
               src={URL.createObjectURL(file)}
@@ -159,20 +160,19 @@ const UploadVideo = () => {
               width="320"
               height="180"
               className="rounded-md shadow-md"
-              style={{margin: "auto", maxHeight: 180, maxWidth: 320}} 
+              style={{ margin: "auto", maxHeight: 180, maxWidth: 320 }}
             />
           </div>
         )}
-
-
       </div>
       <div className="mb-4">
-        <ThumbnailUpload 
+        <ThumbnailUpload
           thumbnail={image}
           setThumbnail={setImage}
           maxWidth={480}
           maxHeight={270}
-          buttonText={"Upload Thumbnail"}/>
+          buttonText={"Upload Thumbnail"}
+        />
       </div>
 
       <div className="mb-4">
@@ -187,7 +187,10 @@ const UploadVideo = () => {
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="description" className="block font-bold mb-2 uploadLabel">
+        <label
+          htmlFor="description"
+          className="block font-bold mb-2 uploadLabel"
+        >
           Description
         </label>
         <textarea
@@ -214,7 +217,7 @@ const UploadVideo = () => {
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center mt-3"
           type="button"
-          style={{margin: "auto", display: "block"}}
+          style={{ margin: "auto", display: "block" }}
           disabled
         >
           <svg
@@ -222,7 +225,7 @@ const UploadVideo = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            style={{margin: "auto", display: "block"}}
+            style={{ margin: "auto", display: "block" }}
           >
             <circle
               className="opacity-25"

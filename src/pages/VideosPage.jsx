@@ -6,9 +6,10 @@ import React, {
   Suspense,
 } from "react";
 import axios from "axios";
-const VideoItem = React.lazy(() => import("../components/VideoItem")); // Lazy import
+const VideoItem = React.lazy(() => import("../components/Video/VideoItem")); // Lazy import
 
 import loading from "../assets/loading.gif";
+import VideoItemSkeleton from "../components/Video/VideoItemSkeleton";
 
 const VideosPage = () => {
   const [videos, setVideos] = useState([]);
@@ -63,7 +64,7 @@ const VideosPage = () => {
           videos.map((video, index) => {
             const isLastVideo = index === videos.length - 1;
             return (
-              <Suspense key={video.id} fallback={<div>Loading...</div>}>
+              <Suspense key={video.id} fallback={<VideoItemSkeleton />}>
                 <VideoItem
                   video={video}
                   ref={isLastVideo ? lastVideoRef : null}

@@ -24,7 +24,7 @@ export const SignalRProvider = ({ children }) => {
       .build();
 
     newConnection.on("ReceiveMessage", (message) => {
-      setMessages((prevMessages) => [...prevMessages, JSON.parse(message)]);
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     newConnection.on("ReceiveChatHistory", (history) => {

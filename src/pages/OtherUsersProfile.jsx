@@ -7,15 +7,15 @@ import React, {
   useCallback,
 } from "react";
 import { useParams } from "react-router-dom";
-import "../styles/OtherUsersProfile.scss";
+import "../styles/UserProfile/OtherUsersProfile.scss";
 import { FaMailBulk, FaUserPlus, FaPencilAlt } from "react-icons/fa";
-import UserPageVideoItem from "../components/UserPageVideoItem";
+import UserPageVideoItem from "../components/UserProfile/UserPageVideoItem";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate, Link } from "react-router-dom";
 import loadingImg from "../assets/loading.gif";
 import isColorDark from "../functions/isColorDark";
 import getRoles from "../functions/getRoles";
-import OtherUsersProfileHeader from "../components/OtherUsersProfileHeader";
+import OtherUsersProfileHeader from "../components/UserProfile/OtherUsersProfileHeader";
 
 const OtherUsersProfile = () => {
   //TODO: pagination

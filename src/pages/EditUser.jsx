@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import UserEditComponent from "../components/UserEditComponent";
+import UserEditComponent from "../components/UserProfile/UserEditComponent";
 import axios from "axios";
 
 const EditUser = () => {

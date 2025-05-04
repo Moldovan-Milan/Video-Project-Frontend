@@ -15,7 +15,7 @@ const LiveStreamPage = React.lazy(() => import("./pages/LiveStreamPage"));
 const GoLivePage = React.lazy(() => import("./pages/GoLivePage"));
 const EditVideoPage = React.lazy(() => import("./pages/EditVideoPage"));
 const WatchTogetherMainPage = React.lazy(() =>
-  import("./pages/WatchTogetherMainPage")
+  import("./components/WatchTogether/WatchTogetherMainPage")
 );
 const WatchTogetherRoom = React.lazy(() => import("./pages/WatchTogetherRoom"));
 const SearchResultPage = React.lazy(() => import("./pages/SearchResultPage"));
@@ -57,7 +57,10 @@ const AppRoutes = () => {
         <Route path="/watch-together/:id" element={<WatchTogetherRoom />} />
         <Route path="/shorts" element={<ShortsPage />} />
         <Route path="/admin" element={<AdminPage />}>
-          <Route path="verification-list" element={<VerificationRequestList />}/>
+          <Route
+            path="verification-list"
+            element={<VerificationRequestList />}
+          />
           <Route path="edit-user-roles" element={<UserSearchPage />} />
           <Route path="edit-user-roles/:id" element={<EditUserRoles />} />
         </Route>

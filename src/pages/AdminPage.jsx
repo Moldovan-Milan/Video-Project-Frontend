@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, Outlet } from "react-router-dom";
-import "../styles/AdminPage.scss";
+import "../styles/Admin/AdminPage.scss";
 import { FaCheckCircle, FaUserCog, FaUserTie } from "react-icons/fa";
 
 const AdminPage = () => {

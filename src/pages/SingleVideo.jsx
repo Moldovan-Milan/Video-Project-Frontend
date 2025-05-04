@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import VideoPlayer from "../components/VideoPlayer";
+import VideoPlayer from "../components/Video/VideoPlayer";
 import timeAgo from "../functions/timeAgo";
 import {
   FaEye,
@@ -14,9 +14,9 @@ import {
   FaArrowUp,
 } from "react-icons/fa";
 import { UserContext } from "../components/contexts/UserProvider";
-import "../styles/SingleVideo.scss";
-import CommentSection from "../components/CommentSection";
-import RecommendedVideos from "../components/RecommendedVideos";
+import "../styles/Video/SingleVideo.scss";
+import CommentSection from "../components/Comment/CommentSection";
+import RecommendedVideos from "../components/Video/RecommendedVideos";
 import getViewText from "../functions/getViewText";
 import getRoles from "../functions/getRoles";
 

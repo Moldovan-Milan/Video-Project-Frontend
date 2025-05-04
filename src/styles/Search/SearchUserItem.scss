@@ -1,0 +1,90 @@
+.searchUserItemContainer {
+  width: 80%;
+  margin: 10px 0;
+  padding: 10px;
+  margin-left: 20px;
+  display: block;
+  margin: auto;
+}
+
+.searchUserItem {
+  border-radius: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  padding: 15px;
+}
+
+.searchUserItem:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #B200FF;
+}
+
+.searchItemGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.avatarColumn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchItemAvatarImg {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid lime;
+  flex-shrink: 0;
+}
+
+.infoColumn {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 6px;
+}
+
+.SearchUserName {
+  font-weight: bold;
+  font-size: 20px;
+  color: lime;
+}
+
+.SearchSubscriberCount {
+  font-size: 15px;
+  background-color: lime;
+  color: black;
+  font-weight: bold;
+  border-radius: 20px;
+  width: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+
+
+}
+
+@media (max-width: 600px) {
+  .searchItemGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    text-align: center;
+  }
+
+  .SearchSubscriberCount {
+    display: block;
+    margin: auto;
+  }
+
+  .avatarColumn {
+    margin-bottom: 10px;
+  }
+
+  .infoColumn {
+    grid-template-rows: auto auto;
+  }
+}

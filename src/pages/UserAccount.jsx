@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import "../styles/UserAccount.scss";
+import "../styles/UserProfile/UserAccount.scss";
 import { UserContext } from "../components/contexts/UserProvider";
-import UserEditComponent from "../components/UserEditComponent";
+import UserEditComponent from "../components/UserProfile/UserEditComponent";
 
 const UserAccount = () => {
   const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
@@ -22,8 +22,6 @@ const UserAccount = () => {
     created: "",
     userTheme: {},
   });
-
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchUser = async () => {

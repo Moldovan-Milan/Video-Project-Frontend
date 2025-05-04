@@ -1,5 +1,5 @@
 import "../styles/NavbarComponent.scss";
-import "../styles/VideoItem.scss";
+import "../styles/Video/VideoItem.scss";
 import logo from "../assets/omega_stream_v1.png";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
@@ -19,11 +19,7 @@ import {
 import logOutUser from "../functions/logOutUser";
 import { UserContext } from "./contexts/UserProvider";
 import { useSignalR } from "./contexts/SignalRProvider";
-import {
-  FaEye,
-  FaMessage,
-  FaUsersRectangle,
-} from "react-icons/fa6";
+import { FaEye, FaMessage, FaUsersRectangle } from "react-icons/fa6";
 import getRoles from "../functions/getRoles";
 
 export default function NavbarComponent() {

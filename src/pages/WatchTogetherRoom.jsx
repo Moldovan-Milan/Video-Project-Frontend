@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../components/contexts/UserProvider";
-import VideoPlayerWrapper from "../components/VideoPlayerWrapper";
-import ChatPanel from "../components/ChatPanel";
-import Playlist from "../components/Playlist";
-import VideoSearch from "../components/VideoSearch";
-import UserList from "../components/UserList";
-import JoinRequests from "../components/JoinRequests";
+import VideoPlayerWrapper from "../components/WatchTogether/VideoPlayerWrapper";
+import ChatPanel from "../components/WatchTogether/ChatPanel";
+import Playlist from "../components/WatchTogether/Playlist";
+import VideoSearch from "../components/Search/VideoSearch";
+import UserList from "../components/WatchTogether/UserList";
+import JoinRequests from "../components/WatchTogether/JoinRequests";
 import axios from "axios";
-import "../styles/WatchTogetherRoom.scss";
+import "../styles/WatchTogether/WatchTogetherRoom.scss";
 import useWatchTogetherSignalR from "../hooks/useWatchTogetherConnection";
 
 const WatchTogetherRoom = () => {
@@ -17,6 +17,7 @@ const WatchTogetherRoom = () => {
   const { id } = useParams();
   const [safeId, setSafeId] = useState(id);
   const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
 
   const [isHost, setIsHost] = useState(false);
   const [isHostLeft, setIsHostLeft] = useState(false);
@@ -128,6 +129,7 @@ const WatchTogetherRoom = () => {
     });
 
     connection.invoke("JoinRoom", safeId, user.id).catch(console.error);
+    setLoading(false);
 
     return () => {
       Object.keys(eventHandlers).forEach((event) => connection.off(event));
@@ -150,7 +152,15 @@ const WatchTogetherRoom = () => {
           </div>
         )}
         <VideoPlayerWrapper
-          {...{ isInRoom, currentVideo, isPlaying, isHost, id, connection }}
+          {...{
+            isInRoom,
+            currentVideo,
+            isPlaying,
+            isHost,
+            id,
+            connection,
+            loading,
+          }}
         />
         <Playlist
           {...{
@@ -169,7 +179,9 @@ const WatchTogetherRoom = () => {
             className="W2GSearchButton"
             onClick={() => setTogleSearch(!toggleSearch)}
           >
-            {!toggleSearch?"Click here to search for videos":"Close search section"}
+            {!toggleSearch
+              ? "Click here to search for videos"
+              : "Close search section"}
           </button>
         )}
         {isHost && toggleSearch && (

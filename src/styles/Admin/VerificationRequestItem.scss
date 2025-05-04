@@ -1,0 +1,14 @@
+.verification-request-container{
+    margin: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-width: 350px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+}
+
+.verification-request-container:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 20px lime;
+}

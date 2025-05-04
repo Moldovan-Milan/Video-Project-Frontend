@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
 import axios from "axios";
-import VerificationRequestItem from "../components/VerificationRequestItem";
+import VerificationRequestItem from "../components/Admin/VerificationRequestItem";
 
 const VerificationRequestList = () => {
   const [requestList, setRequestList] = useState([]);
@@ -15,7 +15,7 @@ const VerificationRequestList = () => {
         const response = await axios.get(
           `api/admin/verification-requests?pageNumber=${pageNumber}&pageSize=${pageSize}`,
           {
-            withCredentials:true
+            withCredentials: true,
           }
         );
 
@@ -42,7 +42,6 @@ const VerificationRequestList = () => {
       prevRequests.filter((request) => request.id !== userId)
     );
   };
-  
 
   const lastUserRef = useCallback(
     (node) => {
@@ -81,7 +80,6 @@ const VerificationRequestList = () => {
       )}
     </div>
   );
-  
 };
 
 export default VerificationRequestList;

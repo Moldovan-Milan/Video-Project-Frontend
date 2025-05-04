@@ -11,7 +11,7 @@ const ChatPage = () => {
     const fetchChats = async () => {
       try {
         const { data } = await axios.get("/api/chat/user-chats", {
-          withCredentials: true
+          withCredentials: true,
         });
         setChats(data);
         //console.log("Beszélgetések: " + chats);
@@ -20,15 +20,15 @@ const ChatPage = () => {
       }
     };
     fetchChats();
-    document.title = "Private Messages | Omega Stream"
+    document.title = "Private Messages | Omega Stream";
   }, []);
 
   return (
     <div>
-        {chats &&
-          chats.map((chat, id) => (
-            <ChatUserItem key={id} chat={chat}></ChatUserItem>
-          ))}
+      {chats &&
+        chats.map((chat, id) => (
+          <ChatUserItem key={id} chat={chat}></ChatUserItem>
+        ))}
     </div>
   );
 };

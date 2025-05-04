@@ -1,11 +1,9 @@
 import axios from "axios";
 import "../styles/Login.scss";
-import "../styles/VideoItem.scss";
+import "../styles/Video/VideoItem.scss";
 import React, { useRef, useState, useContext, useEffect } from "react";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
-import { useWebSocket } from "../components/contexts/WebSocketProvider";
-import { useSignalR } from "../components/contexts/SignalRProvider";
 
 const Login = () => {
   const emailRef = useRef("");
@@ -31,30 +29,32 @@ const Login = () => {
     formData.append("password", password);
     formData.append("rememberMe", rememberMe);
 
-    const response = await axios.post("api/user/login", formData, {
-      withCredentials: true,
-    });
-
-    if (response.status === 200) {
-      const { userDto } = response.data;
-
-      setUser({
-        id: userDto.id,
-        email: userDto.email,
-        userName: userDto.userName,
-        followers: userDto.followers,
-        avatarId: userDto.avatarId,
-        avatar: userDto.avatar,
-        created: userDto.created,
-        rememberMe,
+    try {
+      const response = await axios.post("api/user/login", formData, {
+        withCredentials: true,
       });
 
-      navigate("/");
-      //window.location = "/";
-    } else {
-      setErrorMessage("Invalid username or password.");
-      // A form mezők kiürítése
-      emailRef.current.value = "";
+      if (response.status === 200) {
+        const { userDto } = response.data;
+
+        setUser({
+          id: userDto.id,
+          email: userDto.email,
+          userName: userDto.userName,
+          followers: userDto.followers,
+          avatarId: userDto.avatarId,
+          avatar: userDto.avatar,
+          created: userDto.created,
+          rememberMe,
+        });
+
+        navigate("/");
+        //window.location = "/";
+      }
+    } catch (ex) {
+      console.log(ex);
+      setErrorMessage(ex.response.data);
+
       passwordRef.current.value = "";
     }
   };
@@ -94,7 +94,6 @@ const Login = () => {
             />
           </div>
           <div className="mb-4">
-            {/*TODO: get jwtToken after user logn in via "remember me"*/}
             <label htmlFor="rememberMe" className="block font-bold mb-2">
               Remember me:
             </label>
@@ -111,9 +110,7 @@ const Login = () => {
           >
             Login
           </button>
-          {errorMessage && (
-            <div className="text-red-500 mt-4">{errorMessage}</div>
-          )}
+          <div className="text-red-500 mt-4">{errorMessage}</div>
         </form>
       </div>
     </div>

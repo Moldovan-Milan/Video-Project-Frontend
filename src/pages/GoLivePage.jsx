@@ -9,7 +9,7 @@ import {
 } from "../utils/signalRUtils";
 import { UserContext } from "../components/contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
-import ChatPanel from "../components/ChatPanel";
+import ChatPanel from "../components/WatchTogether/ChatPanel";
 import * as signalR from "@microsoft/signalr";
 
 const MediaSharing = () => {

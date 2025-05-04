@@ -32,11 +32,23 @@ const LiveStreamList = () => {
           {liveStreams.map((ls, index) => (
             <Link to={`/livestream/${ls.id}`} key={index}>
               <div className="stream-card">
+<<<<<<< Updated upstream
+=======
+                <img
+                  src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${ls.user.avatar.path}.${ls.user.avatar.extension}`}
+                  alt={`${ls.user.userName}'s avatar`}
+                  className="avatar"
+                />
+>>>>>>> Stashed changes
                 <h2 className="stream-title">{ls.streamTitle}</h2>
                 <p className="username">By: {ls.user.userName}</p>
                 <p className="description">{ls.description}</p>
                 <p className="flex flex-row">
+<<<<<<< Updated upstream
                   Viewers: {ls.viewers} <FaEye className="m-1"/>
+=======
+                  Viewers: {ls.viewers} <FaEye className="m-1" />
+>>>>>>> Stashed changes
                 </p>
                 <p className="started-at">
                   Started at: {new Date(ls.startedAt).toLocaleString()}

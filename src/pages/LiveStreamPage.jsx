@@ -6,7 +6,7 @@ import {
 } from "../utils/signalRUtils";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../components/contexts/UserProvider";
-import ChatPanel from "../components/ChatPanel";
+import ChatPanel from "../components/WatchTogether/ChatPanel";
 
 const LiveStreamPage = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;

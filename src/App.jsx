@@ -2,7 +2,7 @@ import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, useNavigate } from "react-router-dom";
 import axios from "axios";
-import SearchBar from "./components/SearchBar";
+import SearchBar from "./components/Search/SearchBar";
 import "./output.css";
 import { useContext, useEffect } from "react";
 import { tryLoginUser } from "./functions/tryLoginUser";

@@ -10,7 +10,7 @@ const Registration = () => {
   const confirmPasswordRef = useRef("");
   const emailRef = useRef("");
   const [avatar, setAvatar] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState([]);
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -48,12 +48,9 @@ const Registration = () => {
       if (response.status === 200) {
         window.alert("Successfully Registered!");
         navigate("/");
-      } else {
-        setErrorMessage(response.data);
-        console.log(response.data);
       }
     } catch (err) {
-      console.error(err);
+      setErrorMessage(err.response.data);
     }
   };
 
@@ -67,7 +64,9 @@ const Registration = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
         <form onSubmit={handleRegistration}>
           <div className="mb-4">
-            <label htmlFor="username" className="block font-bold mb-2">Username:</label>
+            <label htmlFor="username" className="block font-bold mb-2">
+              Username:
+            </label>
             <input
               ref={userNameRef}
               type="text"
@@ -77,7 +76,9 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block font-bold mb-2">E-mail address:</label>
+            <label htmlFor="email" className="block font-bold mb-2">
+              E-mail address:
+            </label>
             <input
               ref={emailRef}
               type="email"
@@ -87,7 +88,9 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block font-bold mb-2">Password:</label>
+            <label htmlFor="password" className="block font-bold mb-2">
+              Password:
+            </label>
             <input
               type="password"
               className="text-black form-input w-full px-4 py-2 border rounded-md"
@@ -97,7 +100,12 @@ const Registration = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-gray-white font-bold mb-2">Confrim Password:</label>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-gray-white font-bold mb-2"
+            >
+              Confrim Password:
+            </label>
             <input
               type="password"
               className="text-black form-input w-full px-4 py-2 border rounded-md"
@@ -106,8 +114,19 @@ const Registration = () => {
               ref={confirmPasswordRef}
             />
           </div>
+          <ul>
+            {errorMessage.map((error, index) => (
+              <li key={index}>
+                <span style={{ color: "black", fontWeight: "bold" }}>
+                  {error.description}
+                </span>
+              </li>
+            ))}
+          </ul>
           <div className="mb-4">
-            <label className="block text-white font-bold mb-2">Profile Picture:</label>
+            <label className="block text-white font-bold mb-2">
+              Profile Picture:
+            </label>
             <ThumbnailUpload
               thumbnail={avatar}
               setThumbnail={setAvatar}
@@ -118,10 +137,12 @@ const Registration = () => {
               borderRadius={"250px"}
             />
           </div>
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full"
+          >
             Sign Up
           </button>
-          {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
         </form>
       </div>
     </div>

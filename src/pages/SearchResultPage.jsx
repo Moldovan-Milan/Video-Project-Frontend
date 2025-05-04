@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
-import SearchVideoItem from "../components/SearchVideoItem";
-import SearchUserItem from "../components/SearchUserItem";
-import "../styles/SearchResultPage.scss";
+import SearchVideoItem from "../components/Search/SearchVideoItem";
+import SearchUserItem from "../components/Search/SearchUserItem";
+import "../styles/Search/SearchResultPage.scss";
 import dancing_squidward from "../assets/dancing_squidward.gif";
 
 const SearchResultPage = () => {

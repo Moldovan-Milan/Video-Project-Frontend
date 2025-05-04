@@ -1,0 +1,26 @@
+.user-item-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    min-width: 300px;
+    margin: 15px;
+    border-radius: 20px;
+}
+
+.user-item-container:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 20px lime;
+    cursor: pointer;
+}
+
+.user-item-container img{
+    border-radius: 200px;
+    width: 112px;
+    height: 112px;
+}
+
+.user-item-container p{
+    font-size: larger;
+}
