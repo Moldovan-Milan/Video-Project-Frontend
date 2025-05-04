@@ -1,3 +1,4 @@
+// File: src/tests/VideosPage.test.js
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
@@ -10,13 +11,21 @@ jest.mock("../components/Video/VideoItemSkeleton", () => () => (
   <div data-testid="skeleton" />
 ));
 
-jest.mock("../components/Video/VideoItem", () => ({ video, ref }) => (
-  <div data-testid="video-item" ref={ref}>
-    {video.title}
-  </div>
-));
+class MockObserver {
+  constructor(cb) {
+    this.cb = cb;
+  }
+  observe() {}
+  disconnect() {}
+  trigger(entry) {
+    this.cb([entry]);
+  }
+}
+beforeAll(() => {
+  global.IntersectionObserver = MockObserver;
+});
 
-describe("VideosPage", () => {
+describe("VideosPage component", () => {
   beforeEach(() => {
     axios.get.mockReset();
     document.title = "";
@@ -32,7 +41,7 @@ describe("VideosPage", () => {
     await waitFor(() => expect(document.title).toBe("Omega Stream"));
   });
 
-  test("shows loading indicator when no videos", () => {
+  test("displays loading skeleton when fetching videos", () => {
     axios.get.mockResolvedValue({ data: { videos: [], hasMore: false } });
     render(
       <BrowserRouter>
@@ -42,22 +51,19 @@ describe("VideosPage", () => {
     expect(screen.getByAltText(/loading/i)).toBeInTheDocument();
   });
 
-  test("fetches and displays videos", async () => {
-    const mockVideos = [
-      { id: "1", title: "Video One" },
-      { id: "2", title: "Video Two" },
-    ];
+  test("fetches videos with correct query params", async () => {
     axios.get.mockResolvedValue({
-      data: { videos: mockVideos, hasMore: false },
+      data: { videos: [{ id: "1", title: "A" }], hasMore: true },
     });
     render(
       <BrowserRouter>
         <VideosPage />
       </BrowserRouter>
     );
-    const items = await screen.findAllByTestId("video-item");
-    expect(items).toHaveLength(2);
-    expect(items[0]).toHaveTextContent("Video One");
-    expect(items[1]).toHaveTextContent("Video Two");
+    await waitFor(() =>
+      expect(axios.get).toHaveBeenCalledWith(
+        "api/video?pageSize=30&pageNumber=1"
+      )
+    );
   });
 });

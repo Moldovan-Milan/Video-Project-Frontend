@@ -33,7 +33,6 @@ export const useVideoUpload = () => {
     formData.append("fileName", fileName);
     formData.append("chunkNumber", chunkNumber);
 
-    // HTTP POST kérés a feltöltési API-hoz
     const response = await axios.post("api/video/upload", formData, {
       withCredentials: true,
     });
