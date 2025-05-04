@@ -1,74 +1,77 @@
-.w2gConnItem {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 0.75rem;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.75rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease;
 
-    .w2g-conn-user-info {
+  
+      .w2gConnItem {
         display: flex;
         align-items: center;
-
-        .w2gConnAvt {
+        justify-content: space-between;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.75rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease;
+  
+        .w2g-conn-user-info {
+          display: flex;
+          align-items: center;
+  
+          .w2gConnAvt {
             width: 48px;
             height: 48px;
             border-radius: 100%;
             object-fit: cover;
             margin-right: 0.75rem;
             border: 2px solid #B200FF;
-        }
-
-        .w2gConnName {
+          }
+  
+          .w2gConnName {
             font-weight: 500;
             font-size: 1rem;
             color: white;
+          }
         }
-    }
-
-
-    .w2gBanBtn {
-        padding: 0.4rem 0.75rem;
-        border-radius: 0.375rem;
-        background-color: #ef4444;
-        color: white;
-        transition: background-color 0.2s ease;
-        margin-left: 5px;
-
-        &:hover {
-            background-color: #dc2626;
-        }
-    }
-}
-
-.dark body {
-    .w2gConnItem {
-        background-color: white;
-
-        .user-info .w2gConnName {
-            color: #333;
-        }
-    }
-}
-
-@media (max-width: 600px) {
-    .w2g-connected-users {
-        ul {
-            li.w2gConnItem {
-                flex-direction: column;
-                align-items: flex-start;
-
-                .user-info {
-                    margin-bottom: 0.5rem;
-                }
-
-                .w2g-actions {
-                    align-self: flex-end;
-                }
+  
+  
+          .w2gBanBtn {
+            padding: 0.4rem 0.75rem;
+            border-radius: 0.375rem;
+            background-color: #ef4444;
+            color: white;
+            transition: background-color 0.2s ease;
+            margin-left: 5px;
+  
+            &:hover {
+              background-color: #dc2626;
             }
+          }
         }
+  
+  .dark body{
+      .w2gConnItem {
+        background-color: white;
+  
+        .user-info, .w2gConnName {
+          color: #333;
+        }
+      }
     }
-}
+  
+  @media (max-width: 600px) {
+    .w2g-connected-users {
+      ul {
+        li.w2gConnItem {
+          flex-direction: column;
+          align-items: flex-start;
+  
+          .user-info {
+            margin-bottom: 0.5rem;
+          }
+  
+          .w2g-actions {
+            align-self: flex-end;
+          }
+        }
+      }
+    }
+  }
+  

@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
-<<<<<<< Updated upstream:src/components/UserList.jsx
-import "../styles/UserList.scss"
-=======
+
 import "../../styles/WatchTogether/UserList.scss";
 
->>>>>>> Stashed changes:src/components/WatchTogether/UserList.jsx
 const UserList = ({ users, isHost, user, banUser }) => {
   const [showUsers, setShowUsers] = useState(false);
   const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
@@ -33,24 +30,6 @@ const UserList = ({ users, isHost, user, banUser }) => {
             {users.map((connectedUser) => (
               <li key={connectedUser.id} className="w2gConnItem">
                 <div className="w2g-conn-user-info">
-<<<<<<< Updated upstream:src/components/UserList.jsx
-                {console.log(connectedUser)}
-                <img
-                  src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${connectedUser.avatar.path}.${connectedUser.avatar.extension}`}
-                  alt={connectedUser.username}
-                  className="w2gConnAvt"
-                />
-                <span className="w2gConnName">{connectedUser.userName}</span>
-                {isHost && connectedUser.id !== user.id && (
-                  <button
-                    onClick={() => banUser(connectedUser.id)}
-                    className="w2gBanBtn"
-                  >
-                    Ban user
-                  </button>
-                )}
-=======
-                  {console.log(connectedUser)}
                   <img
                     src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${connectedUser.avatar.path}.${connectedUser.avatar.extension}`}
                     alt={connectedUser.username}
@@ -65,7 +44,6 @@ const UserList = ({ users, isHost, user, banUser }) => {
                       Ban user
                     </button>
                   )}
->>>>>>> Stashed changes:src/components/WatchTogether/UserList.jsx
                 </div>
               </li>
             ))}

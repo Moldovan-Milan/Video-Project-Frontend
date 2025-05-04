@@ -31,15 +31,6 @@ const UserPageVideoItem = forwardRef(({ video, color }, ref) => {
             <div className="video-duration">{formatDuration(duration)}</div>
           </div>
           <div className="p-4 UVidItemDetails">
-<<<<<<< Updated upstream:src/components/UserPageVideoItem.jsx
-            <div className="VidItemTitle font-bold" style={
-                    color
-                      ? {
-                          color: color,
-                        }
-                      : null
-                  }>
-=======
             <div
               className="VidItemTitle font-bold"
               style={
@@ -50,7 +41,6 @@ const UserPageVideoItem = forwardRef(({ video, color }, ref) => {
                   : null
               }
             >
->>>>>>> Stashed changes:src/components/UserProfile/UserPageVideoItem.jsx
               {title.length > 11 ? title.substring(0, 11) + "..." : title}
             </div>
             <div className="text-xs VidItemViews">
