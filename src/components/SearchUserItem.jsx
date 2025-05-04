@@ -12,33 +12,25 @@ const SearchUserItem = forwardRef(({ user }, ref) => {
 
   return (
     <div className="searchUserItemContainer" title={userName} ref={ref}>
-      <div className="searchUserItem">
-        <Link to={`/profile/${id}`}>
-          <table className="searchItemTable">
-            <tbody>
-              <tr>
-                <td className="searchItemAvatarTd">
-                  <div className="searchItemAvatarDiv">
-                    <img
-                      src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${avatar.path}.${avatar.extension}`}
-                      className="SearchItemAvatarImg"
-                    ></img>
-                  </div>
-                </td>
-                <td className="searchUserItemDetails">
-                  <div className="searchItemTitle">{userName}</div>
-                  <div className="searchItemFollowers">
-                    <div className="subscribersLabel">
-                      <p>Subscribers: {followersCount}</p>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </Link>
+  <div className="searchUserItem">
+    <Link to={`/profile/${id}`}>
+      <div className="searchItemGrid">
+        <div className="avatarColumn">
+          <img
+            src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${avatar.path}.${avatar.extension}`}
+            className="searchItemAvatarImg"
+            alt={userName}
+          />
+        </div>
+        <div className="infoColumn">
+          <div className="SearchUserName">{userName}</div>
+          <div className="SearchSubscriberCount">Subscribers: {followersCount}</div>
+        </div>
       </div>
-    </div>
+    </Link>
+  </div>
+</div>
+
   );
 });
 
