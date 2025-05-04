@@ -1,0 +1,22 @@
+.user-video-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px lime;
+}
+
+.user-video-item {
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 2px gray;
+}
+
+.user-video-item.hover-shadow:hover {
+  box-shadow: 0 0 20px var(--hover-color);
+}
+
+.UVidItemDetails {
+  display: grid;
+  grid-template-rows: auto;
+  text-align: center;
+}
