@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
-
+import "../styles/UserList.scss"
 const UserList = ({ users, isHost, user, banUser }) => {
   const [showUsers, setShowUsers] = useState(false);
   const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
@@ -26,21 +26,24 @@ const UserList = ({ users, isHost, user, banUser }) => {
           <h4 className="W2GConnUsers">Connected Users</h4>
           <ul>
             {users.map((connectedUser) => (
-              <li key={connectedUser.id}>
+              <li key={connectedUser.id} className="w2gConnItem">
+                <div className="w2g-conn-user-info">
                 {console.log(connectedUser)}
                 <img
                   src={`${CLOUDFLARE_PATH}/${AVATAR_PATH}/${connectedUser.avatar.path}.${connectedUser.avatar.extension}`}
                   alt={connectedUser.username}
+                  className="w2gConnAvt"
                 />
-                <span>{connectedUser.userName}</span>
+                <span className="w2gConnName">{connectedUser.userName}</span>
                 {isHost && connectedUser.id !== user.id && (
                   <button
                     onClick={() => banUser(connectedUser.id)}
-                    className="wt-bg-red-500 wt-text-black wt-hover:bg-red-600"
+                    className="w2gBanBtn"
                   >
                     Ban user
                   </button>
                 )}
+                </div>
               </li>
             ))}
           </ul>
