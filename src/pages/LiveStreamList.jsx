@@ -7,6 +7,8 @@ import { FaEye } from "react-icons/fa";
 const LiveStreamList = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [liveStreams, setLiveStreams] = useState([]);
+  const CLOUDFLARE_PATH = import.meta.env.VITE_PUBLIC_CLOUDFLARE_URL;
+  const AVATAR_PATH = import.meta.env.VITE_AVATAR_PATH;
 
   useEffect(() => {
     const fetchStreams = async () => {
@@ -30,16 +32,11 @@ const LiveStreamList = () => {
           {liveStreams.map((ls, index) => (
             <Link to={`/livestream/${ls.id}`} key={index}>
               <div className="stream-card">
-                <img
-                  src={`${BASE_URL}/api/user/avatar/${ls.user.avatarId}`}
-                  alt={`${ls.user.userName}'s avatar`}
-                  className="avatar"
-                />
-                <h2 className="stream-title">{ls.title}</h2>
-                <p className="username">{ls.user.userName}</p>
+                <h2 className="stream-title">{ls.streamTitle}</h2>
+                <p className="username">By: {ls.user.userName}</p>
                 <p className="description">{ls.description}</p>
-                <p>
-                  Viewers: {ls.viewers} <FaEye />
+                <p className="flex flex-row">
+                  Viewers: {ls.viewers} <FaEye className="m-1"/>
                 </p>
                 <p className="started-at">
                   Started at: {new Date(ls.startedAt).toLocaleString()}
