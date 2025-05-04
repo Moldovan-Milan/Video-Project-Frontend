@@ -23,7 +23,7 @@ const UserPageVideoItem = forwardRef(({ video,color }, ref) => {
           >
             <div className="video-duration">{formatDuration(duration)}</div>
           </div>
-          <div className="p-4 video-details">
+          <div className="p-4 UVidItemDetails">
             <div className="VidItemTitle font-bold" style={
                     color
                       ? {
@@ -34,7 +34,7 @@ const UserPageVideoItem = forwardRef(({ video,color }, ref) => {
               {title.length > 11 ? title.substring(0, 11) + "..." : title}
             </div>
             <div className="text-xs VidItemViews">
-              <FaEye className="eye-icon" />
+              <FaEye className="eye-icon m-1" />
               {getViewText(views)} ● Created: {timeAgo(new Date(created))}
             </div>
           </div>
