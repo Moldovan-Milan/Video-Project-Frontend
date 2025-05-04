@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaImage, FaUpload } from "react-icons/fa";
 import "../styles/ThumbnailUpload.scss";
 
-const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, maxHeight, buttonText = "Upload Image", borderRadius = 0 }) => {
+const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, maxHeight, buttonText = "Upload Image", borderRadius = 0, width, height }) => {
   const [preview, setPreview] = useState("");
   const [displaySelected, setDisplaySelected] = useState(false)
 
@@ -37,7 +37,7 @@ const ThumbnailUpload = ({ thumbnail, setThumbnail, setGoBackText, maxWidth, max
             </p>
         }
         
-        <img src={preview} className="thumbnailPreview" style={{maxHeight: maxHeight, maxWidth: maxWidth, borderRadius: borderRadius}}/>
+        <img src={preview} className="thumbnailPreview" style={{maxHeight: maxHeight, maxWidth: maxWidth, borderRadius: borderRadius, width: width, height: height}}/>
       </div>}
       <div className="flex items-center gap-2">
         <label className="imgInput">

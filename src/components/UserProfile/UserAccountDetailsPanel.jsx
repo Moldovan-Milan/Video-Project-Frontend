@@ -9,8 +9,9 @@ import { useNavigate } from "react-router-dom";
 import VerificationRequestButton from "../Admin/VerificationRequestButton";
 import getActiveVerificationRequestStatus from "../../functions/getActiveVerificationRequestStatus";
 import getRoles from "../../functions/getRoles";
-import { FaUpload } from "react-icons/fa";
+import { FaUpload, FaSave } from "react-icons/fa";
 import isColorDark from "../../functions/isColorDark";
+import ThumbnailUpload from "../ThumbnailUpload";
 
 export default function UserAccountDetailsPanel({ userData }) {
   const [editing, setEditing] = useState(null);
@@ -26,6 +27,16 @@ export default function UserAccountDetailsPanel({ userData }) {
   const [roles, setRoles] = useState([]);
   const [userRoles, setUserRoles] = useState([]);
   const navigate = useNavigate();
+  const [avatar, setAvatar] = useState(null)
+
+  useEffect(() => {
+      const setDefaultAvatar = async () => {
+        setAvatar(
+          `${userData.avatar}`
+        );
+      };
+      setDefaultAvatar();
+  }, []);
 
   useEffect(() => {
     const checkVerificationRequest = async () => {
@@ -106,6 +117,18 @@ export default function UserAccountDetailsPanel({ userData }) {
       );
     }
   };
+
+  const handleAvatarSave = async () => {
+    const formData = new FormData()
+    formData.append("avatar", avatar)
+    const response = await axios.post("/api/user/change-avatar", 
+        formData
+        ,
+        {withCredentials: true})
+        if(response.status === 200){
+          window.location.href = window.location.href
+        }
+  }
 
   const handleVerificationRequest = () => {
     setHasActiveRequest(true);
@@ -368,16 +391,30 @@ export default function UserAccountDetailsPanel({ userData }) {
       </button>
 
       <div>
-        {/* <h2
+        <h2>Edit Profile Picture</h2>
+        <ThumbnailUpload
+          thumbnail={avatar}
+          width={192}
+          height={192}
+          borderRadius={100}
+          setThumbnail={setAvatar}
+        />
+        <button onClick={handleAvatarSave}
+          className="font-bold py-2 px-4 rounded mb-6 btnEditTheme m-1"
           style={
-            userData.userTheme && userData.userTheme.secondaryColor
-              ? { color: userData.userTheme.secondaryColor }
+            userData.userTheme && userData.userTheme.primaryColor
+              ? {
+                  backgroundColor: userData.userTheme.primaryColor,
+                  color: isColorDark(userData.userTheme.primaryColor)
+                    ? "white"
+                    : "black",
+                }
               : null
-          }
-        >
-          Edit your avatar
-        </h2> */}
-        {/* <ImageEditor img={userData.avatar}/> */}
+          }>
+            <p className="flex">
+            <FaSave className="m-1" /> Save profile picture
+            </p>
+        </button>
       </div>
       <button className="deleteBtn" onClick={handleDelete}>
         <FaTrash className="m-1" /> Delete account
