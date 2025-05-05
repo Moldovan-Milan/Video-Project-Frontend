@@ -80,6 +80,7 @@ const SingleVideo = () => {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+        location.reload();
       }
     };
 
