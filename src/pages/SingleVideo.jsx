@@ -72,7 +72,10 @@ const SingleVideo = () => {
 
         setVideoData(videoResponse.data);
         setComments(videoResponse.data.comments);
-        setRecomendedVideos(recomendedVideoResponse.data.videos);
+        let filteredVideos = recomendedVideoResponse.data.videos.filter(
+          (video) => video.id != id
+        );
+        setRecomendedVideos(filteredVideos);
 
         if (userInteractionResponse) {
           setIsFollowedByUser(userInteractionResponse.data.subscribeResult);
