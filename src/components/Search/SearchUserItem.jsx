@@ -24,9 +24,6 @@ const SearchUserItem = forwardRef(({ user }, ref) => {
             </div>
             <div className="infoColumn">
               <div className="SearchUserName">{userName}</div>
-              <div className="SearchSubscriberCount">
-                Subscribers: {followersCount}
-              </div>
             </div>
           </div>
         </Link>

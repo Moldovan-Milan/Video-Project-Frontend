@@ -4,6 +4,7 @@ import UserAccountVideosPanel from "./UserAccountVideosPanel";
 import UserAccountHeader from "./UserAccountHeader";
 import { useState } from "react";
 import isColorDark from "../../functions/isColorDark";
+import "../../styles/UserProfile/UserAccount.scss";
 
 const UserEditComponent = ({ userData, userVideos }) => {
   const [switchPanel, setSwitchPanel] = useState("Videos");
