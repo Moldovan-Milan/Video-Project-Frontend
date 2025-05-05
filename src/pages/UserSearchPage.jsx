@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import axios from "axios";
 import { FaIdBadge, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import UserItem from "../components/UserProfile/UserItem";
+import UserItem from "../components/Admin/UserItem";
 import "../styles/Admin/UserRoleEditPage.scss";
 
 const pageSize = 30;
