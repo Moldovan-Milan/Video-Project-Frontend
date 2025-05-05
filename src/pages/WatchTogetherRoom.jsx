@@ -97,7 +97,7 @@ const WatchTogetherRoom = () => {
         alert("🚫 Your request was rejected.");
         navigate("/watch-together");
       },
-      LeavedRoom: setUsers,
+      LeftRoom: setUsers,
       HostLeftRoom: () => setIsHostLeft(true),
       HostInRoom: () => setIsHostLeft(false),
       YouAreHost: (messages) => {

@@ -14,7 +14,6 @@ const ChatPage = () => {
           withCredentials: true,
         });
         setChats(data);
-        //console.log("Beszélgetések: " + chats);
       } catch (error) {
         console.log(error);
       }

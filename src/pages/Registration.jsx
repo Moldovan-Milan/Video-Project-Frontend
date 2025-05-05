@@ -28,12 +28,12 @@ const Registration = () => {
       emailRef.current.value === "" ||
       avatar === null
     ) {
-      setErrorMessage("You need to fill out everything!");
+      setErrorMessage([{ description: "You need to fill out everything!" }]);
       return;
     }
 
     if (passwordRef.current.value !== confirmPasswordRef.current.value) {
-      setErrorMessage("The passwords don't match!");
+      setErrorMessage([{ description: "The passwords don't match!" }]);
       return;
     }
 
@@ -117,7 +117,10 @@ const Registration = () => {
           <ul>
             {errorMessage.map((error, index) => (
               <li key={index}>
-                <span style={{ color: "black", fontWeight: "bold" }}>
+                <span
+                  data-testid="errorMessage"
+                  style={{ color: "black", fontWeight: "bold" }}
+                >
                   {error.description}
                 </span>
               </li>
@@ -138,6 +141,7 @@ const Registration = () => {
             />
           </div>
           <button
+            data-testid="signUpButton"
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full"
           >
