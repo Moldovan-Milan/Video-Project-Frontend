@@ -37,7 +37,7 @@ const EditUser = () => {
           id: safeId,
           username: data.user.userName,
           email: data.user.email,
-          avatar: `${CLOUDFLARE_PATH}/${AVATAR_PATH}/${userData.avatar.path}.${userData.avatar.extension}`,
+          avatar: `${CLOUDFLARE_PATH}/${AVATAR_PATH}/${data.user.avatar.path}.${data.user.avatar.extension}`,
           followers: data.user.followersCount,
           created: formattedDate,
         });

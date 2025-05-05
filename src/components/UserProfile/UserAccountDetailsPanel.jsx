@@ -121,11 +121,12 @@ export default function UserAccountDetailsPanel({ userData }) {
   const handleAvatarSave = async () => {
     const formData = new FormData()
     formData.append("avatar", avatar)
-    const response = await axios.post("/api/user/change-avatar", 
+    const response = await axios.post(`/api/user/change-avatar/${userData.id}`, 
         formData
         ,
         {withCredentials: true})
         if(response.status === 200){
+          window.alert("Successfully Changed Profile Picture!")
           window.location.href = window.location.href
         }
   }
