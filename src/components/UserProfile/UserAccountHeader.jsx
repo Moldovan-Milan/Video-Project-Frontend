@@ -11,7 +11,6 @@ export default function UserAccountHeader({ user }) {
   const [isDefault, setIsDefult] = useState(null);
 
   useEffect(() => {
-    console.log(user);
     try {
       if (user.userTheme.bannerId) {
         setBannerUrl(
@@ -19,7 +18,6 @@ export default function UserAccountHeader({ user }) {
         );
         setIsDefult(false);
       } else {
-        console.log("Banner default");
         setBannerUrl(banner);
         setIsDefult(true);
       }

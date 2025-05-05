@@ -48,7 +48,6 @@ const UserAccount = () => {
             userTheme: data.userTheme,
           });
           setUserVideos(data.videos);
-          console.log(userData);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }

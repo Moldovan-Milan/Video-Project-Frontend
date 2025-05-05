@@ -27,15 +27,13 @@ export default function UserAccountDetailsPanel({ userData }) {
   const [roles, setRoles] = useState([]);
   const [userRoles, setUserRoles] = useState([]);
   const navigate = useNavigate();
-  const [avatar, setAvatar] = useState(null)
+  const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
-      const setDefaultAvatar = async () => {
-        setAvatar(
-          `${userData.avatar}`
-        );
-      };
-      setDefaultAvatar();
+    const setDefaultAvatar = async () => {
+      setAvatar(`${userData.avatar}`);
+    };
+    setDefaultAvatar();
   }, []);
 
   useEffect(() => {
@@ -60,9 +58,7 @@ export default function UserAccountDetailsPanel({ userData }) {
   }, [user]);
 
   const HandleNameUpdate = async () => {
-    console.log("NameUpdate");
     if (editing != "") {
-      console.log("editing not null");
       userData.username = editing;
       setEditing(null);
       let URL = `api/user/profile/update-username?newName=${userData.username}`;
@@ -119,17 +115,18 @@ export default function UserAccountDetailsPanel({ userData }) {
   };
 
   const handleAvatarSave = async () => {
-    const formData = new FormData()
-    formData.append("avatar", avatar)
-    const response = await axios.post(`/api/user/change-avatar/${userData.id}`, 
-        formData
-        ,
-        {withCredentials: true})
-        if(response.status === 200){
-          window.alert("Successfully Changed Profile Picture!")
-          window.location.href = window.location.href
-        }
-  }
+    const formData = new FormData();
+    formData.append("avatar", avatar);
+    const response = await axios.post(
+      `/api/user/change-avatar/${userData.id}`,
+      formData,
+      { withCredentials: true }
+    );
+    if (response.status === 200) {
+      window.alert("Successfully Changed Profile Picture!");
+      window.location.href = window.location.href;
+    }
+  };
 
   const handleVerificationRequest = () => {
     setHasActiveRequest(true);
@@ -400,7 +397,8 @@ export default function UserAccountDetailsPanel({ userData }) {
           borderRadius={100}
           setThumbnail={setAvatar}
         />
-        <button onClick={handleAvatarSave}
+        <button
+          onClick={handleAvatarSave}
           className="font-bold py-2 px-4 rounded mb-6 btnEditTheme m-1"
           style={
             userData.userTheme && userData.userTheme.primaryColor
@@ -411,10 +409,11 @@ export default function UserAccountDetailsPanel({ userData }) {
                     : "black",
                 }
               : null
-          }>
-            <p className="flex">
+          }
+        >
+          <p className="flex">
             <FaSave className="m-1" /> Save profile picture
-            </p>
+          </p>
         </button>
       </div>
       <button className="deleteBtn" onClick={handleDelete}>

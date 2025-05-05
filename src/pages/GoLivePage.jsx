@@ -39,7 +39,6 @@ const MediaSharing = () => {
     }
 
     return () => {
-      console.log("Return");
       if (connectionRef.current) {
         connectionRef.current.invoke("StopStream", user.id);
         connectionRef.current.stop();

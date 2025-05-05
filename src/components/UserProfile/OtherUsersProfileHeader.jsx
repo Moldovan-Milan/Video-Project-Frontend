@@ -20,7 +20,6 @@ export default function OtherUsersProfileHeader({ userData }) {
         );
         setIsDefult(false);
       } else {
-        console.log("Banner default");
         setBannerUrl(banner);
         setIsDefult(true);
       }
